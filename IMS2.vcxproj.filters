@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{cdbd41d1-ac0d-4d8e-9b61-2306e173d38c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{a91c3c79-84b9-496b-a105-3d69542487ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI surfaces">
+      <UniqueIdentifier>{a667c651-bd5c-4acd-b6c6-852c36db91c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ModuleData">
+      <UniqueIdentifier>{8df63080-f920-481a-ac80-79eff0546016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI surfaces\MainDisplay menus">
+      <UniqueIdentifier>{c61c4bfc-e183-401e-9894-3e5e65274057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IMS_Maths">
+      <UniqueIdentifier>{455ca7c9-06e4-46b2-9df1-3e351c582956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities">
+      <UniqueIdentifier>{b586f81b-9e71-4334-96bb-1cef8726bf30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventHandling">
+      <UniqueIdentifier>{a9620aa0-97b4-4b31-81e9-303f477403ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventHandling\Events">
+      <UniqueIdentifier>{1ca25614-e57a-40d7-a983-91cc4cb5e635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animations">
+      <UniqueIdentifier>{525fb8d3-37e4-4e2c-8c01-27485fb2ce51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Base">
+      <UniqueIdentifier>{f2a94124-81a6-4dff-8b45-2b90dd708804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Animations">
+      <UniqueIdentifier>{0939b546-3669-4958-aaca-f4e3e2e1c174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Communications">
+      <UniqueIdentifier>{5c86c2f7-969c-43e7-9d0e-736d559e7f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Pressurised">
+      <UniqueIdentifier>{3c6cdae7-87eb-4d61-828e-28dd8bbd60d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine">
+      <UniqueIdentifier>{e0791795-f70f-41a6-bbe7-e41c7922a987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI managment">
+      <UniqueIdentifier>{44d6be60-a15e-440f-ae95-3069a0b5e58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Style">
+      <UniqueIdentifier>{1ad967e4-6b89-41a2-affa-69abefd76f9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algorithms">
+      <UniqueIdentifier>{7b6b4778-131f-4212-a54d-b7c877f19056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventHandling\Events\animation events">
+      <UniqueIdentifier>{45da915a-653a-4824-a743-18af110d68e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements">
+      <UniqueIdentifier>{4833b94e-4498-47e0-b24f-117fcb66b742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Tank">
+      <UniqueIdentifier>{83109e74-dc6e-4417-a156-a3f3377b790c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Managers">
+      <UniqueIdentifier>{9337d781-3efc-4e99-9223-b87c75143806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Thrusters">
+      <UniqueIdentifier>{af51d0f0-bc6a-4531-93be-f3adcbab8e0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Movables">
+      <UniqueIdentifier>{65e4312f-0e52-453b-879a-2f49125e2bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Popups">
+      <UniqueIdentifier>{d0a7574f-bb33-4f14-b70a-1ca77ecdac30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module functionalities\Thrusters\Rcs">
+      <UniqueIdentifier>{828e0193-e477-4bb8-a734-4ba38cd03765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Managers\PropulsionManager">
+      <UniqueIdentifier>{27e2a96e-6764-4008-a16b-1eb1197f1888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Managers\RcsManager">
+      <UniqueIdentifier>{11eb2e50-ef31-4432-a025-015920b4fac2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IMS.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Docking.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_InputCallback.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Panel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_State.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IMSgetSet.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_BaseModule_AttachmentPoints.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Instrument.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_BaseElement.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ListBox.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Page.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_StaticButton.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_surface.cpp">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleDataManager.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_DynamicButton.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Draw.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ScrollBar.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Label.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_MainConstruct.cpp">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_MainDisplay.cpp">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_MainDeconstruct.cpp">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_CheckBox.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleComparators.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Calc.cpp">
+      <Filter>IMS_Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotations.cpp">
+      <Filter>IMS_Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Module.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_General_ModuleData.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Pressurised.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Orbiter_ModuleData.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="EventGenerator.cpp">
+      <Filter>EventHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="Event_Base.cpp">
+      <Filter>EventHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSink.cpp">
+      <Filter>EventHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="EventNode.cpp">
+      <Filter>EventHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Factory.cpp">
+      <Filter>Modules\Module functionalities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>EventHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="Event_Timed.cpp">
+      <Filter>EventHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Animation.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Animation_Base.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Animation_Sequential.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Animation_Continuous.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Animation_Tracking.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Comm.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_MainModules.cpp">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Animation.cpp">
+      <Filter>Modules\Module functionalities\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Base.cpp">
+      <Filter>Modules\Module functionalities\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Comm.cpp">
+      <Filter>Modules\Module functionalities\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Pressurised.cpp">
+      <Filter>Modules\Module functionalities\Pressurised</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ModuleFunction_Comm.cpp">
+      <Filter>Modules\Module functionalities\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="GUImanager.cpp">
+      <Filter>GUI\GUI managment</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIplugin.cpp">
+      <Filter>GUI\GUI managment</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIentity.cpp">
+      <Filter>GUI\GUI managment</Filter>
+    </ClCompile>
+    <ClCompile Include="FontsAndStyles.cpp">
+      <Filter>GUI\Style</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_font.cpp">
+      <Filter>GUI\Style</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ElementStyle.cpp">
+      <Filter>GUI\Style</Filter>
+    </ClCompile>
+    <ClCompile Include="StyleSet.cpp">
+      <Filter>GUI\Style</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Module.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplePathNode.cpp">
+      <Filter>Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="StateNode.cpp">
+      <Filter>StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ScrollablePage.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_LabelValuePair.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Tank.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Tank.cpp">
+      <Filter>Modules\Module functionalities\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_CoGmanager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Movable.cpp">
+      <Filter>Core\Movables</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Storable.cpp">
+      <Filter>Core\Movables</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Thruster.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Thruster.cpp">
+      <Filter>Modules\Module functionalities\Thrusters</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ModuleFunction_Thruster.cpp">
+      <Filter>Modules\Module functionalities\Thrusters</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_RadioButton.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Manager_Base.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_StatusBar.cpp">
+      <Filter>GUI\GUI elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ModuleFunction_Tank.cpp">
+      <Filter>Modules\Module functionalities\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Location.cpp">
+      <Filter>Core\Movables</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIalert.cpp">
+      <Filter>GUI\Popups</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIlistPopup.cpp">
+      <Filter>GUI\Popups</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIpopup.cpp">
+      <Filter>GUI\Popups</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Rcs.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Rcs.cpp">
+      <Filter>Modules\Module functionalities\Thrusters\Rcs</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Matrix.cpp">
+      <Filter>IMS_Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_PropellantInjector.cpp">
+      <Filter>Core\Managers\PropulsionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_PropulsionManager.cpp">
+      <Filter>Core\Managers\PropulsionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FiringSolutionCalculator.cpp">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_RcsManager.cpp">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FiringSolutionThruster.cpp">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FSThrusterCollection.cpp">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IMS.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_InputCallback.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Common.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_elements.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Instrument.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_BaseElement.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ListBox.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Page.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_StaticButton.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Surface.h">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleDataManager.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_DynamicButton.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Draw.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ScrollBar.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Label.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_MainConstruct.h">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_MainDisplay.h">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_MainDeconstruct.h">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_CheckBox.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Calc.h">
+      <Filter>IMS_Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotations.h">
+      <Filter>IMS_Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_General_ModuleData.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Base.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Pressurised.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Orbiter_ModuleData.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="EventGenerator.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="Event_Base.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSink.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTypes.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_DockEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventNode.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Factory.h">
+      <Filter>Modules\Module functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="ShiftCGEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CoGHasChangedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Event_Timed.h">
+      <Filter>EventHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="LiftoffEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TouchdownEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Animation.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Animation_Base.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Animation_Sequential.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Animation_Continuous.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Moduletypes.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="VesselVisualCreatedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="VesselVisualDestroyedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Animation_Tracking.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Comm.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_MainModules.h">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Animation.h">
+      <Filter>Modules\Module functionalities\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Base.h">
+      <Filter>Modules\Module functionalities\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Comm.h">
+      <Filter>Modules\Module functionalities\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Pressurised.h">
+      <Filter>Modules\Module functionalities\Pressurised</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ModuleFunction_Base.h">
+      <Filter>Modules\Module functionalities\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ModuleFunction_Comm.h">
+      <Filter>Modules\Module functionalities\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="VesselLayoutChangedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GUImanager.h">
+      <Filter>GUI\GUI managment</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIplugin.h">
+      <Filter>GUI\GUI managment</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIentity.h">
+      <Filter>GUI\GUI managment</Filter>
+    </ClInclude>
+    <ClInclude Include="FontsAndStyles.h">
+      <Filter>GUI\Style</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_font.h">
+      <Filter>GUI\Style</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ElementStyle.h">
+      <Filter>GUI\Style</Filter>
+    </ClInclude>
+    <ClInclude Include="StyleSet.h">
+      <Filter>GUI\Style</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Algs.h">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleTreeNode.h">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplePathNode.h">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="StateNode.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ScrollablePage.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_LabelValuePair.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFinishedEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="StartAnimationEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="StartTrackingAnimationEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="StopAnimationEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackingAnimationStatusEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="ModifyAnimationEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="ModifyTrackingAnimationEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationEvent_Base.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationStartedEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFailedEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineIncludes.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiIncludes.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFunctionIncludes.h">
+      <Filter>Modules\Module functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Tank.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Tank.h">
+      <Filter>Modules\Module functionalities\Tank</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_CoGmanager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Movable.h">
+      <Filter>Core\Movables</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Storable.h">
+      <Filter>Core\Movables</Filter>
+    </ClInclude>
+    <ClInclude Include="MassHasChangedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Thruster.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Thruster.h">
+      <Filter>Modules\Module functionalities\Thrusters</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ModuleFunction_Thruster.h">
+      <Filter>Modules\Module functionalities\Thrusters</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_RadioButton.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Manager_Base.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_StatusBar.h">
+      <Filter>GUI\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ModuleFunction_Tank.h">
+      <Filter>Modules\Module functionalities\Tank</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Location.h">
+      <Filter>Core\Movables</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIalert.h">
+      <Filter>GUI\Popups</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIlistPopup.h">
+      <Filter>GUI\Popups</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIpopup.h">
+      <Filter>GUI\Popups</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableAddedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Rcs.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Rcs.h">
+      <Filter>Modules\Module functionalities\Thrusters\Rcs</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Matrix.h">
+      <Filter>IMS_Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="RcsChangedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_PropulsionManager.h">
+      <Filter>Core\Managers\PropulsionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_PropellantInjector.h">
+      <Filter>Core\Managers\PropulsionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FiringSolutionCalculator.h">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_RcsManager.h">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulationStartedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="FiringSolutionThruster.h">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FSThrusterCollection.h">
+      <Filter>Core\Managers\RcsManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
