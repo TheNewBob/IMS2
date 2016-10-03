@@ -4,6 +4,21 @@
 using namespace std;
 
 class IMS_ModuleFunctionData_Base;
+class SimpleShape;
+
+/**
+ * \brief Contains data to construct the hullshape as loaded from file.
+ * \note This is only used to defer shape construction until the entire file has been loaded.
+ */
+struct HULLSHAPEDATA
+{
+	string shape = "";
+	VECTOR3 shapeparams;
+	VECTOR3 scale = _V(1, 1, 1);
+	VECTOR3 pos = _V(0, 0, 0);
+	VECTOR3 dir = _V(0, 0, 1);
+	VECTOR3 rot = _V(0, 1, 0);
+};
 
 /**
  * \brief This class contains non-orbiter specific static data about a module that is the same for every module.
@@ -35,6 +50,11 @@ public:
 	 * \return The name given to this module in the config file
 	 */
 	string getName();
+
+	/**
+	 * \return A pointer to the hull shape of the module
+	 */
+	SimpleShape *GetHullShape() { return hullshape; }
 	
 	/**
 	 * \return A reference to a list containing the static data of all contained ModuleFunctions
@@ -45,5 +65,21 @@ protected:
 	double _mass;												//!< Stores the dry mass of this module 
 	string _name;												//!< Stores the name of this module
 	vector<IMS_ModuleFunctionData_Base*> functiondata;			//!< A list containing static data of all ModuleFunctions in this module
+
+	SimpleShape *hullshape = NULL;								//!< The vertices of the hull shape of the module, module relative.
+	
+private:
+	/**
+	 * \brief creates the hull shape based on the parameters read from the scenario line
+	 * \param shapedata The data defining the nature of the shape.
+	 */
+	void createHullShape(HULLSHAPEDATA shapedata);
+	
+	/**
+	 * \brief Reads the next line of a SHAPE block from the config file
+	 * \param file The file to read from. It is implied that the last line read from the file was BEGIN_SHAPE.
+	 * \return The data describing the shape read from the file.
+	 */
+	HULLSHAPEDATA readShape(IMSFILE file);
 };
 

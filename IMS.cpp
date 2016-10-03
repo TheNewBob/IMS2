@@ -8,6 +8,8 @@
 #include "IMS_CoGmanager.h"
 #include "IMS_PropulsionManager.h"
 #include "IMS_RcsManager.h"
+#include "SimpleShape.h"
+#include "IMS_TouchdownPointManager.h"
 
 //#include "vld.h"
 
@@ -92,10 +94,11 @@ IMS2::IMS2(OBJHANDLE hVessel, int flightmodel) : VESSEL3 (hVessel, flightmodel)
 	isLoadedFromScenario = false;
 	isSetForRedock = false;
 
-
+	//create the managers
 	managers[COG_MANAGER] = new IMS_CoGmanager(this);
 	managers[PROP_MANAGER] = new IMS_PropulsionManager(this);
 	managers[RCS_MANAGER] = new IMS_RcsManager(this);
+	managers[TDPOINT_MANAGER] = new IMS_TouchdownPointManager(this);
 
 	//add the sim started event. It will be fired in the first PreStep, when the event queue is processed for the first time.
 	addEvent(new SimulationStartedEvent, VESSEL_TO_MODULE_PIPE);

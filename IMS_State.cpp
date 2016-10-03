@@ -1,5 +1,6 @@
 #include "Common.h"
 #include "IMS_Orbiter_ModuleData.h"
+#include "SimpleShape.h"
 #include "IMS_General_ModuleData.h"
 #include "Managers.h"
 #include "IMS_CoGmanager.h"

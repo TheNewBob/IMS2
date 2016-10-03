@@ -225,10 +225,12 @@
     <ClCompile Include="IMS_PropulsionManager.cpp" />
     <ClCompile Include="IMS_RcsManager.cpp" />
     <ClCompile Include="IMS_State.cpp" />
+    <ClCompile Include="IMS_TouchdownPointManager.cpp" />
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="Rotations.cpp" />
+    <ClCompile Include="SimpleShape.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="SimplePathNode.cpp" />
     <ClCompile Include="StateNode.cpp" />
@@ -239,6 +241,7 @@
     <ClInclude Include="AnimationFailedEvent.h" />
     <ClInclude Include="AnimationFinishedEvent.h" />
     <ClInclude Include="AnimationStartedEvent.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Calc.h" />
     <ClInclude Include="CoGHasChangedEvent.h" />
     <ClInclude Include="Common.h" />
@@ -290,6 +293,8 @@
     <ClInclude Include="GUI_StatusBar.h" />
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
+    <ClInclude Include="HullShapeRemovedEvent.h" />
+    <ClInclude Include="IMS_TouchdownPointManager.h" />
     <ClInclude Include="RcsChangedEvent.h" />
     <ClInclude Include="IMS_Animation_Tracking.h" />
     <ClInclude Include="IMS_Location.h" />
@@ -314,6 +319,7 @@
     <ClInclude Include="ModuleFunctionIncludes.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="ConsumableAddedEvent.h" />
+    <ClInclude Include="SimpleShape.h" />
     <ClInclude Include="SimpleTreeNode.h" />
     <ClInclude Include="SimulationStartedEvent.h" />
     <ClInclude Include="StartTrackingAnimationEvent.h" />
@@ -323,6 +329,7 @@
     <ClInclude Include="StateNode.h" />
     <ClInclude Include="IMS_Storable.h" />
     <ClInclude Include="StyleSet.h" />
+    <ClInclude Include="TdPointsChangedEvent.h" />
     <ClInclude Include="TrackingAnimationStatusEvent.h" />
     <ClInclude Include="VesselLayoutChangedEvent.h" />
     <ClInclude Include="VesselVisualCreatedEvent.h" />

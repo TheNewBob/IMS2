@@ -93,6 +93,9 @@
     <Filter Include="Core\Managers\RcsManager">
       <UniqueIdentifier>{11eb2e50-ef31-4432-a025-015920b4fac2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Managers\TouchdownPointManager">
+      <UniqueIdentifier>{9c8b8894-b04c-4b7f-ba61-50b03924187a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -358,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="FSThrusterCollection.cpp">
       <Filter>Core\Managers\RcsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleShape.cpp">
+      <Filter>IMS_Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_TouchdownPointManager.cpp">
+      <Filter>Core\Managers\TouchdownPointManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -717,6 +726,21 @@
     </ClInclude>
     <ClInclude Include="FSThrusterCollection.h">
       <Filter>Core\Managers\RcsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleShape.h">
+      <Filter>IMS_Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_TouchdownPointManager.h">
+      <Filter>Core\Managers\TouchdownPointManager</Filter>
+    </ClInclude>
+    <ClInclude Include="HullShapeRemovedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TdPointsChangedEvent.h">
+      <Filter>EventHandling\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>IMS_Maths</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

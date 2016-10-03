@@ -8,6 +8,7 @@
 #include "IMS.h"
 #include "IMS_InputCallback.h"
 #include "IMS_Module.h"
+#include "SimpleShape.h"
 #include "IMS_General_ModuleData.h"
 #include "IMS_Algs.h"
 

@@ -16,6 +16,8 @@
 #include "GUI_Module.h"
 #include "IMS.h"
 #include "Calc.h"
+#include "IMS_Manager_Base.h"
+#include "IMS_TouchdownPointManager.h"
 
 IMS_Module::IMS_Module()
 {
@@ -206,8 +208,12 @@ void IMS_Module::SpawnNewVesselFromModule(string _name, VECTOR3 velocity)
 
 void IMS_Module::AddModuleToVessel(IMS2 *_vessel, bool rotatemesh, bool addMesh)
 {
+	//set the new core vessel and calculate the new rotation matrix for module-vessel transformations
 	vessel = _vessel;
 	rotationmatrix = Rotations::GetRotationMatrixFromOrientation(dir, rot);
+	
+	//add the mesh to the vessel, if it needs to be added 
+	//(there are special circumstances where this is not necessary because it was already done by orbiter).
 	if (addMesh)
 	{
 		AddMeshToVessel(rotatemesh);
@@ -216,6 +222,13 @@ void IMS_Module::AddModuleToVessel(IMS2 *_vessel, bool rotatemesh, bool addMesh)
 	{
 		//if the mesh doesn't need to be added, it means it's the first mesh on the vessel
 		meshIndex = 0;
+	}
+
+	//If the module has a hullshape, add it to the vessel
+	SimpleShape *hullshape = _module_data->GetHullShape();
+	if (hullshape != NULL)
+	{
+		vessel->GetTdPointManager()->AddHullShape(hullshape, pos, rotationmatrix);
 	}
 
 	//connect to the vessel to module event pipe
@@ -284,8 +297,17 @@ void IMS_Module::RemoveMeshFromVessel()
 		functions[i]->RemoveFunctionFromVessel(vessel);
 	}
 
+	//remove mesh and attachment points
 	RemoveMeshFromVessel();
 	RemoveAllAttachmentPoints();
+	
+	//remove hullshape, if the module has one
+	SimpleShape *hullshape = _module_data->GetHullShape();
+	if (hullshape != NULL)
+	{
+		vessel->GetTdPointManager()->RemoveHullShape(hullshape);
+	}
+
 	//disconnect events
 	disconnect(vessel);
 }

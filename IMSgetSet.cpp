@@ -2,6 +2,8 @@
 #include "Managers.h"
 #include "IMS_CoGmanager.h"
 #include "IMS_RcsManager.h"
+#include "SimpleShape.h"
+#include "IMS_TouchdownPointManager.h"
 #include "IMS.h"
 #include "IMS_Module.h"
 
@@ -191,4 +193,9 @@ IMS_CoGmanager *IMS2::GetCoGmanager()
 IMS_RcsManager *IMS2::GetRcsManager()
 {
 	return (IMS_RcsManager*)managers[RCS_MANAGER];
+}
+
+IMS_TouchdownPointManager *IMS2::GetTdPointManager()
+{
+	return (IMS_TouchdownPointManager*)managers[TDPOINT_MANAGER];
 }

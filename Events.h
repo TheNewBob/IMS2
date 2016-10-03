@@ -26,6 +26,8 @@
 #include "ConsumableAddedEvent.h"
 #include "RcsChangedEvent.h"
 #include "SimulationStartedEvent.h"
+#include "HullShapeRemovedEvent.h"
+#include "TdPointsChangedEvent.h"
 
 //animation events
 #include "AnimationEvent_Base.h"

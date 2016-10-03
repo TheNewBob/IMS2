@@ -15,6 +15,7 @@ class EventHandler;
 class IMS_CoGmanager;
 class IMS_PropulsionManager;
 class IMS_RcsManager;
+class IMS_TouchdownPointManager;
 
 class IMS_Manager_Base;
 enum IMS_MANAGER;
@@ -85,9 +86,12 @@ public:
 	void GetStack(vector<VESSEL*> &stackList, OBJHANDLE callingVessel = NULL);
 	void GetModules(vector<IMS_Module*> &OUT_modules);
 	IMS_Module *GetCoreModule(){ return modules[0]; };
+
+	//manager getters
 	IMS_PropulsionManager *GetPropulsionManager();
 	IMS_CoGmanager *GetCoGmanager();
 	IMS_RcsManager *GetRcsManager();
+	IMS_TouchdownPointManager *GetTdPointManager();
 
 	/**
 	 * \brief Adds an animation to the vessel
@@ -102,7 +106,7 @@ public:
 	 * \param initial_state The animation state corresponding to the unmodified mesh
 	 * \return Animation identifier
 	 * \note This function relies on you to add animation components to a created animation before creating a new animation,
-	 *	since an animation without components is considered valid to overwrite.
+	 *	since an animation without components is considered dead and will be overwritten.
 	 */
 	UINT CreateAnim(double initial_state);
 

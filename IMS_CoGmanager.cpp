@@ -22,8 +22,11 @@ IMS_CoGmanager::~IMS_CoGmanager()
 
 void IMS_CoGmanager::SetCoG()
 {
-	/* if the vessel is landed, don't shift the CG, return NULL (don't worry, the event generator will filter it out)*/
-	if (vessel->GetLandedState())
+	// if the vessel is landed, don't shift the CG, return NULL (don't worry, the event generator will filter it out)
+	//also don't shift if the vessel has zero modules, because that means it's going to be deleted shortly
+	vector<IMS_Module*> modules;
+	vessel->GetModules(modules);
+	if (vessel->GetLandedState() || modules.size() == 0)
 	{
 		return;
 	}
