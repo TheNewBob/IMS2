@@ -114,6 +114,12 @@ void IMS_TouchdownPointManager::RemoveHullShape(SimpleShape *shape)
 
 void IMS_TouchdownPointManager::setTdPoints()
 {
+	//if this vessel has no hullbox defined, leave the default touchdown points created by orbiter on initialisation.
+	if (hullbox == NULL)
+	{
+		return;
+	}
+
 	//set the default 3 touchdown points
 	vector<TOUCHDOWNVTX> defaultpoints;
 	getDefaultTdPoints(defaultpoints);
