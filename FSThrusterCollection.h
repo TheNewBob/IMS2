@@ -6,6 +6,25 @@ enum FORCETYPE
 	F_TORQUE
 };
 
+//functor struct to facilitate sorting on several threads.
+//took me a while come to the obvious conclusion that static states
+//are a really stupid thing to have when more than one thread are manipulating them...
+struct SortByGroupScore
+{
+	SortByGroupScore(THGROUP_TYPE group)
+	{
+		sortgroup = group;
+	};
+
+	bool operator() (FiringSolutionThruster *a, FiringSolutionThruster *b)
+	{
+		return a->GetScore(sortgroup) > b->GetScore(sortgroup);
+	};
+
+	THGROUP_TYPE sortgroup;
+};
+
+
 /**
  * This class represents the entire RCS with all involved thrusters of a vessel
  */
@@ -50,11 +69,6 @@ public:
 	 */
 	map<FORCETYPE, VECTOR3> GetTotalForces(THGROUP_TYPE group);
 
-	/**
-	* \brief comparator to sort thrusters according to their score in the group set in sortgroup
-	*/
-	static bool SortByGroupScore(FiringSolutionThruster *a, FiringSolutionThruster *b);
-
 private:
 	vector<FiringSolutionThruster*> thrusterlist;
 
@@ -93,15 +107,7 @@ private:
 	*/
 	static const double MINRELATIVEEFFICIENCY;
 
-	/**
-	* SortByGroupScore will sort by the score of the group set in this member.
-	* \see SetSortGroup()
-	*/
-	static THGROUP_TYPE sortbygroup;
 
 	bool deletethrustersonexit = true;				//if the class has not allocated the thrusters itself, it also shouldn't delete them
-
-
-
 };
 

@@ -5,10 +5,6 @@
 const double FSThrusterCollection::MINRELATIVEEFFICIENCY = 0.3;
 
 
-//we need to initialise something here, but the sorting group should always be set before calling SortByGroupScore()
-THGROUP_TYPE FSThrusterCollection::sortbygroup = THGROUP_ATT_FORWARD;
-
-
 FSThrusterCollection::FSThrusterCollection(vector<THRUSTER_HANDLE> thrusters, VESSEL *vessel)
 {
 	thrusterlist.reserve(thrusters.size());
@@ -67,8 +63,7 @@ vector<FiringSolutionThruster*> FSThrusterCollection::GetGroupUnion(vector<THGRO
 	}
 
 	//sort the return vector by the group scores of the desired group
-	sortbygroup = governing_group;
-	sort(result.begin(), result.end(), SortByGroupScore);
+	sort(result.begin(), result.end(), SortByGroupScore(governing_group));
 	return result;
 }
 
@@ -100,8 +95,7 @@ void FSThrusterCollection::createGroupLists()
 	//now sort the thrusters in their groups by score
 	for (auto i = grouplists.begin(); i != grouplists.end(); ++i)
 	{
-		sortbygroup = i->first;
-		sort(i->second.begin(), i->second.end(), SortByGroupScore);
+		sort(i->second.begin(), i->second.end(), SortByGroupScore(i->first));
 	}
 }
 
@@ -145,6 +139,7 @@ void FSThrusterCollection::applyFinalScores()
 	}
 }
 
+
 map<THGROUP_TYPE, double> FSThrusterCollection::getMaximumGroupScores()
 {
 	map<THGROUP_TYPE, double> maxscores;
@@ -181,8 +176,16 @@ void FSThrusterCollection::calculateOverallForces()
 	}
 }
 
-bool FSThrusterCollection::SortByGroupScore(FiringSolutionThruster *a, FiringSolutionThruster *b)
+/*bool FSThrusterCollection::SortByGroupScore(FiringSolutionThruster *a, FiringSolutionThruster *b)
 {
-	return a->GetScore(sortbygroup) > b->GetScore(sortbygroup);
-}
+	if (a->GetScore(sortbygroup) == b->GetScore(sortbygroup))
+	{
+		//in case the scores are equal, sort by memory address to guarantee transitivity 
+		//(i.e. the result of the operation does not depend on the order in which the elements are passed,
+		//because std::sort does not like that).
+		return a > b;
+	}
+	//if they are not equal, the group score is of course deciding
+
+}*/
 

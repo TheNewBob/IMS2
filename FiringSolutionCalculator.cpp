@@ -47,18 +47,22 @@ FiringSolutionCalculator::FiringSolutionCalculator(IMS2 *vessel, vector<THRUSTER
 {
 	//start the calculation in a new thread
 	Helpers::writeToLog(string("Starting Rcs calculation"), L_DEBUG);
-	calculationthread = thread(&FiringSolutionCalculator::calculateFiringSolutions, this);
-	
+	calculationthread = new thread(&FiringSolutionCalculator::calculateFiringSolutions, this);
 }
 
 
 FiringSolutionCalculator::~FiringSolutionCalculator()
 {
 	//if the thread is still running, kill it as ASAP
-	if (calculationthread.joinable())
+	if (calculationthread->joinable())
 	{
 		abort = true;
-		calculationthread.join();
+		calculationthread->join();
+		delete calculationthread;
+	}
+	if (thrusters != NULL)
+	{
+		delete thrusters;
 	}
 }
 
@@ -301,7 +305,7 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 
 	bool abortcalculation = false;
 	int iterations = 0;
-	while (!Calc::IsNear(undesired_force, _V(0, 0, 0), 0.001))
+	while (!Calc::IsNear(undesired_force, _V(0, 0, 0), 0.001) )
 	{
 		//first choose the thrusters we're going to manipulate in this iteration
 		vector<FiringSolutionThruster*> chosenthrusters;
@@ -374,7 +378,10 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 		undesired_force = newtotalforce[undesired_forcetype];
 		iterations++;
 	}
-
+	if (iterations == 19)
+	{
+		int bugme = 1 + 1;
+	}
 	return result;
 }
 

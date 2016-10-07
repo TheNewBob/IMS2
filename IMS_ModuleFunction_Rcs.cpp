@@ -51,19 +51,21 @@ void IMS_ModuleFunction_Rcs::AddFunctionToVessel(IMS2 *vessel)
 void IMS_ModuleFunction_Rcs::RemoveFunctionFromVessel(IMS2 *vessel)
 {
 
-	//remove the thruster from the rcs manager (if it's a pair, the mirror part will be removed along with it)
-	vessel->GetRcsManager()->RemoveThruster(thruster);
 
 	//calculate the flowrate of the thruster so the propellant manager can readjust the size of the virtual resource
 	THRUSTERMODE *curmode = data->GetThrusterMode(currentthrustermode);
 	double maxmassflow = curmode->Thrust / curmode->Isp;
 
+	//remove the thruster from the rcs manager 
+	vessel->GetRcsManager()->RemoveThruster(thruster);
 	//remove thruster and exhausts completely from the vessel
 	propmanager->RemoveExhausts(thruster);
 	propmanager->RemoveThruster(thruster, maxmassflow);
 
+	//if the thruster has a mirrored twin, do the same for that
 	if (data->IsMirrored())
 	{
+		vessel->GetRcsManager()->RemoveThruster(mirroredthruster);
 		//remove the twin and its exhausts
 		propmanager->RemoveExhausts(mirroredthruster);
 		propmanager->RemoveThruster(mirroredthruster, maxmassflow);

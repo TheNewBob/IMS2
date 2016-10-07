@@ -75,6 +75,12 @@ void IMS_RcsManager::RemoveThruster(THRUSTER_HANDLE thruster)
 		delete newfiringsolution;
 		newfiringsolution = NULL;
 	}
+	//if there is an active firing solution, it uses thrusters that are no longer a part of this vessel.
+	if (firingsolution != NULL)
+	{
+		delete firingsolution;
+		firingsolution = NULL;
+	}
 	
 	//remove the thruster from the list
 	auto vecit = find(rcsthrusters.begin(), rcsthrusters.end(), thruster);

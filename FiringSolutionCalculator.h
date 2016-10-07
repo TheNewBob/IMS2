@@ -96,7 +96,7 @@ private:
 	IMS2 *vessel;
 	bool solutionready = false;						//!< shows true if the solution is calculated
 	bool abort = false;								//!< flag that signifies the thread to terminate at the next opportunity.
-	thread calculationthread;
+	thread *calculationthread;
 
 };
 

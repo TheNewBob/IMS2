@@ -159,7 +159,7 @@ bool IMS_TouchdownPointManager::ProcessEvent(Event_Base *e)
 		//recreate the overall hullshape with the shapes we have left over
 		for (UINT i = 0; i < shapes.size(); ++i)
 		{
-			AddHullShape(shapes[i].shape, shapes[i].pos, shapes[i].rot);
+			addHullShape(shapes[i].shape, shapes[i].pos, shapes[i].rot);
 		}
 		return true;
 	}

@@ -225,7 +225,7 @@ void IMS_Module::AddModuleToVessel(IMS2 *_vessel, bool rotatemesh, bool addMesh)
 	}
 
 	//If the module has a hullshape, add it to the vessel
-	SimpleShape *hullshape = _module_data->GetHullShape();
+	SimpleShape *hullshape = _orbiter_data->GetHullShape();
 	if (hullshape != NULL)
 	{
 		vessel->GetTdPointManager()->AddHullShape(hullshape, pos, rotationmatrix);
@@ -302,7 +302,7 @@ void IMS_Module::RemoveMeshFromVessel()
 	RemoveAllAttachmentPoints();
 	
 	//remove hullshape, if the module has one
-	SimpleShape *hullshape = _module_data->GetHullShape();
+	SimpleShape *hullshape = _orbiter_data->GetHullShape();
 	if (hullshape != NULL)
 	{
 		vessel->GetTdPointManager()->RemoveHullShape(hullshape);
