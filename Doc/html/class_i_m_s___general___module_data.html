@@ -149,8 +149,8 @@ vector&lt; <a class="el" href="class_i_m_s___module_function_data___base.html">I
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class contains non-orbiter specific static data about a module that is the same for every module. </p>
-<p>for every class inheriting from <a class="el" href="class_i_m_s___module.html" title="A physical component of a spacecraft that can be added or removed at runtime. ">IMS_Module</a> there should also be a class inheriting from this class containing static data of the module type. this class or any class inheriting from it should not use any calls to or typedefs of the Orbiter API! They will be used to integrate IMS data into a third-party editor. The implementation of this class is a work in progress. Currently it only reads a module name and its mass from the config file. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<h3>Config file parameters </h3>
+<p>These parameters are valid for any IMS module: </p><div class="fragment"><div class="line">mass = &lt;<span class="keywordtype">float</span> kg&gt;                  <span class="comment">//the modules dry mass in kg.</span></div><div class="line">[name] = &lt;<span class="keywordtype">string</span> name&gt;             <span class="comment">//a name for this module type that will be used in variious displays in the UI.</span></div></div><!-- fragment --> </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a26912c2839cb339eb513f82edb5e8224"></a>
 <div class="memitem">
 <div class="memproto">
@@ -252,8 +252,8 @@ vector&lt; <a class="el" href="class_i_m_s___module_function_data___base.html">I
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_General_ModuleData.h</li>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_General_ModuleData.cpp</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_General_ModuleData.h</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_General_ModuleData.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

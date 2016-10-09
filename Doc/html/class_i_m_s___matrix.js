@@ -1,0 +1,27 @@
+var class_i_m_s___matrix =
+[
+    [ "IMS_Matrix", "class_i_m_s___matrix.html#ae09494b27f790033211002fd9cc9041f", null ],
+    [ "IMS_Matrix", "class_i_m_s___matrix.html#aeb0c38c6e67cc95d892ca91e4b2d9bdf", null ],
+    [ "augment_right", "class_i_m_s___matrix.html#aba860e5c6270b237647e87caa3aac982", null ],
+    [ "gaussianEliminate", "class_i_m_s___matrix.html#a42b1d67f6831fbeff341135bfaa92271", null ],
+    [ "makePositive", "class_i_m_s___matrix.html#a80eaea7a93d5a4d7ebc507e2f09a02ea", null ],
+    [ "numCols", "class_i_m_s___matrix.html#a68fe3e4755b105d2e63df70cdf8b44ba", null ],
+    [ "numRows", "class_i_m_s___matrix.html#afabdc7da3c8c707ef18d6ea232a29782", null ],
+    [ "operator!=", "class_i_m_s___matrix.html#a989e377f9f074cef23eaf62dea76fbe1", null ],
+    [ "operator()", "class_i_m_s___matrix.html#a7efc763e12c925a409d16739ad8db232", null ],
+    [ "operator()", "class_i_m_s___matrix.html#a95d2f11270fa61927af8a5f31797dfc1", null ],
+    [ "operator*", "class_i_m_s___matrix.html#a12825b8ba7de8dfdb966c65416abec7c", null ],
+    [ "operator*=", "class_i_m_s___matrix.html#a6136d86949ab4965e63ae56521326323", null ],
+    [ "operator+=", "class_i_m_s___matrix.html#a8d232a473bd1897c61c37aed6252a354", null ],
+    [ "operator-=", "class_i_m_s___matrix.html#a14218b75319f17d76c543b4feab85057", null ],
+    [ "operator=", "class_i_m_s___matrix.html#aed28309fb20ab9e79a5a761c31442e56", null ],
+    [ "operator==", "class_i_m_s___matrix.html#ad54314951c0375589ebea6da6dfcd304", null ],
+    [ "replacementRowOp", "class_i_m_s___matrix.html#ac964f3f658e2e8d4e5018d5327e4368a", null ],
+    [ "scaleRowOp", "class_i_m_s___matrix.html#a7b0fa23e91d4630d3cf83a8d1d8d6979", null ],
+    [ "swapRowOp", "class_i_m_s___matrix.html#ac61ec373b0ae822bc92d5d26d8883162", null ],
+    [ "toString", "class_i_m_s___matrix.html#a9313bf70a74cbd7c271026b73ee521f6", null ],
+    [ "transpose", "class_i_m_s___matrix.html#ac566b1078945f42946ddd329fe8139f5", null ],
+    [ "cols", "class_i_m_s___matrix.html#af9bd4d14529b32b33ade5eee765bc0fb", null ],
+    [ "data", "class_i_m_s___matrix.html#a62243c44b63d3c976ebce8ce0a61b293", null ],
+    [ "rows", "class_i_m_s___matrix.html#a40d56877dd72e265aca6f78da0f01783", null ]
+];

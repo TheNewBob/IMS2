@@ -113,22 +113,22 @@ string IMS_ModuleFunction_Factory::GetFunctionTypeString(FUNCTIONTYPE type)
 	switch (type)
 	{
 	case MTYPE_PRESSURISED:
-		retString = "PRESSURISED";
+		retString = MTYPE_PRESSURISED_ID;
 		break;
 	case MTYPE_ANIM:
-		retString = "ANIMATION";
+		retString = MTYPE_ANIM_ID;
 		break;
 	case MTYPE_COMM:
-		retString = "COMMUNICATION";
+		retString = MTYPE_COMM_ID;
 		break;
 	case MTYPE_TANK:
-		retString = "TANK";
+		retString = MTYPE_TANK_ID;
 		break;
 	case MTYPE_THRUSTER:
-		retString = "THRUSTER";
+		retString = MTYPE_THRUSTER_ID;
 		break;
 	case MTYPE_RCS:
-		retString = "RCS";
+		retString = MTYPE_RCS_ID;
 		break;
 	}
 
@@ -142,12 +142,12 @@ FUNCTIONTYPE IMS_ModuleFunction_Factory::GetFunctionTypeFromString(string identi
 	//convert the string to all caps
 	transform(identifier.begin(), identifier.end(), identifier.begin(), ::toupper);
 
-	if (identifier == "PRESSURISED") return MTYPE_PRESSURISED;
-	if (identifier == "ANIMATION") return MTYPE_ANIM;
-	if (identifier == "COMMUNICATION") return MTYPE_COMM;
-	if (identifier == "TANK") return MTYPE_TANK;
-	if (identifier == "THRUSTER") return MTYPE_THRUSTER;
-	if (identifier == "RCS") return MTYPE_RCS;
+	if (identifier == MTYPE_PRESSURISED_ID) return MTYPE_PRESSURISED;
+	if (identifier == MTYPE_ANIM_ID) return MTYPE_ANIM;
+	if (identifier == MTYPE_COMM_ID) return MTYPE_COMM;
+	if (identifier == MTYPE_TANK_ID) return MTYPE_TANK;
+	if (identifier == MTYPE_THRUSTER_ID) return MTYPE_THRUSTER;
+	if (identifier == MTYPE_RCS_ID) return MTYPE_RCS;
 	return MTYPE_NONE;
 }
 

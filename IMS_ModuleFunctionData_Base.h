@@ -1,10 +1,33 @@
 #pragma once
 
 /**
- * \brief Abstract base class for storing static data of module functions loaded from a config file
+ * \brief Abstract base class for storing generic static data of module functions loaded from a config file
  *
- * Every derivative of IMS_ModuleFunctionData_Base() needs a corresponding derivative of this class
+ * Every derivative of IMS_ModuleFunction_Base() needs a corresponding derivative of this class
  * to load and store its configfile data.
+ *
+ * Module functions are specific abilities that can be added to a module in a config file, like thrusters,
+ * tanks, habitat etc. Many modules will have only one module function, but an arbitrary number of 
+ * modulefunctions can be defined for any module.
+ *
+ * <h3> Config structure: </h3>
+ * An arbitrary number of module functions can be defined for any module.
+ * Any module function must be enclosed in a module function block like this:
+ * \code
+ * BEGIN_MODULEFUNCTION <modulefunction-ID>
+ *		<modulefunction specific parameter>
+ *		 .
+ *		 .	
+ * END_MODULEFUNCTION
+ * \endcode
+ * For a list of valid modulefunction ids, see the documentation for IMS_ModuleFunctionFactory.h
+ *
+ * <h4> Generic modulefunction parameters </h4>
+ * These parameters can be added to any module function
+ * \code
+ * name = <string name>				//a name for this module function type that will be used in various displays in the UI
+ * \endcode
+ * \see IMS_ModuleFunctionFactory.h
  */
 class IMS_ModuleFunctionData_Base
 {

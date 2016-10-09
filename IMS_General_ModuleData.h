@@ -9,9 +9,12 @@ class IMS_ModuleFunctionData_Base;
 /**
  * \brief This class contains non-orbiter specific static data about a module that is the same for every module.
  *
- * for every class inheriting from IMS_Module there should also be a class inheriting from this class containing static data of the module type.
- * this class or any class inheriting from it should not use any calls to or typedefs of the Orbiter API! They will be used to integrate IMS data into a third-party editor.
- * The implementation of this class is a work in progress. Currently it only reads a module name and its mass from the config file.
+ * <h3> Config file parameters </h3>
+ * These parameters are valid for any IMS module:
+ * \code
+ *	mass = <float kg>					//the modules dry mass in kg.
+ *	[name] = <string name>				//a name for this module type that will be used in variious displays in the UI.
+ * \endcode
  */
 class IMS_General_ModuleData
 {

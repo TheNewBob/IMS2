@@ -1,6 +1,9 @@
 var hierarchy =
 [
+    [ "ANIMATIONDATA", "struct_a_n_i_m_a_t_i_o_n_d_a_t_a.html", null ],
+    [ "ANIMATIONDEPENDENCY", "struct_a_n_i_m_a_t_i_o_n_d_e_p_e_n_d_e_n_c_y.html", null ],
     [ "BLITDATA", "struct_b_l_i_t_d_a_t_a.html", null ],
+    [ "BoundingBox", "class_bounding_box.html", null ],
     [ "CONSUMABLEDATA", "struct_c_o_n_s_u_m_a_b_l_e_d_a_t_a.html", null ],
     [ "Event_Base", "class_event___base.html", [
       [ "AnimationEvent_Base", "class_animation_event___base.html", [
@@ -21,8 +24,12 @@ var hierarchy =
       [ "Event_Timed", "class_event___timed.html", [
         [ "ShiftCGEvent", "class_shift_c_g_event.html", null ]
       ] ],
+      [ "HullShapeRemovedEvent", "class_hull_shape_removed_event.html", null ],
       [ "IMS_DockEvent", "class_i_m_s___dock_event.html", null ],
       [ "LiftoffEvent", "class_liftoff_event.html", null ],
+      [ "RcsChangedEvent", "class_rcs_changed_event.html", null ],
+      [ "SimulationStartedEvent", "class_simulation_started_event.html", null ],
+      [ "TdPointsChangedEvent", "class_td_points_changed_event.html", null ],
       [ "TouchdownEvent", "class_touchdown_event.html", null ],
       [ "VesselLayoutChangedEvent", "class_vessel_layout_changed_event.html", null ],
       [ "VesselVisualCreatedEvent", "class_vessel_visual_created_event.html", null ],
@@ -31,14 +38,18 @@ var hierarchy =
     [ "EventHandler", "class_event_handler.html", [
       [ "GUI_Surface", "class_g_u_i___surface.html", null ],
       [ "IMS_Module", "class_i_m_s___module.html", null ],
-      [ "IMS_ModuleFunction_Base", "class_i_m_s___module_function___base.html", null ],
+      [ "IMS_ModuleFunction_Base", "class_i_m_s___module_function___base.html", [
+        [ "IMS_ModuleFunction_Thruster", "class_i_m_s___module_function___thruster.html", null ]
+      ] ],
       [ "IMS_Movable", "class_i_m_s___movable.html", null ]
     ] ],
     [ "EventNode", "class_event_node.html", [
       [ "EventGenerator", "class_event_generator.html", null ],
       [ "EventSink", "class_event_sink.html", null ]
     ] ],
+    [ "FiringSolutionCalculator", "class_firing_solution_calculator.html", null ],
     [ "FontsAndStyles", "class_fonts_and_styles.html", null ],
+    [ "FSThrusterCollection", "class_f_s_thruster_collection.html", null ],
     [ "GUI_BaseElement", "class_g_u_i___base_element.html", [
       [ "GUI_CheckBox", "class_g_u_i___check_box.html", [
         [ "GUI_RadioButton", "class_g_u_i___radio_button.html", null ]
@@ -68,6 +79,7 @@ var hierarchy =
         ] ]
       ] ]
     ] ],
+    [ "HULLSHAPEDATA", "struct_h_u_l_l_s_h_a_p_e_d_a_t_a.html", null ],
     [ "IMS_Animation_Base", "class_i_m_s___animation___base.html", [
       [ "IMS_Animation_Continuous", "class_i_m_s___animation___continuous.html", null ],
       [ "IMS_Animation_Sequential", "class_i_m_s___animation___sequential.html", null ],
@@ -75,14 +87,27 @@ var hierarchy =
     ] ],
     [ "IMS_General_ModuleData", "class_i_m_s___general___module_data.html", null ],
     [ "IMS_Location", "class_i_m_s___location.html", null ],
-    [ "IMS_ModuleFunctionData_Base", "class_i_m_s___module_function_data___base.html", null ],
-    [ "IMS_ModuleFunctionData_Tank", "class_i_m_s___module_function_data___tank.html", null ],
+    [ "IMS_Matrix< T >", "class_i_m_s___matrix.html", null ],
+    [ "IMS_ModuleFunctionData_Base", "class_i_m_s___module_function_data___base.html", [
+      [ "IMS_ModuleFunctionData_Animation", "class_i_m_s___module_function_data___animation.html", null ],
+      [ "IMS_ModuleFunctionData_Comm", "class_i_m_s___module_function_data___comm.html", null ],
+      [ "IMS_ModuleFunctionData_Pressurised", "class_i_m_s___module_function_data___pressurised.html", [
+        [ "IMS_ModuleFunctionData_Tank", "class_i_m_s___module_function_data___tank.html", null ]
+      ] ],
+      [ "IMS_ModuleFunctionData_Thruster", "class_i_m_s___module_function_data___thruster.html", [
+        [ "IMS_ModuleFunctionData_Rcs", "class_i_m_s___module_function_data___rcs.html", null ]
+      ] ]
+    ] ],
+    [ "IMS_Orbiter_ModuleData", "class_i_m_s___orbiter___module_data.html", null ],
     [ "IMS_PropellantInjector", "class_i_m_s___propellant_injector.html", null ],
     [ "IMS_PropulsionManager", "class_i_m_s___propulsion_manager.html", null ],
+    [ "IMS_RcsManager", "class_i_m_s___rcs_manager.html", null ],
     [ "PathFinding", "class_path_finding.html", null ],
+    [ "SHAPEDATA", "struct_s_h_a_p_e_d_a_t_a.html", null ],
     [ "SimplePathNode", "class_simple_path_node.html", [
       [ "StateNode", "class_state_node.html", null ]
     ] ],
+    [ "SimpleShape", "class_simple_shape.html", null ],
     [ "SimpleTreeNode", "class_simple_tree_node.html", null ],
     [ "StyleSet", "class_style_set.html", null ],
     [ "THRUSTEREXHAUST", "struct_t_h_r_u_s_t_e_r_e_x_h_a_u_s_t.html", null ],

@@ -127,7 +127,8 @@ Inheritance diagram for IMS_ModuleFunction_Base:</div>
  <div class="center">
   <img src="class_i_m_s___module_function___base.png" usemap="#IMS_5FModuleFunction_5FBase_map" alt=""/>
   <map id="IMS_5FModuleFunction_5FBase_map" name="IMS_ModuleFunction_Base_map">
-<area href="class_event_handler.html" title="EventHandler base class. All classes that implement eventhandling must inherit from this class..." alt="EventHandler" shape="rect" coords="0,0,167,24"/>
+<area href="class_event_handler.html" title="EventHandler base class. All classes that implement eventhandling must inherit from this class..." alt="EventHandler" shape="rect" coords="0,0,186,24"/>
+<area href="class_i_m_s___module_function___thruster.html" title="Modulefunction that defines a basic thruster. " alt="IMS_ModuleFunction_Thruster" shape="rect" coords="0,112,186,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -326,6 +327,8 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function gets called every time the module is added to a new vessel, which happens on startup (whether loaded from scenario or not), at integration and at splitting. </dd></dl>
 
+<p>Implemented in <a class="el" href="class_i_m_s___module_function___thruster.html#aad7efbba0d32ebeb04223307bd7be223">IMS_ModuleFunction_Thruster</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a0008fb7aaee9a69f4dd16c0caeb70114"></a>
@@ -351,6 +354,8 @@ Private Attributes</h2></td></tr>
 
 <p>returns the GUI of this module function, or NULL if this module function doesn't have a user interface. </p>
 <dl class="section note"><dt>Note</dt><dd>Overload this function to return the specific GUI of your module function, otherwise the core will think that the module function has no user input. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_i_m_s___module_function___thruster.html#ada5dac883664a503def1011c522efc2a">IMS_ModuleFunction_Thruster</a>.</p>
 
 </div>
 </div>
@@ -461,6 +466,8 @@ So if you have for example a propellant tank, the propellant mass should be part
 <dd>
 <a class="el" href="class_i_m_s___module_function___base.html#aaf1306ba03b33c3c8d2e6e024c864f00" title="Everything that needs to be done when the modulefunction is removed from a vessel should be implement...">AddFunctionToVessel()</a> </dd></dl>
 
+<p>Implemented in <a class="el" href="class_i_m_s___module_function___thruster.html#abdf7e11e2c9acd253db29eae1e4aec9b">IMS_ModuleFunction_Thruster</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a129182baef6374c3fecb857c221f4b63"></a>
@@ -504,6 +511,8 @@ So if you have for example a propellant tank, the propellant mass should be part
   </dd>
 </dl>
 
+<p>Reimplemented in <a class="el" href="class_i_m_s___module_function___thruster.html#a2eddf7224f8d159d9a58965e65b4d30b">IMS_ModuleFunction_Thruster</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a1fc065c61f733c920ebafa137812a8d3"></a>
@@ -535,6 +544,8 @@ So if you have for example a propellant tank, the propellant mass should be part
   </table>
   </dd>
 </dl>
+
+<p>Implemented in <a class="el" href="class_i_m_s___module_function___thruster.html#aa4acb38d20b7da2d432aff589d635ad2">IMS_ModuleFunction_Thruster</a>.</p>
 
 </div>
 </div>
@@ -569,6 +580,8 @@ So if you have for example a propellant tank, the propellant mass should be part
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function only gets called on splitting, one frame before <a class="el" href="class_i_m_s___module_function___base.html#aaf1306ba03b33c3c8d2e6e024c864f00" title="Everything that needs to be done when the modulefunction is removed from a vessel should be implement...">AddFunctionToVessel()</a> is called to add it to the new vessel </dd></dl>
 
+<p>Implemented in <a class="el" href="class_i_m_s___module_function___thruster.html#a7b8fe0d09e190c22871699ffdc6f0910">IMS_ModuleFunction_Thruster</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ae1bebd9472d5bc1ca0d3ec75a32b4408"></a>
@@ -602,11 +615,13 @@ So if you have for example a propellant tank, the propellant mass should be part
 </dl>
 <dl class="section note"><dt>Note</dt><dd>The BEGIN_MODULEFUNC and END_MODULEFUNC tags are written by the module, so you really just have to write the data. </dd></dl>
 
+<p>Implemented in <a class="el" href="class_i_m_s___module_function___thruster.html#ae6b81a4906f44ade072f07feebfe09b9">IMS_ModuleFunction_Thruster</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_ModuleFunction_Base.h</li>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_ModuleFunction_Base.cpp</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_ModuleFunction_Base.h</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_ModuleFunction_Base.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

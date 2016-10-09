@@ -118,10 +118,22 @@ $(document).ready(function(){initNavTree('class_i_m_s___module_function_data___b
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract base class for storing static data of module functions loaded from a config file.  
+<p>Abstract base class for storing generic static data of module functions loaded from a config file.  
  <a href="class_i_m_s___module_function_data___base.html#details">More...</a></p>
-
-<p>Inherited by IMS_ModuleFunctionData_Animation, IMS_ModuleFunctionData_Comm, IMS_ModuleFunctionData_Pressurised, and IMS_ModuleFunctionData_Thruster.</p>
+<div class="dynheader">
+Inheritance diagram for IMS_ModuleFunctionData_Base:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_i_m_s___module_function_data___base.png" usemap="#IMS_5FModuleFunctionData_5FBase_map" alt=""/>
+  <map id="IMS_5FModuleFunctionData_5FBase_map" name="IMS_ModuleFunctionData_Base_map">
+<area href="class_i_m_s___module_function_data___animation.html" title="Defines an arbitrary amount of animations as a module function. " alt="IMS_ModuleFunctionData_Animation" shape="rect" coords="0,56,232,80"/>
+<area href="class_i_m_s___module_function_data___comm.html" title="Holds static data to define a communications antena, satelite dish and similar. " alt="IMS_ModuleFunctionData_Comm" shape="rect" coords="242,56,474,80"/>
+<area href="class_i_m_s___module_function_data___pressurised.html" title="Holds static data for a pressurised (read: habitable) volume in a module. " alt="IMS_ModuleFunctionData_Pressurised" shape="rect" coords="484,56,716,80"/>
+<area href="class_i_m_s___module_function_data___thruster.html" title="Stores the static data of a basic thruster. " alt="IMS_ModuleFunctionData_Thruster" shape="rect" coords="726,56,958,80"/>
+<area href="class_i_m_s___module_function_data___tank.html" title="Stores the static data of a tank. " alt="IMS_ModuleFunctionData_Tank" shape="rect" coords="484,112,716,136"/>
+<area href="class_i_m_s___module_function_data___rcs.html" title="Stores the static data of an Rcs thruster. " alt="IMS_ModuleFunctionData_Rcs" shape="rect" coords="726,112,958,136"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -157,8 +169,13 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="separator:a48e149cdb963ee6dd307289e44ce8433"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract base class for storing static data of module functions loaded from a config file. </p>
-<p>Every derivative of <a class="el" href="class_i_m_s___module_function_data___base.html" title="Abstract base class for storing static data of module functions loaded from a config file...">IMS_ModuleFunctionData_Base()</a> needs a corresponding derivative of this class to load and store its configfile data. </p>
+<div class="textblock"><p>Abstract base class for storing generic static data of module functions loaded from a config file. </p>
+<p>Every derivative of <a class="el" href="class_i_m_s___module_function___base.html" title="abstract class that defines the API for module functionalities. ">IMS_ModuleFunction_Base()</a> needs a corresponding derivative of this class to load and store its configfile data.</p>
+<p>Module functions are specific abilities that can be added to a module in a config file, like thrusters, tanks, habitat etc. Many modules will have only one module function, but an arbitrary number of modulefunctions can be defined for any module.</p>
+<h3>Config structure: </h3>
+<p>An arbitrary number of module functions can be defined for any module. Any module function must be enclosed in a module function block like this: </p><div class="fragment"><div class="line">BEGIN_MODULEFUNCTION &lt;modulefunction-ID&gt;</div><div class="line">    &lt;modulefunction specific parameter&gt;</div><div class="line">     .</div><div class="line">     .  </div><div class="line">END_MODULEFUNCTION</div></div><!-- fragment --><p> For a list of valid modulefunction ids, see the documentation for IMS_ModuleFunctionFactory.h</p>
+<h4>Generic modulefunction parameters </h4>
+<p>These parameters can be added to any module function </p><div class="fragment"><div class="line"><a class="code" href="class_i_m_s___module_function_data___base.html#a48e149cdb963ee6dd307289e44ce8433">name</a> = &lt;<span class="keywordtype">string</span> <a class="code" href="class_i_m_s___module_function_data___base.html#a48e149cdb963ee6dd307289e44ce8433">name</a>&gt;                <span class="comment">//a name for this module function type that will be used in various displays in the UI</span></div></div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd>IMS_ModuleFunctionFactory.h </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="acd6c139296832fbc75f6e8d32aacf995"></a>
 <div class="memitem">
@@ -233,7 +250,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <dl class="section note"><dt>Note</dt><dd>If your ModuleFunction has its own GUI, overload this function and return true, as simple as that. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Always false </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_i_m_s___module_function_data___tank.html#a14634497956c1f92485a57392f6f60d9">IMS_ModuleFunctionData_Tank</a>.</p>
+<p>Reimplemented in <a class="el" href="class_i_m_s___module_function_data___thruster.html#a1987a765884daab9638ccaa6e5bd9bc5">IMS_ModuleFunctionData_Thruster</a>, <a class="el" href="class_i_m_s___module_function_data___rcs.html#a2fbe75ebd2a9cd75ca1ce28f0f203f6f">IMS_ModuleFunctionData_Rcs</a>, <a class="el" href="class_i_m_s___module_function_data___tank.html#a14634497956c1f92485a57392f6f60d9">IMS_ModuleFunctionData_Tank</a>, and <a class="el" href="class_i_m_s___module_function_data___comm.html#a16fe5514d65047b4a620ca1fc3309568">IMS_ModuleFunctionData_Comm</a>.</p>
 
 </div>
 </div>
@@ -281,6 +298,8 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <dl class="section return"><dt>Returns</dt><dd>True if loading was succesful, false otherwise </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_i_m_s___module_function_data___base.html#adfbbea001f5a998705006f5101f03668" title="Receives all lines of the config file that concern this ModuleFunction one by one. ">processConfigLine()</a> </dd></dl>
 
+<p>Reimplemented in <a class="el" href="class_i_m_s___module_function_data___animation.html#a8b69cd531fa91713b7d9aaf8ef004bf0">IMS_ModuleFunctionData_Animation</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="adfbbea001f5a998705006f5101f03668"></a>
@@ -315,7 +334,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <dl class="section note"><dt>Note</dt><dd>Throw runtime_error with an error message if you encounter an invalid line! The message will be loged in Orbiter.log together with the name of the config file. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the passed line was processed, false if not. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_i_m_s___module_function_data___tank.html#a7d2e00d2b76d1840d65483c757ecac96">IMS_ModuleFunctionData_Tank</a>.</p>
+<p>Implemented in <a class="el" href="class_i_m_s___module_function_data___animation.html#ab5ca27470bdc22dadd85e1bf1eb3e954">IMS_ModuleFunctionData_Animation</a>, <a class="el" href="class_i_m_s___module_function_data___thruster.html#ae75b76236192dda7d11a8c46dff41177">IMS_ModuleFunctionData_Thruster</a>, <a class="el" href="class_i_m_s___module_function_data___rcs.html#aebf7905be609134aa30997baf0f62e04">IMS_ModuleFunctionData_Rcs</a>, <a class="el" href="class_i_m_s___module_function_data___tank.html#a7d2e00d2b76d1840d65483c757ecac96">IMS_ModuleFunctionData_Tank</a>, <a class="el" href="class_i_m_s___module_function_data___comm.html#ab076ba0c1ddbc0d81cedf9a713ee62e3">IMS_ModuleFunctionData_Comm</a>, and <a class="el" href="class_i_m_s___module_function_data___pressurised.html#a512622cf5bd888b4463e6092bdce43ad">IMS_ModuleFunctionData_Pressurised</a>.</p>
 
 </div>
 </div>
@@ -351,12 +370,12 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <dl class="section return"><dt>Returns</dt><dd>False if the modulefunction is unable to function, otherwise return true. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>If your Implementation returns false, The loading process will be aborted by forcing orbiter to crash, so be sure to keep your loging straight! </dd></dl>
 
-<p>Implemented in <a class="el" href="class_i_m_s___module_function_data___tank.html#ae3472421765f9438e721988bd2ca76de">IMS_ModuleFunctionData_Tank</a>.</p>
+<p>Implemented in <a class="el" href="class_i_m_s___module_function_data___animation.html#a71b0ba311b38cf666d57e6ce1252e16c">IMS_ModuleFunctionData_Animation</a>, <a class="el" href="class_i_m_s___module_function_data___thruster.html#a9d185599198b9bdb2f1509c463008641">IMS_ModuleFunctionData_Thruster</a>, <a class="el" href="class_i_m_s___module_function_data___rcs.html#a5a2b01277d99353cb77c5761421d2abe">IMS_ModuleFunctionData_Rcs</a>, <a class="el" href="class_i_m_s___module_function_data___tank.html#ae3472421765f9438e721988bd2ca76de">IMS_ModuleFunctionData_Tank</a>, <a class="el" href="class_i_m_s___module_function_data___comm.html#a64a9a7edddc80e9b9a3554dae16d21e7">IMS_ModuleFunctionData_Comm</a>, and <a class="el" href="class_i_m_s___module_function_data___pressurised.html#a62c972cddabe5d5ac038b9527d753363">IMS_ModuleFunctionData_Pressurised</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_ModuleFunctionData_Base.h</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_ModuleFunctionData_Base.h</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

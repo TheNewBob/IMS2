@@ -134,7 +134,7 @@ Inheritance diagram for IMS_Module:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a82f119f2e02eedb58e50a33fc14ef308"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_m_s___module.html#a82f119f2e02eedb58e50a33fc14ef308">InitModule</a> (IMS_Orbiter_ModuleData *orbiter_data, <a class="el" href="class_i_m_s___general___module_data.html">IMS_General_ModuleData</a> *module_data, IMS2 *mVessel)</td></tr>
+<tr class="memitem:a82f119f2e02eedb58e50a33fc14ef308"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_m_s___module.html#a82f119f2e02eedb58e50a33fc14ef308">InitModule</a> (<a class="el" href="class_i_m_s___orbiter___module_data.html">IMS_Orbiter_ModuleData</a> *orbiter_data, <a class="el" href="class_i_m_s___general___module_data.html">IMS_General_ModuleData</a> *module_data, IMS2 *mVessel)</td></tr>
 <tr class="memdesc:a82f119f2e02eedb58e50a33fc14ef308"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialises the Module with static data from a config file  <a href="#a82f119f2e02eedb58e50a33fc14ef308">More...</a><br /></td></tr>
 <tr class="separator:a82f119f2e02eedb58e50a33fc14ef308"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07db3dde74a56284b77f6e7bf8aa5b5f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_m_s___module.html#a07db3dde74a56284b77f6e7bf8aa5b5f">PostLoad</a> ()</td></tr>
@@ -368,7 +368,7 @@ IMS2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memdesc:abfd76d6c2848597a1218281f41cd873a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vessel containing this module. <br /></td></tr>
 <tr class="separator:abfd76d6c2848597a1218281f41cd873a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaff216b0059fb81f23ad341c674aedb0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaff216b0059fb81f23ad341c674aedb0"></a>
-IMS_Orbiter_ModuleData *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_m_s___module.html#aaff216b0059fb81f23ad341c674aedb0">_orbiter_data</a></td></tr>
+<a class="el" href="class_i_m_s___orbiter___module_data.html">IMS_Orbiter_ModuleData</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_m_s___module.html#aaff216b0059fb81f23ad341c674aedb0">_orbiter_data</a></td></tr>
 <tr class="memdesc:aaff216b0059fb81f23ad341c674aedb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orbiter related attributes of this module. <br /></td></tr>
 <tr class="separator:aaff216b0059fb81f23ad341c674aedb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9189fdc83c27bee8573ccb47eb9172cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9189fdc83c27bee8573ccb47eb9172cb"></a>
@@ -594,7 +594,7 @@ addmesh must always be true except if this is the first module in a vessel, whic
 
 <p>creates the actual physical attachment points of this vessel (i.e. the orbiter dockports). </p>
 <dl class="section note"><dt>Note</dt><dd>This is an initialiser function and only called at very specific places in the code </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>With proper adjustements, this function could be made private </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>With proper adjustements, this function could be made private </dd></dl>
 
 </div>
 </div>
@@ -824,7 +824,7 @@ addmesh must always be true except if this is the first module in a vessel, whic
         <tr>
           <td class="memname">bool IMS_Module::InitModule </td>
           <td>(</td>
-          <td class="paramtype">IMS_Orbiter_ModuleData *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_i_m_s___orbiter___module_data.html">IMS_Orbiter_ModuleData</a> *&#160;</td>
           <td class="paramname"><em>orbiter_data</em>, </td>
         </tr>
         <tr>
@@ -1247,7 +1247,7 @@ addmesh must always be true except if this is the first module in a vessel, whic
 </div><div class="memdoc">
 
 <p>Gets called after assimilating a module, because all DOCKHANDLEs in the module are now invalid. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>with proper event handling, it might be possible to make this function private </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>with proper event handling, it might be possible to make this function private </dd></dl>
 
 </div>
 </div>
@@ -1382,10 +1382,10 @@ addmesh must always be true except if this is the first module in a vessel, whic
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_Module.h</li>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_BaseModule_AttachmentPoints.cpp</li>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_Module.cpp</li>
-<li>C:/Orbiter 2015/Orbitersdk/IMS2/IMS_ModuleComparators.cpp</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_Module.h</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_BaseModule_AttachmentPoints.cpp</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_Module.cpp</li>
+<li>C:/Orbiter2016/Orbitersdk/IMS2/IMS_ModuleComparators.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
