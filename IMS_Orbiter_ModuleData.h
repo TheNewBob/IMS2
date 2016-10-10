@@ -26,7 +26,7 @@ struct HULLSHAPEDATA
  * <type name>									//<> brackets signify an expected argument to a parameter, its expected type and what it is for. 
  * [Optional]									//Anything in [] is optional and must not necessarily be there for a config to work.
  *												//Or in other words, anything not in [] must be there, or there will be errors!
- * 
+ * \endcode
  *
  * <h4> hull shapes </h4>
  * Note that transformations will always be applied in the below order, even if you don't write them in this order in the config.

@@ -14,7 +14,7 @@ struct CONSUMABLEDATA;
  * \endcode
  * <h4> Config example </h4>
  * \code
- *	BEGIN_MODULEFUNC TANK
+ *	BEGIN_MODULEFUNCTION TANK
  *		contains = LH2
  *		volume = 5
  *		convertible = false
