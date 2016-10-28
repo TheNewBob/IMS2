@@ -17,6 +17,7 @@
 #include "IMS_ModuleFunctionData_Tank.h"
 #include "IMS_ModuleFunctionData_Thruster.h"
 #include "IMS_ModuleFunctionData_Rcs.h"
+#include "IMS_ModuleFunctionData_Gear.h"
 
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_ModuleFunction_Pressurised.h"
@@ -25,6 +26,7 @@
 #include "IMS_Modulefunction_Tank.h"
 #include "IMS_ModuleFunction_Thruster.h"
 #include "IMS_ModuleFunction_Rcs.h"
+#include "IMS_ModuleFunction_Gear.h"
 #include "IMS_ModuleFunction_Factory.h"
 
 
@@ -75,6 +77,11 @@ IMS_ModuleFunction_Base *IMS_ModuleFunction_Factory::CreateNewModuleFunction(IMS
 		IMS_ModuleFunctionData_Rcs *data = (IMS_ModuleFunctionData_Rcs*)_data;
 		return new IMS_ModuleFunction_Rcs(data, module);
 	}
+	case MTYPE_GEAR:
+	{
+		IMS_ModuleFunctionData_Gear *data = (IMS_ModuleFunctionData_Gear*)_data;
+		return new IMS_ModuleFunction_Gear(data, module);
+	}
 
 	default:
 		return NULL;
@@ -99,6 +106,8 @@ IMS_ModuleFunctionData_Base *IMS_ModuleFunction_Factory::CreateNewModuleFunction
 		return new IMS_ModuleFunctionData_Thruster();
 	case MTYPE_RCS:
 		return new IMS_ModuleFunctionData_Rcs();
+	case MTYPE_GEAR:
+		return new IMS_ModuleFunctionData_Gear();
 	default:
 		return NULL;
 	}
@@ -130,6 +139,9 @@ string IMS_ModuleFunction_Factory::GetFunctionTypeString(FUNCTIONTYPE type)
 	case MTYPE_RCS:
 		retString = MTYPE_RCS_ID;
 		break;
+	case MTYPE_GEAR:
+		retString = MTYPE_GEAR_ID;
+		break;
 	}
 
 	return retString;
@@ -148,6 +160,7 @@ FUNCTIONTYPE IMS_ModuleFunction_Factory::GetFunctionTypeFromString(string identi
 	if (identifier == MTYPE_TANK_ID) return MTYPE_TANK;
 	if (identifier == MTYPE_THRUSTER_ID) return MTYPE_THRUSTER;
 	if (identifier == MTYPE_RCS_ID) return MTYPE_RCS;
+	if (identifier == MTYPE_GEAR_ID) return MTYPE_GEAR;
 	return MTYPE_NONE;
 }
 

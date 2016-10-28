@@ -203,6 +203,7 @@
     <ClCompile Include="IMS_Docking.cpp" />
     <ClCompile Include="IMS_ModuleFunctionData_Animation.cpp" />
     <ClCompile Include="IMS_ModuleFunctionData_Comm.cpp" />
+    <ClCompile Include="IMS_ModuleFunctionData_Gear.cpp" />
     <ClCompile Include="IMS_ModuleFunctionData_Pressurised.cpp" />
     <ClCompile Include="IMS_InputCallback.cpp" />
     <ClCompile Include="IMS_ModuleComparators.cpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="IMS_ModuleFunction_Base.cpp" />
     <ClCompile Include="IMS_ModuleFunction_Comm.cpp" />
     <ClCompile Include="IMS_ModuleFunction_Factory.cpp" />
+    <ClCompile Include="IMS_ModuleFunction_Gear.cpp" />
     <ClCompile Include="IMS_ModuleFunction_Rcs.cpp" />
     <ClCompile Include="IMS_ModuleFunction_Tank.cpp" />
     <ClCompile Include="IMS_ModuleFunction_Thruster.cpp" />
@@ -294,6 +296,8 @@
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
+    <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
+    <ClInclude Include="IMS_ModuleFunction_Gear.h" />
     <ClInclude Include="IMS_TouchdownPointManager.h" />
     <ClInclude Include="RcsChangedEvent.h" />
     <ClInclude Include="IMS_Animation_Tracking.h" />
@@ -330,6 +334,7 @@
     <ClInclude Include="IMS_Storable.h" />
     <ClInclude Include="StyleSet.h" />
     <ClInclude Include="TdPointsChangedEvent.h" />
+    <ClInclude Include="ToggleGearEvent.h" />
     <ClInclude Include="TrackingAnimationStatusEvent.h" />
     <ClInclude Include="VesselLayoutChangedEvent.h" />
     <ClInclude Include="VesselVisualCreatedEvent.h" />

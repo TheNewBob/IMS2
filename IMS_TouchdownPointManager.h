@@ -1,5 +1,8 @@
 #pragma once
 
+class SimpleShape;
+class BoundingBox;
+
 /**
  * \brief Contains the data necessary to place the hullshape of a module into
  *	the overall hullshape of a vessel.
@@ -23,7 +26,21 @@ struct SHAPEDATA
 	}
 };
 
-class BoundingBox;
+/**
+ * remembers vertex and direction of currently existing landing gear points
+ */
+struct TDDATA
+{
+	TDDATA(TOUCHDOWNVTX vtx, VECTOR3 dir)
+	{
+		this->vtx = vtx;
+		this->dir = dir;
+	};
+
+	TOUCHDOWNVTX vtx;
+	VECTOR3 dir;
+};
+
 
 class IMS_TouchdownPointManager :
 	public IMS_Manager_Base
@@ -46,6 +63,21 @@ public:
 	 */
 	void RemoveHullShape(SimpleShape *shape);
 
+	/**
+	 * \brief Adds a touchdown point belonging to an extended landing gear
+	 * \param pos The position of the touchdown point in vessel-absolute coordinates.
+	 * \param dir Normalised directional vector describing the down-direction of the TD-point, vessel-relative.
+	 * \return An identifier by which the manager remembers this point. Whoever created the touchdownpoint
+	 *	will need to pass this identifier to remove it again when the gear retracts.
+	 */
+	UINT AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir);
+
+	/**
+	 * \brief removes a touchdown point belonging to a landing gear.
+	 * \param id The identifier of the touchdownpoint received by AddLandingTdPoint().
+	 */
+	void RemoveLandingTdPoint(UINT id);
+
 private:
 	//generic settings for hullpoints. Will need some experimentation to get right
 	//adjust in IMS_TouchdownPointManager.cpp
@@ -54,9 +86,17 @@ private:
 	static const double TD_DAMPING;
 	static const double TD_LONGFRICTION;
 
-	BoundingBox *hullbox = NULL;		//axis-aligned bounding box of the entire vessels hull.
-	vector<TOUCHDOWNVTX> hullpoints;	//contains the full list of touchdown points currently on the vessel, but with absolute positions.
-	vector<SHAPEDATA> shapes;			//contains pointers to all shapes the vessel is composed of.
+	BoundingBox *hullbox = NULL;		//!< axis-aligned bounding box of the entire vessels hull.
+	vector<TOUCHDOWNVTX> hullpoints;	//!< contains the full list of touchdown points currently on the vessel, but with absolute positions.
+	vector<SHAPEDATA> shapes;			//!< contains pointers to all shapes the vessel is composed of.
+	map<UINT, TDDATA> landingpoints;	//!< contains the positions of all td points belonging to extended landing gear, maped to an int identifier.
+	
+	/**
+	 * the range in which ids have been handed out, to avoid duplication. It's a bit lazy, 
+	 * it would be better to free ids that no longer exist, but I don't expect anybody to add 32 bits worth
+	 * of landing gear to a vessel over the course of construction (you hear me Dantassii?)
+	 */
+	UINT landingpoint_id = 0;		
 
 	/**
 	 * \brief Sets the touchdown points on the orbiter vessel
@@ -75,12 +115,41 @@ private:
 	void addHullShape(SimpleShape *shape, VECTOR3 pos, MATRIX3 rot);
 
 	/**
-	 * \brief Creates the default 3 touchdownpoints either from the vessels landing gear,
-	 *	or from the bounding box of the hull if there is no landing gear.
-	 * \note These points must always be the first 3 points in the list of touchdown points
-	 *	passed to orbiter, or there will be mayhem!
-	 * \note The received vertices will already be CoG-relative!
+	 * \brief Creates the default 3 touchdownpoints based on the vessels hullshape
+	 * More precisely, the 3 generated points will lie on the center-front, rear-left and rear-right
+	 * of the bottom(0 -1 0) rectangle of the hullshape's bounding box.
+	 * \returns A vector with size 3.
 	 */
-	void getDefaultTdPoints(vector<TOUCHDOWNVTX> &OUT_points);
+	vector<VECTOR3> createDefaultTdTriangleFromHullshape();
+
+	
+	/**
+	 * \brief Creates the default triangle of attachment points for this vessel.
+	 * If there are 3 or more landing gears, these points will be calculated from the landing gears
+	 * position and direction.
+	 * If there are less than 3 landing gears, these points will conform to the default "bottom" (0 -1 0) of the hullshape
+	 * If there is no hullshape, the points created by orbiter will be used.
+	 */
+	void createDefaultTdTriangle();
+
+	/**
+	* \brief Creates the default triangle of attachment points for this vessels landing gear.
+	* If there is no hullshape, the points created by orbiter will be used.
+	* \note There must be at least 3 landing gears on the vessel for this method to work!
+	* \returns A vector with size 3.
+	*/
+	vector<VECTOR3> createDefaultTdTriangleFromLandingGear();
+
+	/**
+	 * \brief comparator to sort VECTOR3 by x-z distance.
+	 */
+	static bool SORT_BY_HORIZONTAL_DISTANCE(VECTOR3 &a, VECTOR3 &b);
+
+	/**
+	 * \brief Comparator to sort VECTOR3 by z axis in descending order
+	 */
+	static bool SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b);
+
+	vector<TOUCHDOWNVTX> defaulttdtriangle;				//!< Vector that holds the triangle of default touchdown points for this vessel
 };
 

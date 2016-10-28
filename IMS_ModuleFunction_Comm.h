@@ -17,8 +17,9 @@ enum
 class IMS_ModuleFunctionData_Comm;
 class GUI_ModuleFunction_Comm;
 
-/* callback to set the target of a comm function
-*/
+/* 
+ * callback to set the target of a comm function
+ */
 bool SetTargetInputCallback(void *id, char *str, void *usrdata);
 
 

@@ -20,6 +20,45 @@ MATRIX3 Rotations::UnitMatrix()
 }
 
 
+MATRIX3 Rotations::GetRotationMatrixFromDirection(VECTOR3 dir)
+{
+	MATRIX3 transformation;
+	MATRIX3 dirmat;
+
+	if (!RequiresRotation(dir, _V(0, 1, 0)))
+	{
+		return UnitMatrix();
+	}
+
+	if (dir.x == 0 && dir.y == 0 && dir.z == 1)
+		//dir is origin, no transformation of dir required, define unit matrix
+	{
+		dirmat = UnitMatrix();
+	}
+	else
+	{
+		VECTOR3 dirAxis;				//axis of rotation for directional vector
+		if (dir.x == 0 && dir.y == 0 && dir.z == -1)
+		{
+			//corner case for inversed direction. Would result in division by zero if processed the normal way
+			dirAxis = _V(0, 1, 0);
+		}
+		else
+		{
+			dirAxis = crossp(_V(0, 0, 1), dir);
+		}
+
+		Calc::RoundVector(dirAxis, 1000);
+
+		//get the rotation angle
+		double dirAngle = Rotations::GetAngle(_V(0, 0, 1), dir, dirAxis);
+		//build matrix to transform to directional vector
+		Rotations::BuildRotationMatrix(dirmat, dirAxis, dirAngle);
+	}
+	return dirmat;
+}
+
+
 //returns a rotation matrix that will rotate two vectors (0,0,1)(0,1,0) to dir and rot.
 //dir and rot must be perpendicular, obviously, and normalised.
 MATRIX3 Rotations::GetRotationMatrixFromOrientation(VECTOR3 dir, VECTOR3 rot)

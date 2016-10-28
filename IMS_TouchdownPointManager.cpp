@@ -6,7 +6,7 @@
 #include "BoundingBox.h"
 #include "SimpleShape.h"
 #include "IMS_TouchdownPointManager.h"
-
+#include "Rotations.h"
 
 const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e7;
 const double IMS_TouchdownPointManager::TD_DAMPING = 1e5;
@@ -112,6 +112,36 @@ void IMS_TouchdownPointManager::RemoveHullShape(SimpleShape *shape)
 }
 
 
+UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir)
+{
+	if (landingpoint_id == UINT_MAX)
+	{
+		//I HOPE this is will always remain a joke!
+		Helpers::writeToLog(string("Congratiulations! Over the course of constructing your vessel, you have added landing gear 4,294,967,296 times. In one single session. YOU.HAVE.GOT.TO.BE.KIDDING!"), L_ERROR);
+		throw runtime_error("No effing way...");
+	}
+
+	TOUCHDOWNVTX newvert;
+	newvert.stiffness = TD_STIFFNESS;
+	newvert.damping = TD_DAMPING;
+	newvert.mu = TD_LATFRICTION;
+	newvert.mu_lng = TD_LONGFRICTION;
+	newvert.pos = pos;
+	
+	landingpoint_id++;
+	landingpoints[landingpoint_id] = TDDATA(newvert, dir);
+	addEventToWaitingQueue(new TdPointsChangedEvent);
+	return landingpoint_id;
+}
+
+
+void IMS_TouchdownPointManager::RemoveLandingTdPoint(UINT id)
+{
+	landingpoints.erase(landingpoints.find(id));
+	addEventToWaitingQueue(new TdPointsChangedEvent);
+}
+
+
 void IMS_TouchdownPointManager::setTdPoints()
 {
 	//if this vessel has no hullbox defined, leave the default touchdown points created by orbiter on initialisation.
@@ -124,7 +154,7 @@ void IMS_TouchdownPointManager::setTdPoints()
 	vector<TOUCHDOWNVTX> defaultpoints;
 	getDefaultTdPoints(defaultpoints);
 
-	UINT totalpoints = 3 + hullpoints.size();
+	UINT totalpoints = 3 + hullpoints.size() + landingpoints.size();
 
 	//copy all points to an array and move them to CoG-relative position
 	TOUCHDOWNVTX* tdarray = new TOUCHDOWNVTX[totalpoints];
@@ -133,12 +163,21 @@ void IMS_TouchdownPointManager::setTdPoints()
 	tdarray[1] = defaultpoints[1];
 	tdarray[2] = defaultpoints[2];
 
-	//now come all the static hullpoints on the vessel
 	VECTOR3 cogoffset = vessel->GetCoG();
+	//add all the gear points
+	UINT idx = 3;
+	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
+	{
+		tdarray[idx] = i->second;
+		tdarray[idx].pos -= cogoffset;
+		idx++;
+	}
+
+	//now come all the static hullpoints on the vessel
 	for (UINT i = 0; i < hullpoints.size(); ++i)
 	{
-		tdarray[i + 3] = hullpoints[i];
-		tdarray[i + 3].pos -= cogoffset;
+		tdarray[i + idx] = hullpoints[i];
+		tdarray[i + idx].pos -= cogoffset;
 	}
 
 	vessel->SetTouchdownPoints(tdarray, (DWORD)totalpoints);
@@ -172,7 +211,7 @@ bool IMS_TouchdownPointManager::ProcessEvent(Event_Base *e)
 	return false;
 }
 
-void IMS_TouchdownPointManager::getDefaultTdPoints(vector<TOUCHDOWNVTX> &OUT_points)
+vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromHullshape()
 {
 	//no landing gear was added, we default to three td-points at the bottom of the bounding box,
 	//z+ forward and y+ up.
@@ -183,7 +222,41 @@ void IMS_TouchdownPointManager::getDefaultTdPoints(vector<TOUCHDOWNVTX> &OUT_poi
 	double rear = hullbox->GetRear();
 	double front = hullbox->GetFront();
 
-	OUT_points.resize(3);
+
+	//create the three default points. Note that the order is very important!
+	//also, we immediately switch them to CoG-relative positions. They are only needed
+	//by orbiter itself, after all.
+
+	defaulttdtriangle.resize(3);
+	VECTOR3 cogoffset = vessel->GetCoG();
+
+	vector<VECTOR3> triangle(3);
+
+	triangle[0] = _V((left + right) / 2, bottom, front) - cogoffset;
+	triangle[1] = _V(left, bottom, rear) - cogoffset;
+	triangle[2] = _V(right, bottom, rear) - cogoffset;
+
+	return triangle;
+}
+
+
+void IMS_TouchdownPointManager::createDefaultTdTriangle()
+{
+	defaulttdtriangle.clear();
+	vector<VECTOR3> defaulttriangle;
+	if (landingpoints.size() < 3)
+	{
+		if (hullbox == NULL) return;
+		//not enough landing points defined to do anything smart, just go with the hullshape:
+		defaulttriangle = createDefaultTdTriangleFromHullshape();
+	}
+	else
+	{
+		defaulttriangle = createDefaultTdTriangleFromLandingGear();
+	}
+
+	defaulttdtriangle.resize(3);
+
 	//set default attributes of all points
 	TOUCHDOWNVTX vtx;
 	vtx.damping = TD_DAMPING;
@@ -191,16 +264,147 @@ void IMS_TouchdownPointManager::getDefaultTdPoints(vector<TOUCHDOWNVTX> &OUT_poi
 	vtx.mu_lng = TD_LONGFRICTION;
 	vtx.stiffness = TD_STIFFNESS;
 
+	//set positions
+	vtx.pos = defaulttriangle[0];
+	defaulttdtriangle[0] = vtx;
+	vtx.pos = defaulttriangle[1];
+	defaulttdtriangle[1] = vtx;
+	vtx.pos = defaulttriangle[2];
+	defaulttdtriangle[2] = vtx;
 
-	//create the three default points. Note that the order is very important!
-	//also, we immediately switch them to CoG-relative positions. They are only needed
-	//by orbiter itself, after all.
+}
 
-	VECTOR3 cogoffset = vessel->GetCoG();
-	vtx.pos = _V((left + right) / 2, bottom, front) - -cogoffset;
-	OUT_points[0] = vtx;
-	vtx.pos = _V(left, bottom, rear) - cogoffset;
-	OUT_points[1] = vtx;
-	vtx.pos = _V(right, bottom, rear) - cogoffset;
-	OUT_points[2] = vtx;
+
+vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGear()
+{
+	vector<VECTOR3> triangle;
+
+	if (landingpoints.size == 3)
+	{
+		for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
+		{
+			triangle.push_back(i->second.vtx.pos);
+		}
+	}
+	else
+	{
+		//the challenge we face when having 3 or more touchdownpoints is exactly the same:
+		//we need to find the frontmost, the rear-leftmost and the rear-rightmost and get them
+		//in the correct order so the plane normal points the right way down.
+		//Unfortunately, this is easier said than done!
+
+		//first of all, get all the gear points and rotate them so they would be "normal" to the vessel, i.e. down towards minus y.
+
+		//matrix to rotate from origin (0 0 1) to down (0 -1 0)
+		MATRIX3 fromorigin = Rotations::GetRotationMatrixFromDirection(_V(0, -1, 0));
+		//matrix to rotate from tdpoint orientation to origin (0 0 1)
+		//note that we will assume that all tdpoints are facing the same direction (they roughly should, or 
+		//the engineer needs a slap). Otherwise the trigonometry could get very expensive.
+		MATRIX3 toorigin = Rotations::GetRotationMatrixFromDirection(landingpoints[0].dir);
+		//final matrix to rotate td-points to standard down (0 -1 0)
+		MATRIX3 todown = mul(fromorigin, toorigin);
+
+		//rotate all the landing points and shove them in a vector
+		//now, the reson we do this is purely to get the points into a reference frame where we have a clear, 
+		//2-dimensional definition of front, left and right. The result of the loop should be the 3 tdpoints appropriate for our triangle.
+		//we'll also have to put them relative to the cog.
+		vector<VECTOR3> rotatedpoints;
+		rotatedpoints.reserve(landingpoints.size());
+		VECTOR3 cogoffset = vessel->GetCoG();
+
+		for (UINT i = 0; i < landingpoints.size(); ++i)
+		{
+			rotatedpoints.push_back(mul(todown, landingpoints[i].vtx.pos - cogoffset));
+		}
+
+		//now sort the points by their horizontal distance from 0 0 0. 
+		//This way we'll end up with the best candidates to form the triangle at the front of the vector.
+		sort(rotatedpoints.begin(), rotatedpoints.end(), SORT_BY_HORIZONTAL_DISTANCE);
+
+		//next, split that vector into 3 vectors containing left, right and center points
+		vector<VECTOR3&> centerpoints;
+		vector<VECTOR3&> leftpoints;
+		vector<VECTOR3&> rightpoints;
+
+		for (UINT i = 0; i < rotatedpoints.size(); ++i)
+		{
+			if (Calc::IsNear(rotatedpoints[i].x, 0, 0.01))
+			{
+				centerpoints.push_back(rotatedpoints[i]);
+			}
+			else if (rotatedpoints[i].x < 0)
+			{
+				leftpoints.push_back(rotatedpoints[i]);
+			}
+			else
+			{
+				rightpoints.push_back(rotatedpoints[i]);
+			}
+		}
+
+		//we have to guard against the attempt of somebody only adding landing gear on one side of the vessel, which one could conceivably
+		//do for the lulz, but it is also a more likely occurance during construction. We don't want to crash if that happens!
+		if (leftpoints.size() == 0 || rightpoints.size() == 0)
+		{
+			//in this case, just create the triangle from the hullshape
+			createDefaultTdTriangleFromHullshape();
+			return;
+		}
+
+		VECTOR3 leftpoint = leftpoints[0];
+		VECTOR3 rightpoint = rightpoints[0];
+		VECTOR3 centerpoint;
+
+		//there's a real possibility that there are no points in the center.
+		//if there are, it's pretty simple: the center point furthest opposed to 
+		//the left and right points is the third point of the triangle.
+		if (centerpoints.size() > 0)
+		{
+			sort(centerpoints.begin(), centerpoints.end(), SORT_DESCENDING_BY_Z);
+			if (leftpoint.z > 0)
+			{
+				centerpoint = centerpoints[centerpoints.size() - 1];
+			}
+			else
+			{
+				centerpoint = centerpoints[0];
+			}
+		}
+		else
+		{
+			//if there are no centerpoints, what we want is the horizontal average between the front- or rearmost left and right points
+			sort(leftpoints.begin(), leftpoints.end(), SORT_DESCENDING_BY_Z);
+			sort(rightpoints.begin(), leftpoints.end(), SORT_DESCENDING_BY_Z);
+			if (leftpoint.z > 0)
+			{
+				centerpoint = (leftpoints[leftpoints.size() - 1] + rightpoints[rightpoints.size() - 1]) / 2;
+			}
+			else
+			{
+				centerpoint = (leftpoints[0] + rightpoints[0]) / 2;
+			}
+		}
+	}
+}
+
+
+bool IMS_TouchdownPointManager::SORT_BY_HORIZONTAL_DISTANCE(VECTOR3 &a, VECTOR3 &b)
+{
+	double dista = abs(a.x + a.z);
+	double distb = abs(b.x + b.z);
+	
+	if (dista == distb)
+	{
+		//if the points are perfectly symmetrical, the point that has a negative z-axis wins.
+		//this way points at the rear of the vessel get preference, insuring sideways symmetrical points end up next to each other after sorting.
+		return a.z < b.z;
+	}
+
+	return  dista > distb;
+}
+
+
+bool IMS_TouchdownPointManager::SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b)
+{
+	return a.z > b.z;
 }

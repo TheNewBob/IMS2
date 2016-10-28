@@ -58,6 +58,7 @@ public:
 	void clbkPostStep(double simt, double simdt, double mjd);
 	void clbkVisualCreated (VISHANDLE vis, int refcount);
 	void clbkVisualDestroyed (VISHANDLE vis, int refcount);
+	int clbkConsumeBufferedKey(DWORD key, bool down, char *kstate);
 
 	UINT AddNewMesh(std::string meshName, VECTOR3 pos);
 

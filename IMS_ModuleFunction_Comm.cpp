@@ -180,7 +180,7 @@ void IMS_ModuleFunction_Comm::PreStep(double simdt, IMS2 *vessel)
 	{
 		//state has changed, update the state description on the gui
 		//debug
-		string statedesc = state.GetStateDescription();
+//		string statedesc = state.GetStateDescription();
 
 		menu->SetStateDescription(state.GetStateDescription());
 

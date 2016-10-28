@@ -28,6 +28,7 @@
 #include "SimulationStartedEvent.h"
 #include "HullShapeRemovedEvent.h"
 #include "TdPointsChangedEvent.h"
+#include "ToggleGearEvent.h"
 
 //animation events
 #include "AnimationEvent_Base.h"

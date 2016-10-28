@@ -96,6 +96,9 @@
     <Filter Include="Core\Managers\TouchdownPointManager">
       <UniqueIdentifier>{9c8b8894-b04c-4b7f-ba61-50b03924187a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Module functionalities\Gear">
+      <UniqueIdentifier>{654e2915-eb07-4d3b-ba5b-1a63e9cc58c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -367,6 +370,12 @@
     </ClCompile>
     <ClCompile Include="IMS_TouchdownPointManager.cpp">
       <Filter>Core\Managers\TouchdownPointManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Gear.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Gear.cpp">
+      <Filter>Modules\Module functionalities\Gear</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -741,6 +750,15 @@
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>IMS_Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Gear.h">
+      <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Gear.h">
+      <Filter>Modules\Module functionalities\Gear</Filter>
+    </ClInclude>
+    <ClInclude Include="ToggleGearEvent.h">
+      <Filter>EventHandling\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

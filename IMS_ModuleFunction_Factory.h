@@ -40,6 +40,10 @@ static const string MTYPE_THRUSTER_ID = "THRUSTER";
  */
 static const string MTYPE_RCS_ID = "RCS";
 
+/**
+ * A modulefunction defining a landing gear
+ */
+static const string MTYPE_GEAR_ID = "GEAR";
 
 class IMS_ModuleFunction_Factory
 {

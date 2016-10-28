@@ -461,3 +461,16 @@ void IMS2::updateVesselState(bool triggerevents)
 		}
 	}
 }
+
+
+int IMS2::clbkConsumeBufferedKey(DWORD key, bool down, char *kstate)
+{
+	if (!down) return 0; // only process keydown events
+	if (Playback()) return 0; // don't allow manual user input during a playback
+
+	if (!KEYMOD_ALT(kstate) && !KEYMOD_SHIFT(kstate) && !KEYMOD_CONTROL(kstate) && key == OAPI_KEY_G) {
+		addEvent(new ToggleGearEvent(), VESSEL_TO_MODULE_PIPE);
+		return 1;
+	}
+	return 0;
+}
