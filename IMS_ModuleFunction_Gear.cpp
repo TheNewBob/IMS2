@@ -10,6 +10,7 @@
 #include "IMS_Module.h"
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_ModuleFunction_Gear.h"
+#include "Calc.h"
 
 IMS_ModuleFunction_Gear::IMS_ModuleFunction_Gear(IMS_ModuleFunctionData_Gear *_data, IMS_Module *_module)
 	: IMS_ModuleFunction_Base(_data, _module, MTYPE_GEAR), data(_data)
@@ -82,10 +83,13 @@ void IMS_ModuleFunction_Gear::addTdPointToVessel()
 	//only add the point if it wasn't added
 	if (tdpoint_id == 0)
 	{
-		VECTOR3 rotatedpos = mul(module->GetRotationMatrix(), data->touchdownpoint);
+		MATRIX3 rotmatrix = module->GetRotationMatrix();
+		VECTOR3 rotatedpos = mul(rotmatrix, data->touchdownpoint);
+		VECTOR3 rotateddir = mul(rotmatrix, data->tddir);
+		Calc::RoundVector(rotateddir, 1000);
 		VECTOR3 modulepos;
 		module->GetPos(modulepos);
-		tdpoint_id = tdpoint_id = tdpmanager->AddLandingTdPoint(rotatedpos + modulepos);
+		tdpoint_id = tdpoint_id = tdpmanager->AddLandingTdPoint(rotatedpos + modulepos, rotateddir);
 	}
 }
 

@@ -17,7 +17,7 @@ IMS_ModuleFunctionData_Gear::~IMS_ModuleFunctionData_Gear()
 bool IMS_ModuleFunctionData_Gear::processConfigLine(vector<string> &tokens)
 {
 	//check if line is a valid key - value pair
-	if (tokens.size() == 2)
+	if (tokens.size() >= 2)
 	{
 		if (tokens[0].compare("deploy_anim") == 0)
 		{

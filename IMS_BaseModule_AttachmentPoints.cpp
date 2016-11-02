@@ -130,7 +130,7 @@ void IMS_Module::RotateAttachmentPoint(IMSATTACHMENTPOINT *att, double angle)
 	Rotations::RotateVector(att->rot, att->dir, angle);
 	if (att->dockPort != NULL)
 	{
-		vessel->SetDockParams(att->dockPort, att->pos, att->dir, att->rot);
+		vessel->SetDockParams(att->dockPort, att->pos - vessel->GetCoG(), att->dir, att->rot);
 		vessel->SetForRedock();
 		vessel->Undock(vessel->GetDockIndex(att));
 	}

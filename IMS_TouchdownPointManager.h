@@ -27,10 +27,12 @@ struct SHAPEDATA
 };
 
 /**
- * remembers vertex and direction of currently existing landing gear points
+ * \brief remembers vertex and direction of currently existing landing gear points
  */
 struct TDDATA
 {
+	TDDATA(){};
+
 	TDDATA(TOUCHDOWNVTX vtx, VECTOR3 dir)
 	{
 		this->vtx = vtx;

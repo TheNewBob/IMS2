@@ -8,8 +8,8 @@
 #include "IMS_TouchdownPointManager.h"
 #include "Rotations.h"
 
-const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e7;
-const double IMS_TouchdownPointManager::TD_DAMPING = 1e5;
+const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e6;
+const double IMS_TouchdownPointManager::TD_DAMPING = 1e6;
 const double IMS_TouchdownPointManager::TD_LATFRICTION = 3.0;
 const double IMS_TouchdownPointManager::TD_LONGFRICTION = 3.0;
 
@@ -151,24 +151,34 @@ void IMS_TouchdownPointManager::setTdPoints()
 	}
 
 	//set the default 3 touchdown points
-	vector<TOUCHDOWNVTX> defaultpoints;
-	getDefaultTdPoints(defaultpoints);
+//	vector<TOUCHDOWNVTX> defaultpoints;
+//	createDefaultTdPoints(defaultpoints);
 
-	UINT totalpoints = 3 + hullpoints.size() + landingpoints.size();
+	createDefaultTdTriangle();
+
+	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size() + landingpoints.size();
 
 	//copy all points to an array and move them to CoG-relative position
 	TOUCHDOWNVTX* tdarray = new TOUCHDOWNVTX[totalpoints];
-	//the default points must go first!
-	tdarray[0] = defaultpoints[0];
-	tdarray[1] = defaultpoints[1];
-	tdarray[2] = defaultpoints[2];
-
 	VECTOR3 cogoffset = vessel->GetCoG();
+
+	//the default points must go first!
+	if (defaulttdtriangle.size() > 0)
+	{
+		tdarray[0] = defaulttdtriangle[0];
+		tdarray[1] = defaulttdtriangle[1];
+		tdarray[2] = defaulttdtriangle[2];
+
+		tdarray[0].pos -= cogoffset;
+		tdarray[1].pos -= cogoffset;
+		tdarray[2].pos -= cogoffset;
+	}
+
 	//add all the gear points
-	UINT idx = 3;
+	UINT idx = defaulttdtriangle.size();
 	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
 	{
-		tdarray[idx] = i->second;
+		tdarray[idx] = i->second.vtx;
 		tdarray[idx].pos -= cogoffset;
 		idx++;
 	}
@@ -246,6 +256,7 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 	vector<VECTOR3> defaulttriangle;
 	if (landingpoints.size() < 3)
 	{
+		//there's nothing to base an educated guess on, just leave the defaults
 		if (hullbox == NULL) return;
 		//not enough landing points defined to do anything smart, just go with the hullshape:
 		defaulttriangle = createDefaultTdTriangleFromHullshape();
@@ -277,54 +288,66 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 
 vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGear()
 {
-	vector<VECTOR3> triangle;
+	//the first challenge we face when having 3 or more touchdownpoints is exactly the same:
+	//we need to be able to determine the relation of the touchdown points in the context of left, right, front and center,
+	//in the correct order so the plane normal points the right way down. Unfortunately, this is easier said than done, 
+	//since the understanding of those terms only have relevance in the plane of the touchdownpoints themselves, which might point anywhere.
 
-	if (landingpoints.size == 3)
+	//we solve this problem by getting all the gear points, ASSUME they're at least all on the same plane, and rotate them so that plane would be "normal" to the vessel, i.e. down towards negative y.
+
+	//matrix to rotate from origin (0 0 1) to down (0 -1 0). What we'll really need is the inverse of that matrix, however.
+	MATRIX3 fromorigin = Rotations::GetRotationMatrixFromDirection(_V(0, -1, 0));
+	//fromorigin = Rotations::InverseMatrix(fromorigin);
+
+	VECTOR3 bugme1 = mul(fromorigin, _V(0, 0, 1));
+
+	//matrix to rotate from tdpoint orientation to origin (0 0 1)
+	//note that we will assume that all tdpoints are facing the same direction (they roughly should, or 
+	//the engineer needs a slap). Otherwise the trigonometry could get very expensive.
+	MATRIX3 toorigin = Rotations::GetRotationMatrixFromDirection(landingpoints.begin()->second.dir);
+
+	VECTOR3 bugme2 = mul(toorigin, _V(0, 0, -1));
+
+	//multiply the two matrices to get the overall rotation.
+	MATRIX3 todown = mul(fromorigin, toorigin);
+
+	VECTOR3 bugme3 = mul(todown, _V(0, 0, -1));
+
+	//rotate all the landing points and shove them in a vector
+	//now, the reson we do this is purely to get the points into a reference frame where we have a clear, 
+	//2-dimensional definition of front, left and right. The result of the loop should be the 3 tdpoints appropriate for our triangle.
+	//we'll also have to put them relative to the cog.
+	vector<VECTOR3> rotatedpoints;
+	rotatedpoints.reserve(landingpoints.size());
+	VECTOR3 cogoffset = vessel->GetCoG();
+
+	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
 	{
-		for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
-		{
-			triangle.push_back(i->second.vtx.pos);
-		}
+		rotatedpoints.push_back(mul(todown, i->second.vtx.pos - cogoffset));
+	}
+
+	vector<VECTOR3> triangle(3);
+
+	if (rotatedpoints.size() == 3)
+	{
+		//just compose the triangle of the 3 td points. We'll figure out the order at the end.
+		triangle[0] = rotatedpoints[0];
+		triangle[1] = rotatedpoints[1];
+		triangle[2] = rotatedpoints[2];
 	}
 	else
 	{
-		//the challenge we face when having 3 or more touchdownpoints is exactly the same:
-		//we need to find the frontmost, the rear-leftmost and the rear-rightmost and get them
-		//in the correct order so the plane normal points the right way down.
-		//Unfortunately, this is easier said than done!
+		//If we have more than 3 points, we must construct our triangle from the existing points, in a more or less reasonable way.
+		//This is one of the things that you gloss over in planning, and then realise that it's the hardest thing in the code when you try to implement it...
 
-		//first of all, get all the gear points and rotate them so they would be "normal" to the vessel, i.e. down towards minus y.
-
-		//matrix to rotate from origin (0 0 1) to down (0 -1 0)
-		MATRIX3 fromorigin = Rotations::GetRotationMatrixFromDirection(_V(0, -1, 0));
-		//matrix to rotate from tdpoint orientation to origin (0 0 1)
-		//note that we will assume that all tdpoints are facing the same direction (they roughly should, or 
-		//the engineer needs a slap). Otherwise the trigonometry could get very expensive.
-		MATRIX3 toorigin = Rotations::GetRotationMatrixFromDirection(landingpoints[0].dir);
-		//final matrix to rotate td-points to standard down (0 -1 0)
-		MATRIX3 todown = mul(fromorigin, toorigin);
-
-		//rotate all the landing points and shove them in a vector
-		//now, the reson we do this is purely to get the points into a reference frame where we have a clear, 
-		//2-dimensional definition of front, left and right. The result of the loop should be the 3 tdpoints appropriate for our triangle.
-		//we'll also have to put them relative to the cog.
-		vector<VECTOR3> rotatedpoints;
-		rotatedpoints.reserve(landingpoints.size());
-		VECTOR3 cogoffset = vessel->GetCoG();
-
-		for (UINT i = 0; i < landingpoints.size(); ++i)
-		{
-			rotatedpoints.push_back(mul(todown, landingpoints[i].vtx.pos - cogoffset));
-		}
-
-		//now sort the points by their horizontal distance from 0 0 0. 
+		//sort the points by their horizontal distance from 0 0 0. 
 		//This way we'll end up with the best candidates to form the triangle at the front of the vector.
 		sort(rotatedpoints.begin(), rotatedpoints.end(), SORT_BY_HORIZONTAL_DISTANCE);
 
 		//next, split that vector into 3 vectors containing left, right and center points
-		vector<VECTOR3&> centerpoints;
-		vector<VECTOR3&> leftpoints;
-		vector<VECTOR3&> rightpoints;
+		vector<VECTOR3> centerpoints;
+		vector<VECTOR3> leftpoints;
+		vector<VECTOR3> rightpoints;
 
 		for (UINT i = 0; i < rotatedpoints.size(); ++i)
 		{
@@ -347,8 +370,7 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 		if (leftpoints.size() == 0 || rightpoints.size() == 0)
 		{
 			//in this case, just create the triangle from the hullshape
-			createDefaultTdTriangleFromHullshape();
-			return;
+			return createDefaultTdTriangleFromHullshape();
 		}
 
 		VECTOR3 leftpoint = leftpoints[0];
@@ -361,12 +383,24 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 		if (centerpoints.size() > 0)
 		{
 			sort(centerpoints.begin(), centerpoints.end(), SORT_DESCENDING_BY_Z);
-			if (leftpoint.z > 0)
+			if (Calc::IsNear(leftpoint.z, 0, 0.01 && centerpoints.size() >= 2))
 			{
+				//there is a problem where the left and right touchdown point might be at the center of mass in the z direction.
+				//in fact, this problem is to be expected with 4-leged tailsitters. This will essentially lead to the default triangle
+				//being unstable. So what we do is check if there is a center rear touchdown point, and if there is, make the left and right
+				//points the average of that and the respective side point.
+				leftpoint = (leftpoint + centerpoints[centerpoints.size() - 1]) / 2;
+				rightpoint = (rightpoint + centerpoints[centerpoints.size() - 1]) / 2;
+				centerpoint = centerpoints[0];
+			}
+			else if (leftpoint.z > 0)
+			{
+				//the side points are in front of the center of gravity, complement them with the rearmost center point.
 				centerpoint = centerpoints[centerpoints.size() - 1];
 			}
 			else
 			{
+				//the side points are behind the center of gravity, complement them with the frontmost center point.
 				centerpoint = centerpoints[0];
 			}
 		}
@@ -374,7 +408,7 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 		{
 			//if there are no centerpoints, what we want is the horizontal average between the front- or rearmost left and right points
 			sort(leftpoints.begin(), leftpoints.end(), SORT_DESCENDING_BY_Z);
-			sort(rightpoints.begin(), leftpoints.end(), SORT_DESCENDING_BY_Z);
+			sort(rightpoints.begin(), rightpoints.end(), SORT_DESCENDING_BY_Z);
 			if (leftpoint.z > 0)
 			{
 				centerpoint = (leftpoints[leftpoints.size() - 1] + rightpoints[rightpoints.size() - 1]) / 2;
@@ -384,7 +418,35 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 				centerpoint = (leftpoints[0] + rightpoints[0]) / 2;
 			}
 		}
+
+		triangle[0] = centerpoint;
+		triangle[1] = leftpoint;
+		triangle[2] = rightpoint;
 	}
+
+
+	//now that we have 3 points, we need them in the right order so Orbiter gets where up is supposed to be.
+	//determine up normal for the current order of points
+	VECTOR3 normal = crossp(triangle[2] - triangle[0], triangle[1] - triangle[0]);
+	if (normal.y < 0)
+	{
+		//the normal points down, add the points in reverse order.
+		//if the normal points up, the points already are in the right order
+		VECTOR3 swap = triangle[1];
+		triangle[1] = triangle[2];
+		triangle[2] = swap;
+	}
+
+
+	//all that's left to do is rotate the points back to their original alignement and move them back to vessel relative coordinates
+	for (UINT i = 0; i < 3; ++i)
+	{
+		triangle[i] = tmul(todown, triangle[i]);
+		triangle[i] += cogoffset;
+		Calc::RoundVector(triangle[i], 1000);
+	}
+	VECTOR3 bugme = crossp(triangle[2] - triangle[0], triangle[1] - triangle[0]);
+	return triangle;
 }
 
 

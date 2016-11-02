@@ -7,14 +7,14 @@
 #include "IMS_ModuleDataManager.h"
 #include "IMS_Movable.h"
 #include "IMS_Storable.h"
-
+#include "Calc.h"
 
 IMS_Storable::IMS_Storable(double volume, CONSUMABLEDATA *contents, IMS_Location *module, double initial_mass)
 	: IMS_Movable(module)
 {
 	this->volume = volume;
 	consumable = contents;
-	capacity = volume * consumable->density;
+	capacity = Calc::Round(volume * consumable->density, 1000);
 	if (initial_mass == -1)
 	{
 		initial_mass = capacity;
@@ -40,7 +40,7 @@ IMS_Storable::IMS_Storable(string serialized_storable, IMS_Location *location)
 	
 	consumable = IMS_ModuleDataManager::GetConsumableData(IMS_ModuleDataManager::GetConsumableId(tokens[1]));
 	volume = Helpers::stringToDouble(tokens[3]);
-	capacity = volume * consumable->density;
+	capacity = Calc::Round(volume * consumable->density, 1000);
 
 	mass = Helpers::stringToDouble(tokens[5]);
 	available = (bool)Helpers::stringToInt(tokens[7]);

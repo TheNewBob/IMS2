@@ -37,6 +37,11 @@ int Calc::Round(double d)
 	return (int)(d > 0.0 ? d + 0.5 : d - 0.5);
 }
 
+double Calc::Round(double d, double precision)
+{
+	return Round(d * precision) / precision;
+}
+
 void Calc::RoundVector(VECTOR3& v, double precision)
 {
 	v.x = Round(v.x * precision) / precision;
