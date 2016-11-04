@@ -4,6 +4,7 @@
 #include "IMS_General_ModuleData.h"
 #include "Managers.h"
 #include "IMS_CoGmanager.h"
+#include "IMS_TouchdownPointManager.h"
 #include "IMS.h"
 #include "IMS_Module.h"
 #include "IMS_ModuleDataManager.h"
@@ -104,6 +105,7 @@ void IMS2::clbkPostCreation()
 	}
 
 	GetCoGmanager()->SetMass();
+	GetTdPointManager()->PostCreation();
 	updateVesselState(false);
 	addEvent(new VesselLayoutChangedEvent);
 }

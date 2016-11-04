@@ -80,9 +80,23 @@ public:
 	 */
 	void RemoveLandingTdPoint(UINT id);
 
+	void PostCreation();
+
+	/**
+	 * \brief Saves the current default td-triangle to scenario.
+	 * \param scn Filehandle to the scenario file to save to.
+	 */
+	//void SaveScenarioState(FILEHANDLE scn);
+
+	/**
+	 * \brief creates and sets the default touchdown points when loaded from scenario.
+	 * The reason this is neccessary is because IMS2 won't be able to calculate its touchdown points until after 
+	 * simstart*/
 private:
 	//generic settings for hullpoints. Will need some experimentation to get right
 	//adjust in IMS_TouchdownPointManager.cpp
+	static const double LTD_STIFFNESS;
+	static const double LTD_DAMPING;
 	static const double TD_STIFFNESS;
 	static const double TD_LATFRICTION;
 	static const double TD_DAMPING;

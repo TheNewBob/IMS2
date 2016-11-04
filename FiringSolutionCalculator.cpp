@@ -305,11 +305,12 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 
 	bool abortcalculation = false;
 	int iterations = 0;
-	while (!Calc::IsNear(undesired_force, _V(0, 0, 0), 0.001) )
+	double scorekeeper = -1;					//the current score to choose thrusters
+
+	while (!Calc::IsNear(undesired_force, _V(0, 0, 0), 0.001) && iterations < 20)
 	{
 		//first choose the thrusters we're going to manipulate in this iteration
 		vector<FiringSolutionThruster*> chosenthrusters;
-		double score = -1;					//we'll scale thrusters with equal scores together
 
 		//walk through the offending thrusters backwards (least suited for what we actually want go first)
 		//we'll group thrusters with equal scores together, as they have a very good chance of being symmetrical.
@@ -327,22 +328,33 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 			else
 			{
 				double groupscore = checkthrusters[idx]->GetScore(group);
-				if (score == -1)
+				if (groupscore >= scorekeeper)
 				{
-					//this is the first valid thruster, so we'll start with this one
-					score = groupscore;
-					chosenthrusters.push_back(checkthrusters[idx]);
+					if (scorekeeper == -1)
+					{
+						//this is the first thruster in the first iteration, so we'll start with this one
+						scorekeeper = groupscore;
+						chosenthrusters.push_back(checkthrusters[idx]);
+					}
+					else if (scorekeeper == groupscore)
+					{
+						//all thrusters with this score should be evaluated in this iteration, so add it.
+						chosenthrusters.push_back(checkthrusters[idx]);
+					}
+					else
+					{
+						//we've left the region of thrusters with eligible scores, stop looking.
+						//continue with thrusters with better scores in the next iteration, to see if that helps.
+						scorekeeper = groupscore;
+						break;
+					}
 				}
-				else if (score == groupscore)
-				{
-					//this thruster has the same score as the previous one, add it to the thrusters to scale down
-					chosenthrusters.push_back(checkthrusters[idx]);
-				}
-				else
-				{
-					//we've left the section of thrusters with the same score, stop looking
-					break;
-				}
+			}
+
+			//if we've been through all thrusters, start from the lowest score again to see if further iteration brings any improvements.
+			if (idx = 0)
+			{
+				scorekeeper = -1;
 			}
 		}
 
@@ -378,9 +390,10 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 		undesired_force = newtotalforce[undesired_forcetype];
 		iterations++;
 	}
-	if (iterations == 19)
+
+	if (iterations == 20)
 	{
-		int bugme = 1 + 1;
+		bool bugme = true;
 	}
 	return result;
 }

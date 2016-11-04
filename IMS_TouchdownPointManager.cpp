@@ -8,8 +8,10 @@
 #include "IMS_TouchdownPointManager.h"
 #include "Rotations.h"
 
-const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e6;
-const double IMS_TouchdownPointManager::TD_DAMPING = 1e6;
+const double IMS_TouchdownPointManager::LTD_STIFFNESS = 1e6;
+const double IMS_TouchdownPointManager::LTD_DAMPING = 1e6;
+const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e7;
+const double IMS_TouchdownPointManager::TD_DAMPING = 1e5;
 const double IMS_TouchdownPointManager::TD_LATFRICTION = 3.0;
 const double IMS_TouchdownPointManager::TD_LONGFRICTION = 3.0;
 
@@ -122,8 +124,8 @@ UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir)
 	}
 
 	TOUCHDOWNVTX newvert;
-	newvert.stiffness = TD_STIFFNESS;
-	newvert.damping = TD_DAMPING;
+	newvert.stiffness = LTD_STIFFNESS;
+	newvert.damping = LTD_DAMPING;
 	newvert.mu = TD_LATFRICTION;
 	newvert.mu_lng = TD_LONGFRICTION;
 	newvert.pos = pos;
@@ -150,13 +152,9 @@ void IMS_TouchdownPointManager::setTdPoints()
 		return;
 	}
 
-	//set the default 3 touchdown points
-//	vector<TOUCHDOWNVTX> defaultpoints;
-//	createDefaultTdPoints(defaultpoints);
-
 	createDefaultTdTriangle();
 
-	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size() + landingpoints.size();
+	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size(); //+landingpoints.size();
 
 	//copy all points to an array and move them to CoG-relative position
 	TOUCHDOWNVTX* tdarray = new TOUCHDOWNVTX[totalpoints];
@@ -176,12 +174,12 @@ void IMS_TouchdownPointManager::setTdPoints()
 
 	//add all the gear points
 	UINT idx = defaulttdtriangle.size();
-	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
+/*	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
 	{
 		tdarray[idx] = i->second.vtx;
 		tdarray[idx].pos -= cogoffset;
 		idx++;
-	}
+	}*/
 
 	//now come all the static hullpoints on the vessel
 	for (UINT i = 0; i < hullpoints.size(); ++i)
@@ -270,10 +268,10 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 
 	//set default attributes of all points
 	TOUCHDOWNVTX vtx;
-	vtx.damping = TD_DAMPING;
+	vtx.damping = LTD_DAMPING;
 	vtx.mu = TD_LATFRICTION;
 	vtx.mu_lng = TD_LONGFRICTION;
-	vtx.stiffness = TD_STIFFNESS;
+	vtx.stiffness = LTD_STIFFNESS;
 
 	//set positions
 	vtx.pos = defaulttriangle[0];
@@ -437,6 +435,11 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 		triangle[2] = swap;
 	}
 
+	//offset the triangle by a tiny bit. If they are at the exact same height as the rest of
+	//the touchdown points from landing gear, the result in orbiter is unstable!
+/*	triangle[0].y += 0.1;
+	triangle[1].y += 0.1;
+	triangle[2].y += 0.1;*/
 
 	//all that's left to do is rotate the points back to their original alignement and move them back to vessel relative coordinates
 	for (UINT i = 0; i < 3; ++i)
@@ -469,4 +472,10 @@ bool IMS_TouchdownPointManager::SORT_BY_HORIZONTAL_DISTANCE(VECTOR3 &a, VECTOR3 
 bool IMS_TouchdownPointManager::SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b)
 {
 	return a.z > b.z;
+}
+
+
+void IMS_TouchdownPointManager::PostCreation()
+{
+	setTdPoints();
 }

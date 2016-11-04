@@ -107,7 +107,7 @@ void FSThrusterCollection::compareThrusterScores()
 
 	for (UINT i = 0; i < thrusterlist.size(); ++i)
 	{
-		map<THGROUP_TYPE, double> &curgrps = thrusterlist[i]->groupsuitability;
+		map<THGROUP_TYPE, double> curgrps = thrusterlist[i]->groupsuitability;
 		//for every thuster, compare its group scores to the maximum scores
 		for (auto j = maxscores.begin(); j != maxscores.end(); ++j)
 		{
@@ -121,6 +121,12 @@ void FSThrusterCollection::compareThrusterScores()
 					curgrps.erase(j->first);
 				}
 			}
+		}
+		if (curgrps.size() > 2)
+		{
+			//we have at least 2 well suited thrusters left, that'll do.
+			//otherwise, we won't apply the changes, because ill-suited thrusters are still better than no thrusters.
+			thrusterlist[i]->groupsuitability = curgrps;
 		}
 	}
 }
