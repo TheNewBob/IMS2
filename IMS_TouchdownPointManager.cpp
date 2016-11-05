@@ -146,12 +146,6 @@ void IMS_TouchdownPointManager::RemoveLandingTdPoint(UINT id)
 
 void IMS_TouchdownPointManager::setTdPoints()
 {
-	//if this vessel has no hullbox defined, leave the default touchdown points created by orbiter on initialisation.
-	if (hullbox == NULL)
-	{
-		return;
-	}
-
 	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size() + landingpoints.size();
 
 	//copy all points to an array and move them to CoG-relative position
@@ -179,12 +173,12 @@ void IMS_TouchdownPointManager::setTdPoints()
 		idx++;
 	}
 
-	//now come all the static hullpoints on the vessel
 	for (UINT i = 0; i < hullpoints.size(); ++i)
 	{
 		tdarray[i + idx] = hullpoints[i];
 		tdarray[i + idx].pos -= cogoffset;
 	}
+
 
 	vessel->SetTouchdownPoints(tdarray, (DWORD)totalpoints);
 	delete tdarray;
@@ -261,12 +255,27 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 {
 	defaulttdtriangle.clear();
 	vector<VECTOR3> defaulttriangle;
+	bool onlytriangle = false;			//changes to true if the default triangle is all there is in terms of touchdown points
+
 	if (landingpoints.size() < 3)
 	{
-		//there's nothing to base an educated guess on, just leave the defaults
-		if (hullbox == NULL) return;
-		//not enough landing points defined to do anything smart, just go with the hullshape:
-		defaulttriangle = createDefaultTdTriangleFromHullshape();
+		if (hullbox == NULL)
+		{
+			//there's nothing to base an educated guess on, just leave the defaults
+			defaulttriangle.resize(3);
+			for (UINT i = 0; i < 3; ++i)
+			{
+				TOUCHDOWNVTX vtx;
+				vessel->GetTouchdownPoint(vtx, i);
+				defaulttriangle[i] = vtx.pos;
+				onlytriangle = true;
+			}
+		}
+		else
+		{
+			//not enough landing points defined to do anything smart, just go with the hullshape:
+			defaulttriangle = createDefaultTdTriangleFromHullshape();
+		}
 	}
 	else
 	{
@@ -277,10 +286,21 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 
 	//set default attributes of all points
 	TOUCHDOWNVTX vtx;
-	vtx.damping = 0;
+	if (onlytriangle)
+	{
+		//if there is only the triangle, set default damping and stiffness values
+		vtx.damping = TD_DAMPING;
+		vtx.stiffness = TD_STIFFNESS;
+	}
+	else
+	{
+		//otherwise, set stiffness and damping to 0, because it's just a virtual orientation direction for orbiter - 
+		//the actual landing touchdownpoints will still be there, and the triangle will actually get in the way.
+		vtx.damping = 0;
+		vtx.stiffness = 0;
+	}
 	vtx.mu = TD_LATFRICTION;
 	vtx.mu_lng = TD_LONGFRICTION;
-	vtx.stiffness = 0;
 
 	//set positions
 	vtx.pos = defaulttriangle[0];
