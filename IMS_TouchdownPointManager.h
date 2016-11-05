@@ -80,7 +80,7 @@ public:
 	 */
 	void RemoveLandingTdPoint(UINT id);
 
-	void PostCreation();
+	void PostLoad();
 
 	/**
 	 * \brief Saves the current default td-triangle to scenario.
@@ -167,5 +167,7 @@ private:
 	static bool SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b);
 
 	vector<TOUCHDOWNVTX> defaulttdtriangle;				//!< Vector that holds the triangle of default touchdown points for this vessel
+
+	bool firstTdPointsChangedEvent = true;				//!< Truns to false after the first TDPOINTSCHANGEDEVENT has been processed.
 };
 

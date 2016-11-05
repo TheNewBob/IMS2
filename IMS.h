@@ -174,6 +174,12 @@ private:
 	bool AddNewModule(IMS_Orbiter_ModuleData *orbiter_data, IMS_General_ModuleData *module_data);
 	bool LoadModuleFromScenario(FILEHANDLE scn, bool initFromCfg);
 
+	/**
+	 * \brief Calls in order: PostLoad() on modules, AddModuleToVessel() on modules, PostLoad() on managers.
+	 * Is called at the end of either clbkLoadStateEx() or during clbkSetStateEx(), whichever is applicable.
+	 */
+	void postLoad();
+
 	//IMS_Panel.cpp
 	void DefineMainPanel(PANELHANDLE hPanel);
 	void DefineEngPanel(PANELHANDLE hPanel);

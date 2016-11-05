@@ -19,5 +19,6 @@ public:
 
 protected:
 	IMS2 *vessel;
+	
 };
 

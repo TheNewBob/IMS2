@@ -152,8 +152,6 @@ void IMS_TouchdownPointManager::setTdPoints()
 		return;
 	}
 
-	createDefaultTdTriangle();
-
 	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size(); //+landingpoints.size();
 
 	//copy all points to an array and move them to CoG-relative position
@@ -212,9 +210,20 @@ bool IMS_TouchdownPointManager::ProcessEvent(Event_Base *e)
 	}
 	else if (*e == TDPOINTSCHANGEDEVENT)
 	{
-		//reset the touchdown points in orbiter
-		setTdPoints();
-		return true;
+		//The td-points have been created in PostLoad, but the event will still come in after the first frame.
+		//processing it again at that point is unnecessary overhead, and would terminate the landed state of the vessel until equilibrium is reestablished.
+		if (!firstTdPointsChangedEvent)
+		{
+			//create the landing triangle
+			createDefaultTdTriangle();
+			//reset the touchdown points in orbiter
+			setTdPoints();
+			return true;
+		}
+		else
+		{
+			firstTdPointsChangedEvent = false;
+		}
 	}
 	return false;
 }
@@ -475,7 +484,9 @@ bool IMS_TouchdownPointManager::SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b)
 }
 
 
-void IMS_TouchdownPointManager::PostCreation()
+void IMS_TouchdownPointManager::PostLoad()
 {
+	//the touchdown points must be set before clbkPostCreation, otherwise orbiter can't assign landed state to the vessel.
+	createDefaultTdTriangle();
 	setTdPoints();
 }

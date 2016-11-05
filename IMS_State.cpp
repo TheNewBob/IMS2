@@ -91,23 +91,11 @@ void IMS2::clbkPostCreation()
 	//add module meshes to vessel. mesh of first module will already be loaded as Orbiter loaded it during vessel creation
 	if (isLoadedFromScenario)
 	{
-		for (UINT i = 0; i < modules.size(); ++i)
-		{
-			if (i == 0)
-			{
-				modules[i]->AddModuleToVessel(this, false, false);
-			}
-			else
-			{
-				modules[i]->AddModuleToVessel(this);
-			}
-		}
 	}
 
-	GetCoGmanager()->SetMass();
-	GetTdPointManager()->PostCreation();
+//	GetCoGmanager()->SetMass();
 	updateVesselState(false);
-	addEvent(new VesselLayoutChangedEvent);
+	//addEvent(new VesselLayoutChangedEvent);
 }
 
 
@@ -176,6 +164,22 @@ void IMS2::clbkLoadStateEx(FILEHANDLE scn, void *status)
 
 	//create the docking ports so orbiter can dock the vessels in the next step
 	UpdateDockPorts();
+
+
+	for (UINT i = 0; i < modules.size(); ++i)
+	{
+		if (i == 0)
+		{
+			modules[i]->AddModuleToVessel(this, false, false);
+		}
+		else
+		{
+			modules[i]->AddModuleToVessel(this);
+		}
+	}
+
+	GetCoGmanager()->SetMass();
+	GetTdPointManager()->PostCreation();
 }
 
 bool IMS2::LoadModuleFromScenario(FILEHANDLE scn, bool initFromCfg)
