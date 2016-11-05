@@ -36,43 +36,14 @@ void IMS2::clbkSetClassCaps (FILEHANDLE cfg)
 }
 
 
-void IMS2::clbkSetStateEx(const void *  status)
+void IMS2::clbkSetStateEx(const void *status)
 {
 	//this vessel was either created by a split, or by config on runtime.
 
 	VESSEL2::clbkSetStateEx(status);
 
-	isLoadedFromScenario = false;
-	VESSELSTATUS2 *vs = (VESSELSTATUS2*)status;
+	postLoad(IMS2::SplitVesselData.split);
 
-	//If this vessel has just been created from config, call PostLoad for the module
-	if (!IMS2::SplitVesselData.split)
-	{
-		modules[0]->PostLoad();
-	}
-
-	//if by split, it will have several modules, if from config only one.
-	//either way, we need to add these modules to the vessel
-	for (UINT i = 0; i < modules.size(); ++i)
-	{
-		//if not the first module, add module and mesh
-		if (i > 0)
-		{
-			modules[i]->AddModuleToVessel(this);
-		}
-		else
-		{
-			//the first module always has its mesh loaded by orbiter, but it still needs to add everything else
-			modules[i]->AddModuleToVessel(this, false, false);
-		}
-
-		//if the vessel was created by split, we also have to reinitialise all the attachment points
-		if (IMS2::SplitVesselData.split)
-		{
-			modules[i]->CreatePhysicalAttachmentPoints();
-			modules[i]->TransformAttachmentPoints();
-		}
-	}
 	//if created by split, we also have to update the rotationmatrix, clean up the mess, and initiate CoG-shift
 	if (IMS2::SplitVesselData.split)
 	{
@@ -85,17 +56,51 @@ void IMS2::clbkSetStateEx(const void *  status)
 	UpdateDockPorts(true);
 }
 
-void IMS2::clbkPostCreation() 
+
+
+void IMS2::postLoad(bool created_from_split)
 {
-	
-	//add module meshes to vessel. mesh of first module will already be loaded as Orbiter loaded it during vessel creation
-	if (isLoadedFromScenario)
+	//do postload for modules if the vessel is created from file
+	if (!created_from_split)
 	{
+		for (UINT i = 0; i < modules.size(); ++i)
+		{
+			modules[i]->PostLoad();
+		}
 	}
 
-//	GetCoGmanager()->SetMass();
+	//add all modules to the vessel	
+	for (UINT i = 0; i < modules.size(); ++i)
+	{
+		if (i == 0)
+		{
+			modules[i]->AddModuleToVessel(this, false, false);
+		}
+		else
+		{
+			modules[i]->AddModuleToVessel(this);
+		}
+
+		//if the vessel was created by split, we also have to reinitialise all the attachment points
+		if (created_from_split)
+		{
+			modules[i]->CreatePhysicalAttachmentPoints();
+			modules[i]->TransformAttachmentPoints();
+		}
+	}
+
+	//call postload on the managers
+	for (auto i = managers.begin(); i != managers.end(); ++i)
+	{
+		i->second->PostLoad();
+	}
+}
+
+
+void IMS2::clbkPostCreation() 
+{
+	//initialise tracking of the vessel state
 	updateVesselState(false);
-	//addEvent(new VesselLayoutChangedEvent);
 }
 
 
@@ -119,8 +124,7 @@ void IMS2::clbkSaveState (FILEHANDLE scn)
 
 void IMS2::clbkLoadStateEx(FILEHANDLE scn, void *status)
 {
-	isLoadedFromScenario = true;
-	bool firstModuleProcessed = false;			//needed to skip initialisation of first module, which was already initialised in SetClassCaps
+	bool firstModuleProcessed = false;			//needed to skip loading of first module, which was already initialised in SetClassCaps
 
 	char *line;
 	while (oapiReadScenario_nextline(scn, line))
@@ -156,30 +160,10 @@ void IMS2::clbkLoadStateEx(FILEHANDLE scn, void *status)
 		}
 	}
 
-	//do postload for modules
-	for (UINT i = 0; i < modules.size(); ++i)
-	{
-		modules[i]->PostLoad();
-	}
-
+	postLoad(false);
 	//create the docking ports so orbiter can dock the vessels in the next step
 	UpdateDockPorts();
 
-
-	for (UINT i = 0; i < modules.size(); ++i)
-	{
-		if (i == 0)
-		{
-			modules[i]->AddModuleToVessel(this, false, false);
-		}
-		else
-		{
-			modules[i]->AddModuleToVessel(this);
-		}
-	}
-
-	GetCoGmanager()->SetMass();
-	GetTdPointManager()->PostCreation();
 }
 
 bool IMS2::LoadModuleFromScenario(FILEHANDLE scn, bool initFromCfg)

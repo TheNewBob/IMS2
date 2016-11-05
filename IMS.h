@@ -177,8 +177,9 @@ private:
 	/**
 	 * \brief Calls in order: PostLoad() on modules, AddModuleToVessel() on modules, PostLoad() on managers.
 	 * Is called at the end of either clbkLoadStateEx() or during clbkSetStateEx(), whichever is applicable.
+	 * \param created_from_split If true, PostLoad() on modules will not be called, as the modules are not actually loaded in this case.
 	 */
-	void postLoad();
+	void postLoad(bool created_from_split);
 
 	//IMS_Panel.cpp
 	void DefineMainPanel(PANELHANDLE hPanel);
@@ -209,7 +210,7 @@ private:
 	vector<DOCKEDVESSEL*> dockedVesselsList;
 
 	//misc
-	bool isLoadedFromScenario;							//false if the vessel was not loaded from scenario file, i.e. newly created in orbiter
+//	bool isLoadedFromScenario;							//false if the vessel was not loaded from scenario file, i.e. newly created in orbiter
 	bool isSetForRedock;						//true if the vessel has integrated. On vessel deletion while docked a dockevent is called, manipulating the docking port in the time between can have weird consequences
 	bool firstframe = true;
 	bool islanded;								//true if the vessel is landed

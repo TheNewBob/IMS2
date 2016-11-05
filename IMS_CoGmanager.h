@@ -31,6 +31,8 @@ public:
 	 */
 	void InitialiseCoG(VECTOR3 cog);
 
+	void PostLoad() { SetMass(); };
+
 
 private:
 	IMS2 *vessel;

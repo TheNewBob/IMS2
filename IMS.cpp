@@ -91,7 +91,6 @@ IMS2::IMS2(OBJHANDLE hVessel, int flightmodel) : VESSEL3 (hVessel, flightmodel)
 	defaultpipe = VESSEL_TO_MODULE_PIPE;
 
 	InitialiseGUI();
-	isLoadedFromScenario = false;
 	isSetForRedock = false;
 
 	//create the managers

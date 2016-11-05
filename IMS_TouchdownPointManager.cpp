@@ -9,11 +9,11 @@
 #include "Rotations.h"
 
 const double IMS_TouchdownPointManager::LTD_STIFFNESS = 1e6;
-const double IMS_TouchdownPointManager::LTD_DAMPING = 1e6;
+const double IMS_TouchdownPointManager::LTD_DAMPING = 1e5;
 const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e7;
 const double IMS_TouchdownPointManager::TD_DAMPING = 1e5;
-const double IMS_TouchdownPointManager::TD_LATFRICTION = 3.0;
-const double IMS_TouchdownPointManager::TD_LONGFRICTION = 3.0;
+const double IMS_TouchdownPointManager::TD_LATFRICTION = 5.0;
+const double IMS_TouchdownPointManager::TD_LONGFRICTION = 5.0;
 
 
 IMS_TouchdownPointManager::IMS_TouchdownPointManager(IMS2 *vessel)
@@ -152,7 +152,7 @@ void IMS_TouchdownPointManager::setTdPoints()
 		return;
 	}
 
-	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size(); //+landingpoints.size();
+	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size() + landingpoints.size();
 
 	//copy all points to an array and move them to CoG-relative position
 	TOUCHDOWNVTX* tdarray = new TOUCHDOWNVTX[totalpoints];
@@ -172,12 +172,12 @@ void IMS_TouchdownPointManager::setTdPoints()
 
 	//add all the gear points
 	UINT idx = defaulttdtriangle.size();
-/*	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
+	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
 	{
 		tdarray[idx] = i->second.vtx;
 		tdarray[idx].pos -= cogoffset;
 		idx++;
-	}*/
+	}
 
 	//now come all the static hullpoints on the vessel
 	for (UINT i = 0; i < hullpoints.size(); ++i)
@@ -277,10 +277,10 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 
 	//set default attributes of all points
 	TOUCHDOWNVTX vtx;
-	vtx.damping = LTD_DAMPING;
+	vtx.damping = 0;
 	vtx.mu = TD_LATFRICTION;
 	vtx.mu_lng = TD_LONGFRICTION;
-	vtx.stiffness = LTD_STIFFNESS;
+	vtx.stiffness = 0;
 
 	//set positions
 	vtx.pos = defaulttriangle[0];
