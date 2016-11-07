@@ -124,7 +124,7 @@ void FSThrusterCollection::compareThrusterScores()
 		}
 		if (curgrps.size() > 2)
 		{
-			//we have at least 2 well suited thrusters left, that'll do.
+			//we have at least 3 well suited thrusters left, that'll do.
 			//otherwise, we won't apply the changes, because ill-suited thrusters are still better than no thrusters.
 			thrusterlist[i]->groupsuitability = curgrps;
 		}

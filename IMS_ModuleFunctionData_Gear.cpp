@@ -28,11 +28,29 @@ bool IMS_ModuleFunctionData_Gear::processConfigLine(vector<string> &tokens)
 		{
 			if (tokens.size() != 4)
 			{
-				throw runtime_error("Illegal definition of tdpos: parameter must have 3 values (x y z)!");
+				throw runtime_error("Illegal definition of TdPos: parameter must have 3 values (x y z)!");
 			}
 			touchdownpoint = _V(Helpers::stringToDouble(tokens[1]),
 				Helpers::stringToDouble(tokens[2]),
 				Helpers::stringToDouble(tokens[3]));
+			return true;
+		}
+		else if (tokens[0].compare("tdstiffness") == 0)
+		{
+			if (tokens.size() != 2)
+			{
+				throw runtime_error("Illegal definition of TdStiffness: parameter must have 1 value!");
+			}
+			tdstiffness = Helpers::stringToDouble(tokens[1]);
+			return true;
+		}
+		else if (tokens[0].compare("tddamping") == 0)
+		{
+			if (tokens.size() != 2)
+			{
+				throw runtime_error("Illegal definition of TdDamping: parameter must have 1 value!");
+			}
+			tddamping = Helpers::stringToDouble(tokens[1]);
 			return true;
 		}
 		else if (tokens[0].compare("tddir") == 0)

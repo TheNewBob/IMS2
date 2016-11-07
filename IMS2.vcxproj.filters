@@ -760,5 +760,8 @@
     <ClInclude Include="ToggleGearEvent.h">
       <Filter>EventHandling\Events</Filter>
     </ClInclude>
+    <ClInclude Include="SetAnimationStateEvent.h">
+      <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

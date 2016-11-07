@@ -323,6 +323,7 @@
     <ClInclude Include="ModuleFunctionIncludes.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="ConsumableAddedEvent.h" />
+    <ClInclude Include="SetAnimationStateEvent.h" />
     <ClInclude Include="SimpleShape.h" />
     <ClInclude Include="SimpleTreeNode.h" />
     <ClInclude Include="SimulationStartedEvent.h" />

@@ -89,7 +89,7 @@ void IMS_ModuleFunction_Gear::addTdPointToVessel()
 		Calc::RoundVector(rotateddir, 1000);
 		VECTOR3 modulepos;
 		module->GetPos(modulepos);
-		tdpoint_id = tdpoint_id = tdpmanager->AddLandingTdPoint(rotatedpos + modulepos, rotateddir);
+		tdpoint_id = tdpmanager->AddLandingTdPoint(rotatedpos + modulepos, rotateddir, data->tdstiffness, data->tddamping);
 	}
 }
 

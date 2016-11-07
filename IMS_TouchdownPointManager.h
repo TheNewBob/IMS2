@@ -69,10 +69,12 @@ public:
 	 * \brief Adds a touchdown point belonging to an extended landing gear
 	 * \param pos The position of the touchdown point in vessel-absolute coordinates.
 	 * \param dir Normalised directional vector describing the down-direction of the TD-point, vessel-relative.
+	 * \param stiffness The stiffness of the touchdown point (see orbiter reference for details).
+	 * \param damping The damping coefficient of the touchdown point (see orbiter reference for details).
 	 * \return An identifier by which the manager remembers this point. Whoever created the touchdownpoint
 	 *	will need to pass this identifier to remove it again when the gear retracts.
 	 */
-	UINT AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir);
+	UINT AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir, double stiffness, double damping);
 
 	/**
 	 * \brief removes a touchdown point belonging to a landing gear.
@@ -82,16 +84,6 @@ public:
 
 	void PostLoad();
 
-	/**
-	 * \brief Saves the current default td-triangle to scenario.
-	 * \param scn Filehandle to the scenario file to save to.
-	 */
-	//void SaveScenarioState(FILEHANDLE scn);
-
-	/**
-	 * \brief creates and sets the default touchdown points when loaded from scenario.
-	 * The reason this is neccessary is because IMS2 won't be able to calculate its touchdown points until after 
-	 * simstart*/
 private:
 	//generic settings for hullpoints. Will need some experimentation to get right
 	//adjust in IMS_TouchdownPointManager.cpp

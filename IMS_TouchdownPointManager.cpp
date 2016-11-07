@@ -8,8 +8,6 @@
 #include "IMS_TouchdownPointManager.h"
 #include "Rotations.h"
 
-const double IMS_TouchdownPointManager::LTD_STIFFNESS = 1e6;
-const double IMS_TouchdownPointManager::LTD_DAMPING = 1e5;
 const double IMS_TouchdownPointManager::TD_STIFFNESS = 1e7;
 const double IMS_TouchdownPointManager::TD_DAMPING = 1e5;
 const double IMS_TouchdownPointManager::TD_LATFRICTION = 5.0;
@@ -114,7 +112,7 @@ void IMS_TouchdownPointManager::RemoveHullShape(SimpleShape *shape)
 }
 
 
-UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir)
+UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir, double stiffness, double damping)
 {
 	if (landingpoint_id == UINT_MAX)
 	{
@@ -124,8 +122,8 @@ UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir)
 	}
 
 	TOUCHDOWNVTX newvert;
-	newvert.stiffness = LTD_STIFFNESS;
-	newvert.damping = LTD_DAMPING;
+	newvert.stiffness = stiffness;
+	newvert.damping = damping;
 	newvert.mu = TD_LATFRICTION;
 	newvert.mu_lng = TD_LONGFRICTION;
 	newvert.pos = pos;
@@ -477,7 +475,6 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 		triangle[i] += cogoffset;
 		Calc::RoundVector(triangle[i], 1000);
 	}
-	VECTOR3 bugme = crossp(triangle[2] - triangle[0], triangle[1] - triangle[0]);
 	return triangle;
 }
 

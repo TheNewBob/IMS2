@@ -109,7 +109,7 @@ void GUI_MainDisplay::switchMenu(GUI_BaseElement *switch_to)
 
 bool GUI_MainDisplay::ProcessEvent(Event_Base *e)
 {
-	if (*e == VESSELLAYOUTCHANGEDEVENT)
+	if (*e == VESSELLAYOUTCHANGEDEVENT || *e == SIMULATIONSTARTEDEVENT)
 	{
 		modulescontrol->UpdateModulesList();
 	}

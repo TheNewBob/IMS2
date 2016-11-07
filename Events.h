@@ -42,3 +42,4 @@
 #include "VesselLayoutChangedEvent.h"
 #include "ModifyAnimationEvent.h"
 #include "ModifyTrackingAnimationEvent.h"
+#include "SetAnimationStateEvent.h"

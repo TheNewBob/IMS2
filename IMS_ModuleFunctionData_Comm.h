@@ -12,6 +12,7 @@
  * END_MODULEFUNCTION
  *\endcode
  * Note that the most difficult part of a config file for such a module will be defining the actual animations, but this is covered in the documentation for IMS_ModuleFunctionData_Animation
+ * \see IMS_ModuleFunction_Animation
  */
 class IMS_ModuleFunctionData_Comm :
 	public IMS_ModuleFunctionData_Base
