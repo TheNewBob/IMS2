@@ -154,6 +154,11 @@ void IMS2::clbkLoadStateEx(FILEHANDLE scn, void *status)
 			//we don't NEED the propellant levels.
 			//we manage our propellant levels ourselves, thank you very much!
 		}
+		else if (s.compare(0, 7, "THLEVEL") == 0)
+		{
+			//We don't need thrust levels either. It's really not much use in any case.
+			//unntil the day it was making me trouble I didn't even realise thruster levels got saved.
+		}
 		else
 		{
 			ParseScenarioLineEx(line, status);

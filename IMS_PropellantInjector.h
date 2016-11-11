@@ -106,12 +106,12 @@ public:
 	 * \return the total amount of propellant available to the injector, in kg
 	 * \note This does not take the mixture into account! It may well be that the injector
 	 *	has a ton of propellant available, but can only burn 100 kg because the propellants 
-	 * are not proportional to the ratio at which they are consumed!
+	 *	are not proportional to the ratio at which they are consumed!
 	 */
 	double GetAvailablePropellantMass();
 	
 private:
-	vector<IMS_Storable*> tanks;					//!< contains all currently connected tanks 
+	map<int, vector<IMS_Storable*>> tanks;					//!< contains all currently connected tanks 
 	map<int, double> ratio;							//!< maps ratioes to their respective propellant types 
 	map<THRUSTER_HANDLE, bool> thrusters;			//!< Stores all handles to thrusters proliferated by this injector, and whether they are enabled or not
 	PROPELLANT_HANDLE injector = NULL;				//!< The orbiter propellant resource the injector uses to satisfy orbiter. It also serves as a kind of feedback event to know how much propellant is actually consumed.
@@ -146,4 +146,10 @@ private:
 	 *	of the IMS vessel is recalculated in the same frame, but should take care that it is not done twice in the same frame.
 	 */
 	void scaleInjectorResource();
+
+	/**
+	 * \return The mass of a certain propellant type available to the injector, in kg.
+	 * \param consumable_id Id of the consumable you want to know the mass for. Must be present in the injector!
+	 */
+	double getAvailablePropellantMassByType(int consumable_id);
 };

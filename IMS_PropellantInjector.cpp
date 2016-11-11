@@ -43,14 +43,16 @@ IMS_PropellantInjector::~IMS_PropellantInjector()
 
 bool IMS_PropellantInjector::ConnectTank(IMS_Storable* tank)
 {
-	//Is the tanks propellant type compatible with this injector?
-	if (ratio.find(tank->GetConsumableId()) != ratio.end())
+	//Is the tanks propellant type compatible with this injector, and is there actually something in it?
+	if (ratio.find(tank->GetConsumableId()) != ratio.end() && tank->GetMass() > 0.0)
 	{
-		//is the tank not yet registered with this injector?
-		if (find(tanks.begin(), tanks.end(), tank) == tanks.end())
+		//see if we have this propellant type present
+		auto proptype = tanks.find(tank->GetConsumableId());
+		//if we don't have any tanks of this type, or not this tank in particular, register it.
+		if (proptype == tanks.end() || 
+			find(proptype->second.begin(), proptype->second.end(), tank) == proptype->second.end())
 		{
-			//everything checks out, register the tank
-			tanks.push_back(tank);
+			tanks[tank->GetConsumableId()].push_back(tank);
 			checkValidity();
 			return true;
 		}
@@ -61,14 +63,20 @@ bool IMS_PropellantInjector::ConnectTank(IMS_Storable* tank)
 
 bool IMS_PropellantInjector::DisconnectTank(IMS_Storable* tank)
 {
+	int consumable_id = tank->GetConsumableId();
 	//Is the tanks propellant type compatible with this injector?
-	if (ratio.find(tank->GetConsumableId()) != ratio.end())
+	if (ratio.find(consumable_id) != ratio.end())
 	{
+		vector<IMS_Storable*> &curtanks = tanks[consumable_id];
 		//search for the tank and remove it if it was registered
-		vector<IMS_Storable*>::iterator i = find(tanks.begin(), tanks.end(), tank);
-		if (i != tanks.end())
+		vector<IMS_Storable*>::iterator i = find(curtanks.begin(), curtanks.end(), tank);
+		if (i != curtanks.end())
 		{
-			tanks.erase(i);
+			curtanks.erase(i);
+			if (curtanks.size() == 0)
+			{
+				tanks.erase(tanks.find(consumable_id));
+			}
 			checkValidity();
 			return true;
 		}
@@ -110,28 +118,31 @@ bool IMS_PropellantInjector::PreStep()
 	//time acceleration is high. However, both of these conditions happening at once are somewhat unlikely,
 	//since engines with high massflow are not likely to be used at high time accel.
 
+	vector<IMS_Storable*> empty_tanks;						//will contain any tanks that ran dry during this frame
+
 	if (consumedmass > 0.0)
 	{
-
-
-		vector<IMS_Storable*> empty_tanks;						//will contain any tanks that ran dry during this frame
-		for (UINT i = 0; i < tanks.size(); ++i)
+		for (auto consumabletype = tanks.begin(); consumabletype != tanks.end(); ++consumabletype)
 		{
-			int consumableid = tanks[i]->GetConsumableId();
-			//calculate how much of the mass has to be consumed from this tank
-			double mass_from_tank = consumedmass * ratio[consumableid];
+			vector<IMS_Storable*> &curtanks = consumabletype->second;
+			int consumableid = consumabletype->first;
+			//calculate how much of the mass has to be consumed from every tank of this type
+			double mass_from_tank = consumedmass * ratio[consumableid] / curtanks.size();
 
-			//consume the mass from the tank and check if the necessary amount could be consumed
-			double removedcontent = tanks[i]->RemoveContent(mass_from_tank, consumableid);
-			if (removedcontent < mass_from_tank || tanks[i]->GetMass() < 0.001)
+			for (UINT i = 0; i < curtanks.size(); ++i)
 			{
-				//the tank is empty, note it for disconnection
-				empty_tanks.push_back(tanks[i]);
+				//consume the mass from the tank and check if the necessary amount could be consumed
+				double removedcontent = curtanks[i]->RemoveContent(mass_from_tank, consumableid);
+				if (removedcontent < mass_from_tank || curtanks[i]->GetMass() < 0.001)
+				{
+					//the tank is empty, note it for disconnection
+					empty_tanks.push_back(curtanks[i]);
 
-				//debug - write the overtaxed amount to the log for testing.
-				stringstream ss;
-				ss << "consumed " << mass_from_tank - removedcontent << " too much from tank.";
-				Helpers::writeToLog(ss.str(), L_DEBUG);
+					//debug - write the overtaxed amount to the log for testing.
+					stringstream ss;
+					ss << "consumed " << mass_from_tank - removedcontent << " too much from tank.";
+					Helpers::writeToLog(ss.str(), L_DEBUG);
+				}
 			}
 		}
 
@@ -161,9 +172,12 @@ void IMS_PropellantInjector::checkValidity()
 {
 	//put the present consumable types into a set
 	set<int> present_prop_types;
-	for (UINT i = 0; i < tanks.size(); ++i)
+	for (auto i = tanks.begin(); i != tanks.end(); ++i)
 	{
-		present_prop_types.insert(tanks[i]->GetConsumableId());
+		if (i->second.size() > 0)
+		{
+			present_prop_types.insert(i->first);
+		}
 	}
 
 	//remember the state the injector was in previously
@@ -366,9 +380,28 @@ void IMS_PropellantInjector::scaleInjectorResource()
 double IMS_PropellantInjector::GetAvailablePropellantMass()
 {
 	double availablemass = 0.0;
-	for (UINT i = 0; i < tanks.size(); ++i)
+
+	for (auto i = tanks.begin(); i != tanks.end(); ++i)
 	{
-		availablemass += tanks[i]->GetMass();
+		for (UINT j = 0; j < i->second.size(); ++j)
+		{
+			availablemass += i->second[j]->GetMass();
+		}
 	}
+	return availablemass;
+}
+
+double IMS_PropellantInjector::getAvailablePropellantMassByType(int consumable_id)
+{
+	assert(tanks.find(consumable_id) != tanks.end() && "request for mass of propellant type that is not part of the injector!");
+
+	double availablemass = 0.0;
+	vector<IMS_Storable*> &curtanks = tanks[consumable_id];
+
+	for (UINT i = 0; i < curtanks.size(); ++i)
+	{
+		availablemass += curtanks[i]->GetMass();
+	}
+
 	return availablemass;
 }
