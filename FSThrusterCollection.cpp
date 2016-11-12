@@ -182,16 +182,7 @@ void FSThrusterCollection::calculateOverallForces()
 	}
 }
 
-/*bool FSThrusterCollection::SortByGroupScore(FiringSolutionThruster *a, FiringSolutionThruster *b)
-{
-	if (a->GetScore(sortbygroup) == b->GetScore(sortbygroup))
-	{
-		//in case the scores are equal, sort by memory address to guarantee transitivity 
-		//(i.e. the result of the operation does not depend on the order in which the elements are passed,
-		//because std::sort does not like that).
-		return a > b;
-	}
-	//if they are not equal, the group score is of course deciding
-
-}*/
-
+vector<FiringSolutionThruster*> &FSThrusterCollection::GetThrustersInGroup(THGROUP_TYPE group) 
+{ 
+	return grouplists[group]; 
+}

@@ -9,6 +9,7 @@
 #include "GUI_MainConstruct.h"
 #include "GUI_MainDeconstruct.h"
 #include "GUI_MainModules.h"
+#include "GUI_MainConfig.h"
 #include "GUI_MainDisplay.h"
 
 GUI_MainDisplay::GUI_MainDisplay(IMS2 *_vessel, GUI_ElementStyle *_style, int _panelid)
@@ -38,6 +39,7 @@ void GUI_MainDisplay::PostInit()
 	gui->CreateDynamicButton("Assembly", _R(50, 10, width - 50, 35), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONSTMNU_BTN);
 	gui->CreateDynamicButton("Disassembly", _R(50, 50, width - 50, 75), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_DECONSTMNU_BTN);
 	gui->CreateDynamicButton("Module Control", _R(50, 90, width - 50, 115), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_MODULES_BTN);
+	gui->CreateDynamicButton("General Configuration", _R(50, 130, width - 50, 155), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONFIGMNU_BTN);
 
 	//construction menu
 	construct = new GUI_MainConstruct(menurect, style, vessel);
@@ -46,7 +48,8 @@ void GUI_MainDisplay::PostInit()
 	deconstruct->SetVisible(false);
 	modulescontrol = new GUI_MainModules(menurect, style, vessel);
 	modulescontrol->SetVisible(false);
-
+	generalconfig = new GUI_MainConfig(menurect, style, vessel);
+	generalconfig->SetVisible(false);
 }
 
 bool GUI_MainDisplay::ProcessMe(int eventId)
@@ -69,6 +72,10 @@ bool GUI_MainDisplay::ProcessMe(int eventId)
 	case GUI_MAIN_ROOT_MODULES_BTN:
 		switchMenu(modulescontrol);
 		break;
+	case GUI_MAIN_ROOT_CONFIGMNU_BTN:
+		switchMenu(generalconfig);
+		break;
+
 	}
 	return true;
 }

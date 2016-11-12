@@ -31,7 +31,7 @@ void IMS_RcsManager::AddThruster(THRUSTER_HANDLE thruster)
 	assert(find(rcsthrusters.begin(), rcsthrusters.end(), thruster) == rcsthrusters.end()
 		&& "Attempting to add thruster twice to RcsManager!");
 	//if the dummy thrusters don't exist yet, create them now
-	if (!dummiesexist)
+	if (!dummiesexist && intelligentrcs)
 	{
 		createDummyThrusters();
 	}
@@ -51,7 +51,7 @@ void IMS_RcsManager::AddThrusterPair(THRUSTER_HANDLE thruster1, THRUSTER_HANDLE 
 		&& "Attempting to add thruster twice to RcsManager!");
 
 	//if the dummy thrusters don't exist yet, create them now
-	if (!dummiesexist)
+	if (!dummiesexist && intelligentrcs)
 	{
 		createDummyThrusters();
 	}
@@ -96,51 +96,129 @@ void IMS_RcsManager::RemoveThruster(THRUSTER_HANDLE thruster)
 	addEventToWaitingQueue(new RcsChangedEvent);
 }
 
+void IMS_RcsManager::SetIntelligentRcs(bool enabled)
+{
+	if (enabled != intelligentrcs)
+	{
+		if (enabled)
+		{
+			//intelligent rcs was disabled and should now beenabled.
+			intelligentrcs = true;
+			destroyPhysicalRcsGroups();
+			createDummyThrusters();
+			calculateFiringSolution();
+		}
+		else
+		{
+			//intelligent rcs was enabled and should now be disabled
+			intelligentrcs = false;
+			destroyDummyThrusters();
+			destroyFiringSolution();
+			createPhysicalRcsGroups();
+		}
+	}
+}
+
+
+void IMS_RcsManager::createPhysicalRcsGroups()
+{
+	if (rcsthrusters.size() > 0)
+	{
+		//assign all thrusters to groups and calculate the overall properties of the RCS in its entirety
+		FSThrusterCollection thrusters(rcsthrusters, vessel);
+		//now assign all rcs thrusters to their appropriate groups
+		for (int i = 3; i < 15; ++i)	//iterate through relevant groups in THGROUP_TYPE enum
+		{
+			//get all thrusters in the current group and shove them into an array to pass them to orbiter
+			vector<FiringSolutionThruster*> groupthrusters = thrusters.GetThrustersInGroup((THGROUP_TYPE)i);
+			vector<FiringSolutionThruster*> bugme = thrusters.GetThrustersInGroup(THGROUP_ATT_PITCHUP);
+
+			THRUSTER_HANDLE *tharray = new THRUSTER_HANDLE[groupthrusters.size()];
+			for (UINT j = 0; j < groupthrusters.size(); ++j)
+			{
+				tharray[j] = groupthrusters[j]->GetHandle();
+			}
+			vessel->CreateThrusterGroup(tharray, groupthrusters.size(), (THGROUP_TYPE)i);
+			delete[] tharray;
+		}
+	}
+}
+
+
+void IMS_RcsManager::destroyPhysicalRcsGroups()
+{
+	if (!dummiesexist)
+	{
+		//delete the current thruster groups, but keep the thrusters!
+		for (int i = 3; i < 15; ++i)
+		{
+			vessel->DelThrusterGroup((THGROUP_TYPE)i, false);
+		}
+	}
+}
+
+
+void IMS_RcsManager::destroyFiringSolution()
+{
+	if (newfiringsolution != NULL)
+	{
+		delete newfiringsolution;
+		newfiringsolution = NULL;
+	}
+	if (firingsolution != NULL)
+	{
+		delete firingsolution;
+		firingsolution = NULL;
+	}
+}
 
 void IMS_RcsManager::PreStep(double simdt)
 {
-	//check if a new solution is being calculated
-	if (newfiringsolution != NULL)
+	if (intelligentrcs)
 	{
-		//check if the calculation has finished
-		if (newfiringsolution->IsSolutionReady())
+		//check if a new solution is being calculated
+		if (newfiringsolution != NULL)
 		{
-			//delete the current solution, set the used solution to the new one
-			delete firingsolution;
-			firingsolution = newfiringsolution;
-			newfiringsolution = NULL;
-		}
-	}
-	//check if we have RCS, and a solution
-	if (firingsolution != NULL && dummiesexist)
-	{
-		//calculate force and torque to be applied to the vessel
-		VECTOR3 force;
-		VECTOR3 torque;
-		getCommandedForce(force);
-		getCommandedTorque(torque);
-
-		//check if the user is currently requesting any thrust.
-		bool nothrustrequest = Calc::IsEqual(force, _V(0, 0, 0)) && Calc::IsEqual(torque, _V(0, 0, 0));
-
-		//Manipulate the thrusters if there is a user request to do so, or if they are currently firing
-		if (!nothrustrequest || thrustersfiring)
-		{
-			if (nothrustrequest)
+			//check if the calculation has finished
+			if (newfiringsolution->IsSolutionReady())
 			{
-				//there is no request from the user, but the thrusters are currently firing. 
-				//Meaning they need to stop firing!
-				thrustersfiring = false;
+				//delete the current solution, set the used solution to the new one
+				delete firingsolution;
+				firingsolution = newfiringsolution;
+				newfiringsolution = NULL;
 			}
-			else if (!nothrustrequest && !thrustersfiring)
-			{ 
-				//there's a thrust request, but the thrusters are not currently firing. They need to get going!
-				thrustersfiring = true;
+		}
+		//check if we have RCS, and a solution
+		if (firingsolution != NULL && dummiesexist)
+		{
+			//calculate force and torque to be applied to the vessel
+			VECTOR3 force;
+			VECTOR3 torque;
+			getCommandedForce(force);
+			getCommandedTorque(torque);
+
+			//check if the user is currently requesting any thrust.
+			bool nothrustrequest = Calc::IsEqual(force, _V(0, 0, 0)) && Calc::IsEqual(torque, _V(0, 0, 0));
+
+			//Manipulate the thrusters if there is a user request to do so, or if they are currently firing
+			if (!nothrustrequest || thrustersfiring)
+			{
+				if (nothrustrequest)
+				{
+					//there is no request from the user, but the thrusters are currently firing. 
+					//Meaning they need to stop firing!
+					thrustersfiring = false;
+				}
+				else if (!nothrustrequest && !thrustersfiring)
+				{
+					//there's a thrust request, but the thrusters are not currently firing. They need to get going!
+					thrustersfiring = true;
+				}
+				//in either case, we have to apply the firing solution. It will either start or stop the thrusters.
+				firingsolution->Apply(torque, force, 1.0);
+				//refill the dummys propellant so it won't run dry
+				vessel->SetPropellantMass(dummypropellant, vessel->GetPropellantMaxMass(dummypropellant));
 			}
-			//in either case, we have to apply the firing solution. It will either start or stop the thrusters.
-			firingsolution->Apply(torque, force, 1.0);
-			//refill the dummys propellant so it won't run dry
-			vessel->SetPropellantMass(dummypropellant, vessel->GetPropellantMaxMass(dummypropellant));
 		}
 	}
 }
@@ -155,7 +233,15 @@ bool IMS_RcsManager::ProcessEvent(Event_Base *e)
 	else if (*e == RCSCHANGEDEVENT)
 	{
 		//this event comes from the waiting queue, ergo we are now in post-step.
-		calculateFiringSolution();
+		if (intelligentrcs)
+		{
+			calculateFiringSolution();
+		}
+		else
+		{
+			destroyPhysicalRcsGroups();
+			createPhysicalRcsGroups();
+		}
 	}
 	else if (*e == SIMULATIONSTARTEDEVENT)
 	{
@@ -199,7 +285,7 @@ void IMS_RcsManager::getCommandedTorque(VECTOR3 &OUT_torque)
 	double yawLeftLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[6])); //THGROUP_ATT_YAWLEFT
 	double bankRightLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[8])); //THGROUP_ATT_BANKRIGHT
 	double bankLeftLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[10])); //THGROUP_ATT_BANKLEFT
-	OUT_torque = _V(pitchDownLevel - pitchUpLevel, yawLeftLevel - yawRightLevel, bankLeftLevel - bankRightLevel);
+	OUT_torque = _V(pitchUpLevel - pitchDownLevel, yawRightLevel - yawLeftLevel, bankRightLevel - bankLeftLevel);
 }
 
 

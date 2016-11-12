@@ -172,6 +172,7 @@
     <ClCompile Include="GUI_Label.cpp" />
     <ClCompile Include="GUI_LabelValuePair.cpp" />
     <ClCompile Include="GUI_ListBox.cpp" />
+    <ClCompile Include="GUI_MainConfig.cpp" />
     <ClCompile Include="GUI_MainConstruct.cpp" />
     <ClCompile Include="GUI_MainDeconstruct.cpp" />
     <ClCompile Include="GUI_MainDisplay.cpp" />
@@ -278,6 +279,7 @@
     <ClInclude Include="GUI_Label.h" />
     <ClInclude Include="GUI_LabelValuePair.h" />
     <ClInclude Include="GUI_ListBox.h" />
+    <ClInclude Include="GUI_MainConfig.h" />
     <ClInclude Include="GUI_MainConstruct.h" />
     <ClInclude Include="GUI_MainDeconstruct.h" />
     <ClInclude Include="GUI_MainDisplay.h" />

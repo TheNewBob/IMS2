@@ -46,7 +46,7 @@ public:
 	 * \return A reference to a vector of pointers to all thrusters in a group, sorted in descending order by their suitability for that score
 	 * \param group The group to get the thrusters of.
 	 */
-	vector<FiringSolutionThruster*> &GetThrustersInGroup(THGROUP_TYPE group) { return grouplists[group]; };
+	vector<FiringSolutionThruster*> &GetThrustersInGroup(THGROUP_TYPE group);
 
 	
 	/**

@@ -62,6 +62,7 @@ enum
 	GUI_MAIN_ROOT_CONSTMNU_BTN,
 	GUI_MAIN_ROOT_DECONSTMNU_BTN,
 	GUI_MAIN_ROOT_MODULES_BTN,
+	GUI_MAIN_ROOT_CONFIGMNU_BTN,
 
 	//main display construction menu elements
 	MD_CONSTRUCTION_MNU,
@@ -92,6 +93,10 @@ enum
 	MD_MODULES_MODSELECTBTN,
 	MD_MODULES_CTRLPG,
 	MD_MODULES_ROOT_BTN,
+
+	//main display config menu
+	MD_CONFIG_MENU,
+	MD_CONFIG_RCSASSISTCHKBX,
 
 	//this marks the beginning of available UIDs for dynamic assignement
 	GUI_UID_DOMAIN

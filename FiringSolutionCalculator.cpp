@@ -53,7 +53,7 @@ FiringSolutionCalculator::FiringSolutionCalculator(IMS2 *vessel, vector<THRUSTER
 
 FiringSolutionCalculator::~FiringSolutionCalculator()
 {
-	//if the thread is still running, kill it as ASAP
+	//if the thread is still running, kill it ASAP
 	if (calculationthread->joinable())
 	{
 		abort = true;
@@ -87,7 +87,10 @@ void FiringSolutionCalculator::calculateFiringSolutions()
 	//calculate a solution for every "maneuvering group". After every group there is a check whether the calculation
 	//should be aborted, so it doesn't have to finish the whole solution if it is no longer needed.
 	
+	//assign all thrusters to groups and calculate the overall properties of the RCS in its entirety
+	thrusters = new FSThrusterCollection(thrusterhandles, vessel);
 
+	if (abort) return;
 	pitchUpSol = completeFiringSolution(calculateFiringSolution(THGROUP_ATT_PITCHUP));
 	if (abort) return;
 	pitchDownSol = completeFiringSolution(calculateFiringSolution(THGROUP_ATT_PITCHDOWN));
@@ -264,10 +267,6 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 		forcetype = F_LINEAR;
 		undesired_forcetype = F_TORQUE;
 	}
-
-
-	//assign all thrusters to groups and calculate the overall properties of the RCS in its entirety
-	thrusters = new FSThrusterCollection(thrusterhandles, vessel);
 
 	//get all thrusters in the group to be engaged
 	vector<FiringSolutionThruster*> groupthrusters = thrusters->GetThrustersInGroup(group);

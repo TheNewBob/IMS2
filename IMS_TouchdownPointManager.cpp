@@ -179,7 +179,7 @@ void IMS_TouchdownPointManager::setTdPoints()
 
 
 	vessel->SetTouchdownPoints(tdarray, (DWORD)totalpoints);
-	delete tdarray;
+	delete[] tdarray;
 }
 
 

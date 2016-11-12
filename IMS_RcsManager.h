@@ -57,6 +57,19 @@ public:
 	 */
 	void PreStep(double simdt);
 
+
+	/**
+	 * \brief Enables or disables the intelligent RCS.
+	 * The option to disable it is for compatibility with MFD autopilots that rely on querying RCS performance.
+	 * \param enabled
+	 */
+	void SetIntelligentRcs(bool enabled);
+
+	/**
+	 * \return True if RCS is in intelligent mode, false otherwise.
+	 */
+	bool GetIntelligentRcs() { return intelligentrcs; };
+
 private:
 	bool ProcessEvent(Event_Base *e);
 
@@ -69,6 +82,17 @@ private:
 	* \brief Destroys the virtual rcs
 	*/
 	void destroyDummyThrusters();
+
+	/**
+	 * \brief Adds the vessels RCS thrusters to the actual rcs groups, 
+	 *	enabling direct control by autopilots but losing its intelligence.
+	 */
+	void createPhysicalRcsGroups();
+
+	/**
+	* \brief Destroys the unintelligent RCS groups, but leaves the thrusters untouched.
+	*/
+	void destroyPhysicalRcsGroups();
 
 	/**
 	 * \brief reads userinput and converts it into a force vector
@@ -86,6 +110,11 @@ private:
 	 */
 	void calculateFiringSolution();
 
+	/**
+	 * \brief aborts calculation of new firing solution and deletes the current one.
+	 */
+	void destroyFiringSolution();
+
 
 
 	THRUSTER_HANDLE dummyThrusters[24];						//!< array of virtual thrusters to gauge the applied thrust. Unfortunately the thruster group level will not return correctly if there are no thrusters in the group.
@@ -94,6 +123,7 @@ private:
 
 	bool dummiesexist = false;								//!< flag indicating whether the dummy thrusters currently exist.
 	bool thrustersfiring = false;							//!< Flag to easily track whether thrusters are currently firing.
+	bool intelligentrcs = true;								//!< registers if RCS is set to intelligent mode
 	FiringSolutionCalculator *firingsolution = NULL;		//!< The firing solution currently in use.
 	FiringSolutionCalculator *newfiringsolution = NULL;		//!< When allocated, means that a new solution is being calculated in a separate thread.
 };

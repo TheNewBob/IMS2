@@ -3,6 +3,7 @@
 class GUI_MainConstruct;
 class GUI_MainDeconstruct;
 class GUI_MainModules;
+class GUI_MainConfig;
 
 //the main display to the right of the engineering panel
 
@@ -28,6 +29,7 @@ private:
 	GUI_MainConstruct *construct;
 	GUI_MainDeconstruct *deconstruct;
 	GUI_MainModules *modulescontrol;
+	GUI_MainConfig *generalconfig;
 
 	//overload from EventHandler
 	bool ProcessEvent(Event_Base *e);

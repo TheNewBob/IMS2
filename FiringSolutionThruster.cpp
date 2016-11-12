@@ -130,11 +130,11 @@ void FiringSolutionThruster::setRotationGroups()
 		//this thruster could potentially supply torque around the x axis (pitch)
 		if (torque.x > 0)
 		{
-			groupsuitability[THGROUP_ATT_PITCHUP] = xefficiency;
+			groupsuitability[THGROUP_ATT_PITCHDOWN] = xefficiency;
 		}
 		else
 		{
-			groupsuitability[THGROUP_ATT_PITCHDOWN] = xefficiency;
+			groupsuitability[THGROUP_ATT_PITCHUP] = xefficiency;
 		}
 	}
 	if (ymag >= threshold)
@@ -142,11 +142,11 @@ void FiringSolutionThruster::setRotationGroups()
 		//this thruster could potentially supply torque around the y axis (yaw)
 		if (torque.y > 0)
 		{
-			groupsuitability[THGROUP_ATT_YAWLEFT] = yefficiency;
+			groupsuitability[THGROUP_ATT_YAWRIGHT] = yefficiency;
 		}
 		else
 		{
-			groupsuitability[THGROUP_ATT_YAWRIGHT] = yefficiency;
+			groupsuitability[THGROUP_ATT_YAWLEFT] = yefficiency;
 		}
 	}
 	if (zmag >= threshold)
@@ -154,11 +154,11 @@ void FiringSolutionThruster::setRotationGroups()
 		//this thruster could potentially supply torque around the z axis (bank/roll)
 		if (torque.z > 0)
 		{
-			groupsuitability[THGROUP_ATT_BANKRIGHT] = zefficiency;
+			groupsuitability[THGROUP_ATT_BANKLEFT] = zefficiency;
 		}
 		else
 		{
-			groupsuitability[THGROUP_ATT_BANKLEFT] = zefficiency;
+			groupsuitability[THGROUP_ATT_BANKRIGHT] = zefficiency;
 		}
 	}
 }

@@ -377,6 +377,9 @@
     <ClCompile Include="IMS_ModuleFunction_Gear.cpp">
       <Filter>Modules\Module functionalities\Gear</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_MainConfig.cpp">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -762,6 +765,9 @@
     </ClInclude>
     <ClInclude Include="SetAnimationStateEvent.h">
       <Filter>EventHandling\Events\animation events</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_MainConfig.h">
+      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
