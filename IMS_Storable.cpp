@@ -8,6 +8,7 @@
 #include "IMS_Movable.h"
 #include "IMS_Storable.h"
 #include "Calc.h"
+#include <iomanip>
 
 IMS_Storable::IMS_Storable(double volume, CONSUMABLEDATA *contents, IMS_Location *module, double initial_mass)
 	: IMS_Movable(module)
@@ -136,6 +137,7 @@ void IMS_Storable::PreStep(IMS_Location *location)
 string IMS_Storable::Serialize()
 {
 	stringstream ss; 
+	ss << fixed << setprecision(3);
 	ss << "T:" << consumable->shorthand << " V:" << volume << " M:" << mass << " A:" << (int)available;
 	return ss.str();
 }

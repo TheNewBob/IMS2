@@ -135,7 +135,7 @@ FIRING_SOLUTION FiringSolutionCalculator::constructFiringSolution(VECTOR3 &desir
 
 
 
-VECTOR3 FiringSolutionCalculator::getPrincipleForceVectorForGroup(THGROUP_TYPE group)
+/*VECTOR3 FiringSolutionCalculator::getPrincipleForceVectorForGroup(THGROUP_TYPE group)
 {
 	switch (group)
 	{
@@ -154,10 +154,10 @@ VECTOR3 FiringSolutionCalculator::getPrincipleForceVectorForGroup(THGROUP_TYPE g
 	default:
 		return _V(0, 0, 0);
 	}
-}
+}*/
 
 
-VECTOR3 FiringSolutionCalculator::getPrincipleTorqueVectorForGroup(THGROUP_TYPE group)
+/*VECTOR3 FiringSolutionCalculator::getPrincipleTorqueVectorForGroup(THGROUP_TYPE group)
 {
 	switch (group)
 	{
@@ -176,7 +176,7 @@ VECTOR3 FiringSolutionCalculator::getPrincipleTorqueVectorForGroup(THGROUP_TYPE 
 	default:
 		return _V(0, 0, 0);
 	}
-}
+}*/
 
 
 vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 &force, FORCETYPE type)
@@ -190,7 +190,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_PITCHUP);
+			groups.push_back(THGROUP_ATT_PITCHDOWN);
 		}
 	}
 	else if (force.x < 0.0)
@@ -201,7 +201,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_PITCHDOWN);
+			groups.push_back(THGROUP_ATT_PITCHUP);
 		}
 	}
 	
@@ -213,7 +213,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_YAWLEFT);
+			groups.push_back(THGROUP_ATT_YAWRIGHT);
 		}
 	}
 	else if (force.y < 0.0)
@@ -224,7 +224,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_YAWRIGHT);
+			groups.push_back(THGROUP_ATT_YAWLEFT);
 		}
 	}
 	if (force.z > 0.0)
@@ -235,7 +235,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_BANKRIGHT);
+			groups.push_back(THGROUP_ATT_BANKLEFT);
 		}
 	}
 	else if (force.z < 0.0)
@@ -246,7 +246,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_BANKLEFT);
+			groups.push_back(THGROUP_ATT_BANKRIGHT);
 		}
 	}
 	return groups;

@@ -106,7 +106,7 @@ void GUI_StatusBar::SetFillStatusByFraction(double fraction)
 
 void GUI_StatusBar::SetFillStatusByAmount(double amount)
 {
-	assert(amount >= 0.0 && amount <= maxcapacity && "Passed an invalid fraction!");
+	assert(amount >= 0.0 && amount <= maxcapacity && "Passed an invalid amount (< 0 or > capacity)!");
 	fillstatus = amount / maxcapacity;
 	//trigger element redraw
 	updatenextframe = true;

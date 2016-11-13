@@ -74,8 +74,8 @@ private:
 	/**
 	 * \brief returns the principle directional vector a thruster group symbolises
 	 */
-	VECTOR3 getPrincipleTorqueVectorForGroup(THGROUP_TYPE group);
-	VECTOR3 getPrincipleForceVectorForGroup(THGROUP_TYPE group);
+//	VECTOR3 getPrincipleTorqueVectorForGroup(THGROUP_TYPE group);
+//	VECTOR3 getPrincipleForceVectorForGroup(THGROUP_TYPE group);
 
 	/**
 	 * \return the thruster groups able to generate a certain force
