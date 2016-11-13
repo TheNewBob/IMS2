@@ -137,8 +137,10 @@ void SimpleShape::Merge(SimpleShape merger)
 	{
 		vertices.push_back(merger.vertices[i]);
 	}
-
-	mergeBoundingBox(merger.GetBoundingBox());
+	if (boundingbox != NULL)
+	{
+		mergeBoundingBox(merger.GetBoundingBox());
+	}
 }
 
 
