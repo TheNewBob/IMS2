@@ -18,7 +18,11 @@ class IMS_RcsManager;
 class IMS_TouchdownPointManager;
 
 class IMS_Manager_Base;
+class IMS_Autopilot_Base;
+
+
 enum IMS_MANAGER;
+enum AP_MODE;
 
 //panel identifiers
 const int FLIGHTPANEL = 0;
@@ -45,7 +49,7 @@ struct SPLIT_VESSEL_DATA
 };
 
 
-class IMS2 : public VESSEL3, public EventHandler
+class IMS2 : public VESSEL4, public EventHandler
 {
 
 public:
@@ -59,6 +63,8 @@ public:
 	void clbkVisualCreated (VISHANDLE vis, int refcount);
 	void clbkVisualDestroyed (VISHANDLE vis, int refcount);
 	int clbkConsumeBufferedKey(DWORD key, bool down, char *kstate);
+	int clbkNavProcess(int mode);
+	void clbkNavMode(int  mode, bool  active);
 
 	UINT AddNewMesh(std::string meshName, VECTOR3 pos);
 
@@ -215,6 +221,7 @@ private:
 	bool firstframe = true;
 	bool islanded;								//true if the vessel is landed
 	map<IMS_MANAGER, IMS_Manager_Base*> managers;		//!< stores the various manager instances of this vessel
+	map<AP_MODE, IMS_Autopilot_Base*> autopilots;		//!< stores autopilot instances.
 	
 	//EventGenerator and -Sink that communicate with the IMS_Module instances of this vessel
 	EventGenerator *eventgenerator;

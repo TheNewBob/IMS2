@@ -23,6 +23,7 @@ IMS_RcsManager::IMS_RcsManager(IMS2 *_vessel)
 
 IMS_RcsManager::~IMS_RcsManager()
 {
+	destroyFiringSolution();
 }
 
 
@@ -119,6 +120,13 @@ void IMS_RcsManager::SetIntelligentRcs(bool enabled)
 	}
 }
 
+void IMS_RcsManager::SetCommandedTorque(VECTOR3 &torque)
+{
+	//for now we'll work on a "last past the post" system.
+	commandedtorque = torque;
+	torqueset = true;
+}
+
 
 void IMS_RcsManager::createPhysicalRcsGroups()
 {
@@ -198,7 +206,17 @@ void IMS_RcsManager::PreStep(double simdt)
 			getCommandedTorque(torque);
 
 			//check if the user is currently requesting any thrust.
-			bool nothrustrequest = Calc::IsEqual(force, _V(0, 0, 0)) && Calc::IsEqual(torque, _V(0, 0, 0));
+			bool nothrustrequest = Calc::IsEqual(force, _V(0, 0, 0)) &&
+								   Calc::IsEqual(torque, _V(0, 0, 0));
+								   
+			if (nothrustrequest && torqueset)
+			{
+				//there might be no request from the user, but an autopilot wants some.
+				nothrustrequest = false;
+				torque = commandedtorque;
+				firingsolution->CalculateTorqueLevels(torque);
+			}
+			if (torqueset) torqueset = false;
 
 			//Manipulate the thrusters if there is a user request to do so, or if they are currently firing
 			if (!nothrustrequest || thrustersfiring)
@@ -279,6 +297,7 @@ void IMS_RcsManager::getCommandedForce(VECTOR3 &OUT_force)
 
 void IMS_RcsManager::getCommandedTorque(VECTOR3 &OUT_torque)
 {
+	//user input takes precedence
 	double pitchUpLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[0])); //THGROUP_ATT_PITCHUP
 	double pitchDownLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[2])); //THGROUP_ATT_PITCHDOWN
 	double yawRightLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[4])); //THGROUP_ATT_YAWRIGHT

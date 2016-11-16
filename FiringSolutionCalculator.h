@@ -39,16 +39,28 @@ public:
 	~FiringSolutionCalculator();
 
 	/**
-	 * \brief Applies the firing solution to the vessels thrusters to achieve the demanded torque and force vectors.
+	 * \brief Applies the firing solution to the vessels thrusters to achieve the demanded torque and force levels.
 	 * \note Has no effect if called on an instance that is still calculating its solution.
+	 * \param torque Vector containing the thrust levels for rotation groups in the three axes, between -1.0 and 1.0.
+	 * \param force Vector containing the thrust levels for translation groups in the three axes, between -1.0 and 1.0.
+	 * \note A level of 1.0 or -1.0 means that the maximum thrust will be applied that still guarantees avoiding artifacts.
+	 *	If both torque and force are requested at the same time, that caution is thrown to the wind.
 	 * \see IsSolutionReady()
 	 */
 	void Apply(VECTOR3 &torque, VECTOR3 &force, double thrust);
 
 	/**
+	* \brief Calculates the thrust levels to achieve the requested torque. 
+	* \param torque Desired torque around 3 axes, in Nm. Will be converted to values between -1.0 and 1.0, proportional to the maximum maneuverability.
+	* \note If the torque cannot be produced, hrusters will be set to max level allowed to avoid lateral force.
+	*/
+	void CalculateTorqueLevels(VECTOR3 &IN_OUT_torque);
+
+	/**
 	 * \return true if the solution has been calculated, false if it is still running.
 	 */
 	bool IsSolutionReady() { return solutionready; };
+
 
 private:
 	void calculateFiringSolutions();
@@ -97,6 +109,6 @@ private:
 	bool solutionready = false;						//!< shows true if the solution is calculated
 	bool abort = false;								//!< flag that signifies the thread to terminate at the next opportunity.
 	thread *calculationthread;
-
+	map<THGROUP_TYPE, map<FORCETYPE, VECTOR3>> maxforces;
 };
 

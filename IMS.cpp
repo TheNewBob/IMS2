@@ -10,6 +10,7 @@
 #include "IMS_RcsManager.h"
 #include "SimpleShape.h"
 #include "IMS_TouchdownPointManager.h"
+#include "autopilot_includes.h"
 
 //#include "vld.h"
 
@@ -67,7 +68,7 @@ DLLCLBK void ovcExit (VESSEL *vessel)
 }
 
 
-IMS2::IMS2(OBJHANDLE hVessel, int flightmodel) : VESSEL3 (hVessel, flightmodel) 
+IMS2::IMS2(OBJHANDLE hVessel, int flightmodel) : VESSEL4 (hVessel, flightmodel) 
 {
 
 	//initialise event handling
@@ -98,6 +99,9 @@ IMS2::IMS2(OBJHANDLE hVessel, int flightmodel) : VESSEL3 (hVessel, flightmodel)
 	managers[PROP_MANAGER] = new IMS_PropulsionManager(this);
 	managers[RCS_MANAGER] = new IMS_RcsManager(this);
 	managers[TDPOINT_MANAGER] = new IMS_TouchdownPointManager(this);
+
+	//create autopilot modes
+	autopilots[KILLROT] = new IMS_Autopilot_Killrot(this);
 
 	//add the sim started event. It will be fired in the first PreStep, when the event queue is processed for the first time.
 	addEvent(new SimulationStartedEvent, VESSEL_TO_MODULE_PIPE);
@@ -137,6 +141,11 @@ void IMS2::clbkPreStep(double simt, double simdt, double mjd)
 
 	updateVesselState();
 	sendEvents();
+	//execute prestep on autopilots
+	for (auto i = autopilots.begin(); i != autopilots.end(); ++i)
+	{
+		i->second->PreStep(simdt);
+	}
 
 	//execute prestep on all managers
 	for (map<IMS_MANAGER, IMS_Manager_Base*>::iterator i = managers.begin(); i != managers.end(); ++i)
@@ -472,4 +481,25 @@ int IMS2::clbkConsumeBufferedKey(DWORD key, bool down, char *kstate)
 		return 1;
 	}
 	return 0;
+}
+
+
+int IMS2::clbkNavProcess(int mode)
+{
+	if (mode & NAVBIT_KILLROT != 0)
+	{
+		mode &= ~(1 << 0);
+	}
+
+	return mode;
+}
+
+void IMS2::clbkNavMode(int  mode, bool  active)
+{
+	switch (mode)
+	{
+	case NAVMODE_KILLROT:
+		autopilots[KILLROT]->SetActive(active);
+		break;
+	}
 }

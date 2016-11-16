@@ -194,6 +194,7 @@
     <ClCompile Include="IMS_Animation_Continuous.cpp" />
     <ClCompile Include="IMS_Animation_Sequential.cpp" />
     <ClCompile Include="IMS_Animation_Tracking.cpp" />
+    <ClCompile Include="IMS_Autopilot_Killrot.cpp" />
     <ClCompile Include="IMS_CoGmanager.cpp" />
     <ClCompile Include="IMS_Location.cpp" />
     <ClCompile Include="IMS_Manager_Base.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="AnimationFailedEvent.h" />
     <ClInclude Include="AnimationFinishedEvent.h" />
     <ClInclude Include="AnimationStartedEvent.h" />
+    <ClInclude Include="autopilot_includes.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Calc.h" />
     <ClInclude Include="CoGHasChangedEvent.h" />
@@ -298,6 +300,8 @@
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
+    <ClInclude Include="IMS_Autopilot_Base.h" />
+    <ClInclude Include="IMS_Autopilot_Killrot.h" />
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
     <ClInclude Include="IMS_TouchdownPointManager.h" />

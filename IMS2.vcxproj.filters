@@ -99,6 +99,9 @@
     <Filter Include="Modules\Module functionalities\Gear">
       <UniqueIdentifier>{654e2915-eb07-4d3b-ba5b-1a63e9cc58c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Autopilots">
+      <UniqueIdentifier>{2bb32148-6539-4101-b3ff-78ea72540a72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -379,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="GUI_MainConfig.cpp">
       <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Autopilot_Killrot.cpp">
+      <Filter>Core\Autopilots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -768,6 +774,15 @@
     </ClInclude>
     <ClInclude Include="GUI_MainConfig.h">
       <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Autopilot_Base.h">
+      <Filter>Core\Autopilots</Filter>
+    </ClInclude>
+    <ClInclude Include="autopilot_includes.h">
+      <Filter>Core\Autopilots</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Autopilot_Killrot.h">
+      <Filter>Core\Autopilots</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

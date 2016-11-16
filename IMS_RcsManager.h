@@ -70,6 +70,13 @@ public:
 	 */
 	bool GetIntelligentRcs() { return intelligentrcs; };
 
+	/**
+	 * Sets commanded torque for next frame.
+	 * Use this to control intelligent RCS with autopiliots.
+	 * \note User input will still override this setting!
+	 */
+	void SetCommandedTorque(VECTOR3 &torque);
+
 private:
 	bool ProcessEvent(Event_Base *e);
 
@@ -126,5 +133,7 @@ private:
 	bool intelligentrcs = true;								//!< registers if RCS is set to intelligent mode
 	FiringSolutionCalculator *firingsolution = NULL;		//!< The firing solution currently in use.
 	FiringSolutionCalculator *newfiringsolution = NULL;		//!< When allocated, means that a new solution is being calculated in a separate thread.
+	VECTOR3 commandedtorque = _V(0, 0, 0);					//!< If non-user input sets a torque, it will be remembered here until processed.
+	bool torqueset = false;									//!< True if torque was commanded during the current frame.
 };
 

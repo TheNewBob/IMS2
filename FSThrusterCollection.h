@@ -69,6 +69,11 @@ public:
 	 */
 	map<FORCETYPE, VECTOR3> GetTotalForces(THGROUP_TYPE group);
 
+	/**
+	 * \return A reference to the entire thrusterlist
+	 */
+	vector<FiringSolutionThruster*> GetThrusters() { return thrusterlist; };
+
 private:
 	vector<FiringSolutionThruster*> thrusterlist;
 

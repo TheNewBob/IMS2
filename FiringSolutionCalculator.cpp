@@ -82,6 +82,36 @@ void FiringSolutionCalculator::Apply(VECTOR3 &torque, VECTOR3 &force, double thr
 }
 
 
+void FiringSolutionCalculator::CalculateTorqueLevels(VECTOR3 &torque)
+{
+	if (solutionready)
+	{
+		//first, determine which groups will be involved in the maneuver, 
+		//and the maximum thrust they can produce around their axes.
+		vector<THGROUP_TYPE> involvedgroups = getGroupsFromForceVector(torque, F_TORQUE);
+		VECTOR3 maxforce = _V(0, 0, 0);
+		for (UINT i = 0; i < involvedgroups.size(); ++i)
+		{
+			VECTOR3 &f = maxforces[involvedgroups[i]][F_TORQUE];
+			if (f.x > maxforce.x) maxforce.x = f.x;
+			if (f.y > maxforce.y) maxforce.y = f.y;
+			if (f.z > maxforce.z) maxforce.z = f.z;
+		}
+
+		//now that we have the max torque we can possibly produce, let's convert the torque into thrust levels
+		VECTOR3 level;
+		level.x = min(1, abs(torque.x) / maxforce.x);
+		level.y = min(1, abs(torque.y) / maxforce.y);
+		level.z = min(1, abs(torque.x) / maxforce.x);
+
+		torque.x = (torque.x < 0) ? torque.x = level.x * -1 : torque.x = level.x;
+		torque.y = (torque.y < 0) ? torque.y = level.y * -1 : torque.y = level.y;
+		torque.z = (torque.z < 0) ? torque.z = level.z * -1 : torque.z = level.z;
+	}
+}
+
+
+
 void FiringSolutionCalculator::calculateFiringSolutions()
 {
 	//calculate a solution for every "maneuvering group". After every group there is a check whether the calculation
@@ -305,6 +335,7 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 	bool abortcalculation = false;
 	int iterations = 0;
 	double scorekeeper = -1;					//the current score to choose thrusters
+	map<FORCETYPE, VECTOR3> currentforce;
 
 	while (!Calc::IsNear(undesired_force, _V(0, 0, 0), 0.001) && iterations < 20)
 	{
@@ -385,15 +416,18 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 		}
 
 		//recalculate the generated force, and how much excess we're having.
-		auto newtotalforce = calculateGeneratedForce(result, groupthrusters);
-		undesired_force = newtotalforce[undesired_forcetype];
+		currentforce = calculateGeneratedForce(result, groupthrusters);
+		undesired_force = currentforce[undesired_forcetype];
 		iterations++;
 	}
-
-	if (iterations == 20)
-	{
-		bool bugme = true;
-	}
+	//note the maximum forces for each group, as absolute force (i.e. this is a vector that's used as a collection with three items).
+	currentforce[F_TORQUE].x = abs(currentforce[F_TORQUE].x);
+	currentforce[F_TORQUE].y = abs(currentforce[F_TORQUE].y);
+	currentforce[F_TORQUE].z = abs(currentforce[F_TORQUE].z);
+	currentforce[F_LINEAR].x = abs(currentforce[F_LINEAR].x);
+	currentforce[F_LINEAR].y = abs(currentforce[F_LINEAR].y);
+	currentforce[F_LINEAR].z = abs(currentforce[F_LINEAR].z);
+	maxforces[group] = currentforce;
 	return result;
 }
 
