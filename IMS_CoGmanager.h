@@ -38,8 +38,16 @@ private:
 	IMS2 *vessel;
 	VECTOR3 cogpos;
 
-	//calculates the CoG of the vessel from scratch
+	/**
+	 * \brief Calculates the CoG of the vessel from scratch
+	 */
 	VECTOR3 calculateNewCoG();
+
+	/**
+	 * \brief Calculates the overall PMI of the vessel based on its module PMIs.
+	 */
+	void calculateNewPmi();
+
 	/* returns a vector that contains the modules that do not have a symmetric counterpart in one axis (x or y)
 	 * DOES NOT RECOGNISE RADIAL SYMMETRY! used for avoiding unnecessary calculations that lead to double-inprecisions whe calculating CoG
 	 * to remove symmetries in multiple axes, you need to call this method multiple times
@@ -48,5 +56,7 @@ private:
 	vector<IMS_Module*> removeSymmetricModules(vector<IMS_Module*> &symmetricallysortedmodules);
 
 	bool ProcessEvent(Event_Base *e);
+
+
 };
 

@@ -510,6 +510,11 @@ double IMS_Module::GetMass()
 	return totalmass;
 }
 
+void IMS_Module::GetPmi(VECTOR3 &pmi)
+{
+	_orbiter_data->getPmi(pmi);
+}
+
 VECTOR3 IMS_Module::GetLocalCoordinates()
 { 
 	return vessel->GetPositionRelativeToCoG(pos); 

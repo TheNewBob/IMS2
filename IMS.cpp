@@ -133,6 +133,7 @@ IMS2::~IMS2()
 
 void IMS2::clbkPreStep(double simt, double simdt, double mjd) 
 {
+
 	//run through PreStep computations of modules on this vessel
 	for (UINT i = 0; i < modules.size(); ++i)
 	{
@@ -486,9 +487,12 @@ int IMS2::clbkConsumeBufferedKey(DWORD key, bool down, char *kstate)
 
 int IMS2::clbkNavProcess(int mode)
 {
-	if (mode & NAVBIT_KILLROT != 0)
+	if (GetRcsManager()->GetIntelligentRcs())
 	{
-		mode &= ~(1 << 0);
+		if (mode & NAVBIT_KILLROT != 0)
+		{
+			mode &= ~(1 << 0);
+		}
 	}
 
 	return mode;

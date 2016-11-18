@@ -33,6 +33,11 @@ int IMS_Orbiter_ModuleData::getSize()
 	return _size;
 }
 
+void IMS_Orbiter_ModuleData::getPmi(VECTOR3 &pmi)
+{
+	pmi = this->pmi;
+}
+
 string IMS_Orbiter_ModuleData::getConfigFileName()
 {
 	return _configFileName;
@@ -70,6 +75,12 @@ void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 			continue;
 		//put identifier in lowercase
 		transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), ::tolower);
+		if (tokens[0].compare("inertia") == 0 && tokens.size() == 4)
+		{
+			pmi = _V(atof(tokens[1].data()),
+					 atof(tokens[2].data()),
+					 atof(tokens[3].data()));
+		}
 		if (tokens[0].compare("begin_ims_attachment") == 0)
 		{
 			startAttachments = true;

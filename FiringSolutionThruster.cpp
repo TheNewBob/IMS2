@@ -36,8 +36,8 @@ void FiringSolutionThruster::initForces()
 	//calculate the thrusters torque and linear force vectors
 	linearforce = dir * maxthrust;
 	//calculate the torque efficiency. thrust is not yet considered at this point.
-	//I'm not sure why it has to be inverted, but the results all point the wrong way round.
-	torque = crossp(pos, dir);
+	//We're inverting the result to convert to orbiters lefthandedness.
+	torque = crossp(pos, dir) * -1;
 	
 	//round force and torque to mN / mNm, anything less gets insignifficant really fast.
 	setTranslationGroups();
@@ -128,7 +128,7 @@ void FiringSolutionThruster::setRotationGroups()
 	if (xmag >= threshold)
 	{
 		//this thruster could potentially supply torque around the x axis (pitch)
-		if (torque.x > 0)
+		if (torque.x < 0)
 		{
 			groupsuitability[THGROUP_ATT_PITCHDOWN] = xefficiency;
 		}
@@ -140,7 +140,7 @@ void FiringSolutionThruster::setRotationGroups()
 	if (ymag >= threshold)
 	{
 		//this thruster could potentially supply torque around the y axis (yaw)
-		if (torque.y > 0)
+		if (torque.y < 0)
 		{
 			groupsuitability[THGROUP_ATT_YAWRIGHT] = yefficiency;
 		}
@@ -152,7 +152,7 @@ void FiringSolutionThruster::setRotationGroups()
 	if (zmag >= threshold)
 	{
 		//this thruster could potentially supply torque around the z axis (bank/roll)
-		if (torque.z > 0)
+		if (torque.z < 0)
 		{
 			groupsuitability[THGROUP_ATT_BANKLEFT] = zefficiency;
 		}

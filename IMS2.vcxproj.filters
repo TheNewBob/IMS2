@@ -102,6 +102,9 @@
     <Filter Include="Core\Autopilots">
       <UniqueIdentifier>{2bb32148-6539-4101-b3ff-78ea72540a72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Autopilots\Operations">
+      <UniqueIdentifier>{1844cb9b-6304-46f4-bbfa-f2e0dc702439}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -385,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="IMS_Autopilot_Killrot.cpp">
       <Filter>Core\Autopilots</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_AutoPilotOperation_Killrot.cpp">
+      <Filter>Core\Autopilots\Operations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -783,6 +789,12 @@
     </ClInclude>
     <ClInclude Include="IMS_Autopilot_Killrot.h">
       <Filter>Core\Autopilots</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_AutopilotOperation_Base.h">
+      <Filter>Core\Autopilots\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_AutopilotOperation_Killrot.h">
+      <Filter>Core\Autopilots\Operations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

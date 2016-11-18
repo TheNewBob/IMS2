@@ -246,9 +246,12 @@ public:
 	void UpdateAttachmentPoints(bool redock = false);
 
 	/**
+	 * \brief Returns the modules principle moments of inertia ("inertia" parameter in cfg) in the passed VECTOR3.
+	 */
+	void GetPmi(VECTOR3 &OUT_pmi);
+	/**
 	 * \brief creates the actual physical attachment points of this vessel (i.e. the orbiter dockports).
 	 * \note This is an initialiser function and only called at very specific places in the code
-	 * \todo With proper adjustements, this function could be made private
 	 */
 	void CreatePhysicalAttachmentPoints();
 

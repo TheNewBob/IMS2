@@ -67,10 +67,6 @@ private:
 
 	FIRING_SOLUTION constructFiringSolution(VECTOR3 &desiredForce, VECTOR3 &desiredTorque);
 
-//	FIRING_SOLUTION scaleFiringSolution(const FIRING_SOLUTION& sol);
-
-//	FIRING_SOLUTION simplifyFiringSolution(const FIRING_SOLUTION& sol);
-
 	FIRING_SOLUTION calculateFiringSolution(THGROUP_TYPE group);
 
 	/**
@@ -79,15 +75,22 @@ private:
 	 */
 	FIRING_SOLUTION completeFiringSolution(FIRING_SOLUTION &sol);
 
-//	void firingSolutionResult(const FIRING_SOLUTION& sol, VECTOR3& force, VECTOR3& torque);
-
+	/**
+	 * \brief Calculates the total force a firing solution can produce with a certain subset of thrusters.
+	 * \param sol The firing solution you want to know the generated forces for.
+	 * \param involvedthrusters A list of all thrusters to be used in the solution.
+	 * \return A map with two vectors keyed to F_LINEAR and F_TORQUE.
+	 */
 	map<FORCETYPE, VECTOR3> calculateGeneratedForce(FIRING_SOLUTION &sol, vector<FiringSolutionThruster*> &involvedthrusters);
 
 	/**
-	 * \brief returns the principle directional vector a thruster group symbolises
+	 * \brief Notes the passed forces as the maximum forces this group can produce.
+	 * \param group The thruster group the forces are for.
+	 * \param forces a map containing the maximum values for F_TORQUE and F_LINEAR.
+	 * \note Since this saves magnitudes, the forces are always positive. Howver, the sign of the forces
+	 *	you pass to this method do not matter, it will convert them itself.
 	 */
-//	VECTOR3 getPrincipleTorqueVectorForGroup(THGROUP_TYPE group);
-//	VECTOR3 getPrincipleForceVectorForGroup(THGROUP_TYPE group);
+	void setMaxForcesForGroup(THGROUP_TYPE group, map<FORCETYPE, VECTOR3> forces);
 
 	/**
 	 * \return the thruster groups able to generate a certain force

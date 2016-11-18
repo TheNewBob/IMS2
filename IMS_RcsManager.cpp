@@ -112,6 +112,11 @@ void IMS_RcsManager::SetIntelligentRcs(bool enabled)
 		else
 		{
 			//intelligent rcs was enabled and should now be disabled
+			if (firingsolution != NULL && firingsolution->IsSolutionReady())
+			{
+				//we have to shut down all the thrusters, or they might keep running
+				firingsolution->Apply(_V(0, 0, 0), _V(0, 0, 0), 1);
+			}
 			intelligentrcs = false;
 			destroyDummyThrusters();
 			destroyFiringSolution();
@@ -139,7 +144,6 @@ void IMS_RcsManager::createPhysicalRcsGroups()
 		{
 			//get all thrusters in the current group and shove them into an array to pass them to orbiter
 			vector<FiringSolutionThruster*> groupthrusters = thrusters.GetThrustersInGroup((THGROUP_TYPE)i);
-			vector<FiringSolutionThruster*> bugme = thrusters.GetThrustersInGroup(THGROUP_ATT_PITCHUP);
 
 			THRUSTER_HANDLE *tharray = new THRUSTER_HANDLE[groupthrusters.size()];
 			for (UINT j = 0; j < groupthrusters.size(); ++j)
@@ -204,7 +208,7 @@ void IMS_RcsManager::PreStep(double simdt)
 			VECTOR3 torque;
 			getCommandedForce(force);
 			getCommandedTorque(torque);
-
+	
 			//check if the user is currently requesting any thrust.
 			bool nothrustrequest = Calc::IsEqual(force, _V(0, 0, 0)) &&
 								   Calc::IsEqual(torque, _V(0, 0, 0));
@@ -217,6 +221,7 @@ void IMS_RcsManager::PreStep(double simdt)
 				firingsolution->CalculateTorqueLevels(torque);
 			}
 			if (torqueset) torqueset = false;
+
 
 			//Manipulate the thrusters if there is a user request to do so, or if they are currently firing
 			if (!nothrustrequest || thrustersfiring)
@@ -304,7 +309,7 @@ void IMS_RcsManager::getCommandedTorque(VECTOR3 &OUT_torque)
 	double yawLeftLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[6])); //THGROUP_ATT_YAWLEFT
 	double bankRightLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[8])); //THGROUP_ATT_BANKRIGHT
 	double bankLeftLevel = Helpers::fixDoubleNaN(vessel->GetThrusterLevel(dummyThrusters[10])); //THGROUP_ATT_BANKLEFT
-	OUT_torque = _V(pitchUpLevel - pitchDownLevel, yawRightLevel - yawLeftLevel, bankRightLevel - bankLeftLevel);
+	OUT_torque = _V(pitchUpLevel - pitchDownLevel, yawLeftLevel - yawRightLevel, bankRightLevel - bankLeftLevel);
 }
 
 

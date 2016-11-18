@@ -324,19 +324,13 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 	MATRIX3 fromorigin = Rotations::GetRotationMatrixFromDirection(_V(0, -1, 0));
 	//fromorigin = Rotations::InverseMatrix(fromorigin);
 
-	VECTOR3 bugme1 = mul(fromorigin, _V(0, 0, 1));
-
 	//matrix to rotate from tdpoint orientation to origin (0 0 1)
 	//note that we will assume that all tdpoints are facing the same direction (they roughly should, or 
 	//the engineer needs a slap). Otherwise the trigonometry could get very expensive.
 	MATRIX3 toorigin = Rotations::GetRotationMatrixFromDirection(landingpoints.begin()->second.dir);
 
-	VECTOR3 bugme2 = mul(toorigin, _V(0, 0, -1));
-
 	//multiply the two matrices to get the overall rotation.
 	MATRIX3 todown = mul(fromorigin, toorigin);
-
-	VECTOR3 bugme3 = mul(todown, _V(0, 0, -1));
 
 	//rotate all the landing points and shove them in a vector
 	//now, the reson we do this is purely to get the points into a reference frame where we have a clear, 

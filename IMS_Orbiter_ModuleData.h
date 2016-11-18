@@ -108,6 +108,11 @@ public:
 	string getConfigFileName();
 	string getClassName();
 	vector <IMSATTACHMENTPOINT> &getAttachmentPoints();
+	
+	/**
+	 * \brief Returns the modules principle moments of inertia in the passed VECTOR3
+	 */
+	void getPmi(VECTOR3 &OUT_pmi);
 
 	/**
 	* \return A pointer to the hull shape of the module
@@ -121,7 +126,7 @@ protected:
 	vector<IMSATTACHMENTPOINT> _attachmentPoints;
 	bool _valid;
 	SimpleShape *hullshape = NULL;								//!< The vertices of the hull shape of the module, module relative.
-
+	VECTOR3 pmi = _V(0, 0, 0);									//! Stores the PMI ("inertia" in the cfg) of this module.
 
 private:
 	/**

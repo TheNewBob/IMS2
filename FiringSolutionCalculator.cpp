@@ -72,7 +72,6 @@ void FiringSolutionCalculator::Apply(VECTOR3 &torque, VECTOR3 &force, double thr
 {
 	if (solutionready)
 	{
-		//FIRING_SOLUTION sol = scaleFiringSolution(constructFiringSolution(force, torque));
 		FIRING_SOLUTION sol = constructFiringSolution(force, torque);
 		for (auto it = sol.coefficents.begin(); it != sol.coefficents.end(); ++it)
 		{
@@ -99,14 +98,15 @@ void FiringSolutionCalculator::CalculateTorqueLevels(VECTOR3 &torque)
 		}
 
 		//now that we have the max torque we can possibly produce, let's convert the torque into thrust levels
+		//we also have to avoid potential division by 0.
 		VECTOR3 level;
-		level.x = min(1, abs(torque.x) / maxforce.x);
-		level.y = min(1, abs(torque.y) / maxforce.y);
-		level.z = min(1, abs(torque.x) / maxforce.x);
+		level.x = (maxforce.x > 0.0) ? min(1, abs(torque.x) / maxforce.x) : 0;
+		level.y = (maxforce.y > 0.0) ?  min(1, abs(torque.y) / maxforce.y) : 0;
+		level.z = (maxforce.z > 0.0) ? min(1, abs(torque.z) / maxforce.z) : 0;
 
-		torque.x = (torque.x < 0) ? torque.x = level.x * -1 : torque.x = level.x;
-		torque.y = (torque.y < 0) ? torque.y = level.y * -1 : torque.y = level.y;
-		torque.z = (torque.z < 0) ? torque.z = level.z * -1 : torque.z = level.z;
+		torque.x = (torque.x < 0) ? level.x * -1 : level.x;
+		torque.y = (torque.y < 0) ? level.y * -1 : level.y;
+		torque.z = (torque.z < 0) ? level.z * -1 : level.z;
 	}
 }
 
@@ -157,56 +157,11 @@ FIRING_SOLUTION FiringSolutionCalculator::constructFiringSolution(VECTOR3 &desir
 	result += ((desiredForce.y > 0) ? upSol : downSol) * abs(desiredForce.y);
 	result += ((desiredForce.z > 0) ? forwardSol : backSol) * abs(desiredForce.z);
 	result += ((desiredTorque.x > 0) ? pitchUpSol : pitchDownSol) * abs(desiredTorque.x);
-	result += ((desiredTorque.y > 0) ? yawRightSol : yawLeftSol) * abs(desiredTorque.y);
+	result += ((desiredTorque.y > 0) ? yawLeftSol : yawRightSol) * abs(desiredTorque.y);
 	result += ((desiredTorque.z > 0) ? bankRightSol : bankLeftSol) * abs(desiredTorque.z);
 
 	return result;
 }
-
-
-
-/*VECTOR3 FiringSolutionCalculator::getPrincipleForceVectorForGroup(THGROUP_TYPE group)
-{
-	switch (group)
-	{
-	case THGROUP_ATT_FORWARD:
-		return _V(0, 0, 1);
-	case THGROUP_ATT_BACK:
-		return _V(0, 0, -1);
-	case THGROUP_ATT_UP:
-		return _V(0, 1, 0);
-	case THGROUP_ATT_DOWN:
-		return _V(0, -1, 0);
-	case THGROUP_ATT_RIGHT:
-		return _V(1, 0, 0);
-	case THGROUP_ATT_LEFT:
-		return _V(0, 0, 1);
-	default:
-		return _V(0, 0, 0);
-	}
-}*/
-
-
-/*VECTOR3 FiringSolutionCalculator::getPrincipleTorqueVectorForGroup(THGROUP_TYPE group)
-{
-	switch (group)
-	{
-	case THGROUP_ATT_BANKRIGHT:
-		return _V(0, 0, 1);
-	case THGROUP_ATT_BANKLEFT:
-		return _V(0, 0, -1);
-	case THGROUP_ATT_YAWLEFT:
-		return _V(0, 1, 0);
-	case THGROUP_ATT_YAWRIGHT:
-		return _V(0, -1, 0);
-	case THGROUP_ATT_PITCHUP:
-		return _V(1, 0, 0);
-	case THGROUP_ATT_PITCHDOWN:
-		return _V(0, 0, 1);
-	default:
-		return _V(0, 0, 0);
-	}
-}*/
 
 
 vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 &force, FORCETYPE type)
@@ -220,7 +175,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_PITCHDOWN);
+			groups.push_back(THGROUP_ATT_PITCHUP);
 		}
 	}
 	else if (force.x < 0.0)
@@ -231,7 +186,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_PITCHUP);
+			groups.push_back(THGROUP_ATT_PITCHDOWN);
 		}
 	}
 	
@@ -243,7 +198,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_YAWRIGHT);
+			groups.push_back(THGROUP_ATT_YAWLEFT);
 		}
 	}
 	else if (force.y < 0.0)
@@ -254,7 +209,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_YAWLEFT);
+			groups.push_back(THGROUP_ATT_YAWRIGHT);
 		}
 	}
 	if (force.z > 0.0)
@@ -265,7 +220,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_BANKLEFT);
+			groups.push_back(THGROUP_ATT_BANKRIGHT);
 		}
 	}
 	else if (force.z < 0.0)
@@ -276,7 +231,7 @@ vector<THGROUP_TYPE> FiringSolutionCalculator::getGroupsFromForceVector(VECTOR3 
 		}
 		else
 		{
-			groups.push_back(THGROUP_ATT_BANKRIGHT);
+			groups.push_back(THGROUP_ATT_BANKLEFT);
 		}
 	}
 	return groups;
@@ -323,7 +278,8 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 	VECTOR3 undesired_force = generatedforces[undesired_forcetype];
 	if (Calc::IsNear(undesired_force, _V(0, 0, 0), 0.001))
 	{
-		//no further calculation needed, there's no unwanted force induced
+		//no further calculation needed, there's no unwanted force induced.
+		setMaxForcesForGroup(group, generatedforces);
 		return result;
 	}
 
@@ -420,14 +376,8 @@ FIRING_SOLUTION FiringSolutionCalculator::calculateFiringSolution(THGROUP_TYPE g
 		undesired_force = currentforce[undesired_forcetype];
 		iterations++;
 	}
-	//note the maximum forces for each group, as absolute force (i.e. this is a vector that's used as a collection with three items).
-	currentforce[F_TORQUE].x = abs(currentforce[F_TORQUE].x);
-	currentforce[F_TORQUE].y = abs(currentforce[F_TORQUE].y);
-	currentforce[F_TORQUE].z = abs(currentforce[F_TORQUE].z);
-	currentforce[F_LINEAR].x = abs(currentforce[F_LINEAR].x);
-	currentforce[F_LINEAR].y = abs(currentforce[F_LINEAR].y);
-	currentforce[F_LINEAR].z = abs(currentforce[F_LINEAR].z);
-	maxforces[group] = currentforce;
+	//note the maximum forces for each group.
+	setMaxForcesForGroup(group, currentforce);
 	return result;
 }
 
@@ -466,3 +416,13 @@ FIRING_SOLUTION FiringSolutionCalculator::completeFiringSolution(FIRING_SOLUTION
 }
 
 
+void FiringSolutionCalculator::setMaxForcesForGroup(THGROUP_TYPE group, map<FORCETYPE, VECTOR3> forces)
+{
+	forces[F_TORQUE].x = abs(forces[F_TORQUE].x);
+	forces[F_TORQUE].y = abs(forces[F_TORQUE].y);
+	forces[F_TORQUE].z = abs(forces[F_TORQUE].z);
+	forces[F_LINEAR].x = abs(forces[F_LINEAR].x);
+	forces[F_LINEAR].y = abs(forces[F_LINEAR].y);
+	forces[F_LINEAR].z = abs(forces[F_LINEAR].z);
+	maxforces[group] = forces;
+}

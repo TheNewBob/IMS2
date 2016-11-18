@@ -97,6 +97,26 @@ VECTOR3 IMS_CoGmanager::calculateNewCoG()
 }
 
 
+void IMS_CoGmanager::calculateNewPmi()
+{
+	//get all modules from the vessel
+	vector<IMS_Module*> modules;
+	vessel->GetModules(modules);
+
+	VECTOR3 overallpmi = _V(0, 0, 0);
+	for (UINT i = 0; i < modules.size(); ++i)
+	{
+		//fortunately, The PMI of a superstructure is as simple
+		//to calculate as adding all the component PMIs together.
+		VECTOR3 modpmi;
+		modules[i]->GetPmi(modpmi);
+		overallpmi += modpmi;
+	}
+
+	vessel->SetPMI(overallpmi);
+}
+
+
 vector<IMS_Module*> IMS_CoGmanager::removeSymmetricModules(vector<IMS_Module*> &symmetricallysortedmodules)
 {
 	vector<IMS_Module*>returnlist;
@@ -141,10 +161,17 @@ vector<IMS_Module*> IMS_CoGmanager::removeSymmetricModules(vector<IMS_Module*> &
 
 bool IMS_CoGmanager::ProcessEvent(Event_Base *e)
 {
+	if (*e == SIMULATIONSTARTEDEVENT)
+	{
+		addEventToWaitingQueue(new ShiftCGEvent(0));
+		calculateNewPmi();
+	}
+
 	if (*e == VESSELLAYOUTCHANGEDEVENT)
 	{
 		//the vessel layout has changed, we need to shift the center of gravity!
 		addEventToWaitingQueue(new ShiftCGEvent(0));
+		calculateNewPmi();
 	}
 
 	else if (*e == SHIFTCGEVENT)
@@ -171,7 +198,7 @@ bool IMS_CoGmanager::ProcessEvent(Event_Base *e)
 	{
 		//check where the event came from. If it came from outside, then add 
 		//the event to the waiting queue. If it has come from the waiting queue, 
-		//recalculate the mass
+		//recalculate the mass. This is to avoid recalculating mass multiple times in the same frame.
 		if (e->GetEventPipe() != WAITING_PIPE)
 		{
 			addEventToWaitingQueue(new MassHasChangedEvent(1));
