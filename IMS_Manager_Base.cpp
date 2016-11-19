@@ -33,7 +33,7 @@ void IMS_Manager_Base::PreStep(double simdt)
 	sendEvents();
 }
 
-void IMS_Manager_Base::PostStep(double simdt)
+void IMS_Manager_Base::PreStateUpdate()
 {
 	processWaitingQueue();
 }

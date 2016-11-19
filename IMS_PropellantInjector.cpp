@@ -97,10 +97,17 @@ bool IMS_PropellantInjector::PreStep()
 		}
 		return false;
 	}
-
+	
+	static double bugconsumption = 0;
 	//the mass consumed from the resource is the total mass of propellant consumed by thrusters connected to this injector in this frame.
 	double curmass = v->GetPropellantMass(injector);
+	Helpers::writeToLog(string("mass in resource BEFORE: " + Helpers::doubleToString(curmass)), L_DEBUG);
 	double consumedmass = injectormass - curmass;
+	if (consumedmass > bugconsumption) bugconsumption = consumedmass;
+	if (curmass == 0.0)
+	{
+		bool bugme = true;
+	}
 
 	//check if the timewarp has changed, and resize the virtual resource accordingly
 	double newtimewarp = oapiGetTimeAcceleration();
@@ -122,6 +129,7 @@ bool IMS_PropellantInjector::PreStep()
 
 	if (consumedmass > 0.0)
 	{
+		Helpers::writeToLog(string("consumed mass: " + Helpers::doubleToString(consumedmass)), L_DEBUG);
 		for (auto consumabletype = tanks.begin(); consumabletype != tanks.end(); ++consumabletype)
 		{
 			vector<IMS_Storable*> &curtanks = consumabletype->second;
@@ -158,6 +166,10 @@ bool IMS_PropellantInjector::PreStep()
 		//reset the resource to full capacity. We only need it to measure consumption
 		v->SetPropellantMass(injector, injectormass);
 	}
+
+	curmass = v->GetPropellantMass(injector);
+	Helpers::writeToLog(string("mass in resource AFTER: " + Helpers::doubleToString(curmass)), L_DEBUG);
+
 
 	if (injectormasschanged)
 	{
@@ -286,6 +298,7 @@ bool IMS_PropellantInjector::EnableThruster(THRUSTER_HANDLE thruster)
 
 bool IMS_PropellantInjector::DisableThruster(THRUSTER_HANDLE thruster)
 {
+	Helpers::writeToLog(string("thruster disabled!"), L_DEBUG);
 	map<THRUSTER_HANDLE, bool>::iterator i = thrusters.find(thruster);
 
 	if (i != thrusters.end() && i->second == true)
@@ -347,13 +360,14 @@ void IMS_PropellantInjector::scaleInjectorResource()
 	}
 	double frameduration = 1.0 / framerate * currenttimewarp;
 	//calculate how much mass is needed to sustain all connected thrusters for two frames
-	double massfortwoframes = totalmaxmassflow * frameduration * 2;
+	double massfortwoframes = totalmaxmassflow * frameduration * 4;
 	//set the injector mass, and resize the propellant resource
 	injectormass = min(massfortwoframes, maxmass);
 	if (injector == NULL)
 	{
 		//the resource hasn't even been created yet.
 		injector = v->CreatePropellantResource(injectormass, injectormass);
+		Helpers::writeToLog(string("Initial propresource size set: " + Helpers::doubleToString(injectormass)), L_DEBUG);
 	}
 	else
 	{	//check how much propellant is missing from the resource at this time.
@@ -371,6 +385,9 @@ void IMS_PropellantInjector::scaleInjectorResource()
 		}
 		v->SetPropellantMaxMass(injector, injectormass);
 		v->SetPropellantMass(injector, newcurrentmass);
+
+		Helpers::writeToLog(string("Propresource rescale: max mass: " + Helpers::doubleToString(injectormass) + 
+			" current mass: " + Helpers::doubleToString(newcurrentmass)), L_DEBUG);
 	}
 	
 	//notify that the mass of the virtual resource has changed

@@ -83,6 +83,17 @@ public:
 	virtual void PreStep(double simdt, IMS2 *vessel);
 	
 	/**
+	* \brief is called at the end of every clbkPreStep on the vessel.
+	* This essentially serves the purpose to process the loopback pipe
+	* of the eventhandler. It is executed after everybody has done its thing
+	* and sent all its messages, and is used to finalise the vessel state
+	* before Orbiter applies the current timestep. It should NOT be overriden by inheriting classes.
+	* If you push events to the waiting queue, this is the time they will fire,
+	* and you get to finalise your states by reacting to them.
+	*/
+	void PreStateUpdate();
+
+	/**
 	* \brief returns the GUI of this module function, or NULL if this module function doesn't have a user interface. 
 	* \note Overload this function to return the specific GUI
 	* of your module function, otherwise the core will think

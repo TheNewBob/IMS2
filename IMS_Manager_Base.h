@@ -20,9 +20,15 @@ public:
 	virtual void PreStep(double simdt);
 
 	/**
-	* \brief is called on every clbkPostStep call on the vessel.
+	* \brief is called at the end of every clbkPreStep on the vessel.
+	* This essentially serves the purpose to process the loopback pipe
+	* of the eventhandler. It is executed after everybody has done its thing
+	* and sent all its messages, and is used to finalise the vessel state
+	* before Orbiter applies it.It should NOT be overriden by inheriting classes.
+	* If you push events to the waiting queue, this is the time they will fire,
+	* and you get to finalise your states by reacting to them.
 	*/
-	virtual void PostStep(double simdt);
+	void PreStateUpdate();
 
 protected:
 	IMS2 *vessel;

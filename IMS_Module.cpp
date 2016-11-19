@@ -500,6 +500,12 @@ void IMS_Module::PreStep(double simdt)
 }
 
 
+void IMS_Module::PreStateUpdate()
+{
+	processWaitingQueue();
+}
+
+
 double IMS_Module::GetMass()
 {
 	double totalmass = _module_data->getMass();

@@ -133,6 +133,7 @@ IMS2::~IMS2()
 
 void IMS2::clbkPreStep(double simt, double simdt, double mjd) 
 {
+	Helpers::writeToLog(string("FrameDeltaTime: " + Helpers::doubleToString(simdt)), L_DEBUG);
 
 	//run through PreStep computations of modules on this vessel
 	for (UINT i = 0; i < modules.size(); ++i)

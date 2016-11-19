@@ -152,4 +152,5 @@ private:
 	 * \param consumable_id Id of the consumable you want to know the mass for. Must be present in the injector!
 	 */
 	double getAvailablePropellantMassByType(int consumable_id);
+
 };

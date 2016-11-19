@@ -41,6 +41,11 @@ void IMS_ModuleFunction_Base::PreStep(double simdt, IMS2 *vessel)
 	sendEvents();
 }
 
+void IMS_ModuleFunction_Base::PreStateUpdate()
+{
+	processWaitingQueue();
+}
+
 void IMS_ModuleFunction_Base::LoadState(FILEHANDLE scn)
 {
 	char *line;

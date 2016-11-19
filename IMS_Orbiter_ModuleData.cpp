@@ -81,7 +81,7 @@ void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 					 atof(tokens[2].data()),
 					 atof(tokens[3].data()));
 		}
-		if (tokens[0].compare("begin_ims_attachment") == 0)
+		else if (tokens[0].compare("begin_ims_attachment") == 0)
 		{
 			startAttachments = true;
 		}
