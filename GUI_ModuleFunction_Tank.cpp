@@ -30,10 +30,10 @@ GUI_ModuleFunction_Tank::GUI_ModuleFunction_Tank(IMS_ModuleFunction_Tank *tank, 
 	proptypebtn = gui->CreateDynamicButton("designate propellant", _R(width - 160, 70, width - 10, 95), id);
 	proptypebtn->SetVisible(false);
 
-//create cheatbutton in debug builds	
-#ifdef _DEBUG
+//create cheatbutton in debug builds. Made permanent for now.	
+//#ifdef _DEBUG
 	cheatbutton = gui->CreateDynamicButton("fill", _R(width - 60, 10, width - 10, 35), id);
-#endif
+//#endif
 }
 
 void GUI_ModuleFunction_Tank::Init()

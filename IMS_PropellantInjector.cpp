@@ -2,7 +2,6 @@
 #include "IMS_ModuleFunctionData_Base.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "ModuleFunctionIncludes.h"
-//#include "IMS_ModuleFunction_Pressurised.h"
 #include "IMS_ModuleDataManager.h"
 #include "IMS_Movable.h"
 #include "IMS_Storable.h"
@@ -30,8 +29,7 @@ IMS_PropellantInjector::IMS_PropellantInjector(vector<int> &propellant_ids, vect
 		this->ratio[propellant_ids[i]] = ratio[i] * one_part;
 	}
 
-	currenttimewarp = oapiGetTimeAcceleration();
-	scaleInjectorResource();
+	injector = v->CreatePropellantResource(injectormass);
 	v->SetPropellantEfficiency(injector, efficiency);
 }
 
@@ -85,7 +83,7 @@ bool IMS_PropellantInjector::DisconnectTank(IMS_Storable* tank)
 }
 
 
-bool IMS_PropellantInjector::PreStep()
+bool IMS_PropellantInjector::PreStep(double simdt)
 {
 	//if the injector doesn't have the necessary propellant to work, see if the injector mass has changed due to other circumstances
 	if (!isViable)
@@ -97,39 +95,19 @@ bool IMS_PropellantInjector::PreStep()
 		}
 		return false;
 	}
+
 	
-	static double bugconsumption = 0;
-	//the mass consumed from the resource is the total mass of propellant consumed by thrusters connected to this injector in this frame.
+	//the mass consumed from the resource is the total mass of propellant consumed by thrusters connected to this injector in the LAST frame.
 	double curmass = v->GetPropellantMass(injector);
-	Helpers::writeToLog(string("mass in resource BEFORE: " + Helpers::doubleToString(curmass)), L_DEBUG);
 	double consumedmass = injectormass - curmass;
-	if (consumedmass > bugconsumption) bugconsumption = consumedmass;
-	if (curmass == 0.0)
-	{
-		bool bugme = true;
-	}
 
-	//check if the timewarp has changed, and resize the virtual resource accordingly
-	double newtimewarp = oapiGetTimeAcceleration();
-	if (newtimewarp != currenttimewarp)
-	{
-		currenttimewarp = newtimewarp;
-		scaleInjectorResource();
-	}
+	//see if any thruster levels are set
+	bool is_thrusterlevel_set = areThrustersRunning();
 
-
-	//the reactionary way in which propellant consumption is handled is inherently inprecise.
-	//when a tank runs empty, it will always provide more propellant in its last gasp than it actually has, 
-	//because that propellant has already been consumed by orbiter. The result can be significant inprecisions
-	//in applied Delta-V on the last frame a thruster is running when the engine has a high massflow rate and
-	//time acceleration is high. However, both of these conditions happening at once are somewhat unlikely,
-	//since engines with high massflow are not likely to be used at high time accel.
-
-	vector<IMS_Storable*> empty_tanks;						//will contain any tanks that ran dry during this frame
+	vector<IMS_Storable*> empty_tanks;						//will contain any tanks that ran dry during the last frame
 
 	if (consumedmass > 0.0)
 	{
-		Helpers::writeToLog(string("consumed mass: " + Helpers::doubleToString(consumedmass)), L_DEBUG);
 		for (auto consumabletype = tanks.begin(); consumabletype != tanks.end(); ++consumabletype)
 		{
 			vector<IMS_Storable*> &curtanks = consumabletype->second;
@@ -145,11 +123,6 @@ bool IMS_PropellantInjector::PreStep()
 				{
 					//the tank is empty, note it for disconnection
 					empty_tanks.push_back(curtanks[i]);
-
-					//debug - write the overtaxed amount to the log for testing.
-					stringstream ss;
-					ss << "consumed " << mass_from_tank - removedcontent << " too much from tank.";
-					Helpers::writeToLog(ss.str(), L_DEBUG);
 				}
 			}
 		}
@@ -164,12 +137,24 @@ bool IMS_PropellantInjector::PreStep()
 		}
 
 		//reset the resource to full capacity. We only need it to measure consumption
-		v->SetPropellantMass(injector, injectormass);
+//		v->SetPropellantMass(injector, injectormass);
+		if (!is_thrusterlevel_set)
+		{
+			//the thruster was shut down, this is the last frame that will consume propellant.
+			//rescale the resource to minimum.
+			scaleInjectorResource(0);
+		}
 	}
 
-	curmass = v->GetPropellantMass(injector);
-	Helpers::writeToLog(string("mass in resource AFTER: " + Helpers::doubleToString(curmass)), L_DEBUG);
-
+	//if thrusters are running, rescale the propellant resource for the next frame.
+	//the cool thing is that this will be triggered an iteration
+	//before anything got consumed (timestep not yet applied to sim),
+	//ergo the simdt tells us for how much we need to have propellant
+	//ready.
+	if (is_thrusterlevel_set)
+	{
+		scaleInjectorResource(simdt);
+	}
 
 	if (injectormasschanged)
 	{
@@ -262,7 +247,6 @@ void IMS_PropellantInjector::ConnectThruster(THRUSTER_HANDLE thruster, double ma
 	}
 	//update the maximum massflow of the injector
 	totalmaxmassflow += maxmassflow;
-	scaleInjectorResource();
 }
 
 
@@ -276,7 +260,6 @@ bool IMS_PropellantInjector::DisconnectThruster(THRUSTER_HANDLE thruster, double
 		thrusters.erase(i);
 		//update the maximum massflow of the injector. 
 		totalmaxmassflow = max(0.0, totalmaxmassflow - maxmassflow);
-		scaleInjectorResource();
 		return true;
 	}
 	return false;
@@ -336,63 +319,59 @@ void IMS_PropellantInjector::enableInjector()
 		}
 	}
 
-	//rescale the virtual propellant source
-	scaleInjectorResource();
-	injectormasschanged = true;
-	//Rescaling the resource will make it larger, but it will not be filled up entirely.
-	//the missing amount will be interpreted as propellant consumption in the next prestep,
-	//which is not appropriate in this case, so we have to fill it up.
-	v->SetPropellantMass(injector, injectormass);
+	//rescale the virtual propellant source so we're ready to receive input again.
+	scaleInjectorResource(0);
 }
 
 
-void IMS_PropellantInjector::scaleInjectorResource()
+void IMS_PropellantInjector::scaleInjectorResource(double simdt)
 {
 	double previousinjectormass = injectormass;
-	//scales the virtual propellant resource to contain enough mass for two frames at the current framerate, to a maximum of the ammount of propellant available to the injector
-	double maxmass = GetAvailablePropellantMass();
-	//calculate how many in-universe seconds currently pass per frame
-	double framerate = oapiGetFrameRate();
-	//at loadup, the framerate will be zero. We assume a low framerate to be on the save side.
-	if (framerate == 0.0)
+	//scales the virtual propellant resource to contain enough mass for the next simstep,
+	//or as much as we have left to burn.
+	double maxmass = GetMaximumConsumablePropellantMass();
+	//put a margin of 20% on what we need, just to be on the save side.
+	//we'll always need something in that resource though, otherwise setting thrusterlevels
+	//programmatically won't work at all.
+	double massfornextframe = max(1, totalmaxmassflow * simdt * 1.1);
+	
+	if (maxmass < massfornextframe)
 	{
-		framerate = 15;
-	}
-	double frameduration = 1.0 / framerate * currenttimewarp;
-	//calculate how much mass is needed to sustain all connected thrusters for two frames
-	double massfortwoframes = totalmaxmassflow * frameduration * 4;
-	//set the injector mass, and resize the propellant resource
-	injectormass = min(massfortwoframes, maxmass);
-	if (injector == NULL)
-	{
-		//the resource hasn't even been created yet.
-		injector = v->CreatePropellantResource(injectormass, injectormass);
-		Helpers::writeToLog(string("Initial propresource size set: " + Helpers::doubleToString(injectormass)), L_DEBUG);
+		//there won't be enough propellant left to feed all thrusters at current throttle for the next frame.
+		vector<THRUSTER_HANDLE> runningthrusters = getRunningThrusters();
+		if (runningthrusters.size() > 1)
+		{
+			//there's more than one thruster running. That also means that their thrust is likely off-center.
+			//We shut them all off, even though there might still be enough juice to feed them at lower thrust. Orbiter doesn't care,
+			//it would just give more propellant to one of them, resulting in asymmetric thrust before shutdown.
+			for (UINT i = 0; i < runningthrusters.size(); ++i)
+			{
+				v->SetThrusterLevel(runningthrusters[i], 0.0);
+			}
+			injectormass = 1;
+		}
+		else
+		{
+			//there's only one thruster running, so it's likely thrusting through the CoG. 
+			//just give it all the prop that's left.
+			injectormass = maxmass;
+		}
 	}
 	else
-	{	//check how much propellant is missing from the resource at this time.
-		//At the end of the operation, the same ammount has to be missing as at the beginning,
-		//or propellant will go missing from the tanks with every rescale!
-		double missingprop = previousinjectormass - v->GetPropellantMass(injector);
-		
-		double newcurrentmass = injectormass - missingprop;
-		if (newcurrentmass < 0)
-		{
-			//When downscaling, it can happen that we cannot adequately represent what was missing from the resource.
-			//For now we'll log it to get an idea how often this happens and how much error is introduced by it.
-			Helpers::writeToLog(string("Propellant consumption ignored due to downscaling of virtual resource: " + Helpers::doubleToString(newcurrentmass * -1)), L_DEBUG);
-			newcurrentmass = 0;
-		}
-		v->SetPropellantMaxMass(injector, injectormass);
-		v->SetPropellantMass(injector, newcurrentmass);
-
-		Helpers::writeToLog(string("Propresource rescale: max mass: " + Helpers::doubleToString(injectormass) + 
-			" current mass: " + Helpers::doubleToString(newcurrentmass)), L_DEBUG);
+	{
+		//set a sufficient injector mass to provide enough gas for the next frame.
+		injectormass = massfornextframe;
 	}
+
+	//set the new size of the resource and fill it up
+	v->SetPropellantMaxMass(injector, injectormass);
+	v->SetPropellantMass(injector, injectormass);
+	
 	
 	//notify that the mass of the virtual resource has changed
 	injectormasschanged = true;
 }
+
 
 double IMS_PropellantInjector::GetAvailablePropellantMass()
 {
@@ -408,17 +387,58 @@ double IMS_PropellantInjector::GetAvailablePropellantMass()
 	return availablemass;
 }
 
-double IMS_PropellantInjector::getAvailablePropellantMassByType(int consumable_id)
+
+double IMS_PropellantInjector::GetMaximumConsumablePropellantMass()
 {
-	assert(tanks.find(consumable_id) != tanks.end() && "request for mass of propellant type that is not part of the injector!");
 
-	double availablemass = 0.0;
-	vector<IMS_Storable*> &curtanks = tanks[consumable_id];
+	//stores the maximum total mass of mixture that could be produced from the amount
+	//of the specific proptype, provided enough of the others were around.
+	//e.g. imagine prop a (500kg) and b (1000kg) at a mixture of 1 to 3:
+	//from prop a we could mix 2000 kg (500 + 1500) if there's enough of b available.
+	//from prop b we could make 1333kg (1000 + 333).
+	//in th end, all we have to do is whos value is the lowest, and we have the limiting
+	//factor in the mixture as well as the maximum amount of mixture we can make.
+	vector<double> maxmass_per_prop;
 
-	for (UINT i = 0; i < curtanks.size(); ++i)
+	for (auto i = ratio.begin(); i != ratio.end(); ++i)
 	{
-		availablemass += curtanks[i]->GetMass();
+		//add up the total amount of propellant of this type
+		vector<IMS_Storable*> &curtanks = tanks[i->first];
+		double availablemass = 0.0;
+		for (UINT j = 0; j < curtanks.size(); ++j)
+		{
+			availablemass += curtanks[j]->GetMass();
+		}
+		//the ratio is already converted to fractions of 1 at this point.
+		maxmass_per_prop.push_back(availablemass / i->second);
 	}
 
-	return availablemass;
+	//now all we have to do is sort the thing ascendingly and return the smallest value.
+	sort(maxmass_per_prop.begin(), maxmass_per_prop.end());
+	return maxmass_per_prop[0];
+}
+
+
+bool IMS_PropellantInjector::areThrustersRunning()
+{
+	//check the thrust level of any connected thrusters, and return true if even one of them is running.
+	for (auto i = thrusters.begin(); i != thrusters.end(); ++i)
+	{
+		if (v->GetThrusterLevel(i->first) > 0.0) return true;
+	}
+	return false;
+}
+
+
+vector<THRUSTER_HANDLE> IMS_PropellantInjector::getRunningThrusters()
+{
+	vector <THRUSTER_HANDLE> runningthrusters;
+	for (auto i = thrusters.begin(); i != thrusters.end(); ++i)
+	{
+		if (v->GetThrusterLevel(i->first) > 0)
+		{
+			runningthrusters.push_back(i->first);
+		}
+	}
+	return runningthrusters;
 }

@@ -11,7 +11,8 @@
 #include "SimpleShape.h"
 #include "IMS_TouchdownPointManager.h"
 #include "autopilot_includes.h"
-
+#include "GUI_Common.h"
+#include "FontsAndStyles.h"
 //#include "vld.h"
 
 
@@ -41,6 +42,8 @@ DLLCLBK void ExitModule (HINSTANCE hModule)
 {
 	oapiDestroySurface(IMS2::pilotPanelBG);
 	oapiDestroySurface(IMS2::engPanelBG);
+	FontsAndStyles::DestroyInstance();
+	
 }
 
 // --------------------------------------------------------------
@@ -133,8 +136,6 @@ IMS2::~IMS2()
 
 void IMS2::clbkPreStep(double simt, double simdt, double mjd) 
 {
-	Helpers::writeToLog(string("FrameDeltaTime: " + Helpers::doubleToString(simdt)), L_DEBUG);
-
 	//run through PreStep computations of modules on this vessel
 	for (UINT i = 0; i < modules.size(); ++i)
 	{
@@ -156,21 +157,29 @@ void IMS2::clbkPreStep(double simt, double simdt, double mjd)
 	}
 
 	updateGui();
+
+	preStateUpdate();
 }
 
 
 // ==============================================================
 // Post step processings
 // ==============================================================
-void IMS2::clbkPostStep(double simt, double simdt, double mjd) 
+void IMS2::preStateUpdate()
 {
 	//process the event waiting queue
 	processWaitingQueue();
 
-	//execute poststep on all managers
+	//let all modules process their waiting queues
+	for (UINT i = 0; i < modules.size(); ++i)
+	{
+		modules[i]->PreStateUpdate();
+	}
+
+	//let all managers process their waiting queue
 	for (map<IMS_MANAGER, IMS_Manager_Base*>::iterator i = managers.begin(); i != managers.end(); ++i)
 	{
-		i->second->PostStep(simdt);
+		i->second->PreStateUpdate();
 	}
 
 }

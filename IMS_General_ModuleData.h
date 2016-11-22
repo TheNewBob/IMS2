@@ -20,7 +20,7 @@ class IMS_General_ModuleData
 {
 public:
 	IMS_General_ModuleData();
-	~IMS_General_ModuleData();
+	virtual ~IMS_General_ModuleData();
 
 	/**
 	 * \brief Loads the data from an Orbiter cfg

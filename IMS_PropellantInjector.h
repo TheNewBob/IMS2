@@ -93,9 +93,10 @@ public:
 	 * \brief Calculates propellant consumption since last call.
 	 * 
 	 * Resizes virtual propellant resource if necessary, draws consumed propellant from connected tanks
+	 * \param simdt Elapsed sim time since last frame.
 	 * \return true if the mass of the virtual propellant resource has changed, false otherwise.
 	 */
-	bool PreStep();
+	bool PreStep(double simdt);
 	
 	/**
 	 * \return True if the mixture of this injector matches the mixture passed in the arguments, false otherwise
@@ -107,9 +108,18 @@ public:
 	 * \note This does not take the mixture into account! It may well be that the injector
 	 *	has a ton of propellant available, but can only burn 100 kg because the propellants 
 	 *	are not proportional to the ratio at which they are consumed!
+	 * \see GetMaximumConsumablePropellantMass()
 	 */
 	double GetAvailablePropellantMass();
-	
+
+	/**
+  	 * \return The maximum mass of propellant that can actually be consumed.
+	 * This takes ratio into account, so if you have e.g. 500 kg of fuel and 500 kg of oxydiser,
+	 * But your mixture requires twice the amount of fuel per oxydiser, the returned value will be
+	 * 750 kg (500 kg of fuel plus 250 kg of oxydiser).
+	 */
+	double GetMaximumConsumablePropellantMass();
+
 private:
 	map<int, vector<IMS_Storable*>> tanks;					//!< contains all currently connected tanks 
 	map<int, double> ratio;							//!< maps ratioes to their respective propellant types 
@@ -119,7 +129,7 @@ private:
 	double currenttimewarp;							//!< the time acceleration the sim is currently in. Needed for scaling the propellant resource.
 	double totalmaxmassflow = 0;					//!< the maximum total massflow that can pass through this injector, in kg/s
 	VESSEL *v;
-	double injectormass = 0;
+	double injectormass = 1;
 	bool injectormasschanged = false;				//!< True if the mass of the virtual resource has changed during this frame
 	bool isViable = false;							//!< Shows whether the injector has all necessary propellants to actually work
 	
@@ -145,12 +155,18 @@ private:
 	 * \note This method changes the mass of the underlying orbiter vessel. Any caller is responsible to insure that the vessel mass  
 	 *	of the IMS vessel is recalculated in the same frame, but should take care that it is not done twice in the same frame.
 	 */
-	void scaleInjectorResource();
+	void scaleInjectorResource(double simdt);
 
 	/**
-	 * \return The mass of a certain propellant type available to the injector, in kg.
-	 * \param consumable_id Id of the consumable you want to know the mass for. Must be present in the injector!
+	 * \return True if any connected thrusters are running, false otherwise.
 	 */
-	double getAvailablePropellantMassByType(int consumable_id);
+	bool areThrustersRunning();
+
+	/**
+	 * \brief Kills the thrust on all thrusters attached.
+	 * This is used to prevent asymetric thruster shutdown by orbiter when there's not
+	 * enough propellant around to feed them for another frame.
+	 */
+	vector<THRUSTER_HANDLE> getRunningThrusters();
 
 };

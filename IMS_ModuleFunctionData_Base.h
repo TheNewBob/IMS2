@@ -33,7 +33,7 @@ class IMS_ModuleFunctionData_Base
 {
 public:
 	IMS_ModuleFunctionData_Base() { type = MTYPE_NONE; };
-	~IMS_ModuleFunctionData_Base() {};
+	virtual ~IMS_ModuleFunctionData_Base() {};
 
 	/**
 	 * \brief Loads the data from config file.

@@ -16,7 +16,7 @@ public:
 	 * \param _scrollbarstyle An alternate style to draw the scrollbar in
 	 */
 	GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle = NULL);
-	~GUI_ScrollablePage();
+	virtual ~GUI_ScrollablePage();
 	
 	/**
 	 * \brief Manually sets the height of the content in pixel, which influences the scrollrange.

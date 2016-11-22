@@ -157,7 +157,7 @@ void IMS2::InitialiseGUI()
 	//create panel backgrounds if they are not yet initialised
 	if (engPanelBG == NULL)
 	{
-		engPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE /*| OAPISURFACE_RENDERTARGET | OAPISURFACE_GDI | OAPISURFACE_SKETCHPAD*/);
+		engPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
 //		engPanelBG = oapiCreateTextureSurface(1680, 1050);
 
 		GUI_ElementStyle *defaultstyle = GUI->GetStyle();
@@ -167,7 +167,12 @@ void IMS2::InitialiseGUI()
 	}
 	if (pilotPanelBG == NULL)
 	{
-		pilotPanelBG = GUI_Draw::createElementBackground(GUI->GetStyle(), 1680, 1050);
+		pilotPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
+
+		GUI_ElementStyle *defaultstyle = GUI->GetStyle();
+		oapiColourFill(pilotPanelBG, oapiGetColour(defaultstyle->BackgroundColor().r,
+			defaultstyle->BackgroundColor().g,
+			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);
 	}
 	//allocate panel elements
 	mainDispSurface = new GUI_MainDisplay(this, GUI->GetStyle(STYLE_WINDOW_BORDER), ENGINEERINGPANEL);
@@ -176,17 +181,8 @@ void IMS2::InitialiseGUI()
 
 void IMS2::DestroyGUI()
 {
-	//debug
-	string vesName = GetName();
-
 	if (hPanelMesh) oapiDeleteMesh (hPanelMesh);
 	delete GUI;
-	if (mainDispSurface != NULL)
-	//if noone actually looked at the panel, the GUI surfaces will never get registered and therefore not deleted
-	//if that is the case, delete them here
-	{
-		delete mainDispSurface;
-	}
 }
 
 void IMS2::updateGui()

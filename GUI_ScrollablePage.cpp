@@ -15,6 +15,7 @@ GUI_ScrollablePage::GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_s
 
 GUI_ScrollablePage::~GUI_ScrollablePage()
 {
+	delete scrollbar;
 }
 
 
@@ -93,8 +94,6 @@ void GUI_ScrollablePage::createScrollablePage(GUI_ElementStyle *scrollbarstyle)
 	scrollbar->SetNoBlit(true);
 	scrollbar->SetScrollSpeed(10);
 	scrollbar->SetFixed(true);
-	//debug
-	//scrollbar->SetScrollRange(1000);
 
 	//don't use the overloaded addchild method, because that one will to calculate
 	//scrollrange for the contained elements. Since the scrollbar is the only element

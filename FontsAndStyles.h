@@ -19,6 +19,8 @@
  * should be obtained by the factory functions in GUIentity
  */
 
+
+
 /**
  * \brief Singleton that manages fonts and styles.
  *

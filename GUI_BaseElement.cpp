@@ -22,6 +22,11 @@ GUI_BaseElement::~GUI_BaseElement()
 	{
 		oapiDestroySurface(src);
 	}
+	//delete all plugins of this element
+	for (UINT i = 0; i < plugins.size(); ++i)
+	{
+		delete plugins[i];
+	}
 }
 
 

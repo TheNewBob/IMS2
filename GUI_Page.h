@@ -19,7 +19,7 @@ public:
 	* \see ScrollablePage
     */
 	GUI_Page(RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground = false);
-	~GUI_Page(void);
+	virtual ~GUI_Page(void);
 
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 

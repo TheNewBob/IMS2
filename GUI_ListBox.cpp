@@ -26,6 +26,7 @@ GUI_ListBox::~GUI_ListBox(void)
 	entries.clear();
 	hilights.clear();
 	selected = -1;
+	delete scrollbar;
 }
 
 

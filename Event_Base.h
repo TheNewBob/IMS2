@@ -20,7 +20,7 @@ public:
 	 * \param _delay The event will fire this many frames after its creation
 	 */
 	Event_Base(EVENTTYPE _type, unsigned int _delay = 0);
-	~Event_Base();
+	virtual ~Event_Base();
 
 	/**
 	 * \brief Returns the EventHandler at which this event originated.

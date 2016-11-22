@@ -41,7 +41,7 @@ public:
 	friend class GUI_Module;
 
 	IMS_Module();
-	~IMS_Module();
+	virtual ~IMS_Module();
 
 	//functions that propagate to IMS_ModuleFunction objects
 	

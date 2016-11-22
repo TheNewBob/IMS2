@@ -16,7 +16,7 @@ public:
 	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type);
 
 
-	~IMS_ModuleFunction_Pressurised();
+	virtual ~IMS_ModuleFunction_Pressurised();
 
 	virtual void PostLoad(){};
 	virtual void SaveState(FILEHANDLE scn){};

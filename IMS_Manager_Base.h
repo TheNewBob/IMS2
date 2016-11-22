@@ -5,7 +5,7 @@ class IMS_Manager_Base :
 {
 public:
 	IMS_Manager_Base(IMS2 *vessel);
-	~IMS_Manager_Base();
+	virtual ~IMS_Manager_Base();
 
 	/**
 	 * \brief Override to initialise a manager on simulation load if necessary.

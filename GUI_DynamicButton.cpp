@@ -13,7 +13,6 @@ GUI_DynamicButton::GUI_DynamicButton(string _text, RECT _rect, int _id, GUI_Elem
 
 GUI_DynamicButton::~GUI_DynamicButton()
 {
-	oapiDestroySurface(src);
 }
 
 

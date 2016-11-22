@@ -17,7 +17,7 @@ class IMS_ModuleFunction_Thruster :
 {
 public:
 	IMS_ModuleFunction_Thruster(IMS_ModuleFunctionData_Thruster *_data, IMS_Module *_module, bool creategui);
-	~IMS_ModuleFunction_Thruster();
+	virtual ~IMS_ModuleFunction_Thruster();
 
 	virtual void PostLoad();
 	virtual void SaveState(FILEHANDLE scn);

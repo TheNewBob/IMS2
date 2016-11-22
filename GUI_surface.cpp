@@ -20,7 +20,10 @@ GUI_Surface::GUI_Surface(IMS2 *_vessel, GUI_ElementStyle *_style, int _panelid)
 
 GUI_Surface::~GUI_Surface()
 {
-
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
 }
 
 void GUI_Surface::Init(RECT &surfacePos, int _id) 

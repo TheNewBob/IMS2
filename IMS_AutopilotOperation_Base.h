@@ -18,7 +18,7 @@ public:
 		rcs = vessel->GetRcsManager();
 	};
 
-	~IMS_AutopilotOperation_Base() {};
+	virtual ~IMS_AutopilotOperation_Base() {};
 
 	/**
 	 * \brief Controll loop that applies AP operation to vessel.

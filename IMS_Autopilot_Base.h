@@ -12,7 +12,7 @@ class IMS_Autopilot_Base
 public:
 	IMS_Autopilot_Base(IMS2 *vessel) : vessel(vessel) {};
 
-	~IMS_Autopilot_Base() 
+	virtual ~IMS_Autopilot_Base() 
 	{
 		for (auto i = operations.begin(); i != operations.end(); ++i)
 		{

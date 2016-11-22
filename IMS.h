@@ -59,7 +59,6 @@ public:
 	
 	//IMS.cpp
 	void clbkPreStep(double simt, double simdt, double mjd); 
-	void clbkPostStep(double simt, double simdt, double mjd);
 	void clbkVisualCreated (VISHANDLE vis, int refcount);
 	void clbkVisualDestroyed (VISHANDLE vis, int refcount);
 	int clbkConsumeBufferedKey(DWORD key, bool down, char *kstate);
@@ -159,11 +158,23 @@ public:
 
 private:
 	//IMS.cpp
+
+	/**
+	* \brief is called at the end of every clbkPreStep on the vessel.
+	* This essentially serves the purpose to process the loopback pipe
+	* of the eventhandler. It is executed after everybody has done its thing
+	* and sent all its messages, and is used to finalise the vessel state
+	* before Orbiter applies it.It should NOT be overriden by inheriting classes.
+	* If you push events to the waiting queue, this is the time they will fire,
+	* and you get to finalise your states by reacting to them.
+	*/
+	void preStateUpdate();	
 	void AssimilateIMSVessel(IMS2 *vessel);
 
-	/* checks things in the vessel state and triggers appropriate events when something changes
+	/**
+	 * \brief checks things in the vessel state and triggers appropriate events when something changes
 	 * triggerevents: pass false to just update the state without triggering events (only done on vessel creation)
-	*/
+	 */
 	void updateVesselState(bool triggerevents = true);
 
 	//IMS_Docking.cpp

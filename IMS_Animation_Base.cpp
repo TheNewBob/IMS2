@@ -15,7 +15,6 @@ IMS_Animation_Base::IMS_Animation_Base(ANIMATIONDATA *_data)
 
 IMS_Animation_Base::~IMS_Animation_Base()
 {
-	RemoveAnimationFromVessel();
 }
 
 
@@ -43,11 +42,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 
 	//create animation on vessel and remember the orbiter ID 
 	orbiterid = vessel->CreateAnim(0.0);
-	//debug
-	char stringid[3];
-	itoa(orbiterid, stringid, 10);
-	Helpers::writeToLog(string("created animation ") + data->id + " " + stringid, L_DEBUG);
-	//debug
+	Helpers::writeToLog(string("created animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
 
 	//create the animation on the vessel. We need to store the handles for parent-child relations
 	//and for proper deletion later on.
@@ -93,11 +88,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 
 void IMS_Animation_Base::RemoveAnimationFromVessel()
 {
-	//debug
-	char stringid[3];
-	itoa(orbiterid, stringid, 10);
-	Helpers::writeToLog(string("Deleting animation ") + data->id + " " + stringid, L_DEBUG);
-	///debug
+	Helpers::writeToLog(string("Deleting animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
 
 	DisableAnimation();
 	//delete the animationcomponents in reverse order.

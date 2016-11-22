@@ -16,7 +16,7 @@ public:
 	 * \param _style The style to render the checkbox in
 	 */
 	GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *_style);
-	~GUI_CheckBox();
+	virtual ~GUI_CheckBox();
 	
 	/**
 	 * \return True if the box is checked, false otherwise

@@ -179,9 +179,6 @@ void IMS_ModuleFunction_Comm::PreStep(double simdt, IMS2 *vessel)
 	if (state.StateChanged())
 	{
 		//state has changed, update the state description on the gui
-		//debug
-//		string statedesc = state.GetStateDescription();
-
 		menu->SetStateDescription(state.GetStateDescription());
 
 		//first get the current event. This will immediately advance the state to the next

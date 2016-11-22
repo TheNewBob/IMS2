@@ -40,7 +40,7 @@ public:
 	 * \param _style The style the element should be rendered in
 	 */
 	GUI_BaseElement(RECT _rect, int _id, GUI_ElementStyle *_style);
-	~GUI_BaseElement();
+	virtual ~GUI_BaseElement();
 
 	/**
 	 * \brief Draws the element and its children to a SURFHANDLE

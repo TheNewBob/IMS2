@@ -28,7 +28,7 @@ class GUIentity
 {
 public:
 	GUIentity();
-	~GUIentity();
+	virtual ~GUIentity();
 
 	/**
 	 * \brief Registers a GUI element that has not been created by this GUIentity. 

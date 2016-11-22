@@ -22,7 +22,6 @@ MATRIX3 Rotations::UnitMatrix()
 
 MATRIX3 Rotations::GetRotationMatrixFromDirection(VECTOR3 dir)
 {
-	MATRIX3 transformation;
 	MATRIX3 dirmat;
 
 	if (!RequiresRotation(dir, _V(0, 1, 0)))

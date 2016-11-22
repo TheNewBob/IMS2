@@ -16,7 +16,7 @@ public:
 	 * \param _delay How many frames the event should be delayed
 	*/
 	AnimationEvent_Base(EVENTTYPE type, string animationid, int _delay) : Event_Base(type, _delay), animid(animationid){};
-	~AnimationEvent_Base(){};
+	virtual ~AnimationEvent_Base(){};
 
 	/**
 	 * \return The string identifer of the animation this event is aimed at

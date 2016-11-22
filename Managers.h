@@ -9,8 +9,8 @@
  */
 enum IMS_MANAGER
 {
-	COG_MANAGER,			//!< center of gravity and vessel mass manager
-	PROP_MANAGER,			//!< Propulsion manager
 	RCS_MANAGER,			//!< rcs thruster manager
-	TDPOINT_MANAGER			//!< Touchdown Point Manager
+	PROP_MANAGER,			//!< Propulsion manager
+	TDPOINT_MANAGER,			//!< Touchdown Point Manager
+	COG_MANAGER,			//!< center of gravity and vessel mass manager
 };

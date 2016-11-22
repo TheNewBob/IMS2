@@ -502,7 +502,14 @@ void IMS_Module::PreStep(double simdt)
 
 void IMS_Module::PreStateUpdate()
 {
+	//process the waiting queue on the module.
 	processWaitingQueue();
+
+	//let all modulefunctions process theirs.
+	for (UINT i = 0; i < functions.size(); ++i)
+	{
+		functions[i]->PreStateUpdate();
+	}
 }
 
 

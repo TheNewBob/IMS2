@@ -17,7 +17,7 @@ class GUIplugin :
 {
 public:
 	GUIplugin();
-	~GUIplugin();
+	virtual ~GUIplugin();
 
 	
 	

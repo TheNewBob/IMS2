@@ -281,7 +281,7 @@ void IMS_PropulsionManager::PreStep(double simdt)
 	bool injectormasschanged = false;
 	for (UINT i = 0; i < injectors.size(); ++i)
 	{
-		if (injectors[i]->PreStep())
+		if (injectors[i]->PreStep(simdt))
 		{
 			injectormasschanged = true;
 		}

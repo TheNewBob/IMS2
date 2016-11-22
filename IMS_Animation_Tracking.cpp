@@ -48,13 +48,7 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 		secondaryaxis = mul(moduleorientation, data->components[1].axis);
 	}
 
-	//debug
-	char stringid[3];
-	itoa(orbiterid, stringid, 10);
-	Helpers::writeToLog(string("created tracking animation ") + data->id + " " + stringid, L_DEBUG);
-	itoa(orbiterid, stringid, 10);
-	Helpers::writeToLog(string("created tracking animation ") + data->id + " " + stringid, L_DEBUG);
-	//debug
+	Helpers::writeToLog(string("created tracking animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
 
 	//if there's a secondary animation, create its component too
 	if (secondaryorbiterid != -1)
@@ -91,14 +85,7 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 
 void IMS_Animation_Tracking::RemoveAnimationFromVessel()
 {
-//	secondrotation->axis = data->components[1].axis;
-	//debug
-	char stringid[3];
-	itoa(orbiterid, stringid, 10);
-	Helpers::writeToLog(string("Deleting animation ") + data->id + " " + stringid, L_DEBUG);
-	itoa(secondaryorbiterid, stringid, 10);
-	Helpers::writeToLog(string("Deleting animation ") + data->id + " " + stringid, L_DEBUG);
-	///debug
+	Helpers::writeToLog(string("Deleting animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
 
 	DisableAnimation();
 	//delete the animationcomponents in reverse order.

@@ -18,7 +18,7 @@ public:
 	 * \param _panelid The orbiter id of the panel this surface is visible on
 	 */
 	GUI_Surface(IMS2 *_vessel, GUI_ElementStyle *_style, int _panelid);
-	~GUI_Surface();
+	virtual ~GUI_Surface();
 
 	/**
 	 * \brief Creates the surfaces visuals in memory
@@ -103,7 +103,7 @@ protected:
 
 	IMS2 *vessel;								//!< The vessel this surface is a part of
 	RECT rect;									//!< The rectangle of this surface on the panel
-	SURFHANDLE src;								//!< Stores the surfaces backgroud visuals
+	SURFHANDLE src = NULL;						//!< Stores the surfaces backgroud visuals
 	int width;									//!< width of the surface in pixel
 	int height;									//!< height of the surface in pixel
 	int id;										//!< The locally unique identifier of this surface inside its containing GUImanager

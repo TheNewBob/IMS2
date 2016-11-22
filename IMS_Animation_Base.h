@@ -10,7 +10,7 @@ public:
 	 * \param _data Pointer to the data that describes the animation
 	 */
 	IMS_Animation_Base(ANIMATIONDATA *_data);
-	~IMS_Animation_Base();
+	virtual ~IMS_Animation_Base();
 
 	/**
 	 * \brief Adds the animation to the vessel using the orbiter API

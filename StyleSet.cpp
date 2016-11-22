@@ -9,6 +9,14 @@ StyleSet::StyleSet()
 
 StyleSet::~StyleSet()
 {
+	for (auto i = styles.begin(); i != styles.end(); ++i)
+	{
+		delete i->second;
+	}
+	for (auto i = fonts.begin(); i != fonts.end(); ++i)
+	{
+		delete i->second;
+	}
 }
 
 

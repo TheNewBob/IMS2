@@ -27,11 +27,11 @@ GUImanager::GUImanager(IMS2* _vessel)
 
 GUImanager::~GUImanager(void)
 {
-/*	for (UINT i = 0; i < surfaces.size(); ++i)
+	for (UINT i = 0; i < surfaces.size(); ++i)
 	{
 		delete surfaces[i];
 		surfaces[i] = NULL;
-	}*/
+	}
 
 	managerinstances--;
 }

@@ -22,7 +22,7 @@ GUI_MainConfig::GUI_MainConfig(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vess
 	//register element in manager BEFORE adding children
 	gui->RegisterGuiElement(this, GUI_MAIN_DISPLAY);
 
-	rcs_assist = gui->CreateCheckBox("RCS Assist", _R(10, 10, width / 2 - 10, 35), id, MD_CONFIG_RCSASSISTCHKBX);
+	rcs_assist = gui->CreateCheckBox("RCS Assist", _R(20, 10, width / 2 - 20, 35), id, MD_CONFIG_RCSASSISTCHKBX);
 	rcs_assist->SetChecked(true);
 }
 

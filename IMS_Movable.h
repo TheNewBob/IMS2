@@ -15,7 +15,7 @@ public:
  	 */
 	IMS_Movable(IMS_Location *location, bool fixed = false);
 	
-	~IMS_Movable();
+	virtual ~IMS_Movable();
 
 	virtual double GetMass() { return mass; };
 	virtual void PreStep(IMS_Location *location) = 0;

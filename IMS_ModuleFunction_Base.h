@@ -25,7 +25,7 @@ public:
 	 * @param _type An identifer for the type of this module function
 	 */
 	IMS_ModuleFunction_Base(IMS_ModuleFunctionData_Base *_data, IMS_Module *_module, FUNCTIONTYPE _type);
-	~IMS_ModuleFunction_Base();
+	virtual ~IMS_ModuleFunction_Base();
 
 	/**
 	 * \brief called on SimStart, after LoadState() but before AddFunctionToVessel()
