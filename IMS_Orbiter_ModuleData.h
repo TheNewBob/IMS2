@@ -17,7 +17,7 @@ struct HULLSHAPEDATA
 };
 
 /**
- * \brief This class contains static orbiter related properties that are common to all modules.
+ * \brief This class contains static orbiter related properties that are common to all modules. 
  *
  * <h3> Config file structure </h3> 
  * brackets are part of the actual synthax, so don't write them. Here's a little explanation of how this documentation is to be read:
@@ -27,6 +27,15 @@ struct HULLSHAPEDATA
  * [Optional]									//Anything in [] is optional and must not necessarily be there for a config to work.
  *												//Or in other words, anything not in [] must be there, or there will be errors!
  * \endcode
+ *
+ * <h4> Required Orbiter native parameters</h4>
+ * The following parameters are standard orbiter config parameters, but they must be defined
+ * for every module in order to ensure proper functioning!
+ * \code
+ * module = IMS2									//the orbiter module MUST be defined as the FIRST entry in a config file, and the only valid value for an IMS2 module is IMS2.
+ * inertia = <float x> <float y> <float z>			//inertia tensors of the module, mass-normalised. Basically, how difficult it is to turn the module in the given axis. See Orbiter config documentation for details.
+ * size = <float>									//mean radius of the module in meters. This is used by orbiter for determining clipping pane of camera and similar.
+ 
  *
  * <h4> hull shapes </h4>
  * Note that transformations will always be applied in the below order, even if you don't write them in this order in the config.

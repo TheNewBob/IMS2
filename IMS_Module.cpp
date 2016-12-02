@@ -523,6 +523,12 @@ double IMS_Module::GetMass()
 	return totalmass;
 }
 
+
+double IMS_Module::GetSize()
+{
+	return _orbiter_data->getSize();
+}
+
 void IMS_Module::GetPmi(VECTOR3 &pmi)
 {
 	_orbiter_data->getPmi(pmi);

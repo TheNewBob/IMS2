@@ -97,13 +97,13 @@ VECTOR3 IMS_CoGmanager::calculateNewCoG()
 }
 
 
-void IMS_CoGmanager::calculateNewPmi()
+void IMS_CoGmanager::calculateNewPmiAndSize()
 {
 	//get all modules from the vessel
 	vector<IMS_Module*> modules;
 	vessel->GetModules(modules);
-
 	VECTOR3 overallpmi = _V(0, 0, 0);
+	double overallsize = 0.0;
 	for (UINT i = 0; i < modules.size(); ++i)
 	{
 		//fortunately, The PMI of a superstructure is as simple
@@ -111,9 +111,12 @@ void IMS_CoGmanager::calculateNewPmi()
 		VECTOR3 modpmi;
 		modules[i]->GetPmi(modpmi);
 		overallpmi += modpmi;
+		//for the size, it's of course the same thing.
+		overallsize += modules[i]->GetSize();
 	}
 
 	vessel->SetPMI(overallpmi);
+//	vessel->SetSize(overallsize);
 }
 
 
@@ -164,14 +167,14 @@ bool IMS_CoGmanager::ProcessEvent(Event_Base *e)
 	if (*e == SIMULATIONSTARTEDEVENT)
 	{
 		addEventToWaitingQueue(new ShiftCGEvent(0));
-		calculateNewPmi();
+		calculateNewPmiAndSize();
 	}
 
 	if (*e == VESSELLAYOUTCHANGEDEVENT)
 	{
 		//the vessel layout has changed, we need to shift the center of gravity!
 		addEventToWaitingQueue(new ShiftCGEvent(0));
-		calculateNewPmi();
+		calculateNewPmiAndSize();
 	}
 
 	else if (*e == SHIFTCGEVENT)

@@ -44,7 +44,7 @@ void IMS2::clbkSetStateEx(const void *status)
 
 	postLoad(IMS2::SplitVesselData.split);
 
-	//if created by split, we also have torotate the vessel into proper alignement, clean up the mess, and initiate CoG-shift
+	//if created by split, we also have to rotate the vessel into proper alignement, clean up the mess, and initiate CoG-shift
 	if (IMS2::SplitVesselData.split)
 	{
 		SetRotationMatrix(IMS2::SplitVesselData.transform);

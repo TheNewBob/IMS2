@@ -84,6 +84,14 @@ public:
 
 	void PostLoad();
 
+	/**
+	 * \brief Turns placement assistance for scenario editor on or off.
+	 * \note This works by giving appropriate stiffness and damping to the 3 default touchdown points
+	 *	defining the ground-contact plane, because these are the only ones scened cares about. 
+	 *	Having this active can lead to inconsistent td-point behavior during normal operation.
+	 */
+	void SetScenedAssistance(bool enabled);
+
 private:
 	//generic settings for hullpoints. Will need some experimentation to get right
 	//adjust in IMS_TouchdownPointManager.cpp
@@ -158,8 +166,11 @@ private:
 	 */
 	static bool SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b);
 
+
 	vector<TOUCHDOWNVTX> defaulttdtriangle;				//!< Vector that holds the triangle of default touchdown points for this vessel
 
-	bool firstTdPointsChangedEvent = true;				//!< Truns to false after the first TDPOINTSCHANGEDEVENT has been processed.
+	bool firstTdPointsChangedEvent = true;				//!< Turns to false after the first TDPOINTSCHANGEDEVENT has been processed.
+
+	bool scened_assist = false;							//! placement assistance for scenario editor.
 };
 

@@ -125,6 +125,11 @@ public:
 	virtual double GetMass();
 
 	/**
+	 * \brief Returns the mean radius of the module
+	 */
+	virtual double GetSize();
+
+	/**
 	 * \brief Returns a rotation matrix to transform from vessel-relative to the module-relative frame.
 	 */
 	MATRIX3 GetRotationMatrix() { return rotationmatrix; };

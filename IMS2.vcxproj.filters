@@ -99,10 +99,10 @@
     <Filter Include="Modules\Module functionalities\Gear">
       <UniqueIdentifier>{654e2915-eb07-4d3b-ba5b-1a63e9cc58c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Autopilots">
+    <Filter Include="Autopilots">
       <UniqueIdentifier>{2bb32148-6539-4101-b3ff-78ea72540a72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Autopilots\Operations">
+    <Filter Include="Autopilots\Operations">
       <UniqueIdentifier>{1844cb9b-6304-46f4-bbfa-f2e0dc702439}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -387,10 +387,10 @@
       <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Autopilot_Killrot.cpp">
-      <Filter>Core\Autopilots</Filter>
+      <Filter>Autopilots</Filter>
     </ClCompile>
     <ClCompile Include="IMS_AutoPilotOperation_Killrot.cpp">
-      <Filter>Core\Autopilots\Operations</Filter>
+      <Filter>Autopilots\Operations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -782,19 +782,19 @@
       <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Autopilot_Base.h">
-      <Filter>Core\Autopilots</Filter>
+      <Filter>Autopilots</Filter>
     </ClInclude>
     <ClInclude Include="autopilot_includes.h">
-      <Filter>Core\Autopilots</Filter>
+      <Filter>Autopilots</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Autopilot_Killrot.h">
-      <Filter>Core\Autopilots</Filter>
+      <Filter>Autopilots</Filter>
     </ClInclude>
     <ClInclude Include="IMS_AutopilotOperation_Base.h">
-      <Filter>Core\Autopilots\Operations</Filter>
+      <Filter>Autopilots\Operations</Filter>
     </ClInclude>
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h">
-      <Filter>Core\Autopilots\Operations</Filter>
+      <Filter>Autopilots\Operations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,6 +13,7 @@
 #include "GUI_MainConfig.h"
 #include "Managers.h"
 #include "IMS_RcsManager.h"
+#include "IMS_TouchdownPointManager.h"
 
 GUI_MainConfig::GUI_MainConfig(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel)
 	: GUI_Page(mRect, MD_CONFIG_MENU, _style), vessel(_vessel)
@@ -24,6 +25,9 @@ GUI_MainConfig::GUI_MainConfig(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vess
 
 	rcs_assist = gui->CreateCheckBox("RCS Assist", _R(20, 10, width / 2 - 20, 35), id, MD_CONFIG_RCSASSISTCHKBX);
 	rcs_assist->SetChecked(true);
+
+	scened_assist = gui->CreateCheckBox("ScenEd placement assist", _R(width / 2 + 20, 10, width - 20, 35), id, MD_CONFIG_SCENEDCHKBX);
+	scened_assist->SetChecked(false);
 }
 
 
@@ -45,9 +49,15 @@ int GUI_MainConfig::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 	switch (eventId)
 	{
 	case  MD_CONFIG_RCSASSISTCHKBX:
+		//toggle intelligent RCS assistance	
 		vessel->GetRcsManager()->SetIntelligentRcs(rcs_assist->Checked());
 		break;
+	case MD_CONFIG_SCENEDCHKBX:
+		//toggle scenario editor placement assistance
+		vessel->GetTdPointManager()->SetScenedAssistance(scened_assist->Checked());
+		break;
 	}
+
 
 	return eventId;
 }

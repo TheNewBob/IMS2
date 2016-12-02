@@ -136,14 +136,15 @@ IMS2::~IMS2()
 
 void IMS2::clbkPreStep(double simt, double simdt, double mjd) 
 {
+	updateVesselState();
+	sendEvents();
+
 	//run through PreStep computations of modules on this vessel
 	for (UINT i = 0; i < modules.size(); ++i)
 	{
 		modules[i]->PreStep(simdt);
 	}
 
-	updateVesselState();
-	sendEvents();
 	//execute prestep on autopilots
 	for (auto i = autopilots.begin(); i != autopilots.end(); ++i)
 	{
@@ -459,7 +460,7 @@ void IMS2::updateVesselState(bool triggerevents)
 	DWORD fltstatus = GetFlightStatus();
 	DWORD bitmask = 1;
 	bool islandednow = (bool)(bitmask & fltstatus);
-	
+
 	//compare the vessel state to the state we have stored
 	if (islandednow != islanded)
 	{

@@ -227,9 +227,7 @@ private:
 	vector<DOCKEDVESSEL*> dockedVesselsList;
 
 	//misc
-//	bool isLoadedFromScenario;							//false if the vessel was not loaded from scenario file, i.e. newly created in orbiter
 	bool isSetForRedock;						//true if the vessel has integrated. On vessel deletion while docked a dockevent is called, manipulating the docking port in the time between can have weird consequences
-	bool firstframe = true;
 	bool islanded;								//true if the vessel is landed
 	map<IMS_MANAGER, IMS_Manager_Base*> managers;		//!< stores the various manager instances of this vessel
 	map<AP_MODE, IMS_Autopilot_Base*> autopilots;		//!< stores autopilot instances.

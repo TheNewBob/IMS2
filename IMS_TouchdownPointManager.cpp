@@ -142,6 +142,12 @@ void IMS_TouchdownPointManager::RemoveLandingTdPoint(UINT id)
 }
 
 
+void IMS_TouchdownPointManager::SetScenedAssistance(bool enabled)
+{ 
+	scened_assist = enabled;
+	addEventToWaitingQueue(new TdPointsChangedEvent());
+}
+
 void IMS_TouchdownPointManager::setTdPoints()
 {
 	UINT totalpoints = defaulttdtriangle.size() + hullpoints.size() + landingpoints.size();
@@ -160,7 +166,20 @@ void IMS_TouchdownPointManager::setTdPoints()
 		tdarray[0].pos -= cogoffset;
 		tdarray[1].pos -= cogoffset;
 		tdarray[2].pos -= cogoffset;
+
+		//create default points with damping for scened operations?
+		if (scened_assist)
+		{
+			double stiffness = vessel->GetMass() / 0.5;
+			tdarray[0].stiffness = stiffness;
+			tdarray[0].damping = TD_DAMPING;
+			tdarray[1].stiffness = stiffness;
+			tdarray[1].damping = TD_DAMPING;
+			tdarray[2].stiffness = stiffness;
+			tdarray[2].damping = TD_DAMPING;
+		}
 	}
+
 
 	//add all the gear points
 	UINT idx = defaulttdtriangle.size();
@@ -294,8 +313,8 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 	{
 		//otherwise, set stiffness and damping to 0, because it's just a virtual orientation direction for orbiter - 
 		//the actual landing touchdownpoints will still be there, and the triangle will actually get in the way.
-		vtx.damping = 0;
-		vtx.stiffness = 0;
+		vtx.damping = 1;
+		vtx.stiffness = 1;
 	}
 	vtx.mu = TD_LATFRICTION;
 	vtx.mu_lng = TD_LONGFRICTION;
@@ -309,6 +328,67 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 	defaulttdtriangle[2] = vtx;
 
 }
+
+/*vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGear2()
+{
+	MATRIX3 fromorigin = Rotations::GetRotationMatrixFromDirection(_V(0, -1, 0));
+	//fromorigin = Rotations::InverseMatrix(fromorigin);
+
+	//matrix to rotate from tdpoint orientation to origin (0 0 1)
+	//note that we will assume that all tdpoints are facing the same direction (they roughly should, or 
+	//the engineer needs a slap). Otherwise the trigonometry could get very expensive.
+	MATRIX3 toorigin = Rotations::GetRotationMatrixFromDirection(landingpoints.begin()->second.dir);
+
+	//multiply the two matrices to get the overall rotation.
+	MATRIX3 todown = mul(fromorigin, toorigin);
+
+	//rotate all the landing points and shove them in a vector
+	//now, the reson we do this is purely to get the points into a reference frame where we have a clear, 
+	//2-dimensional definition of front, left and right. The result of the loop should be the 3 tdpoints appropriate for our triangle.
+	//we'll also have to put them relative to the cog, and create a bounding rectangle from them.
+	vector<VECTOR3> rotatedpoints;
+	rotatedpoints.reserve(landingpoints.size());
+	VECTOR3 cogoffset = vessel->GetCoG();
+
+	double maxX = 0;
+	double minX = 0;
+	double maxZ = 0;
+	double minZ = 0;
+
+	for (auto i = landingpoints.begin(); i != landingpoints.end(); ++i)
+	{
+		rotatedpoints.push_back(mul(todown, i->second.vtx.pos - cogoffset));
+
+		if (rotatedpoints.back().x > maxX)
+		{
+			maxX = rotatedpoints.back().x;
+		}
+		else if (rotatedpoints.back().x < minX)
+		{
+			minX = rotatedpoints.back().x;
+		}
+
+		if (rotatedpoints.back().z > maxZ)
+		{
+			maxZ = rotatedpoints.back().z;
+		}
+		else if (rotatedpoints.back().z < minZ)
+		{
+			minZ = rotatedpoints.back().z;
+		}
+	}
+
+	//create three td-points as a regular triangle around the center of mass
+	//we'll use the most inlying td-point position in each axis to set the bounds of the triangle.
+	double inlyingx = min(abs(maxX), abs(minX));
+	double inlyingz = min(abs(maxZ), abs(minZ));
+	//get the squared radius of that point around the CoG
+	double radius2 = inlyingx * inlyingx + inlyingz * inlyingz;
+
+
+
+
+}*/
 
 
 vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGear()
@@ -456,11 +536,6 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromLandingGea
 		triangle[2] = swap;
 	}
 
-	//offset the triangle by a tiny bit. If they are at the exact same height as the rest of
-	//the touchdown points from landing gear, the result in orbiter is unstable!
-/*	triangle[0].y += 0.1;
-	triangle[1].y += 0.1;
-	triangle[2].y += 0.1;*/
 
 	//all that's left to do is rotate the points back to their original alignement and move them back to vessel relative coordinates
 	for (UINT i = 0; i < 3; ++i)

@@ -44,9 +44,10 @@ private:
 	VECTOR3 calculateNewCoG();
 
 	/**
-	 * \brief Calculates the overall PMI of the vessel based on its module PMIs.
+	 * \brief Calculates the overall PMI and mean size of the vessel based on its modules.
+	 * \todo Size calculation is currently disabled, bacause it should really take axes into account to yield some sensible results.
 	 */
-	void calculateNewPmi();
+	void calculateNewPmiAndSize();
 
 	/* returns a vector that contains the modules that do not have a symmetric counterpart in one axis (x or y)
 	 * DOES NOT RECOGNISE RADIAL SYMMETRY! used for avoiding unnecessary calculations that lead to double-inprecisions whe calculating CoG
