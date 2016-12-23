@@ -31,6 +31,7 @@ bool IMS_ModuleFunctionData_Comm::processConfigLine(vector<string> &tokens)
 		searchanimname = tokens[1];
 		return true;
 	}
+
 	return false;
 }
 

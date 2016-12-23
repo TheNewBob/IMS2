@@ -30,8 +30,8 @@ private:
 	string deployanimname = "";
 	string searchanimname = "";
 
-	bool processConfigLine(vector<string> &tokens);
-	bool validateData(string configfile);
+	virtual bool processConfigLine(vector<string> &tokens);
+	virtual bool validateData(string configfile);
 
 };
 
