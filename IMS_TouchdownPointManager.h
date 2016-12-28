@@ -145,6 +145,8 @@ private:
 	 * position and direction.
 	 * If there are less than 3 landing gears, these points will conform to the default "bottom" (0 -1 0) of the hullshape
 	 * If there is no hullshape, the points created by orbiter will be used.
+	 * \todo this will return coordinates CoG-relative, while absolute is expected. Not a problem since this usually only happens with one single
+	 *	module, when both are one and the same, but might need some looking into in the future.
 	 */
 	void createDefaultTdTriangle();
 
@@ -153,8 +155,17 @@ private:
 	* If there is no hullshape, the points created by orbiter will be used.
 	* \note There must be at least 3 landing gears on the vessel for this method to work!
 	* \returns A vector with size 3.
+	* \note Assumes that the ground-contact plane is perpendicular to the y-axis, does not work for other arrangements!
 	*/
 	vector<VECTOR3> createDefaultTdTriangleFromLandingGear();
+
+	/**
+	 * \brief calculates stiffness for the first three touchdownpoints so their compression results in a leveled vessel, even when load is balanced unequally.
+	 * \param IN_OUT_tdarray Array of touchdown vertices, where the first three
+	 *	points already are at the correct position and will be given an appropriate stiffness.
+	 * \param displacement Desired displacement (compression) of the touchdown points at 1G. Must not be zero!
+	 */
+	void setDefaultTdStiffness(TOUCHDOWNVTX *IN_OUT_tdarray, double displacement);
 
 	/**
 	 * \brief comparator to sort VECTOR3 by x-z distance.

@@ -69,14 +69,14 @@ void IMS_TouchdownPointManager::addHullShape(SimpleShape *shape, VECTOR3 pos, MA
 		bool addpoint = true;
 		for (UINT j = 0; j < hullpoints.size(); ++j)
 		{
-			//if the point overlaps with an already existing point, don't add it!
-			if (Calc::IsNear(tdvertices[i].pos, hullpoints[j].pos, 0.1))
-			{
-				addpoint = false;
-				break;
-			}
+//if the point overlaps with an already existing point, don't add it!
+if (Calc::IsNear(tdvertices[i].pos, hullpoints[j].pos, 0.1))
+{
+	addpoint = false;
+	break;
+}
 		}
-		
+
 		//if the point has no overlap, add it to the touchdown point list
 		if (addpoint)
 		{
@@ -127,7 +127,7 @@ UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir, do
 	newvert.mu = TD_LATFRICTION;
 	newvert.mu_lng = TD_LONGFRICTION;
 	newvert.pos = pos;
-	
+
 	landingpoint_id++;
 	landingpoints[landingpoint_id] = TDDATA(newvert, dir);
 	addEventToWaitingQueue(new TdPointsChangedEvent);
@@ -143,7 +143,7 @@ void IMS_TouchdownPointManager::RemoveLandingTdPoint(UINT id)
 
 
 void IMS_TouchdownPointManager::SetScenedAssistance(bool enabled)
-{ 
+{
 	scened_assist = enabled;
 	addEventToWaitingQueue(new TdPointsChangedEvent());
 }
@@ -167,9 +167,15 @@ void IMS_TouchdownPointManager::setTdPoints()
 		tdarray[1].pos -= cogoffset;
 		tdarray[2].pos -= cogoffset;
 
-		//create default points with damping for scened operations?
-		if (scened_assist)
+		//is it a vessel that doesn't have landing gear?
+		if (hullbox != NULL && landingpoints.size() < 3)
 		{
+			setDefaultTdStiffness(tdarray, 0.3);
+		}
+		//create default points with damping for scened operations?
+		else if (scened_assist)
+		{
+			
 			double stiffness = vessel->GetMass() / 0.5;
 			tdarray[0].stiffness = stiffness;
 			tdarray[0].damping = TD_DAMPING;
@@ -200,6 +206,41 @@ void IMS_TouchdownPointManager::setTdPoints()
 	vessel->SetTouchdownPoints(tdarray, (DWORD)totalpoints);
 	delete[] tdarray;
 }
+
+
+void IMS_TouchdownPointManager::setDefaultTdStiffness(TOUCHDOWNVTX *IN_OUT_tdarray, double displacement)
+{
+	vector<double> proportional_loads(3);
+	double proportional_sum = 0.0;
+	//calculate proportional loads
+	for (UINT i = 0; i < 3; ++i)
+	{
+		double propdist_from_cog = (abs(IN_OUT_tdarray[i].pos.x) + abs(IN_OUT_tdarray[i].pos.z));
+		//guard against division by zero
+		if (propdist_from_cog == 0)
+		{
+			proportional_loads[i] = 1;
+		}
+		else
+		{
+			proportional_loads[i] = 1 / propdist_from_cog;
+		}
+		proportional_sum += proportional_loads[i];
+	}
+	
+	//normalise the proportional loads so the total sum is 1, calculate the effective load and the required stiffness.
+	//we'll take a default damping value for now.
+	double mass = vessel->GetMass() * 2;
+	double normaliser = 1 / proportional_sum;
+	for (UINT i = 0; i < 3; ++i)
+	{
+		double effective_load = (proportional_loads[i] * normaliser) * mass;
+		double stiffness = effective_load / displacement;
+		IN_OUT_tdarray[i].stiffness = stiffness;
+		IN_OUT_tdarray[i].damping = TD_DAMPING;
+	}
+}
+
 
 
 bool IMS_TouchdownPointManager::ProcessEvent(Event_Base *e)
@@ -252,17 +293,13 @@ vector<VECTOR3> IMS_TouchdownPointManager::createDefaultTdTriangleFromHullshape(
 
 
 	//create the three default points. Note that the order is very important!
-	//also, we immediately switch them to CoG-relative positions. They are only needed
-	//by orbiter itself, after all.
 
 	defaulttdtriangle.resize(3);
-	VECTOR3 cogoffset = vessel->GetCoG();
-
 	vector<VECTOR3> triangle(3);
 
-	triangle[0] = _V((left + right) / 2, bottom, front) - cogoffset;
-	triangle[1] = _V(left, bottom, rear) - cogoffset;
-	triangle[2] = _V(right, bottom, rear) - cogoffset;
+	triangle[0] = _V((left + right) / 2, bottom, front);
+	triangle[1] = _V(left, bottom, rear);
+	triangle[2] = _V(right, bottom, rear);
 
 	return triangle;
 }
@@ -272,7 +309,7 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 {
 	defaulttdtriangle.clear();
 	vector<VECTOR3> defaulttriangle;
-	bool onlytriangle = false;			//changes to true if the default triangle is all there is in terms of touchdown points
+//	bool onlytriangle = false;			//changes to true if the default triangle is all there is in terms of touchdown points
 
 	if (landingpoints.size() < 3)
 	{
@@ -285,7 +322,7 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 				TOUCHDOWNVTX vtx;
 				vessel->GetTouchdownPoint(vtx, i);
 				defaulttriangle[i] = vtx.pos;
-				onlytriangle = true;
+//				onlytriangle = true;
 			}
 		}
 		else
@@ -303,9 +340,9 @@ void IMS_TouchdownPointManager::createDefaultTdTriangle()
 
 	//set default attributes of all points
 	TOUCHDOWNVTX vtx;
-	if (onlytriangle)
+	if (landingpoints.size() < 3)
 	{
-		//if there is only the triangle, set default damping and stiffness values
+		//if there is no landing gear, set the default stiffness and damping values
 		vtx.damping = TD_DAMPING;
 		vtx.stiffness = TD_STIFFNESS;
 	}
@@ -572,7 +609,18 @@ bool IMS_TouchdownPointManager::SORT_DESCENDING_BY_Z(VECTOR3 &a, VECTOR3 &b)
 
 void IMS_TouchdownPointManager::PostLoad()
 {
-	//the touchdown points must be set before clbkPostCreation, otherwise orbiter can't assign landed state to the vessel.
-	createDefaultTdTriangle();
-	setTdPoints();
+	//the touchdown points must be set before clbkPostCreation, otherwise orbiter can't assign landed state to the vessel when loading a scenario.
+	
+	//there's a twist, though. If PostLoad is invoked from clbkSetStateEx (vessel created on simtime),
+	//the mass is not yet set. On the other hand, it shouldn't spawn directly into landed state either,
+	//so we can defer creating the points until simstart.
+	if (vessel->GetMass() > 0)
+	{
+		createDefaultTdTriangle();
+		setTdPoints();
+	}
+	else
+	{
+		firstTdPointsChangedEvent = false;
+	}
 }
