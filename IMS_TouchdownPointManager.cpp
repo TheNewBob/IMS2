@@ -611,16 +611,6 @@ void IMS_TouchdownPointManager::PostLoad()
 {
 	//the touchdown points must be set before clbkPostCreation, otherwise orbiter can't assign landed state to the vessel when loading a scenario.
 	
-	//there's a twist, though. If PostLoad is invoked from clbkSetStateEx (vessel created on simtime),
-	//the mass is not yet set. On the other hand, it shouldn't spawn directly into landed state either,
-	//so we can defer creating the points until simstart.
-	if (vessel->GetMass() > 0)
-	{
-		createDefaultTdTriangle();
-		setTdPoints();
-	}
-	else
-	{
-		firstTdPointsChangedEvent = false;
-	}
+	createDefaultTdTriangle();
+	setTdPoints();
 }
