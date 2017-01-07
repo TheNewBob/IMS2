@@ -60,51 +60,51 @@ void IMS2::clbkSetStateEx(const void *status)
 
 void IMS2::postLoad(bool created_from_split)
 {
-	//do postload for modules if the vessel is created from file
-	if (!created_from_split)
-	{
-		for (UINT i = 0; i < modules.size(); ++i)
-		{
-			modules[i]->PostLoad();
-		}
-	}
-
-	//add all modules to the vessel	
+//do postload for modules if the vessel is created from file
+if (!created_from_split)
+{
 	for (UINT i = 0; i < modules.size(); ++i)
 	{
-		if (i == 0)
-		{
-			modules[i]->AddModuleToVessel(this, false, false);
-		}
-		else
-		{
-			modules[i]->AddModuleToVessel(this);
-		}
-
-		//if the vessel was created by split, we also have to reinitialise all the attachment points
-		if (created_from_split)
-		{
-			modules[i]->CreatePhysicalAttachmentPoints();
-			modules[i]->TransformAttachmentPoints();
-		}
-	}
-
-	//call postload on the managers
-	for (auto i = managers.begin(); i != managers.end(); ++i)
-	{
-		i->second->PostLoad();
+		modules[i]->PostLoad();
 	}
 }
 
+//add all modules to the vessel	
+for (UINT i = 0; i < modules.size(); ++i)
+{
+	if (i == 0)
+	{
+		modules[i]->AddModuleToVessel(this, false, false);
+	}
+	else
+	{
+		modules[i]->AddModuleToVessel(this);
+	}
 
-void IMS2::clbkPostCreation() 
+	//if the vessel was created by split, we also have to reinitialise all the attachment points
+	if (created_from_split)
+	{
+		modules[i]->CreatePhysicalAttachmentPoints();
+		modules[i]->TransformAttachmentPoints();
+	}
+}
+
+//call postload on the managers
+for (auto i = managers.begin(); i != managers.end(); ++i)
+{
+	i->second->PostLoad();
+}
+}
+
+
+void IMS2::clbkPostCreation()
 {
 	//initialise tracking of the vessel state
 	updateVesselState(false);
 }
 
 
-void IMS2::clbkSaveState (FILEHANDLE scn)
+void IMS2::clbkSaveState(FILEHANDLE scn)
 {
 	for (UINT i = 0; i < modules.size(); ++i)
 	{
