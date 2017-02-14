@@ -234,6 +234,12 @@
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="PowerBus.cpp" />
+    <ClCompile Include="PowerChild.cpp" />
+    <ClCompile Include="PowerCircuit.cpp" />
+    <ClCompile Include="PowerConsumer.cpp" />
+    <ClCompile Include="PowerParent.cpp" />
+    <ClCompile Include="PowerSource.cpp" />
     <ClCompile Include="Rotations.cpp" />
     <ClCompile Include="SimpleShape.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -308,6 +314,13 @@
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
     <ClInclude Include="IMS_TouchdownPointManager.h" />
+    <ClInclude Include="PowerBus.h" />
+    <ClInclude Include="PowerChild.h" />
+    <ClInclude Include="PowerCircuit.h" />
+    <ClInclude Include="PowerConsumer.h" />
+    <ClInclude Include="PowerParent.h" />
+    <ClInclude Include="PowerSource.h" />
+    <ClInclude Include="PowerTypes.h" />
     <ClInclude Include="RcsChangedEvent.h" />
     <ClInclude Include="IMS_Animation_Tracking.h" />
     <ClInclude Include="IMS_Location.h" />
