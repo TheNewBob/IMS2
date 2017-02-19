@@ -6,8 +6,8 @@
 #include "PowerSource.h"
 #include "PowerCircuit.h"
 
-PowerSource::PowerSource(double minvoltage, double maxvoltage, double maxpower, double internalresistance) 
-	: PowerParent(POWERPARENT_TYPE::PPT_SOURCE, minvoltage, maxvoltage), baseinternalresistance(internalresistance)
+PowerSource::PowerSource(double minvoltage, double maxvoltage, double maxpower, double internalresistance, UINT location_id, bool global)
+	: PowerParent(POWERPARENT_TYPE::PPT_SOURCE, minvoltage, maxvoltage), internalresistance(internalresistance), maxpowerout(maxpower), locationid(location_id), global(global)
 {
 	
 }
@@ -28,10 +28,6 @@ double PowerSource::GetCurrentPowerOutput()
 	return outputvoltage.current * curroutputcurrent;
 }
 
-double PowerSource::GetBaseInternalResistance()
-{
-	return baseinternalresistance;
-}
 
 double PowerSource::GetInternalResistance()
 {
@@ -94,29 +90,37 @@ void PowerSource::Evaluate()
 	}
 }
 
-bool PowerSource::CanConnectToChild(PowerChild *child)
+bool PowerSource::CanConnectToChild(PowerChild *child, bool bidirectional)
 {
 	//check if no children are connected yet, the child is a bus, and the voltage is compatible.
 	if (children.size() < 1 &&
 		child->GetChildType() == POWERCHILD_TYPE::PCT_BUS &&
-		child->CanConnectToParent(this))
+		PowerParent::CanConnectToChild(child, bidirectional))
 	{
-		if (outputvoltage.IsRangeCompatibleWith(child->GetInputVoltageInfo()))
-		{
-			return true;
-		}
+		return true;
 	}
 	return false;
 }
 
 
-PowerCircuit *PowerSource::ConnectParentToChild(PowerChild *child, bool bidirectional)
+void PowerSource::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
 	//establish the connection
-	PowerCircuit *result = PowerParent::ConnectParentToChild(child, bidirectional);
+	PowerParent::ConnectParentToChild(child, bidirectional);
 
 	//comply to the childs input power. Tests for compatibility were already done at this point.
 	outputvoltage.current = child->GetCurrentInputVoltage();
+	maxoutcurrent = maxpowerout / outputvoltage.current;
 	circuit->RegisterStateChange();
-	return result;
+}
+
+
+UINT PowerSource::GetLocationId()
+{
+	return locationid;
+}
+
+bool PowerSource::IsGlobal()
+{
+	return global;
 }

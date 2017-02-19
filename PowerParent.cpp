@@ -5,7 +5,7 @@
 #include "PowerCircuit.h"
 
 PowerParent::PowerParent(POWERPARENT_TYPE type, double minvoltage, double maxvoltage)
-	: parenttype(type) 
+	: parenttype(type)
 
 { 
 	outputvoltage.minimum = minvoltage;
@@ -18,18 +18,16 @@ PowerParent::~PowerParent()
 }
 
 
-PowerCircuit *PowerParent::ConnectParentToChild(PowerChild *child, bool bidirectional)
+void PowerParent::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
-	assert(CanConnectToChild(child) && "PowerChild cannot be connected to PowerParent! Perform check if connection possible before calling this method!");
+//	assert(CanConnectToChild(child) && "PowerChild cannot be connected to PowerParent! Perform check if connection possible before calling this method!");
 
 	children.push_back(child);
-
+	 
 	if (bidirectional)
 	{
-		return child->ConnectChildToParent(this, false);
+		child->ConnectChildToParent(this, false);
 	}
-
-	return NULL;
 }
 
 void PowerParent::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
@@ -45,19 +43,23 @@ void PowerParent::DisconnectParentFromChild(PowerChild *child, bool bidirectiona
 	}
 }
 
-bool PowerParent::CanConnectToChild(PowerChild *child)
+bool PowerParent::CanConnectToChild(PowerChild *child, bool bidirectional)
 {
 	//the base conditions are that the child is not yet connected, 
 	//and that the voltages of parent and child are compatible.
 	if (find(children.begin(), children.end(), child) == children.end() &&
 		outputvoltage.IsRangeCompatibleWith(child->GetInputVoltageInfo()))
 	{
+		if (bidirectional)
+		{
+			return child->CanConnectToParent(this, false);
+		}
 		return true;
 	}
 	return false;
 }
 
-void PowerParent::GetChildren(vector<PowerChild*> OUT_children)
+void PowerParent::GetChildren(vector<PowerChild*> &OUT_children)
 {
 	OUT_children = children;
 }
@@ -105,7 +107,8 @@ void PowerParent::SetAutoswitchEnabled(bool enabled)
 
 void PowerParent::RegisterChildStateChange() 
 { 
-	child_state_changed = true; 
+	child_state_changed = true;
+	circuit->RegisterStateChange();
 }
 
 POWERPARENT_TYPE PowerParent::GetParentType()

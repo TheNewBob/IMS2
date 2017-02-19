@@ -7,14 +7,14 @@
 #include "PowerBus.h"
 
 
-PowerCircuit::PowerCircuit(double voltage, PowerBus *initialbus) : voltage(voltage)
+PowerCircuit::PowerCircuit(PowerBus *initialbus)
 {
+	voltage = initialbus->GetCurrentOutputVoltage();
 	AddPowerBus(initialbus);
 }
 
 PowerCircuit::~PowerCircuit()
 {
-
 }
 
 
@@ -35,12 +35,14 @@ void PowerCircuit::AddPowerSource(PowerSource *source)
 {
 	assert(find(powersources.begin(), powersources.end(), source) == powersources.end() && "PowerSource was already added to circuit!");
 	powersources.push_back(source);
+	source->SetCircuit(this);
 }
 
 void PowerCircuit::AddPowerBus(PowerBus *bus)
 {
 	assert(find(powerbuses.begin(), powerbuses.end(), bus) == powerbuses.end() && "PowerSource was already added to circuit!");
 	powerbuses.push_back(bus);
+	bus->SetCircuit(this);
 }
 
 void PowerCircuit::RemovePowerSource(PowerSource *source)
@@ -65,10 +67,23 @@ void PowerCircuit::GetPowerSources(vector<PowerSource*> &OUT_sources)
 	OUT_sources = powersources;
 }
 
-void PowerCircuit::GetPowerSources(vector<PowerBus*> &OUT_buses)
+void PowerCircuit::GetPowerBuses(vector<PowerBus*> &OUT_buses)
 {
 	OUT_buses = powerbuses;
 }
+
+
+double PowerCircuit::GetCircuitCurrent()
+{
+	return total_circuit_current;
+}
+
+
+double PowerCircuit::GetEquivalentResistance()
+{
+	return equivalent_resistance;
+}
+
 
 void PowerCircuit::RegisterStateChange()
 {
@@ -80,15 +95,24 @@ void PowerCircuit::Evaluate()
 	if (statechange)
 	{
 		statechange = false;
+
+		//evaluate buses
+		for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
+		{
+			(*i)->Evaluate();
+		}
+
+		//calculate equivalent resistance of the circuit and the current we actually need.
 		calculateEquivalentResistance();
-		//calculate the current we actually need.
 		total_circuit_current = voltage / equivalent_resistance;
+		distributeCurrentDraw();
 	}
-
-
-
 }
 
+UINT PowerCircuit::GetSize()
+{
+	return powersources.size() + powerbuses.size();
+}
 
 void PowerCircuit::calculateEquivalentResistance()
 {
@@ -198,8 +222,8 @@ void PowerCircuit::calculateCurrentDraw(vector<POWERSOURCE_STATS*> non_limited_s
 	bool circuit_stable = true;
 	for (UINT i = non_limited_sources.size(); i > 0; --i)
 	{
-		//the equation: <Sum of currents> / (<sum of (1 / internal resistance)> / <(1 / internal resistance of power source)>) = current drawn from this particular power source.
-		non_limited_sources[i - 1]->SetRequestedCurrent(required_current / (sum_eq_resistances / (1 / non_limited_sources[i - 1]->baseresistance)));
+		//the equation: (<Sum of currents> / (<sum of (1 / internal resistance)>) / <internal resistance of power source>) = current drawn from this particular power source.
+		non_limited_sources[i - 1]->SetRequestedCurrent((required_current / sum_eq_resistances) / non_limited_sources[i - 1]->baseresistance);
 		if (non_limited_sources[i - 1]->limited)
 		{
 			double newrequiredcurrent = required_current - non_limited_sources[i - 1]->deliveredcurrent;

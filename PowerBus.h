@@ -2,7 +2,7 @@
 
 class PowerConsumer;
 class PowerCircuit;
-
+class PowerCircuitManager;
 
 class PowerBus : public PowerChild, public PowerParent
 {
@@ -10,8 +10,12 @@ public:
 	/**
 	 * \param voltage The voltage at which this bus is intended to operate.
 	 * \param maxamps The amount of amperes this bus is designed to tolerate (regular load)
+	 * \param PowerCircuitManager THe circuit manager this bus belongs to.
+	 * \param location_id The identifier of the objects location. Unless both objects are global,
+	 *	relationships can only be formed with objects in the same location.
+	 * \note Buses are always global, i.e. any other global object can form a relationship with any bus.
 	 */
-	PowerBus(double voltage, double maxamps);
+	PowerBus(double voltage, double maxamps, PowerCircuitManager *circuitmanager, UINT location_id);
 	virtual ~PowerBus();
 
 	/**
@@ -53,15 +57,20 @@ public:
 	//PowerParent implementation
 	virtual void Evaluate();
 
-	virtual bool CanConnectToChild(PowerChild *child);
+	virtual bool CanConnectToChild(PowerChild *child, bool bidirectional = true);
+
+	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 
 	//PowerChild implementation
-	virtual PowerCircuit *ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
+	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
 	
-	virtual bool CanConnectToParent(PowerParent *parent);
+	virtual bool CanConnectToParent(PowerParent *parent, bool bidirectional = true);
 
 	virtual double GetChildResistance();
 
+	virtual UINT GetLocationId();
+
+	virtual bool IsGlobal();
 
 protected:
 
@@ -69,5 +78,9 @@ protected:
 	double equivalent_resistance = -1;
 	double throughcurrent = -1;
 
+	PowerCircuitManager *circuitmanager = NULL;
+
+private:
+	UINT locationid = 0;
 };
 

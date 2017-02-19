@@ -72,7 +72,7 @@
     <IntDir>./RELEASE\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\lib</OutDir>
+    <OutDir>$(SolutionDir)\Test\lib</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -237,6 +237,7 @@
     <ClCompile Include="PowerBus.cpp" />
     <ClCompile Include="PowerChild.cpp" />
     <ClCompile Include="PowerCircuit.cpp" />
+    <ClCompile Include="PowerCircuitManager.cpp" />
     <ClCompile Include="PowerConsumer.cpp" />
     <ClCompile Include="PowerParent.cpp" />
     <ClCompile Include="PowerSource.cpp" />
@@ -306,6 +307,7 @@
     <ClInclude Include="GUI_StatusBar.h" />
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
     <ClInclude Include="IMS_AutopilotOperation_Base.h" />
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
@@ -316,7 +318,8 @@
     <ClInclude Include="IMS_TouchdownPointManager.h" />
     <ClInclude Include="PowerBus.h" />
     <ClInclude Include="PowerChild.h" />
-    <ClInclude Include="PowerCircuit.h" />
+    <ClInclude Include="PowerCIrcuit.h" />
+    <ClInclude Include="PowerCircuitManager.h" />
     <ClInclude Include="PowerConsumer.h" />
     <ClInclude Include="PowerParent.h" />
     <ClInclude Include="PowerSource.h" />

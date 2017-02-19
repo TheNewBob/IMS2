@@ -25,7 +25,7 @@ public:
 	 * \param bidirectional Pass false to prevent the function from calling ConnectChildToParent() on the child being connected. Should only be passed false from WITHIN said method!
 	 * \return A PowerCircuit IF a new powercircuit was created during the operation, NULL otherwise.
 	 */
-	virtual PowerCircuit *ConnectParentToChild(PowerChild *child, bool bidirectional = true);
+	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 
 	/**
 	 * \brief Disconnects this parent from a child.
@@ -38,13 +38,13 @@ public:
 	 * \return True if a child can connect to this parent at this time, false if not.
 	 * \param child The PowerChild instance of which you want to know whether or not it can be connected to this parent.
 	 */
-	virtual bool CanConnectToChild(PowerChild *child);
+	virtual bool CanConnectToChild(PowerChild *child, bool bidirectional = false);
 
 	/**
 	 * \brief Sets a reference to this objects list of children.
 	 * \param OUT_children Initialised but empty reference that will receive the child list.
 	 */
-	virtual void GetChildren(vector<PowerChild*> OUT_children);
+	virtual void GetChildren(vector<PowerChild*> &OUT_children);
 
 	/**
 	* \return The voltage range and current voltage of this parent.
@@ -60,6 +60,16 @@ public:
 	* \see GetOutputVoltageInfo()
 	*/
 	virtual double GetCurrentOutputVoltage();
+
+	/**
+	* \return The id of the location this parent is located at.
+	*/
+	virtual UINT GetLocationId() = 0;
+
+	/**
+	* \return Whether this parent can form connections independant of its location.
+	*/
+	virtual bool IsGlobal() = 0;
 
 	/**
 	 * \brief Makes this parent evaluate its state and recalculate accordingly
@@ -117,7 +127,7 @@ protected:
 
 	bool child_state_changed = false;
 	bool parentswitchedin = true;
-	bool parentautoswitch = true;
+	bool parentautoswitch = false;
 
 	VOLTAGE_INFO outputvoltage;
 

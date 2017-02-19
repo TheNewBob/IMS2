@@ -5,8 +5,8 @@
 #include "PowerParent.h"
 
 
-PowerConsumer::PowerConsumer(double minvoltage, double maxvoltage, double maxpower)
-	: PowerChild(PCT_CONSUMER, minvoltage, maxvoltage), maxpowerconsumption(maxpower)
+PowerConsumer::PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, bool global)
+	: PowerChild(PCT_CONSUMER, minvoltage, maxvoltage), maxpowerconsumption(maxpower), locationid(location_id), global(global)
 {
 
 }
@@ -73,11 +73,18 @@ void PowerConsumer::calculateNewProperties()
 	registerStateChangeWithParents();
 }
 
-bool PowerConsumer::CanConnectToParent(PowerParent *parent)
+
+void PowerConsumer::ConnectChildToParent(PowerParent *parent, bool bidirectional)
+{
+	PowerChild::ConnectChildToParent(parent, bidirectional);
+	inputvoltage.current = parent->GetOutputVoltageInfo().current;
+}
+
+bool PowerConsumer::CanConnectToParent(PowerParent *parent, bool bidirectional)
 {
 	//consumers can only directly connect to a bus, and they can only have one parent
 	if (parent->GetParentType() == POWERPARENT_TYPE::PPT_BUS &&
-		parents.size() < 1)
+		parents.size() < 1 && PowerChild::CanConnectToParent(parent, bidirectional))
 	{
 		return true;
 	}
@@ -87,4 +94,14 @@ bool PowerConsumer::CanConnectToParent(PowerParent *parent)
 double PowerConsumer::GetChildResistance()
 {
 	return consumerresistance;
+}
+
+UINT PowerConsumer::GetLocationId()
+{
+	return locationid;
+}
+
+bool PowerConsumer::IsGlobal()
+{
+	return global;
 }

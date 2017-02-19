@@ -17,7 +17,7 @@ PowerChild::~PowerChild()
 }
 
 
-PowerCircuit *PowerChild::ConnectChildToParent(PowerParent *parent, bool bidirectional)
+void PowerChild::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 {
 	assert(find(parents.begin(), parents.end(), parent) == parents.end() && "PowerChild is already registered!");
 
@@ -25,9 +25,8 @@ PowerCircuit *PowerChild::ConnectChildToParent(PowerParent *parent, bool bidirec
 
 	if (bidirectional)
 	{
-		return parent->ConnectParentToChild(this, false);
+		parent->ConnectParentToChild(this, false);
 	}
-	return NULL;
 }
 
 void PowerChild::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
@@ -43,7 +42,7 @@ void PowerChild::DisconnectChildFromParent(PowerParent *parent, bool bidirection
 	}
 }
 
-void PowerChild::GetParents(vector<PowerParent*> OUT_parents)
+void PowerChild::GetParents(vector<PowerParent*> &OUT_parents)
 {
 	OUT_parents = parents;
 }
@@ -87,3 +86,12 @@ POWERCHILD_TYPE PowerChild::GetChildType()
 	return childtype; 
 }
 
+
+bool PowerChild::CanConnectToParent(PowerParent *parent, bool bidirectional)
+{
+	if (bidirectional)
+	{
+		return parent->CanConnectToChild(this, false);
+	}
+	return true;
+}

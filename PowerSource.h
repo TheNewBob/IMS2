@@ -10,8 +10,11 @@ public:
 	 * \param maxvoltage Upper bound of voltage range for this source.
 	 * \param maxpower Maximum power output of this source in Watts.
 	 * \param internalresistance The internal resistance of the power source in Ohm.
+	 * \param location_id The identifier of the objects location. Unless both objects are global,
+	 *	relationships can only be formed with objects in the same location.
+	 * \param global If true, this source can form connections to other global objects regardless of their location.
 	 */
-	PowerSource(double minvoltage, double maxvoltage, double maxpower, double internalresistance);
+	PowerSource(double minvoltage, double maxvoltage, double maxpower, double internalresistance, UINT location_id, bool global = false);
 	virtual ~PowerSource();
 
 	/**
@@ -25,12 +28,7 @@ public:
 	virtual double GetCurrentPowerOutput();
 
 	/**
-	 * \return The base internal resistance in Ohm.
-	 */
-	virtual double GetBaseInternalResistance();
-
-	/**
-	 * \return The current internal resistance in Ohm.
+	 * \return The internal resistance in Ohm.
 	 */
 	virtual double GetInternalResistance();
 
@@ -68,20 +66,27 @@ public:
 	//implementation of PowerParent
 	virtual void Evaluate();
 
-	virtual PowerCircuit *ConnectParentToChild(PowerChild *child, bool bidirectional = true);
+	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 
 	/**
 	 * \brief A power source can only connect to a single bus that is in the appropriate voltage range.
 	 */
-	virtual bool CanConnectToChild(PowerChild *child);
+	virtual bool CanConnectToChild(PowerChild *child, bool bidirectional = true);
+
+	virtual UINT GetLocationId();
+
+	virtual bool IsGlobal();
 
 protected:
 
 	double maxpowerout = -1;				//!< maximum power output this source can provide in Watts.
 	double maxoutcurrent = -1;			//maximum current this source can provide in Amperes.
-	double baseinternalresistance = -1;		
 	double internalresistance = -1;
 	double curroutputcurrent = -1;
+
+private:
+	UINT locationid = 0;
+	bool global = false;
 };
 
 

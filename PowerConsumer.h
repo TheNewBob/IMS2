@@ -9,8 +9,11 @@ public:
 	 * \param minvoltage Lower bound of the input voltage of this consumer.
 	 * \param maxvoltage Upper bound of the Input voltage of this consumer.
 	 * \param maxpower Maximum power consumption of this consumer in Watts.
+	 * \param location_id The identifier of the objects location. Unless both objects are global,
+	 *	relationships can only be formed with objects in the same location.
+	 * \param global If true, this consumer can form connections to other global objects regardless of their location.
 	 */
-	PowerConsumer(double minvoltage, double maxvoltage, double maxpower);
+	PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, bool global = false);
 	virtual ~PowerConsumer();
 
 	/**
@@ -63,10 +66,15 @@ public:
 	void SetMaxPowerConsumption(double newconsumption);
 
 	//PowerChild implementation
-	bool CanConnectToParent(PowerParent *parent);
+	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
+
+	virtual bool CanConnectToParent(PowerParent *parent, bool bidirectional = true);
 
 	virtual double GetChildResistance();
 
+	virtual UINT GetLocationId();
+
+	virtual bool IsGlobal();
 
 protected:
 	double maxpowerconsumption;
@@ -82,5 +90,9 @@ protected:
 	 * \brief recalculates the consumers resistance and power consumption and registers a statechange with the parent.
 	 */
 	void calculateNewProperties();
+
+private:
+	UINT locationid = 0;
+	bool global = false;
 };
 

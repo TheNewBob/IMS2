@@ -16,6 +16,9 @@ public:
 	 * \param type The type of this child
 	 * \param minvoltage The minimum voltage required for this child to be functional.
 	 * \param maxvoltage The maximum voltage at which this child can operate.
+	 * \param location_id The identifier of the objects location. Unless both objects are global,
+	 *	relationships can only be formed with objects in the same location.
+	 * \param global Pass true if this child can form relationships with parents outside of its location.
 	 */
 	PowerChild(POWERCHILD_TYPE type, double minvoltage, double maxvoltage);
 	virtual ~PowerChild();
@@ -23,9 +26,8 @@ public:
 	/**
 	 * \brief Connects this child to a parent.
 	 * \param parent Pointer to the parent to connect this child to.
-	 * \return A PowerCircuit IF a new powercircuit was created during the operation, NULL otherwise.
 	 */
-	virtual PowerCircuit *ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
+	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
 
 	/**
 	 * \brief Disconnects this child from a parent.
@@ -37,19 +39,18 @@ public:
 	/**
 	 * \return True if a parent can connect to this child at this time, false if not.
 	 * \param parent The PowerParent instance of which you want to know whether or not it can be connected to this child.
-	 * \note This method is intended to be called from CanConnectToChild() in a PowerParent. It does not check for voltage compatibility,
-	 *	as that is already verified by the calling method. From the outside, use PowerParent::CanConnectToChild() to determine whether
-	 *	a connection is valid.
+	 * \param bidirectional Always pass true from the outside! Determines whether to invoke PowerParent::CanConnectToChild() method.
+	 * \note passing bidirectional = false will always return true n the base implementation, as basic compaibility is determmined by the parent!
 	 * \see PowerParent::CanConnectToParent()
 	 */
-	virtual bool CanConnectToParent(PowerParent *parent) = 0;
+	virtual bool CanConnectToParent(PowerParent *parent, bool bidirectional = true);
 
 	/**
 	 * \brief Sets a reference to this objects list of parents.
 	 * \param OUT_parents Initialised but empty reference that will receive the parent list.
  	 * \param bidirectional Pass false to prevent the method from calling DisconnectParentFromChild() on the parent being disconnected. Should only be passed false from WITHIN said method!
 	*/
-	virtual void GetParents(vector<PowerParent*> OUT_parents);
+	virtual void GetParents(vector<PowerParent*> &OUT_parents);
 
 	/**
 	 * \return The childs resistance in Ohm.
@@ -83,6 +84,15 @@ public:
 	 */
 	virtual void SetChildSwitchedIn(bool switchedin);
 
+	/**
+	 * \return The id of the location this child is located at.
+	 */
+	virtual UINT GetLocationId() = 0;
+
+	/**
+	 * \return Whether this child can form connections independant of its location.
+	 */
+	virtual bool IsGlobal() = 0;
 
 	/**
 	 * \return The type of this child.
