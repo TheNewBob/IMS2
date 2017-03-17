@@ -109,6 +109,7 @@ void PowerParent::SetCircuitToNull()
 
 void PowerParent::SetCircuit(PowerCircuit *circuit)
 {
+	assert(circuit != NULL && "NULL-circuit passed to SetCircuit()! Use SetCircuitToNull() instead!");
 	this->circuit = circuit;
 }
 

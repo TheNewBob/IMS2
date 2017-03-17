@@ -19,12 +19,18 @@ PowerCircuit::~PowerCircuit()
 	//if there are any members left, remove them.
 	for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
 	{
-		(*i)->SetCircuitToNull();
+		if ((*i)->GetCircuit() == this)
+		{
+			(*i)->SetCircuitToNull();
+		}
 	}
 
 	for (auto i = powersources.begin(); i != powersources.end(); ++i)
 	{
-		(*i)->SetCircuitToNull();
+		if ((*i)->GetCircuit() == this)
+		{
+			(*i)->SetCircuitToNull();
+		}
 	}
 }
 
@@ -39,7 +45,7 @@ void PowerCircuit::AddPowerSource(PowerSource *source)
 
 void PowerCircuit::AddPowerBus(PowerBus *bus)
 {
-	assert(find(powerbuses.begin(), powerbuses.end(), bus) == powerbuses.end() && "PowerSource was already added to circuit!");
+	assert(find(powerbuses.begin(), powerbuses.end(), bus) == powerbuses.end() && "PowerBus was already added to circuit!");
 	PowerCircuit_Base::AddPowerBus(bus);
 	bus->SetCircuit(this);
 	structurechanged = true;

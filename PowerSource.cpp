@@ -112,6 +112,13 @@ void PowerSource::ConnectParentToChild(PowerChild *child, bool bidirectional)
 	RegisterChildStateChange();
 }
 
+void PowerSource::SetCircuitToNull()
+{
+	//the source is removed from a circuit, shut it down!
+	circuit = NULL;
+	curroutputcurrent = 0;
+}
+
 
 UINT PowerSource::GetLocationId()
 {
