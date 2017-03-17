@@ -4,8 +4,11 @@
 #include "PowerParent.h"
 #include "PowerSource.h"
 #include "PowerBus.h"
+#include "PowerCircuit_Base.h"
 #include "PowerCircuit.h"
 #include "PowerCircuitManager.h"
+#include <queue>
+#include <set>
 
 
 PowerCircuitManager::PowerCircuitManager()
@@ -57,6 +60,61 @@ void PowerCircuitManager::MergeCircuits(PowerCircuit *circuit_a, PowerCircuit *c
 
 	DeletePowerCircuit(circuit_b);
 }
+
+
+void PowerCircuitManager::SplitCircuit(PowerCircuit *circuit, PowerBus *split_at, PowerParent *split_from)
+{
+	//set to store already processed parent to avoid endless recursion between buses.
+	set<PowerParent*> processed_parents;
+	processed_parents.insert(split_from);
+	processed_parents.insert(split_at);
+
+	//queue to walk through all descendants of split_at breadth first.
+	queue<PowerParent*> parents_to_process;
+	parents_to_process.push(split_at);
+	PowerCircuit *newcircuit = NULL;
+
+	while (parents_to_process.size() > 0)
+	{
+		//take the next item from the queue
+		PowerParent *currentparent = parents_to_process.front();
+		parents_to_process.pop();
+
+		//remove the child from its old circuit and add it to the new one.
+		//create the circuit if it doesn't exist yet.
+		currentparent->GetCircuit()->RemovePowerParent(currentparent);
+		if (newcircuit == NULL)
+		{
+			//not as unsave as it looks. If the circuit does not yet exist, the current parent must necessarily be split_at.
+			newcircuit = CreateCircuit((PowerBus*)currentparent);
+		}
+		else
+		{
+			newcircuit->AddPowerParent(currentparent);
+		}
+
+		if (currentparent->GetParentType() == PPT_BUS)
+		{
+			//walk through the buses and add their *parents* to the queue. We don't actually care about children.
+			PowerBus *currentbus = (PowerBus*)currentparent;
+			for (auto i = currentbus->parents.begin(); i != currentbus->parents.end(); ++i)
+			{
+				//check if the parent was already processed, if not, add it to the queue.
+				pair<set<PowerParent*>::iterator, bool> parent_was_processed = processed_parents.insert((*i));
+				if (parent_was_processed.second)
+				{
+					parents_to_process.push((*i));
+				}
+			}
+		}
+	}
+
+	if (circuit->powerbuses.size() == 0)
+	{
+		DeletePowerCircuit(circuit);
+	}
+}
+
 
 void PowerCircuitManager::Evaluate()
 {

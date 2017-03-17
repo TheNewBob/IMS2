@@ -6,6 +6,7 @@ class PowerCircuitManager;
 
 class PowerBus : public PowerChild, public PowerParent
 {
+	friend class PowerCircuitManager;
 public:
 	/**
 	 * \param voltage The voltage at which this bus is intended to operate.
@@ -53,6 +54,23 @@ public:
 	 */
 	double ReduceCurrentFlow(double missing_current);
 
+	/**
+	 * \brief Tells the bus to calculate the total current running through it.
+	 * This is the last operation in circuit evaluation to be called. Should not ever be called
+	 * under any other circumstances.
+	 */
+	void CalculateTotalCurrentFlow();
+
+	/**
+	 * \brief Lets the bus delete all its feeding subcircuits and reconstruct them anew.
+	 * This is a relatively expensive operation, but is neccessary to perform when the structure
+	 * of a circuit changes.
+	 * \todo This could be optimised by introducing structural state observers, so only affected
+	 *	subcircuits get rebuilt. It would increase complexity quite a bit, but is a feasible option
+	 *	if circuit building turns out to take too long in the sim.
+	 */
+	void RebuildFeedingSubcircuits();
+
 
 	//PowerParent implementation
 	virtual void Evaluate();
@@ -61,8 +79,12 @@ public:
 
 	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 
+	virtual void DisconnectParentFromChild(PowerChild *child, bool bidirectional = true);
+
 	//PowerChild implementation
 	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
+
+	virtual void DisconnectChildFromParent(PowerParent *parent, bool bidirectional = true);
 	
 	virtual bool CanConnectToParent(PowerParent *parent, bool bidirectional = true);
 
@@ -79,6 +101,8 @@ protected:
 	double throughcurrent = -1;
 
 	PowerCircuitManager *circuitmanager = NULL;
+	vector<PowerSubCircuit*> feeding_subcircuits;				//!< The subcircuits feeding current to this bus.
+	
 
 private:
 	UINT locationid = 0;

@@ -416,6 +416,12 @@
     <ClCompile Include="PowerCircuitManager.cpp">
       <Filter>PowerDistribution</Filter>
     </ClCompile>
+    <ClCompile Include="PowerCircuit_Base.cpp">
+      <Filter>PowerDistribution</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerSubCircuit.cpp">
+      <Filter>PowerDistribution</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -841,10 +847,13 @@
     <ClInclude Include="PowerCircuitManager.h">
       <Filter>PowerDistribution</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="PowerCircuit.h">
       <Filter>PowerDistribution</Filter>
     </ClInclude>
-    <ClInclude Include="PowerCIrcuit.h">
+    <ClInclude Include="PowerCircuit_Base.h">
+      <Filter>PowerDistribution</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerSubCircuit.h">
       <Filter>PowerDistribution</Filter>
     </ClInclude>
   </ItemGroup>

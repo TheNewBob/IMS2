@@ -2,10 +2,12 @@
 #include "PowerTypes.h"
 #include "PowerParent.h"
 #include "PowerChild.h"
+#include "PowerCircuit_Base.h"
 #include "PowerCircuit.h"
+#include "PowerSubCircuit.h"
 
-PowerParent::PowerParent(POWERPARENT_TYPE type, double minvoltage, double maxvoltage)
-	: parenttype(type)
+PowerParent::PowerParent(POWERPARENT_TYPE type, double minvoltage, double maxvoltage, bool switchable)
+	: parenttype(type), parentcanswitch(switchable)
 
 { 
 	outputvoltage.minimum = minvoltage;
@@ -17,31 +19,6 @@ PowerParent::~PowerParent()
 
 }
 
-
-void PowerParent::ConnectParentToChild(PowerChild *child, bool bidirectional)
-{
-//	assert(CanConnectToChild(child) && "PowerChild cannot be connected to PowerParent! Perform check if connection possible before calling this method!");
-
-	children.push_back(child);
-	 
-	if (bidirectional)
-	{
-		child->ConnectChildToParent(this, false);
-	}
-}
-
-void PowerParent::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
-{
-	auto childit = find(children.begin(), children.end(), child);
-	assert(childit != children.end() && "PowerChild to be disconnected is not connected!");
-
-	children.erase(childit);
-
-	if (bidirectional)
-	{
-		child->DisconnectChildFromParent(this, false);
-	}
-}
 
 bool PowerParent::CanConnectToChild(PowerChild *child, bool bidirectional)
 {
@@ -80,9 +57,14 @@ bool PowerParent::IsParentSwitchedIn()
 	return parentswitchedin; 
 }
 
+bool PowerParent::IsParentSwitchable()
+{
+	return parentcanswitch;
+}
+
 void PowerParent::SetParentSwitchedIn(bool switchedin) 
 { 
-	if (switchedin != parentswitchedin)
+	if (parentcanswitch && switchedin != parentswitchedin)
 	{
 		parentswitchedin = switchedin;
 		circuit->RegisterStateChange();
@@ -109,6 +91,10 @@ void PowerParent::RegisterChildStateChange()
 { 
 	child_state_changed = true;
 	circuit->RegisterStateChange();
+	for (auto i = containing_subcircuits.begin(); i != containing_subcircuits.end(); ++i)
+	{
+		(*i)->RegisterStateChange();
+	}
 }
 
 POWERPARENT_TYPE PowerParent::GetParentType()
@@ -129,4 +115,44 @@ void PowerParent::SetCircuit(PowerCircuit *circuit)
 PowerCircuit *PowerParent::GetCircuit()
 {
 	return circuit;
+}
+
+void PowerParent::RegisterContainingSubCircuit(PowerSubCircuit *subcircuit)
+{
+	assert(find(containing_subcircuits.begin(), containing_subcircuits.end(), subcircuit) == containing_subcircuits.end()
+		&& "Attempting to register already registered subcircuit!");
+	containing_subcircuits.push_back(subcircuit);
+}
+
+void PowerParent::UnregisterContainingSubCircuit(PowerSubCircuit *subcircuit)
+{
+	auto unregistercircuit = find(containing_subcircuits.begin(), containing_subcircuits.end(), subcircuit);
+	assert(unregistercircuit != containing_subcircuits.end() && "Attempting to unregister subcircuit that was not registered!");
+	containing_subcircuits.erase(unregistercircuit);
+}
+
+
+void PowerParent::connectParentToChild(PowerParent *parent, PowerChild *child, bool bidirectional)
+{
+	//	assert(CanConnectToChild(child) && "PowerChild cannot be connected to PowerParent! Perform check if connection possible before calling this method!");
+
+	parent->children.push_back(child);
+
+	if (bidirectional)
+	{
+		child->ConnectChildToParent(parent, false);
+	}
+}
+
+void PowerParent::disconnectParentFromChild(PowerParent *parent, PowerChild *child, bool bidirectional)
+{
+	auto childit = find(parent->children.begin(), parent->children.end(), child);
+	assert(childit != parent->children.end() && "PowerChild to be disconnected is not connected!");
+
+	parent->children.erase(childit);
+
+	if (bidirectional)
+	{
+		child->DisconnectChildFromParent(parent, false);
+	}
 }

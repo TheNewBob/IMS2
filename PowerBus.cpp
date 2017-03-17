@@ -4,13 +4,15 @@
 #include "PowerParent.h"
 #include "PowerBus.h"
 #include "PowerConsumer.h"
+#include "PowerCircuit_Base.h"
 #include "PowerCircuit.h"
+#include "PowerSubCircuit.h"
 #include "PowerCircuitManager.h"
 
 
 
 PowerBus::PowerBus(double voltage, double maxamps, PowerCircuitManager *circuitmanager, UINT location_id)
-	: PowerChild(POWERCHILD_TYPE::PCT_BUS, voltage, voltage), PowerParent(POWERPARENT_TYPE::PPT_BUS, voltage, voltage), maxcurrent(maxamps), locationid(location_id), circuitmanager(circuitmanager)
+	: PowerChild(POWERCHILD_TYPE::PCT_BUS, voltage, voltage, false), PowerParent(POWERPARENT_TYPE::PPT_BUS, voltage, voltage, false), maxcurrent(maxamps), locationid(location_id), circuitmanager(circuitmanager)
 {
 	outputvoltage.current = voltage;
 	inputvoltage.current = voltage;
@@ -60,7 +62,6 @@ void PowerBus::Evaluate()
 	//check if the state of any children of this object has changed at all.
 	if (child_state_changed)
 	{
-		child_state_changed = false;
 		double new_eq_resistance = 0;
 		for (auto i = children.begin(); i != children.end(); ++i)
 		{
@@ -72,13 +73,14 @@ void PowerBus::Evaluate()
 			}
 		}
 		equivalent_resistance = 1 / new_eq_resistance;
-		circuit->RegisterStateChange();
+		RegisterChildStateChange();
+		child_state_changed = false;
 	}
 }
 
 void PowerBus::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
-	PowerParent::ConnectParentToChild(child, bidirectional);
+	PowerParent::connectParentToChild(this, child, bidirectional);
 
 	if (!bidirectional && child->GetChildType() == PCT_BUS &&
 		find(parents.begin(), parents.end(), (PowerBus*)(child)) == parents.end())
@@ -124,7 +126,7 @@ void PowerBus::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 		}
 	}
 	//connect the darn things already!
-	PowerChild::ConnectChildToParent(parent, bidirectional);
+	PowerChild::connectChildToParent(this, parent, bidirectional);
 
 	//a special thing about buses is that they have reciprocal relationships:
 	//they are both parents of each other, and thus also are children of each other.
@@ -136,6 +138,49 @@ void PowerBus::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 		otherbus->ConnectChildToParent(this);
 	}
 }
+
+
+void PowerBus::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
+{
+	PowerChild::disconnectChildFromParent(this, parent, bidirectional);
+
+	if (bidirectional && parent->GetParentType() == PPT_BUS)
+	{
+		//bus relations are reciprocal, so the parent is also our child, and that relation needs to be severed too.
+		DisconnectParentFromChild((PowerBus*)parent, true);
+	}
+
+	if (circuit == parent->GetCircuit())
+	{
+		//at this point, all relations are resolved, and we have to move this bus and everything connected to it to a new circuit.
+		circuitmanager->SplitCircuit(circuit, this, parent);
+	}
+	
+}
+
+void PowerBus::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
+{
+	PowerParent::disconnectParentFromChild(this, child, bidirectional);
+}
+
+
+void PowerBus::RebuildFeedingSubcircuits()
+{
+	//destroy all subcircuits.
+	for (auto i = feeding_subcircuits.begin(); i != feeding_subcircuits.end(); ++i)
+	{
+		delete (*i);
+	}
+
+	feeding_subcircuits.clear();
+
+	//construct a subcircuit for every parent.
+	for (auto i = parents.begin(); i != parents.end(); ++i)
+	{
+		feeding_subcircuits.push_back(new PowerSubCircuit((*i), this));
+	}
+}
+
 
 bool PowerBus::CanConnectToChild(PowerChild *child, bool bidirectional)
 {
@@ -169,15 +214,49 @@ double PowerBus::GetChildResistance()
 
 double PowerBus::ReduceCurrentFlow(double missing_current)
 {
-	//this bus cannot reduce current by enough, save some checks and shut everything down!
 	for (UINT i = children.size(); i > 0; --i)
 	{
 		if (children[i - 1]->GetChildType() == PCT_CONSUMER &&
 			children[i - 1]->IsChildSwitchedIn())
 		{
 			PowerConsumer* consumer = (PowerConsumer*)children[i - 1];
-			missing_current -= consumer->GetInputCurrent();
-			consumer->SetRunning(false);
+			if (consumer->IsRunning())
+			{
+				double consumedcurrent = consumer->GetInputCurrent();
+				if (missing_current > consumedcurrent)
+				{
+					//this consumer won't get enough power.
+					consumer->SetRunning(false);
+					missing_current -= consumedcurrent;
+				}
+				else
+				{
+					bool couldsetcurrent = consumer->SetConsumerLoadForCurrent(consumedcurrent - missing_current);
+					if (couldsetcurrent)
+					{
+						//the consumers load could be reduced to eat exactly the amount of current we still had available.
+						missing_current = 0;
+					}
+					else
+					{
+						//the consumer didn't get enough current for operation and went into standby. 
+						double still_missing_current = missing_current - (consumedcurrent - consumer->GetInputCurrent());
+						
+						if (still_missing_current < 0)
+						{
+							//The fact that the consumer went into standby could mean that we have some current left over now.
+							//this is indicated by negative missing current. In this case, leave things as they are.
+							missing_current = still_missing_current;
+						}
+						else
+						{
+							//On the other hand, if there's still current missing, there isn't even enough for the consumer to remain in standby.
+							consumer->SetRunning(false);
+							missing_current -= consumedcurrent;
+						}
+					}
+				}
+			}
 		}
 		if (missing_current <= 0)
 		{
@@ -197,3 +276,17 @@ bool PowerBus::IsGlobal()
 {
 	return true;
 }
+
+
+void PowerBus::CalculateTotalCurrentFlow()
+{
+
+	//the current flowing through this bus is really just the current surplus of all feeding subcircuits.
+	throughcurrent = 0;
+	for (auto i = feeding_subcircuits.begin(); i != feeding_subcircuits.end(); ++i)
+	{
+		(*i)->Evaluate();
+		throughcurrent += (*i)->GetCurrentSurplus();
+	}
+}
+

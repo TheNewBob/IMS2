@@ -35,6 +35,15 @@ public:
 	void MergeCircuits(PowerCircuit *circuit_a, PowerCircuit *circuit_b);
 
 	/**
+	 * \brief splits a circuit into two circuits at a bus.
+	 * \param circuit The circuit to split.
+	 * \param split_at The bus at which to split. This bus and its children will become members of the new circuit.
+	 * \param split_from The parent split_at is being diconnected from. This will remain part of circuit.
+	 * \note Does automatically update the circuit of all split parents, and cleans up circuits that are no longer valid (have no bus)
+	 */
+	void SplitCircuit(PowerCircuit *circuit, PowerBus *split_at, PowerParent *split_from);
+
+	/**
 	 * \brief Evaluates all the circuits in this PowerCircuitManager.
 	 */
 	void Evaluate();

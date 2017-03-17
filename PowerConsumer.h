@@ -11,9 +11,12 @@ public:
 	 * \param maxpower Maximum power consumption of this consumer in Watts.
 	 * \param location_id The identifier of the objects location. Unless both objects are global,
 	 *	relationships can only be formed with objects in the same location.
+	 * \param standbypower How much the consumer consumes at standby (running, but zero load). Default is 0.1% of max power.
+	 * \param minimumload The minimum load at which the consumer can operate. 
 	 * \param global If true, this consumer can form connections to other global objects regardless of their location.
 	 */
-	PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, bool global = false);
+	PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, double standbypower = -1, double minimumload = 0.01, bool global = false);
+
 	virtual ~PowerConsumer();
 
 	/**
@@ -52,10 +55,24 @@ public:
 	double GetConsumerLoad();
 
 	/**
+	 * \return The minimum load at which this consumer can operate.
+	 */
+	double GetConsumerMinimumLoad();
+
+	/**
 	 * \brief Sets the current load of this consumer.
 	 * \param load The current load, in fractions of 1 (>= 0 <= 1)
+	 * \return True if the consumer is able to operate at this load, false if not. If false is returned, it indicates that the consumers load has been set to 0.
 	 */
-	void SetConsumerLoad(double load);
+	bool SetConsumerLoad(double load);
+
+	/**
+	 * \brief Sets the consumers load so it consumes a certain current.
+	 * \param current the current you want to set the load for, in amperes.
+	 * \return True if the load could be set for current. False if current is above the maximum consumption, or below the minimum.
+	 *	If above maximum, the load will have been set to 1. If below minimum, the load will have been set to 0.
+	 */
+	bool SetConsumerLoadForCurrent(double current);
 
 	/**
 	 * \brief Sets the maximum power consumption of the consumer.
@@ -70,6 +87,8 @@ public:
 
 	virtual bool CanConnectToParent(PowerParent *parent, bool bidirectional = true);
 
+	virtual void DisconnectChildFromParent(PowerParent *parent, bool bidirectional = true);
+
 	virtual double GetChildResistance();
 
 	virtual UINT GetLocationId();
@@ -82,7 +101,8 @@ protected:
 	double consumercurrent;
 	double consumerload;
 	double consumerresistance;
-
+	double standbypower;
+	double minimumload;
 	bool running = true;
 
 

@@ -20,21 +20,21 @@ public:
 	 *	relationships can only be formed with objects in the same location.
 	 * \param global Pass true if this child can form relationships with parents outside of its location.
 	 */
-	PowerChild(POWERCHILD_TYPE type, double minvoltage, double maxvoltage);
+	PowerChild(POWERCHILD_TYPE type, double minvoltage, double maxvoltage, bool switchable = true);
 	virtual ~PowerChild();
 
 	/**
 	 * \brief Connects this child to a parent.
 	 * \param parent Pointer to the parent to connect this child to.
 	 */
-	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
+	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true) = 0;
 
 	/**
 	 * \brief Disconnects this child from a parent.
 	 * \param parent The parent to disconnect from. Must be a member of the parent list!
 	 * \param bidirectional Pass false to prevent the method from calling ConnectParentToChild() on the parent being connected. Should only be passed false from WITHIN said method!
 	 */
-	virtual void DisconnectChildFromParent(PowerParent *parent, bool bidirectional = true);
+	virtual void DisconnectChildFromParent(PowerParent *parent, bool bidirectional = true) = 0;
 
 	/**
 	 * \return True if a parent can connect to this child at this time, false if not.
@@ -76,13 +76,18 @@ public:
 	/**
 	 * \return True if this child is switched into the circuit, false if not.
 	 */
-	virtual bool IsChildSwitchedIn();
+	bool IsChildSwitchedIn();
+
+	/**
+	 * \return Whether this child is switchable.
+	 */
+	bool IsChildSwitchable();
 
 	/**
 	 * Switches the child in or out of the circuit.
 	 * \param switchedin Pass true to switch the child in, false to switch it out.
 	 */
-	virtual void SetChildSwitchedIn(bool switchedin);
+	void SetChildSwitchedIn(bool switchedin);
 
 	/**
 	 * \return The id of the location this child is located at.
@@ -102,6 +107,8 @@ public:
 	
 protected:
 
+	static void connectChildToParent(PowerChild* child, PowerParent *parent, bool bidirectional);
+	static void disconnectChildFromParent(PowerChild* child, PowerParent *parent, bool bidirectional);
 
 	vector<PowerParent*> parents;
 	bool childswitchedin = true;
@@ -114,5 +121,6 @@ protected:
 
 private:
 	POWERCHILD_TYPE childtype;
+	bool childcanswitch;
 };
 

@@ -3,8 +3,8 @@
 #include "PowerParent.h"
 #include "PowerChild.h"
 
-PowerChild::PowerChild(POWERCHILD_TYPE type, double minvoltage, double maxvoltage)
-	: childtype(type)
+PowerChild::PowerChild(POWERCHILD_TYPE type, double minvoltage, double maxvoltage, bool switchable)
+	: childtype(type), childcanswitch(switchable)
 {
 	inputvoltage.minimum = minvoltage;
 	inputvoltage.maximum = maxvoltage;
@@ -16,32 +16,6 @@ PowerChild::~PowerChild()
 
 }
 
-
-void PowerChild::ConnectChildToParent(PowerParent *parent, bool bidirectional)
-{
-	assert(find(parents.begin(), parents.end(), parent) == parents.end() && "PowerChild is already registered!");
-
-	parents.push_back(parent);
-
-	if (bidirectional)
-	{
-		parent->ConnectParentToChild(this, false);
-	}
-}
-
-void PowerChild::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
-{
-	auto parentit = find(parents.begin(), parents.end(), parent);
-	assert(parentit != parents.end() && "PowerChild is not registered!");
-
-	parents.erase(parentit);
-
-	if (bidirectional)
-	{
-		parent->DisconnectParentFromChild(this, false);
-	}
-}
-
 void PowerChild::GetParents(vector<PowerParent*> &OUT_parents)
 {
 	OUT_parents = parents;
@@ -50,6 +24,11 @@ void PowerChild::GetParents(vector<PowerParent*> &OUT_parents)
 bool PowerChild::IsChildSwitchedIn() 
 { 
 	return childswitchedin; 
+}
+
+bool PowerChild::IsChildSwitchable()
+{
+	return childcanswitch;
 }
 
 void PowerChild::SetChildSwitchedIn(bool switchedin) 
@@ -94,4 +73,30 @@ bool PowerChild::CanConnectToParent(PowerParent *parent, bool bidirectional)
 		return parent->CanConnectToChild(this, false);
 	}
 	return true;
+}
+
+
+void PowerChild::connectChildToParent(PowerChild *child, PowerParent *parent, bool bidirectional)
+{
+	assert(find(child->parents.begin(), child->parents.end(), parent) == child->parents.end() && "PowerChild is already registered!");
+
+	child->parents.push_back(parent);
+
+	if (bidirectional)
+	{
+		parent->ConnectParentToChild(child, false);
+	}
+}
+
+void PowerChild::disconnectChildFromParent(PowerChild *child, PowerParent *parent, bool bidirectional)
+{
+	auto parentit = find(child->parents.begin(), child->parents.end(), parent);
+	assert(parentit != child->parents.end() && "PowerChild is not registered!");
+
+	child->parents.erase(parentit);
+
+	if (bidirectional)
+	{
+		parent->DisconnectParentFromChild(child, false);
+	}
 }

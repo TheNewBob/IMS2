@@ -4,6 +4,7 @@
 #include "PowerParent.h"
 #include "PowerBus.h"
 #include "PowerSource.h"
+#include "PowerCircuit_Base.h"
 #include "PowerCircuit.h"
 
 PowerSource::PowerSource(double minvoltage, double maxvoltage, double maxpower, double internalresistance, UINT location_id, bool global)
@@ -63,6 +64,7 @@ void PowerSource::SetRequestedCurrent(double amps)
 	if (amps != curroutputcurrent)
 	{
 		curroutputcurrent = amps;
+		RegisterChildStateChange();
 	}
 }
 
@@ -75,7 +77,7 @@ void PowerSource::SetMaxPowerOutput(double watts)
 		if (curroutputcurrent > maxoutcurrent)
 		{
 			curroutputcurrent = maxoutcurrent;
-			circuit->RegisterStateChange();
+			RegisterChildStateChange();
 		}
 	}
 }
@@ -83,11 +85,7 @@ void PowerSource::SetMaxPowerOutput(double watts)
 
 void PowerSource::Evaluate()
 {
-	//powersources are controlled by the circuit, so all we have to do is to notify the circuit that things have changed.
-	if (child_state_changed)
-	{
-		circuit->RegisterStateChange();
-	}
+	assert(true && "Evaluate on PowerSource should never be called!");
 }
 
 bool PowerSource::CanConnectToChild(PowerChild *child, bool bidirectional)
@@ -106,13 +104,19 @@ bool PowerSource::CanConnectToChild(PowerChild *child, bool bidirectional)
 void PowerSource::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
 	//establish the connection
-	PowerParent::ConnectParentToChild(child, bidirectional);
+	PowerParent::connectParentToChild(this, child, bidirectional);
 
 	//comply to the childs input power. Tests for compatibility were already done at this point.
 	outputvoltage.current = child->GetCurrentInputVoltage();
 	maxoutcurrent = maxpowerout / outputvoltage.current;
-	circuit->RegisterStateChange();
+	RegisterChildStateChange();
 }
+
+void PowerSource::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
+{
+	PowerParent::disconnectParentFromChild(this, child, bidirectional);
+}
+
 
 
 UINT PowerSource::GetLocationId()
@@ -124,3 +128,4 @@ bool PowerSource::IsGlobal()
 {
 	return global;
 }
+

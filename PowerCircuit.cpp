@@ -1,75 +1,62 @@
 #include "Common.h"
 #include "PowerTypes.h"
-#include "PowerCircuit.h"
 #include "PowerChild.h"
 #include "PowerParent.h"
 #include "PowerSource.h"
 #include "PowerBus.h"
+#include "PowerCircuit_Base.h"
+#include "PowerCircuit.h"
 
 
 PowerCircuit::PowerCircuit(PowerBus *initialbus)
+	: PowerCircuit_Base(initialbus->GetCurrentOutputVoltage())
 {
-	voltage = initialbus->GetCurrentOutputVoltage();
 	AddPowerBus(initialbus);
 }
 
 PowerCircuit::~PowerCircuit()
 {
-}
-
-
-void PowerCircuit::AddPowerParent(PowerParent *parent)
-{
-	POWERPARENT_TYPE ptype = parent->GetParentType();
-	if (ptype == PPT_BUS)
+	//if there are any members left, remove them.
+	for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
 	{
-		AddPowerBus((PowerBus*)parent);
+		(*i)->SetCircuitToNull();
 	}
-	else if (ptype = PPT_SOURCE)
+
+	for (auto i = powersources.begin(); i != powersources.end(); ++i)
 	{
-		AddPowerSource((PowerSource*)parent);
+		(*i)->SetCircuitToNull();
 	}
 }
+
 
 void PowerCircuit::AddPowerSource(PowerSource *source)
 {
 	assert(find(powersources.begin(), powersources.end(), source) == powersources.end() && "PowerSource was already added to circuit!");
-	powersources.push_back(source);
+	PowerCircuit_Base::AddPowerSource(source);
 	source->SetCircuit(this);
+	structurechanged = true;
 }
 
 void PowerCircuit::AddPowerBus(PowerBus *bus)
 {
 	assert(find(powerbuses.begin(), powerbuses.end(), bus) == powerbuses.end() && "PowerSource was already added to circuit!");
-	powerbuses.push_back(bus);
+	PowerCircuit_Base::AddPowerBus(bus);
 	bus->SetCircuit(this);
+	structurechanged = true;
 }
 
 void PowerCircuit::RemovePowerSource(PowerSource *source)
 {
-	auto removesource = find(powersources.begin(), powersources.end(), source);
-	assert(removesource != powersources.end() && "Attempting to remove PowerSOurce from Circuit that is not a member!");
-	(*removesource)->SetCircuitToNull();
-	powersources.erase(removesource);
+	PowerCircuit_Base::RemovePowerSource(source);
+	source->SetCircuitToNull();
+	structurechanged = true;
 }
 
 void PowerCircuit::RemovePowerBus(PowerBus *bus)
 {
-	auto removebus = find(powerbuses.begin(), powerbuses.end(), bus);
-	assert(removebus != powerbuses.end() && "Attempting to remove PowerSOurce from Circuit that is not a member!");
-	(*removebus)->SetCircuitToNull();
-	powerbuses.erase(removebus);
-}
-
-
-void PowerCircuit::GetPowerSources(vector<PowerSource*> &OUT_sources)
-{
-	OUT_sources = powersources;
-}
-
-void PowerCircuit::GetPowerBuses(vector<PowerBus*> &OUT_buses)
-{
-	OUT_buses = powerbuses;
+	PowerCircuit_Base::RemovePowerBus(bus);
+	bus->SetCircuitToNull();
+	structurechanged = true;
 }
 
 
@@ -85,17 +72,18 @@ double PowerCircuit::GetEquivalentResistance()
 }
 
 
-void PowerCircuit::RegisterStateChange()
-{
-	statechange = true;
-}
-
 void PowerCircuit::Evaluate()
 {
+	if (structurechanged)
+	{
+		//the circuits structure has changed since the last evaluation. This means rebuilding the feeding subcircuits for all buses.
+		structurechanged = false;
+		statechange = true;
+		rebuildAllSubCircuits();
+	}
+
 	if (statechange)
 	{
-		statechange = false;
-
 		//evaluate buses
 		for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
 		{
@@ -106,17 +94,20 @@ void PowerCircuit::Evaluate()
 		calculateEquivalentResistance();
 		total_circuit_current = voltage / equivalent_resistance;
 		distributeCurrentDraw();
-	}
-}
 
-UINT PowerCircuit::GetSize()
-{
-	return powersources.size() + powerbuses.size();
+		//finally, tell the buses to calculate the total current flowing through them.
+		//this must be done even if their state did not change, as any change anywhere
+		//in the circuit has the potential to influence the current flowing through any bus.
+		for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
+		{
+			(*i)->CalculateTotalCurrentFlow();
+		}
+		statechange = false;
+	}
 }
 
 void PowerCircuit::calculateEquivalentResistance()
 {
-
 	double new_eq_resistance = 0;
 	for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
 	{
@@ -158,7 +149,7 @@ void PowerCircuit::distributeCurrentDraw(bool force)
 		{
 			//we switched in all the sources we are allowed to, but we still don't have enough current! Some things will have to go!
 			reduceCircuitCurrentBy(missing_current);
-
+			total_circuit_current = total_available_current;
 		}
 	}
 	//Now the circuit is stable and able to provide enough current for anything still running.
@@ -209,7 +200,7 @@ void PowerCircuit::reduceCircuitCurrentBy(double missing_current)
 			return;
 		}
 	}
-	assert(missing_current < 0 && "There's still too little current although nothing is running. Something's obviously not behaving as intended!");
+	assert(missing_current <= 0 && "There's still too little current although nothing is running. Something's obviously not behaving as intended!");
 }
 
 
@@ -252,3 +243,10 @@ double PowerCircuit::getSumOfEquivalentResistances(vector<POWERSOURCE_STATS*> &i
 }
 
 
+void PowerCircuit::rebuildAllSubCircuits()
+{
+	for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
+	{
+		(*i)->RebuildFeedingSubcircuits();
+	}
+}

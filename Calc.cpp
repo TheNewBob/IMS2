@@ -24,7 +24,7 @@ bool Calc::IsNear(const VECTOR3& v1, const VECTOR3& v2, double inaccuracy)
 
 bool Calc::IsEqual(const double n1, const double n2)
 {
-	return IsNear(n1, n2, 0e-6);
+	return IsNear(n1, n2, 1e-9);
 }
 
 bool Calc::IsEqual(const VECTOR3& v1, const VECTOR3& v2)

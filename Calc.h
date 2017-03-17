@@ -8,8 +8,19 @@ public:
 	Calc();
 	~Calc();
 
+	/**
+	 * \return True if number is within +- inaccuracy of compare.
+	 */
 	static bool IsNear(const double number, const double compare, const double inaccuracy);
+
+	/**
+	 * \return true if v1 is within +_ inaccuracy of v2.
+	 */
 	static bool IsNear(const VECTOR3& v1, const VECTOR3& v2, double inaccuracy);
+
+	/**
+	* \return True if n1 matches n2 to 9 digits behind the period.
+	*/
 	static bool IsEqual(double n1, double n2);
 	static bool IsEqual(const VECTOR3& v1, const VECTOR3& v2);
 	static double DirectionSimilarity(const VECTOR3& v1, const VECTOR3& v2);

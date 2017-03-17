@@ -2,6 +2,7 @@
 
 class PowerChild;
 class PowerCircuit;
+class PowerSubCircuit;
 
 /**
  * \brief Abstract base class for classes that can be parents in a circuits hierarchy (i.e. feed power to other instances).
@@ -9,6 +10,7 @@ class PowerCircuit;
 class PowerParent
 {
 	friend class PowerChild;
+	friend class PowerCircuitManager;
 public:
 
 	/**
@@ -16,7 +18,7 @@ public:
 	 * \param minvoltage The minimum voltage at which this parent can provide power.
 	 * \param maxvoltage The maximum voltage at which this parent can provide power.
 	 */
-	PowerParent(POWERPARENT_TYPE type, double minvoltage, double maxvoltage);
+	PowerParent(POWERPARENT_TYPE type, double minvoltage, double maxvoltage, bool switchable = true);
 	virtual ~PowerParent();
 
 	/**
@@ -25,14 +27,14 @@ public:
 	 * \param bidirectional Pass false to prevent the function from calling ConnectChildToParent() on the child being connected. Should only be passed false from WITHIN said method!
 	 * \return A PowerCircuit IF a new powercircuit was created during the operation, NULL otherwise.
 	 */
-	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
+	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true) = 0;
 
 	/**
 	 * \brief Disconnects this parent from a child.
 	 * \param child The child to disconnect from. Must be a member of the child list!
 	 * \param bidirectional Pass false to prevent the function from calling DisconnectChildToParent() on the child being disconnected. Should only be passed false from WITHIN said method!
 	 */
-	virtual void DisconnectParentFromChild(PowerChild *child, bool bidirectional = true);
+	virtual void DisconnectParentFromChild(PowerChild *child, bool bidirectional = true) = 0;
 
 	/**
 	 * \return True if a child can connect to this parent at this time, false if not.
@@ -79,25 +81,30 @@ public:
 	/**
 	* \return True if this child is switched into the circuit, false if not.
 	*/
-	virtual bool IsParentSwitchedIn();
+	bool IsParentSwitchedIn();
 
 	/**
 	* \brief Switches the child in or out of the circuit.
 	* \param switchedin Pass true to switch the child in, false to switch it out.
 	*/
-	virtual void SetParentSwitchedIn(bool switchedin);
+	void SetParentSwitchedIn(bool switchedin);
 
 	/**
 	 * \brief If autoswitch is on, this parent will automatically switch itself into the circuit if power is demanded by a child and the parent is currently switched out.
 	 * \return true if autoswitch is enabled, false if not.
 	 */
-	virtual bool IsAutoswitchEnabled();
+	bool IsAutoswitchEnabled();
+
+	/**
+	 * \return Whether or not this parent can be switched in and out of the circuit.
+	 */
+	bool IsParentSwitchable();
 
 	/**
 	 * \brief Enables or disables tthis parents autoswitch functionality.
 	 * \param enabled Pass true to enable, false to disable autoswitch.
 	 */
-	virtual void SetAutoswitchEnabled(bool enabled);
+	void SetAutoswitchEnabled(bool enabled);
 
 	/**
 	 * \return The type of this parent.
@@ -118,6 +125,17 @@ public:
 	virtual void SetCircuit(PowerCircuit *circuit);
 
 	/**
+	 * Tells this parent that a subcircuit is containing it, enabling it to get statechange notifications.
+	 */
+	void RegisterContainingSubCircuit(PowerSubCircuit *subcircuit);
+
+	/**
+	* Tells this parent that a subcircuit is containing it no longer exists and shouldn't receive status updates anymore.
+	*/
+	void UnregisterContainingSubCircuit(PowerSubCircuit *subcircuit);
+
+
+	/**
 	 * \return The circuit this parent is a member of, or NULL if it isn't in any circuit yet.
 	 */
 	PowerCircuit *GetCircuit();
@@ -126,20 +144,27 @@ protected:
 	vector<PowerChild*> children;
 
 	bool child_state_changed = false;
-	bool parentswitchedin = true;
-	bool parentautoswitch = false;
+	bool parentswitchedin = true;				//!< whether this parent is switched in.
+	bool parentautoswitch = false;				//!< whether this parent is set to switch in and out on demand.
 
 	VOLTAGE_INFO outputvoltage;
+
+	static void connectParentToChild(PowerParent *parent, PowerChild* child, bool bidirectional);
+	static void disconnectParentFromChild(PowerParent *parent, PowerChild* child, bool bidirectional);
+
 
 	/**
 	 * \brief Registers that the state of a child has changed.
 	 */
 	void RegisterChildStateChange();
 
+	
 	PowerCircuit *circuit = NULL;			//!< The circuit this parent is a part of.
+	vector<PowerSubCircuit*> containing_subcircuits;	//!< Subcircuits containing this parent.
 
 private:
 	POWERPARENT_TYPE parenttype;
+	bool parentcanswitch;				//!< whether this parent can be switched at all.
 
 };
 

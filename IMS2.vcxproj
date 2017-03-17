@@ -238,9 +238,11 @@
     <ClCompile Include="PowerChild.cpp" />
     <ClCompile Include="PowerCircuit.cpp" />
     <ClCompile Include="PowerCircuitManager.cpp" />
+    <ClCompile Include="PowerCircuit_Base.cpp" />
     <ClCompile Include="PowerConsumer.cpp" />
     <ClCompile Include="PowerParent.cpp" />
     <ClCompile Include="PowerSource.cpp" />
+    <ClCompile Include="PowerSubCircuit.cpp" />
     <ClCompile Include="Rotations.cpp" />
     <ClCompile Include="SimpleShape.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -307,7 +309,6 @@
     <ClInclude Include="GUI_StatusBar.h" />
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
     <ClInclude Include="IMS_AutopilotOperation_Base.h" />
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
@@ -318,11 +319,13 @@
     <ClInclude Include="IMS_TouchdownPointManager.h" />
     <ClInclude Include="PowerBus.h" />
     <ClInclude Include="PowerChild.h" />
-    <ClInclude Include="PowerCIrcuit.h" />
+    <ClInclude Include="PowerCircuit.h" />
     <ClInclude Include="PowerCircuitManager.h" />
+    <ClInclude Include="PowerCircuit_Base.h" />
     <ClInclude Include="PowerConsumer.h" />
     <ClInclude Include="PowerParent.h" />
     <ClInclude Include="PowerSource.h" />
+    <ClInclude Include="PowerSubCircuit.h" />
     <ClInclude Include="PowerTypes.h" />
     <ClInclude Include="RcsChangedEvent.h" />
     <ClInclude Include="IMS_Animation_Tracking.h" />

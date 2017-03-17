@@ -5,10 +5,17 @@
 #include "PowerParent.h"
 
 
-PowerConsumer::PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, bool global)
-	: PowerChild(PCT_CONSUMER, minvoltage, maxvoltage), maxpowerconsumption(maxpower), locationid(location_id), global(global)
+PowerConsumer::PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, double standbypower, double minimumload, bool global)
+	: PowerChild(PCT_CONSUMER, minvoltage, maxvoltage), maxpowerconsumption(maxpower), locationid(location_id), minimumload(minimumload), global(global)
 {
-
+	if (standbypower == -1)
+	{
+		this->standbypower = maxpower * 0.001;
+	}
+	else
+	{
+		this->standbypower = standbypower;
+	}
 }
 
 
@@ -25,7 +32,21 @@ double PowerConsumer::GetMaxPowerConsumption()
 
 double PowerConsumer::GetCurrentPowerConsumption()
 {
-	return consumerload * maxpowerconsumption;
+	if (running)
+	{
+		if (consumerload > 0)
+		{
+			return consumerload * maxpowerconsumption;
+		}
+		else
+		{
+			return standbypower;
+		}
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 bool PowerConsumer::IsRunning()
@@ -33,29 +54,66 @@ bool PowerConsumer::IsRunning()
 	return running;
 }
 
+
 void PowerConsumer::SetRunning(bool running)
 {
 	this->running = running;
 }
+
 
 double PowerConsumer::GetInputCurrent()
 {
 	return consumercurrent;
 }
 
+
 double PowerConsumer::GetConsumerLoad()
 {
 	return consumerload;
 }
 
-void PowerConsumer::SetConsumerLoad(double load)
+
+double PowerConsumer::GetConsumerMinimumLoad()
 {
+	return minimumload;
+}
+
+
+bool PowerConsumer::SetConsumerLoad(double load)
+{
+	assert(load >= 0 && load <= 1 && "Somebody's trying to set an invalid load!");
+
+	bool result = true;
 	if (load != consumerload)
 	{
-		consumerload = load;
+		if (load >= minimumload)
+		{
+			consumerload = load;
+		}
+		else
+		{
+			consumerload = 0;
+			result = false;
+		}
 		calculateNewProperties();
 	}
+	return result;
 }
+
+
+bool PowerConsumer::SetConsumerLoadForCurrent(double current)
+{
+	double loadatcurrent = current / (maxpowerconsumption / inputvoltage.current);
+	if (loadatcurrent > 1)
+	{
+		//the consumer can't consume this much current!
+		SetConsumerLoad(1.0);
+		return false;
+	}
+
+	return SetConsumerLoad(loadatcurrent);
+}
+
 
 void PowerConsumer::SetMaxPowerConsumption(double newconsumption)
 {
@@ -65,6 +123,7 @@ void PowerConsumer::SetMaxPowerConsumption(double newconsumption)
 		calculateNewProperties();
 	}
 }
+
 
 void PowerConsumer::calculateNewProperties()
 {
@@ -76,8 +135,13 @@ void PowerConsumer::calculateNewProperties()
 
 void PowerConsumer::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 {
-	PowerChild::ConnectChildToParent(parent, bidirectional);
+	PowerChild::connectChildToParent(this, parent, bidirectional);
 	inputvoltage.current = parent->GetOutputVoltageInfo().current;
+}
+
+void PowerConsumer::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
+{
+	PowerChild::disconnectChildFromParent(this, parent, bidirectional);
 }
 
 bool PowerConsumer::CanConnectToParent(PowerParent *parent, bool bidirectional)
@@ -105,3 +169,4 @@ bool PowerConsumer::IsGlobal()
 {
 	return global;
 }
+
