@@ -80,7 +80,7 @@ void PowerBus::Evaluate()
 
 void PowerBus::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
-	PowerParent::connectParentToChild(this, child, bidirectional);
+	PowerParent::ConnectParentToChild(child, bidirectional);
 
 	if (!bidirectional && child->GetChildType() == PCT_BUS &&
 		find(parents.begin(), parents.end(), (PowerBus*)(child)) == parents.end())
@@ -126,7 +126,7 @@ void PowerBus::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 		}
 	}
 	//connect the darn things already!
-	PowerChild::connectChildToParent(this, parent, bidirectional);
+	PowerChild::ConnectChildToParent(parent, bidirectional);
 
 	//a special thing about buses is that they have reciprocal relationships:
 	//they are both parents of each other, and thus also are children of each other.
@@ -142,7 +142,7 @@ void PowerBus::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 
 void PowerBus::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
 {
-	PowerChild::disconnectChildFromParent(this, parent, bidirectional);
+	PowerChild::DisconnectChildFromParent(parent, bidirectional);
 
 	if (bidirectional && parent->GetParentType() == PPT_BUS)
 	{
@@ -160,7 +160,7 @@ void PowerBus::DisconnectChildFromParent(PowerParent *parent, bool bidirectional
 
 void PowerBus::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
 {
-	PowerParent::disconnectParentFromChild(this, child, bidirectional);
+	PowerParent::DisconnectParentFromChild(child, bidirectional);
 }
 
 

@@ -27,14 +27,14 @@ public:
 	 * \brief Connects this child to a parent.
 	 * \param parent Pointer to the parent to connect this child to.
 	 */
-	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true) = 0;
+	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
 
 	/**
 	 * \brief Disconnects this child from a parent.
 	 * \param parent The parent to disconnect from. Must be a member of the parent list!
 	 * \param bidirectional Pass false to prevent the method from calling ConnectParentToChild() on the parent being connected. Should only be passed false from WITHIN said method!
 	 */
-	virtual void DisconnectChildFromParent(PowerParent *parent, bool bidirectional = true) = 0;
+	virtual void DisconnectChildFromParent(PowerParent *parent, bool bidirectional = true);
 
 	/**
 	 * \return True if a parent can connect to this child at this time, false if not.
@@ -106,9 +106,6 @@ public:
 
 	
 protected:
-
-	static void connectChildToParent(PowerChild* child, PowerParent *parent, bool bidirectional);
-	static void disconnectChildFromParent(PowerChild* child, PowerParent *parent, bool bidirectional);
 
 	vector<PowerParent*> parents;
 	bool childswitchedin = true;

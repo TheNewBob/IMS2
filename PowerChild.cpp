@@ -76,27 +76,27 @@ bool PowerChild::CanConnectToParent(PowerParent *parent, bool bidirectional)
 }
 
 
-void PowerChild::connectChildToParent(PowerChild *child, PowerParent *parent, bool bidirectional)
+void PowerChild::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 {
-	assert(find(child->parents.begin(), child->parents.end(), parent) == child->parents.end() && "PowerChild is already registered!");
+	assert(find(parents.begin(), parents.end(), parent) == parents.end() && "PowerChild is already registered!");
 
-	child->parents.push_back(parent);
+	parents.push_back(parent);
 
 	if (bidirectional)
 	{
-		parent->ConnectParentToChild(child, false);
+		parent->ConnectParentToChild(this, false);
 	}
 }
 
-void PowerChild::disconnectChildFromParent(PowerChild *child, PowerParent *parent, bool bidirectional)
+void PowerChild::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
 {
-	auto parentit = find(child->parents.begin(), child->parents.end(), parent);
-	assert(parentit != child->parents.end() && "PowerChild is not registered!");
+	auto parentit = find(parents.begin(), parents.end(), parent);
+	assert(parentit != parents.end() && "PowerChild is not registered!");
 
-	child->parents.erase(parentit);
+	parents.erase(parentit);
 
 	if (bidirectional)
 	{
-		parent->DisconnectParentFromChild(child, false);
+		parent->DisconnectParentFromChild(this, false);
 	}
 }

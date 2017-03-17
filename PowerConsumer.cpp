@@ -135,13 +135,15 @@ void PowerConsumer::calculateNewProperties()
 
 void PowerConsumer::ConnectChildToParent(PowerParent *parent, bool bidirectional)
 {
-	PowerChild::connectChildToParent(this, parent, bidirectional);
+	PowerChild::ConnectChildToParent(parent, bidirectional);
 	inputvoltage.current = parent->GetOutputVoltageInfo().current;
 }
 
 void PowerConsumer::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
 {
-	PowerChild::disconnectChildFromParent(this, parent, bidirectional);
+	PowerChild::DisconnectChildFromParent(parent, bidirectional);
+	running = false;
+	consumerload = 0;
 }
 
 bool PowerConsumer::CanConnectToParent(PowerParent *parent, bool bidirectional)

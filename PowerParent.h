@@ -27,14 +27,14 @@ public:
 	 * \param bidirectional Pass false to prevent the function from calling ConnectChildToParent() on the child being connected. Should only be passed false from WITHIN said method!
 	 * \return A PowerCircuit IF a new powercircuit was created during the operation, NULL otherwise.
 	 */
-	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true) = 0;
+	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 
 	/**
 	 * \brief Disconnects this parent from a child.
 	 * \param child The child to disconnect from. Must be a member of the child list!
 	 * \param bidirectional Pass false to prevent the function from calling DisconnectChildToParent() on the child being disconnected. Should only be passed false from WITHIN said method!
 	 */
-	virtual void DisconnectParentFromChild(PowerChild *child, bool bidirectional = true) = 0;
+	virtual void DisconnectParentFromChild(PowerChild *child, bool bidirectional = true);
 
 	/**
 	 * \return True if a child can connect to this parent at this time, false if not.
@@ -148,10 +148,6 @@ protected:
 	bool parentautoswitch = false;				//!< whether this parent is set to switch in and out on demand.
 
 	VOLTAGE_INFO outputvoltage;
-
-	static void connectParentToChild(PowerParent *parent, PowerChild* child, bool bidirectional);
-	static void disconnectParentFromChild(PowerParent *parent, PowerChild* child, bool bidirectional);
-
 
 	/**
 	 * \brief Registers that the state of a child has changed.

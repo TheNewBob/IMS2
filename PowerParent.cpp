@@ -132,27 +132,27 @@ void PowerParent::UnregisterContainingSubCircuit(PowerSubCircuit *subcircuit)
 }
 
 
-void PowerParent::connectParentToChild(PowerParent *parent, PowerChild *child, bool bidirectional)
+void PowerParent::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
 	//	assert(CanConnectToChild(child) && "PowerChild cannot be connected to PowerParent! Perform check if connection possible before calling this method!");
 
-	parent->children.push_back(child);
+	children.push_back(child);
 
 	if (bidirectional)
 	{
-		child->ConnectChildToParent(parent, false);
+		child->ConnectChildToParent(this, false);
 	}
 }
 
-void PowerParent::disconnectParentFromChild(PowerParent *parent, PowerChild *child, bool bidirectional)
+void PowerParent::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
 {
-	auto childit = find(parent->children.begin(), parent->children.end(), child);
-	assert(childit != parent->children.end() && "PowerChild to be disconnected is not connected!");
+	auto childit = find(children.begin(), children.end(), child);
+	assert(childit != children.end() && "PowerChild to be disconnected is not connected!");
 
-	parent->children.erase(childit);
+	children.erase(childit);
 
 	if (bidirectional)
 	{
-		child->DisconnectChildFromParent(parent, false);
+		child->DisconnectChildFromParent(this, false);
 	}
 }

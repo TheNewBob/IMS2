@@ -68,8 +68,6 @@ public:
 
 	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 
-	virtual void DisconnectParentFromChild(PowerChild *child, bool bidirectional = true);
-
 	/**
 	 * \brief A power source can only connect to a single bus that is in the appropriate voltage range.
 	 */

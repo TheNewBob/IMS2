@@ -104,19 +104,13 @@ bool PowerSource::CanConnectToChild(PowerChild *child, bool bidirectional)
 void PowerSource::ConnectParentToChild(PowerChild *child, bool bidirectional)
 {
 	//establish the connection
-	PowerParent::connectParentToChild(this, child, bidirectional);
+	PowerParent::ConnectParentToChild(child, bidirectional);
 
 	//comply to the childs input power. Tests for compatibility were already done at this point.
 	outputvoltage.current = child->GetCurrentInputVoltage();
 	maxoutcurrent = maxpowerout / outputvoltage.current;
 	RegisterChildStateChange();
 }
-
-void PowerSource::DisconnectParentFromChild(PowerChild *child, bool bidirectional)
-{
-	PowerParent::disconnectParentFromChild(this, child, bidirectional);
-}
-
 
 
 UINT PowerSource::GetLocationId()
