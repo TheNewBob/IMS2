@@ -78,7 +78,7 @@ double PowerCircuit::GetEquivalentResistance()
 }
 
 
-void PowerCircuit::Evaluate()
+void PowerCircuit::Evaluate(double deltatime)
 {
 	if (structurechanged)
 	{
@@ -93,7 +93,7 @@ void PowerCircuit::Evaluate()
 		//evaluate buses
 		for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
 		{
-			(*i)->Evaluate();
+			(*i)->Evaluate(deltatime);
 		}
 
 		//calculate equivalent resistance of the circuit and the current we actually need.
@@ -106,10 +106,20 @@ void PowerCircuit::Evaluate()
 		//in the circuit has the potential to influence the current flowing through any bus.
 		for (auto i = powerbuses.begin(); i != powerbuses.end(); ++i)
 		{
-			(*i)->CalculateTotalCurrentFlow();
+			(*i)->CalculateTotalCurrentFlow(deltatime);
 		}
+
 		statechange = false;
 	}
+
+	//sources are active components, and their evaluation either doesn't do anything at all,
+	//or it updates internal states depending on time (like e.g. consuming charge). 
+	//Hence they have to be executed even if the state of the circuit did not change.
+	for (auto i = powersources.begin(); i != powersources.end(); ++i)
+	{
+		(*i)->Evaluate(deltatime);
+	}
+
 }
 
 void PowerCircuit::calculateEquivalentResistance()
@@ -127,7 +137,7 @@ void PowerCircuit::calculateEquivalentResistance()
 void PowerCircuit::distributeCurrentDraw(bool force)
 {
 
-	//walk through the powersource and see which ones are providing power
+	//walk through the powersources and see which ones are providing power
 	double total_available_current = 0;
 	vector<POWERSOURCE_STATS*> involved_sources;        //will keep track of the powersources involved in feeding the circuit.
 	for (UINT i = 0; i < powersources.size(); ++i)
@@ -212,10 +222,9 @@ void PowerCircuit::reduceCircuitCurrentBy(double missing_current)
 
 void PowerCircuit::calculateCurrentDraw(vector<POWERSOURCE_STATS*> non_limited_sources, double required_current, bool force)
 {
-	//get the sum of equivalent resistances
 	double sum_eq_resistances = getSumOfEquivalentResistances(non_limited_sources);
 
-	//calculate current drawn from each source and immediately get rid of those who hit limit
+	//calculate current drawn from each source and immediately get rid of those that hit limit
 	bool circuit_stable = true;
 	for (UINT i = non_limited_sources.size(); i > 0; --i)
 	{

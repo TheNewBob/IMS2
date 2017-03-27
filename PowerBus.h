@@ -58,8 +58,9 @@ public:
 	 * \brief Tells the bus to calculate the total current running through it.
 	 * This is the last operation in circuit evaluation to be called. Should not ever be called
 	 * under any other circumstances.
+	 * \param deltatime Time passed since the last evaluation, in miliseconds.
 	 */
-	void CalculateTotalCurrentFlow();
+	void CalculateTotalCurrentFlow(double deltatime);
 
 	/**
 	 * \brief Lets the bus delete all its feeding subcircuits and reconstruct them anew.
@@ -73,7 +74,7 @@ public:
 
 
 	//PowerParent implementation
-	virtual void Evaluate();
+	virtual void Evaluate(double deltatime);
 
 	virtual bool CanConnectToChild(PowerChild *child, bool bidirectional = true);
 

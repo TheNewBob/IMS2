@@ -45,8 +45,9 @@ public:
 
 	/**
 	 * \brief Evaluates all the circuits in this PowerCircuitManager.
+	 * \param deltatime Simulation time passed since last evaluation, in miliseconds.
 	 */
-	void Evaluate();
+	void Evaluate(double deltatime);
 
 	/**
 	 * \brief Sets the passed reference to the list of circuits in this PowerCircuitManager.

@@ -57,7 +57,7 @@ void PowerBus::SetMaxCurrent(double amps)
 }
 
 
-void PowerBus::Evaluate()
+void PowerBus::Evaluate(double deltatime)
 {
 	//check if the state of any children of this object has changed at all.
 	if (child_state_changed)
@@ -67,9 +67,11 @@ void PowerBus::Evaluate()
 		{
 			//for the purpose of calculating the equivalent resistance of this bus, connected buses are ignored.
 			//The circuit will calculate its total equivalent resistance by the equivalent resistance of every individual bus.
-			if ((*i)->GetChildType() != PCT_BUS && (*i)->IsChildSwitchedIn())
+			if ((*i)->GetChildType() == PCT_CONSUMER && (*i)->IsChildSwitchedIn())
 			{
 				new_eq_resistance += 1 / (*i)->GetChildResistance();
+				//we will assume that there is enough current available to run everything. If not, the consumers will be notified before this frames processing is over.
+				((PowerConsumer*)(*i))->SetRunning(true);
 			}
 		}
 		equivalent_resistance = 1 / new_eq_resistance;
@@ -214,6 +216,9 @@ double PowerBus::GetChildResistance()
 
 double PowerBus::ReduceCurrentFlow(double missing_current)
 {
+	//note that comparison operations in here are a bit unusual.
+	//They are this way because I have to deal with double rounding precision,
+	//and because I don't want to introduce an unnecessary dependency to do the same work.
 	for (UINT i = children.size(); i > 0; --i)
 	{
 		if (children[i - 1]->GetChildType() == PCT_CONSUMER &&
@@ -223,7 +228,7 @@ double PowerBus::ReduceCurrentFlow(double missing_current)
 			if (consumer->IsRunning())
 			{
 				double consumedcurrent = consumer->GetInputCurrent();
-				if (missing_current > consumedcurrent)
+				if ((missing_current - consumedcurrent) > -1e-9)		//Read: >=, but only to 9 digits behind the point.
 				{
 					//this consumer won't get enough power.
 					consumer->SetRunning(false);
@@ -242,7 +247,7 @@ double PowerBus::ReduceCurrentFlow(double missing_current)
 						//the consumer didn't get enough current for operation and went into standby. 
 						double still_missing_current = missing_current - (consumedcurrent - consumer->GetInputCurrent());
 						
-						if (still_missing_current < 0)
+						if (still_missing_current < -1e-9)     //Read: < , with a possible rounding error beyond 9 digits behind the point counting as equal
 						{
 							//The fact that the consumer went into standby could mean that we have some current left over now.
 							//this is indicated by negative missing current. In this case, leave things as they are.
@@ -258,7 +263,12 @@ double PowerBus::ReduceCurrentFlow(double missing_current)
 				}
 			}
 		}
-		if (missing_current <= 0)
+		if (missing_current < 1e-9 && missing_current > -1e-9)
+		{
+			//rounding to exact zero on the 9th digit behind the period to prevent this process from building cumulative errors.
+			missing_current = 0;
+		}
+		else if (missing_current <= 0)
 		{
 			return missing_current;
 		}
@@ -278,14 +288,14 @@ bool PowerBus::IsGlobal()
 }
 
 
-void PowerBus::CalculateTotalCurrentFlow()
+void PowerBus::CalculateTotalCurrentFlow(double deltatime)
 {
 
 	//the current flowing through this bus is really just the current surplus of all feeding subcircuits.
 	throughcurrent = 0;
 	for (auto i = feeding_subcircuits.begin(); i != feeding_subcircuits.end(); ++i)
 	{
-		(*i)->Evaluate();
+		(*i)->Evaluate(deltatime);
 		throughcurrent += (*i)->GetCurrentSurplus();
 	}
 }

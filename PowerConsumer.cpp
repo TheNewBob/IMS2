@@ -57,7 +57,11 @@ bool PowerConsumer::IsRunning()
 
 void PowerConsumer::SetRunning(bool running)
 {
-	this->running = running;
+	if (running != this->running)
+	{
+		this->running = running;
+		calculateNewProperties();
+	}
 }
 
 
@@ -120,6 +124,7 @@ void PowerConsumer::SetMaxPowerConsumption(double newconsumption)
 	if (newconsumption != maxpowerconsumption)
 	{
 		maxpowerconsumption = newconsumption;
+		maxconsumercurrent = maxpowerconsumption / inputvoltage.current;
 		calculateNewProperties();
 	}
 }
@@ -128,7 +133,7 @@ void PowerConsumer::SetMaxPowerConsumption(double newconsumption)
 void PowerConsumer::calculateNewProperties()
 {
 	consumercurrent = GetCurrentPowerConsumption() / inputvoltage.current;
-	consumerresistance = inputvoltage.current / consumercurrent;
+	consumerresistance = inputvoltage.current / (maxconsumercurrent * consumerload);
 	registerStateChangeWithParents();
 }
 
@@ -137,6 +142,7 @@ void PowerConsumer::ConnectChildToParent(PowerParent *parent, bool bidirectional
 {
 	PowerChild::ConnectChildToParent(parent, bidirectional);
 	inputvoltage.current = parent->GetOutputVoltageInfo().current;
+	maxconsumercurrent = maxpowerconsumption / inputvoltage.current;
 }
 
 void PowerConsumer::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
@@ -144,6 +150,7 @@ void PowerConsumer::DisconnectChildFromParent(PowerParent *parent, bool bidirect
 	PowerChild::DisconnectChildFromParent(parent, bidirectional);
 	running = false;
 	consumerload = 0;
+	maxconsumercurrent = -1;
 }
 
 bool PowerConsumer::CanConnectToParent(PowerParent *parent, bool bidirectional)

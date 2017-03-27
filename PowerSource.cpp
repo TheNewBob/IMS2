@@ -83,9 +83,10 @@ void PowerSource::SetMaxPowerOutput(double watts)
 }
 
 
-void PowerSource::Evaluate()
+void PowerSource::Evaluate(double deltatime)
 {
-	assert(true && "Evaluate on PowerSource should never be called!");
+	//for a common power source, this doesn't actually do anything.
+	//its state is entirely managed by the state of the circuit!
 }
 
 bool PowerSource::CanConnectToChild(PowerChild *child, bool bidirectional)

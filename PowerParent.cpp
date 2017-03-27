@@ -82,7 +82,7 @@ void PowerParent::SetAutoswitchEnabled(bool enabled)
 	if (enabled != parentautoswitch)
 	{
 		parentautoswitch = enabled;
-		circuit->RegisterStateChange();
+		RegisterChildStateChange();
 	}
 }
 

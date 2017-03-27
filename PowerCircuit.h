@@ -37,7 +37,7 @@ public:
 	/**
 	* \brief Evaluates the circuit. If there were state changes, it will be recalculated.
 	*/
-	void Evaluate();
+	void Evaluate(double deltatime);
 
 protected:
 	double equivalent_resistance = -1;

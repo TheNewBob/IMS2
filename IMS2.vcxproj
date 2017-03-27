@@ -242,6 +242,7 @@
     <ClCompile Include="PowerConsumer.cpp" />
     <ClCompile Include="PowerParent.cpp" />
     <ClCompile Include="PowerSource.cpp" />
+    <ClCompile Include="PowerSourceChargable.cpp" />
     <ClCompile Include="PowerSubCircuit.cpp" />
     <ClCompile Include="Rotations.cpp" />
     <ClCompile Include="SimpleShape.cpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="PowerConsumer.h" />
     <ClInclude Include="PowerParent.h" />
     <ClInclude Include="PowerSource.h" />
+    <ClInclude Include="PowerSourceChargable.h" />
     <ClInclude Include="PowerSubCircuit.h" />
     <ClInclude Include="PowerTypes.h" />
     <ClInclude Include="RcsChangedEvent.h" />

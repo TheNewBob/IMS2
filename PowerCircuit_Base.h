@@ -74,8 +74,9 @@ public:
 
 	/**
 	* \brief Evaluates the circuit. If there were state changes, it will be recalculated.
+	* \param deltatime Simulation time passed since last evaluation, in miliseconds.
 	*/
-	virtual void Evaluate() = 0;
+	virtual void Evaluate(double deltatime) = 0;
 
 	/**
 	* \return The number of buses and sources in this PowerCircuit.

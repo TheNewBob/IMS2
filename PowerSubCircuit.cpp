@@ -78,7 +78,7 @@ double PowerSubCircuit::GetCurrentSurplus()
 }
 
 
-void PowerSubCircuit::Evaluate()
+void PowerSubCircuit::Evaluate(double deltatime)
 {
 	if (statechange)
 	{

@@ -116,11 +116,11 @@ void PowerCircuitManager::SplitCircuit(PowerCircuit *circuit, PowerBus *split_at
 }
 
 
-void PowerCircuitManager::Evaluate()
+void PowerCircuitManager::Evaluate(double deltatime)
 {
 	for (auto circuit = circuits.begin(); circuit != circuits.end(); ++circuit)
 	{
-		(*circuit)->Evaluate();
+		(*circuit)->Evaluate(deltatime);
 	}
 }
 

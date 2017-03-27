@@ -24,7 +24,7 @@ public:
 	 */
 	double GetCurrentSurplus();
 
-	void Evaluate();
+	void Evaluate(double deltatime);
 
 private:
 	double currentsurplus = -1;

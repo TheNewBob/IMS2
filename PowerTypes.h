@@ -4,6 +4,8 @@
  * \file This file contains various types neccessary for all power-related classes to work.
  */
 
+const double MILIS_PER_HOUR = 3600 * 1000;			//!< number of miliseconds in an hour.
+
 /**
 * Contains the maximum, minimum and current voltage of a parent/child.
 */

@@ -33,7 +33,7 @@ bool PowerChild::IsChildSwitchable()
 
 void PowerChild::SetChildSwitchedIn(bool switchedin) 
 { 
-	if (switchedin != childswitchedin)
+	if (childcanswitch && switchedin != childswitchedin)
 	{
 		childswitchedin = switchedin;
 		registerStateChangeWithParents();

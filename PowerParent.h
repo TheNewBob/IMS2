@@ -74,9 +74,10 @@ public:
 	virtual bool IsGlobal() = 0;
 
 	/**
-	 * \brief Makes this parent evaluate its state and recalculate accordingly
+	 * \brief Makes this parent evaluate its state and recalculate accordingly.
+	 * \param deltatime Simulation time passed since the last evaluation, in miliseconds.
 	 */
-	virtual void Evaluate() = 0;
+	virtual void Evaluate(double deltatime) = 0;
 
 	/**
 	* \return True if this child is switched into the circuit, false if not.
@@ -84,10 +85,10 @@ public:
 	bool IsParentSwitchedIn();
 
 	/**
-	* \brief Switches the child in or out of the circuit.
-	* \param switchedin Pass true to switch the child in, false to switch it out.
+	* \brief Switches the parent in or out of the circuit.
+	* \param switchedin Pass true to switch the parent in, false to switch it out.
 	*/
-	void SetParentSwitchedIn(bool switchedin);
+	virtual void SetParentSwitchedIn(bool switchedin);
 
 	/**
 	 * \brief If autoswitch is on, this parent will automatically switch itself into the circuit if power is demanded by a child and the parent is currently switched out.

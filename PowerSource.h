@@ -64,7 +64,7 @@ public:
 	virtual void SetMaxPowerOutput(double watts);
 
 	//implementation of PowerParent
-	virtual void Evaluate();
+	virtual void Evaluate(double deltatime);
 
 	virtual void ConnectParentToChild(PowerChild *child, bool bidirectional = true);
 

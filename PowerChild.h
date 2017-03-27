@@ -87,7 +87,7 @@ public:
 	 * Switches the child in or out of the circuit.
 	 * \param switchedin Pass true to switch the child in, false to switch it out.
 	 */
-	void SetChildSwitchedIn(bool switchedin);
+	virtual void SetChildSwitchedIn(bool switchedin);
 
 	/**
 	 * \return The id of the location this child is located at.
@@ -118,6 +118,6 @@ protected:
 
 private:
 	POWERCHILD_TYPE childtype;
-	bool childcanswitch;
+	bool childcanswitch = true;
 };
 
