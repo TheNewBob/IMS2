@@ -39,6 +39,11 @@ public:
 	*/
 	void Evaluate(double deltatime);
 
+	/**
+	 * \return The maximum surplus current this circuit has in its power sources if consumption remains constant, in amps
+	 */
+	double GetMaximumSurplusCurrent();
+
 protected:
 	double equivalent_resistance = -1;
 	double total_circuit_current = 0;

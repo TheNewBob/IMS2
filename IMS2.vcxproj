@@ -240,6 +240,7 @@
     <ClCompile Include="PowerCircuitManager.cpp" />
     <ClCompile Include="PowerCircuit_Base.cpp" />
     <ClCompile Include="PowerConsumer.cpp" />
+    <ClCompile Include="PowerConverter.cpp" />
     <ClCompile Include="PowerParent.cpp" />
     <ClCompile Include="PowerSource.cpp" />
     <ClCompile Include="PowerSourceChargable.cpp" />
@@ -324,6 +325,7 @@
     <ClInclude Include="PowerCircuitManager.h" />
     <ClInclude Include="PowerCircuit_Base.h" />
     <ClInclude Include="PowerConsumer.h" />
+    <ClInclude Include="PowerConverter.h" />
     <ClInclude Include="PowerParent.h" />
     <ClInclude Include="PowerSource.h" />
     <ClInclude Include="PowerSourceChargable.h" />

@@ -425,6 +425,9 @@
     <ClCompile Include="PowerSourceChargable.cpp">
       <Filter>PowerDistribution</Filter>
     </ClCompile>
+    <ClCompile Include="PowerConverter.cpp">
+      <Filter>PowerDistribution</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -860,6 +863,9 @@
       <Filter>PowerDistribution</Filter>
     </ClInclude>
     <ClInclude Include="PowerSourceChargable.h">
+      <Filter>PowerDistribution</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerConverter.h">
       <Filter>PowerDistribution</Filter>
     </ClInclude>
   </ItemGroup>

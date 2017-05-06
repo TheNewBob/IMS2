@@ -265,3 +265,17 @@ void PowerCircuit::rebuildAllSubCircuits()
 		(*i)->RebuildFeedingSubcircuits();
 	}
 }
+
+
+double PowerCircuit::GetMaximumSurplusCurrent()
+{
+	double maxcurrent = 0;
+
+	//calculate the maximum available current in this circuit
+	for (UINT i = 0; i < powersources.size(); ++i)
+	{
+		maxcurrent += powersources[i]->GetMaxOutputCurrent(true);
+	}
+
+	return maxcurrent - total_circuit_current;
+}
