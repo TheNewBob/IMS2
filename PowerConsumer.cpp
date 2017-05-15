@@ -16,6 +16,7 @@ PowerConsumer::PowerConsumer(double minvoltage, double maxvoltage, double maxpow
 	{
 		this->standbypower = standbypower;
 	}
+//	SetConsumerLoad(0);
 }
 
 
@@ -94,7 +95,7 @@ bool PowerConsumer::SetConsumerLoad(double load)
 		{
 			consumerload = load;
 		}
-		else
+		else 
 		{
 			consumerload = 0;
 			result = false;
@@ -133,7 +134,17 @@ void PowerConsumer::SetMaxPowerConsumption(double newconsumption)
 void PowerConsumer::calculateNewProperties()
 {
 	consumercurrent = GetCurrentPowerConsumption() / inputvoltage.current;
-	consumerresistance = inputvoltage.current / (maxconsumercurrent * consumerload);
+	double current = 0;
+	if (consumerload < minimumload)
+	{
+		//the consumer is on standby
+		current = standbypower / inputvoltage.current;
+	}
+	else
+	{
+		current = maxconsumercurrent * consumerload;
+	}
+	consumerresistance = inputvoltage.current / current;   //a note to the confused, which will probably be future me: inputvoltage.current is current input voltage, nothig to do with... well... current.
 	registerStateChangeWithParents();
 }
 

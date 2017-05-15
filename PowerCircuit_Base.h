@@ -90,6 +90,5 @@ protected:
 	double voltage = -1;				//!< A circuit is always of the same voltage (parallel circuit).
 	bool statechange = true;
 
-
 };
 

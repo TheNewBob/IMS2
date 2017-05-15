@@ -12,7 +12,7 @@ public:
 	 * \param location_id The identifier of the objects location. Unless both objects are global,
 	 *	relationships can only be formed with objects in the same location.
 	 * \param standbypower How much the consumer consumes at standby (running, but zero load). Default is 0.1% of max power.
-	 * \param minimumload The minimum load at which the consumer can operate. 
+	 * \param minimumload The minimum load at which the consumer can operate (NOT Stanby power!). 
 	 * \param global If true, this consumer can form connections to other global objects regardless of their location.
 	 */
 	PowerConsumer(double minvoltage, double maxvoltage, double maxpower, UINT location_id, double standbypower = -1, double minimumload = 0.01, bool global = false);
@@ -64,7 +64,7 @@ public:
 	 * \param load The current load, in fractions of 1 (>= 0 <= 1)
 	 * \return True if the consumer is able to operate at this load, false if not. If false is returned, it indicates that the consumers load has been set to 0.
 	 */
-	bool SetConsumerLoad(double load);
+	virtual bool SetConsumerLoad(double load);
 
 	/**
 	 * \brief Sets the consumers load so it consumes a certain current.
@@ -96,13 +96,13 @@ public:
 	virtual bool IsGlobal();
 
 protected:
-	double maxpowerconsumption;
-	double maxconsumercurrent;
-	double consumercurrent;
-	double consumerload;
-	double consumerresistance;
-	double standbypower;
-	double minimumload;
+	double maxpowerconsumption = -1;
+	double maxconsumercurrent = -1;
+	double consumercurrent = -1;
+	double consumerload = -1;
+	double consumerresistance = -1;
+	double standbypower = -1;
+	double minimumload = -1;
 	bool running = true;
 
 
