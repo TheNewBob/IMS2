@@ -72,6 +72,10 @@ public:
 	 */
 	void RebuildFeedingSubcircuits();
 
+	/**
+	 * \return The PowerCircuitManager this bus is controlled by.
+	 */
+	PowerCircuitManager *GetCircuitManager();
 
 	//PowerParent implementation
 	virtual void Evaluate(double deltatime);

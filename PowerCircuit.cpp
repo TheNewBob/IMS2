@@ -6,7 +6,7 @@
 #include "PowerBus.h"
 #include "PowerCircuit_Base.h"
 #include "PowerCircuit.h"
-
+#include "PowerCircuitManager.h"
 
 PowerCircuit::PowerCircuit(PowerBus *initialbus)
 	: PowerCircuit_Base(initialbus->GetCurrentOutputVoltage())
@@ -80,6 +80,8 @@ double PowerCircuit::GetEquivalentResistance()
 
 void PowerCircuit::Evaluate(double deltatime)
 {
+	circuit_current_demand_change = 0;
+
 	if (structurechanged)
 	{
 		//the circuits structure has changed since the last evaluation. This means rebuilding the feeding subcircuits for all buses.
@@ -237,7 +239,7 @@ void PowerCircuit::calculateCurrentDraw(vector<POWERSOURCE_STATS*> non_limited_s
 			if (i - 1 < non_limited_sources.size())
 			{
 				//if a source is limited in the midst of the operation, it will affect the sources further up.
-				//Unfortunately, there's nothing to it but to redo those operations again, which we'll do by recursing!
+				//Unfortunately, there's nothing to it but to redo those operations again, which we'll do by recursing.
 				calculateCurrentDraw(non_limited_sources, newrequiredcurrent, force);
 				break;
 			}
@@ -277,5 +279,14 @@ double PowerCircuit::GetMaximumSurplusCurrent()
 		maxcurrent += powersources[i]->GetMaxOutputCurrent(true);
 	}
 
-	return maxcurrent - total_circuit_current;
+	double testcurrent = maxcurrent - (total_circuit_current + circuit_current_demand_change);
+	return maxcurrent - (total_circuit_current + circuit_current_demand_change);
+}
+
+
+void PowerCircuit::RegisterCrossCircuitCurrentDemandChange(double amps)
+{
+	circuit_current_demand_change += amps;
+	//inform the circuit manager that it will have to rerun the evaluation.
+	powerbuses[0]->GetCircuitManager()->RegisterAlreadyEvaluatedCircuitChange();
 }

@@ -154,6 +154,7 @@ void PowerConsumer::ConnectChildToParent(PowerParent *parent, bool bidirectional
 	PowerChild::ConnectChildToParent(parent, bidirectional);
 	inputvoltage.current = parent->GetOutputVoltageInfo().current;
 	maxconsumercurrent = maxpowerconsumption / inputvoltage.current;
+	calculateNewProperties();
 }
 
 void PowerConsumer::DisconnectChildFromParent(PowerParent *parent, bool bidirectional)
@@ -163,6 +164,19 @@ void PowerConsumer::DisconnectChildFromParent(PowerParent *parent, bool bidirect
 	consumerload = 0;
 	maxconsumercurrent = -1;
 }
+
+/*
+void PowerConsumer::SetChildSwitchedIn(bool switchedin)
+{
+	//switch in as any child, but recalculate the current properties.
+	//the consumer might be in a different circuit now, with different voltage!
+	PowerChild::SetChildSwitchedIn(switchedin);
+	if (switchedin)
+	{
+		calculateNewProperties();
+	}
+}
+*/
 
 bool PowerConsumer::CanConnectToParent(PowerParent *parent, bool bidirectional)
 {

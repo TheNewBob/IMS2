@@ -40,8 +40,6 @@ public:
 
 	virtual void ConnectChildToParent(PowerParent *parent, bool bidirectional = true);
 
-	virtual double GetChildResistance();
-
 	//PowerSource Implementation
 	virtual void SetRequestedCurrent(double amps);
 

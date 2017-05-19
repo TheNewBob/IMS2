@@ -110,6 +110,7 @@ void PowerSource::ConnectParentToChild(PowerChild *child, bool bidirectional)
 	//comply to the childs input power. Tests for compatibility were already done at this point.
 	outputvoltage.current = child->GetCurrentInputVoltage();
 	maxoutcurrent = maxpowerout / outputvoltage.current;
+	curroutputcurrent = 0;
 	RegisterChildStateChange();
 }
 

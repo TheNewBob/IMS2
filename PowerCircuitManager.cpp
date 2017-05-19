@@ -118,9 +118,14 @@ void PowerCircuitManager::SplitCircuit(PowerCircuit *circuit, PowerBus *split_at
 
 void PowerCircuitManager::Evaluate(double deltatime)
 {
-	for (auto circuit = circuits.begin(); circuit != circuits.end(); ++circuit)
+	reevaluate = true;
+	while (reevaluate)
 	{
-		(*circuit)->Evaluate(deltatime);
+		reevaluate = false;			//will be set to true again by circuit evaluation if the state changes after it's already been evaluated
+		for (auto circuit = circuits.begin(); circuit != circuits.end(); ++circuit)
+		{
+			(*circuit)->Evaluate(deltatime);
+		}
 	}
 }
 
@@ -133,4 +138,9 @@ void PowerCircuitManager::GetPowerCircuits(vector<PowerCircuit*> &OUT_circuits)
 UINT PowerCircuitManager::GetSize()
 {
 	return circuits.size();
+}
+
+void PowerCircuitManager::RegisterAlreadyEvaluatedCircuitChange()
+{
+	reevaluate = true;
 }

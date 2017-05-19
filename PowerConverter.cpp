@@ -7,6 +7,7 @@
 #include "PowerBus.h"
 #include "PowerCircuit_Base.h"
 #include "PowerCircuit.h"
+#include "PowerCircuitManager.h"
 #include "PowerConverter.h"
 
 
@@ -99,20 +100,16 @@ bool PowerConverter::SetConsumerLoad(double load)
 
 void PowerConverter::SetRequestedCurrent(double amps)
 {
-	//let the power source do its thing
-	PowerSource::SetRequestedCurrent(amps);
-	//The power consumer must of course draw an equivalent amount of power from the providing circuit.
-	PowerConsumer::SetConsumerLoadForCurrent(convertOutputCurrentToInputCurrent(amps));
-}
-
-
-double PowerConverter::GetChildResistance()
-{
-	//the resistance of the converter in the feeding circuit is the result of 
-	//how much power is being drawn from the fed circuit and the voltage of the feeding one.
-	double inputcurrent = PowerSource::GetCurrentPowerOutput() / PowerConsumer::GetCurrentInputVoltage();
-	double currentresistance = PowerConsumer::GetCurrentInputVoltage() / inputcurrent;
-	return currentresistance;
+	if (amps != curroutputcurrent)
+	{
+		double prevconsumercurrent = consumercurrent;
+		//let the power source do its thing
+		PowerSource::SetRequestedCurrent(amps);
+		//The power consumer must of course draw an equivalent amount of power from the providing circuit.
+		PowerConsumer::SetConsumerLoadForCurrent(convertOutputCurrentToInputCurrent(amps));
+		//finally, the circuit providing the power will have to know how much unexpected power it has left to give away during this evaluation.
+		childcircuit->RegisterCrossCircuitCurrentDemandChange(consumercurrent - prevconsumercurrent);
+	}
 }
 
 
@@ -124,7 +121,8 @@ double PowerConverter::GetMaxOutputCurrent(bool force)
 		//if we're operable, return whatever the circuit the consumer side is switched into has left over, converted into the voltage of the source side.
 		//there is one problem, though. The power the converter is already drawing is, as far as the circuit is concerned, not surplus. It's being eaten by one of its consumers, after all.
 		//So the power the converter is currently getting is available in addition to anything the circuit might still have left over.
-		double surpluscurrent = childcircuit->GetMaximumSurplusCurrent();
+		double mycurrent = max(0, PowerConsumer::GetInputCurrent());
+		double surpluscurrent = childcircuit->GetMaximumSurplusCurrent() + mycurrent;
 		double outputcurrent = convertInputCurrentToOutputCurrent(surpluscurrent);
 		
 		if (outputcurrent != maxoutcurrent)
@@ -133,6 +131,7 @@ double PowerConverter::GetMaxOutputCurrent(bool force)
 			maxoutcurrent = outputcurrent;
 			RegisterChildStateChange();
 		}
+
 		return outputcurrent;
 	}
 

@@ -184,6 +184,11 @@ void PowerBus::RebuildFeedingSubcircuits()
 }
 
 
+PowerCircuitManager *PowerBus::GetCircuitManager()
+{
+	return circuitmanager;
+}
+
 bool PowerBus::CanConnectToChild(PowerChild *child, bool bidirectional)
 {
 	if (child != this &&

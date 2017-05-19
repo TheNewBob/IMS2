@@ -44,10 +44,18 @@ public:
 	 */
 	double GetMaximumSurplusCurrent();
 
+	/**
+	 * \brief Informs the circuit of a change in current demand that happens DURING a systems evaluation.
+	 * This only happens if the state of a circuit receiving its power from this circuit changes.
+	 * \param amps Change in required current in Amperes. Can be negative, obviously.
+	 */
+	void RegisterCrossCircuitCurrentDemandChange(double amps);
+
 protected:
 	double equivalent_resistance = -1;
 	double total_circuit_current = 0;
 	bool structurechanged = false;					//shows true if the circuit structure has changed since the last evaluation.
+	double circuit_current_demand_change = 0;			//shows change in current demand over an entire systems evaluation, AFTER this circuit was evaluated.
 
 	/**
 	* \brief Calculates the entire equivalent resistance of this circuit.

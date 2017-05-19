@@ -90,7 +90,11 @@ void PowerParent::SetAutoswitchEnabled(bool enabled)
 void PowerParent::RegisterChildStateChange() 
 { 
 	child_state_changed = true;
-	circuit->RegisterStateChange();
+	if (circuit != NULL)
+	{
+		//parents can sometimes be connected to children without being part of a circuit.
+		circuit->RegisterStateChange();
+	}
 	for (auto i = containing_subcircuits.begin(); i != containing_subcircuits.end(); ++i)
 	{
 		(*i)->RegisterStateChange();

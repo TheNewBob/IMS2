@@ -56,12 +56,19 @@ public:
 	void GetPowerCircuits(vector<PowerCircuit*> &OUT_circuits);
 
 	/**
+	 * \brief Registers a change in a circuit that was already calculated during this evaluation.
+	 * Only used internally, has no effect when not called during the evaluation loop.
+	 * In effect, this forces the manager to redo the entire evaluation after it finished.
+	 */
+	void RegisterAlreadyEvaluatedCircuitChange();
+
+	/**
 	 * \return The number of circuits in the manager.
 	 */
 	UINT GetSize();
 
 private:
 	vector<PowerCircuit*> circuits;				//!< Stores all PowerCircuits in this manager.
-
+	bool reevaluate = false;					//!< Switches to true during evaluation if RegisterAlreadyEvaluatedCircuitChange() is called.
 };
 
