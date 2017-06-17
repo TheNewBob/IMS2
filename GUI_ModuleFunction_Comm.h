@@ -41,8 +41,6 @@ protected:
 	CHECKBOXSTATE searchboxstate = OFF;
 	CHECKBOXSTATE trackboxstate = OFF;
 
-	bool updatenextframe = false;
-
 	virtual bool updateMe();
 
 private:

@@ -1,5 +1,7 @@
 #pragma once
 
+class GUI_CheckBoxState;
+
 /**
  * A checkbox. A box to the left that has two states, checked or unchecked, with a text to the right.
  * Clicking the box toggles the state. You get the picture.
@@ -21,7 +23,7 @@ public:
 	/**
 	 * \return True if the box is checked, false otherwise
 	 */
-	bool Checked(){ return checked; };
+	bool Checked();
 	
 	/**
 	 * \brief Toggles the state of the checkbox from true to false and back
@@ -37,7 +39,8 @@ public:
 
 
 protected:
-	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
+	virtual void initialiseState();
+	virtual void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	virtual bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
 
 	/**
@@ -46,6 +49,12 @@ protected:
 	void createCheckBox();
 
 	string text;				//!< Stores the text of the checkbox
-	bool checked;				//!< Stores the state of the Checkbox
+//	bool checked;				//!< Stores the state of the Checkbox
+
+private:
+	/**
+	 * \brief Helper function to simplify casting of the state.
+	 */
+	 GUI_CheckBoxState *cState();
 };
 

@@ -3,6 +3,8 @@
 #include "GUImanager.h"
 #include "GUIplugin.h"
 
+class GUI_BaseElementState;
+class GUI_BaseElementResource;
 
 GUI_BaseElement::GUI_BaseElement(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: rect(_rect), width(rect.right - rect.left), height(rect.bottom - rect.top),
@@ -17,6 +19,8 @@ GUI_BaseElement::GUI_BaseElement(RECT _rect, int _id, GUI_ElementStyle *_style)
 
 GUI_BaseElement::~GUI_BaseElement()
 {
+	RevokeState();
+
 	//some elements like pages don't actually allocate a source surface
 	if (src != NULL)
 	{
@@ -220,6 +224,47 @@ void GUI_BaseElement::RemovePlugin(GUIplugin *plugin)
 	plugins.erase(i);
 }
 
+
+
+void GUI_BaseElement::ShareStateWith(GUI_BaseElement *who)
+{
+	state->ShareWith(who);
+}
+
+
+void GUI_BaseElement::CancelStateSharingWith(GUI_BaseElement *who)
+{
+	state->CancelSharingWith(this);
+	RevokeState();
+}
+
+
+void GUI_BaseElement::RevokeState()
+{
+	if (!state != NULL) 
+	{
+		// destroy the state if it is owned by the calling element, otherwise just don't reference it anymore.
+		if (state->IsOwnedBy(this))
+		{
+			delete state;
+		}
+		else
+		{
+			state->CancelSharingWith(this);
+		}
+
+		state = NULL;
+	}
+}
+
+void GUI_BaseElement::setState(GUI_BaseElementState *state)
+{
+	if (state != NULL)
+	{
+		RevokeState();
+		this->state = state;
+	}
+}
 
 
 void GUI_BaseElement::calculateBlitData(int xoffset, int yoffset, RECT &drawablerect, BLITDATA &OUT_blitdata)

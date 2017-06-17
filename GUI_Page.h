@@ -27,6 +27,8 @@ public:
 
 protected:
 	bool GUI_Page::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
+	virtual void initialiseState();
+
 	bool expandwithchildren = false;									//!< If true, the page will expand its own size when a child is added that does not fit. This is merely used to avoid clipping problems. If the page is set to draw a background, there will be problems!
 	/**
 	 * \brief Forces the page to stretch its size to include all current children. 

@@ -1,11 +1,11 @@
 #include "GUI_Common.h"
 #include "GUI_CheckBox.h"
+#include "GUI_CheckBoxState.h"
 
 GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *_style)
-	: GUI_BaseElement(_rect, _id, _style), text(_text), checked(true)
+	: GUI_BaseElement(_rect, _id, _style), text(_text)
 {
 	createCheckBox();
-	checked = true;
 	ToggleChecked();
 }
 
@@ -13,6 +13,13 @@ GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *
 GUI_CheckBox::~GUI_CheckBox()
 {
 }
+
+
+void GUI_CheckBox::initialiseState()
+{
+	state = new GUI_CheckBoxState(this);
+}
+
 
 void GUI_CheckBox::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {
@@ -39,10 +46,11 @@ bool GUI_CheckBox::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 
 bool GUI_CheckBox::ToggleChecked()
 {
-	checked = !checked;
+	auto s = cState();
+	s->SetChecked(!s->GetChecked());
 	//copy the appropriate graphic in front of the text
 	int fontheight = font->GetfHeight();
-	if (checked)
+	if (s->GetChecked())
 	{
 		oapiBlt(src, src, style->MarginLeft(), 0, width + fontheight, 0, fontheight, height);
 	}
@@ -50,16 +58,22 @@ bool GUI_CheckBox::ToggleChecked()
 	{
 		oapiBlt(src, src, style->MarginLeft(), 0, width, 0, fontheight, height);
 	}
-	return checked;
+	return s->GetChecked();
 }
 
+bool GUI_CheckBox::Checked()
+{
+	auto s = cState();
+	return s->GetChecked();
+}
 
 void GUI_CheckBox::SetChecked(bool _checked)
 {
-	checked = _checked;
+	auto s = cState();
+	s->SetChecked(_checked);
 	//copy the appropriate graphic in front of the text
 	int fontheight = font->GetfHeight();
-	if (checked)
+	if (s->GetChecked())
 	{
 		oapiBlt(src, src, style->MarginLeft(), 0, width + fontheight, 0, fontheight, height);
 	}
@@ -89,4 +103,10 @@ void GUI_CheckBox::createCheckBox()
 	//assign new surface as source
 	src = tgt;
 
+}
+
+
+GUI_CheckBoxState *GUI_CheckBox::cState()
+{
+	return (GUI_CheckBoxState*)state;
 }

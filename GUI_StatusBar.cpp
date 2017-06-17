@@ -13,6 +13,10 @@ GUI_StatusBar::~GUI_StatusBar()
 {
 }
 
+void GUI_StatusBar::initialiseState()
+{
+
+}
 
 void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {

@@ -1,5 +1,7 @@
 #pragma once
 
+
+class GUI_LabelValuePairState;
 /* \brief A fixed label that displays a dynamic value behind it.
  * for example: color: red
  * The label (color:) cannot be changed after creation,
@@ -31,10 +33,10 @@ public:
 	/**
 	 * \return the current value of the element
 	*/
-	string GetValue() { return value; };
+	string GetValue();
 
-private:
-	string value;							//!< Stores the elements value text
+protected:
+//	string value;							//!< Stores the elements value text
 	string label;							//!< Stores the elements label text
 	GUI_font *valuefont;					//!< Stores the font in which the value is printed
 	int labelwidth;							//!< Distance from the element rects left to the left edge of the value 
@@ -50,4 +52,12 @@ private:
 	void changeValue();
 	
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
+	virtual void initialiseState();
+
+private:
+	/**
+	* \brief Helper function to simplify casting of the state.
+	*/
+	GUI_LabelValuePairState *cState();
+
 };

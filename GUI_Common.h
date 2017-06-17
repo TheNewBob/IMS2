@@ -217,5 +217,8 @@ typedef enum
 #include "GUI_ElementStyle.h"
 #include "StyleSet.h"
 #include "GUI_BaseElement.h"
+#include "GUI_BaseElementState.h"
+#include "GUI_BaseElementResource.h"
+
 
 

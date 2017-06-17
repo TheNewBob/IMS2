@@ -49,9 +49,11 @@ public:
 	 */
 	void SetUnitScaling(bool scaling);
 
-private:
+protected:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
+	virtual void initialiseState();
+
 
 	void createStatusBar();
 

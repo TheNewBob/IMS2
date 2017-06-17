@@ -13,6 +13,11 @@ GUI_Label::~GUI_Label()
 {
 }
 
+void GUI_Label::initialiseState()
+{
+	//this element doesn't have a state.
+}
+
 
 void GUI_Label::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {

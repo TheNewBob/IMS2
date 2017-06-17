@@ -108,6 +108,27 @@
     <Filter Include="PowerDistribution">
       <UniqueIdentifier>{f9f6f1a1-bc36-4b72-aeb0-aabb6eaaa4c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{b0eb7729-2290-4b43-8c9c-444fc2a6280c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\Base">
+      <UniqueIdentifier>{63fb1548-bc01-4608-bd8c-fe32a4de94d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\Checkbox">
+      <UniqueIdentifier>{cb4d4539-b5e5-4761-aae1-c55e4336842d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\DynamicButton">
+      <UniqueIdentifier>{f1a8f947-014e-456e-ba42-ee384582e736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\LabelValuePair">
+      <UniqueIdentifier>{7b5a87fb-cc21-4873-a050-35ca53df4de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\ListBox">
+      <UniqueIdentifier>{cd3c5914-1cf9-4ab0-9b07-32fc5ccee796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\GUI_RadioButton">
+      <UniqueIdentifier>{277f19e8-fe03-4968-aa8c-456b5de6739d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -134,12 +155,6 @@
     <ClCompile Include="Instrument.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_BaseElement.cpp">
-      <Filter>GUI\GUI elements</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI_ListBox.cpp">
-      <Filter>GUI\GUI elements</Filter>
-    </ClCompile>
     <ClCompile Include="GUI_Page.cpp">
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
@@ -154,9 +169,6 @@
     </ClCompile>
     <ClCompile Include="Helpers.cpp">
       <Filter>Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI_DynamicButton.cpp">
-      <Filter>GUI\GUI elements</Filter>
     </ClCompile>
     <ClCompile Include="GUI_Draw.cpp">
       <Filter>GUI</Filter>
@@ -175,9 +187,6 @@
     </ClCompile>
     <ClCompile Include="GUI_MainDeconstruct.cpp">
       <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI_CheckBox.cpp">
-      <Filter>GUI\GUI elements</Filter>
     </ClCompile>
     <ClCompile Include="IMS_ModuleComparators.cpp">
       <Filter>Modules</Filter>
@@ -296,9 +305,6 @@
     <ClCompile Include="GUI_ScrollablePage.cpp">
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_LabelValuePair.cpp">
-      <Filter>GUI\GUI elements</Filter>
-    </ClCompile>
     <ClCompile Include="IMS_ModuleFunctionData_Tank.cpp">
       <Filter>ModuleData</Filter>
     </ClCompile>
@@ -322,9 +328,6 @@
     </ClCompile>
     <ClCompile Include="GUI_ModuleFunction_Thruster.cpp">
       <Filter>Modules\Module functionalities\Thrusters</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI_RadioButton.cpp">
-      <Filter>GUI\GUI elements</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Manager_Base.cpp">
       <Filter>Core\Managers</Filter>
@@ -428,6 +431,27 @@
     <ClCompile Include="PowerConverter.cpp">
       <Filter>PowerDistribution</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_BaseElement.cpp">
+      <Filter>GUI\GUI elements\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_BaseElementResource.cpp">
+      <Filter>GUI\GUI elements\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_CheckBox.cpp">
+      <Filter>GUI\GUI elements\Checkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_DynamicButton.cpp">
+      <Filter>GUI\GUI elements\DynamicButton</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_LabelValuePair.cpp">
+      <Filter>GUI\GUI elements\LabelValuePair</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_ListBox.cpp">
+      <Filter>GUI\GUI elements\ListBox</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_RadioButton.cpp">
+      <Filter>GUI\GUI elements\GUI_RadioButton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -444,12 +468,6 @@
     </ClInclude>
     <ClInclude Include="Instrument.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_BaseElement.h">
-      <Filter>GUI\GUI elements</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_ListBox.h">
-      <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Page.h">
       <Filter>GUI\GUI elements</Filter>
@@ -468,9 +486,6 @@
     </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_DynamicButton.h">
-      <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions.h">
       <Filter>Misc</Filter>
@@ -492,9 +507,6 @@
     </ClInclude>
     <ClInclude Include="GUI_MainDeconstruct.h">
       <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_CheckBox.h">
-      <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="Calc.h">
       <Filter>IMS_Maths</Filter>
@@ -655,9 +667,6 @@
     <ClInclude Include="GUI_ScrollablePage.h">
       <Filter>GUI\GUI elements</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_LabelValuePair.h">
-      <Filter>GUI\GUI elements</Filter>
-    </ClInclude>
     <ClInclude Include="AnimationFinishedEvent.h">
       <Filter>EventHandling\Events\animation events</Filter>
     </ClInclude>
@@ -723,9 +732,6 @@
     </ClInclude>
     <ClInclude Include="GUI_ModuleFunction_Thruster.h">
       <Filter>Modules\Module functionalities\Thrusters</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_RadioButton.h">
-      <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Manager_Base.h">
       <Filter>Core\Managers</Filter>
@@ -867,6 +873,42 @@
     </ClInclude>
     <ClInclude Include="PowerConverter.h">
       <Filter>PowerDistribution</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_BaseElementState.h">
+      <Filter>GUI\GUI elements\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_BaseElementResource.h">
+      <Filter>GUI\GUI elements\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_BaseElement.h">
+      <Filter>GUI\GUI elements\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_CheckBox.h">
+      <Filter>GUI\GUI elements\Checkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_CheckBoxState.h">
+      <Filter>GUI\GUI elements\Checkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_DynamicButton.h">
+      <Filter>GUI\GUI elements\DynamicButton</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_LabelValuePair.h">
+      <Filter>GUI\GUI elements\LabelValuePair</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_LabelValuePairState.h">
+      <Filter>GUI\GUI elements\LabelValuePair</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ListBox.h">
+      <Filter>GUI\GUI elements\ListBox</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ListBoxState.h">
+      <Filter>GUI\GUI elements\ListBox</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_RadioButton.h">
+      <Filter>GUI\GUI elements\GUI_RadioButton</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_RadioButtonState.h">
+      <Filter>GUI\GUI elements\GUI_RadioButton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

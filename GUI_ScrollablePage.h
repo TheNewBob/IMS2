@@ -41,6 +41,8 @@ protected:
 	virtual void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	virtual void AddChild(GUI_BaseElement *child);
 	virtual int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
+	virtual void initialiseState();
+
 
 
 private:

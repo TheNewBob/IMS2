@@ -2,6 +2,7 @@
 #include "GUI_ScrollBar.h"
 #include "GUI_ListBox.h"
 #include "FontsAndStyles.h"
+#include "GUI_ListBoxState.h"
 
 
 GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle, bool _selectBox, bool _noSelect)
@@ -16,26 +17,32 @@ GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, GUI_Ele
 	//line position
 	selected = 2;
 
-	selectBox = _selectBox;
-	noSelect = _noSelect;
+	auto s = cState();
+	s->SetSelectBox(_selectBox);
+	s->SetnoSelect(_noSelect);
 	createListBox(_scrollbarstyle);
 }
 
 GUI_ListBox::~GUI_ListBox(void)
 {
-	entries.clear();
+	cState()->ClearEntries();
 	hilights.clear();
 	selected = -1;
 	delete scrollbar;
 }
 
+void GUI_ListBox::initialiseState()
+{
+	state = new GUI_ListBoxState(this);
+}
 
 void GUI_ListBox::AddElement(string element, bool hilight)
 //adds a new element to the list, and marks it either selected or not
 {
-	entries.push_back(element);
-	if (selectBox && hilight) hilights.push_back(entries.size() - 1);
-	scrollbar->SetScrollRange(entries.size() - nLines);
+	auto s = cState();
+	s->AddEntry(element);
+	if (s->GetSelectBox() && hilight) hilights.push_back(s->entries.size() - 1);
+	scrollbar->SetScrollRange(s->entries.size() - nLines);
 }
 
 
@@ -65,17 +72,17 @@ void GUI_ListBox::Draw(SURFHANDLE surf, RECT &drawablerect, int xoffset, int yof
 
 
 
-	for (UINT i = scrollbar->GetScrollPos(); i < entries.size() && int(i) < scrollbar->GetScrollPos() + nLines; ++i, ++posInDrawList)
+	for (UINT i = scrollbar->GetScrollPos(); i < s->entries.size() && int(i) < scrollbar->GetScrollPos() + nLines; ++i, ++posInDrawList)
 	{
 		int tgty = printableRect.top + (posInDrawList * (font->GetfHeight() + lineSpace));	
 		
-		if (!noSelect && !selectBox && selected == i || selectBox && IsHighlight(i)) 
+		if (!s->noSelect && !s->selectBox && selected == i || s->selectBox && IsHighlight(i)) 
 		{
-			font->Print(surf, entries[i], printableRect.left, tgty, printableRect, true, listJustification);
+			font->Print(surf, s->entries[i], printableRect.left, tgty, printableRect, true, listJustification);
 		}
 		else
 		{
-			font->Print(surf, entries[i], printableRect.left, tgty, printableRect, false, listJustification);
+			font->Print(surf, s->entries[i], printableRect.left, tgty, printableRect, false, listJustification);
 		}
 	}
 
@@ -83,17 +90,17 @@ void GUI_ListBox::Draw(SURFHANDLE surf, RECT &drawablerect, int xoffset, int yof
 
 bool GUI_ListBox::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 {
-	
+	auto s = cState();
 	if (_event == LBDOWN &&
 		_x > rect.left && _x < rect.right - scrlBarWidth &&
 		_y > rect.top && _y < rect.bottom)
 	//click is in listbox area
 	{
 		int sel = (_y - (rect.top + style->MarginTop())) / (font->GetfHeight() + lineSpace) + scrollbar->GetScrollPos();
-		if (sel >= 0 && sel < int(entries.size()))
+		if (sel >= 0 && sel < int(s->entries.size()))
 		{
 			selected = sel;			
-			if (selectBox)
+			if (s->GetSelectBox())
 			//if this listBox allows for multiselection
 			{
 				bool wasSelected = false;
@@ -116,7 +123,7 @@ bool GUI_ListBox::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 
 int GUI_ListBox::GetSelected()
 {
-	if (selected >= int(entries.size()))
+	if (selected >= int(cState()->entries.size()))
 	{
 		return -1;
 	}
@@ -125,13 +132,13 @@ int GUI_ListBox::GetSelected()
 
 void GUI_ListBox::clear()
 {
-	entries.clear();
+	cState()->ClearEntries();
 	hilights.clear();
 }
 
 void GUI_ListBox::SetSelected(int _selected)
 {
-	if (_selected >= 0 && _selected < int(entries.size()))
+	if (_selected >= 0 && _selected < int(cState()->entries.size()))
 	{
 		selected = _selected;
 	}
@@ -143,7 +150,7 @@ std::string GUI_ListBox::GetSelectedText()
 	//	sprintf(outVar, "%s", entries[selected].data());
 	if (selected != -1)
 	{
-		return entries[selected];
+		return cState()->entries[selected];
 	}
 	else
 	{
@@ -153,12 +160,13 @@ std::string GUI_ListBox::GetSelectedText()
 
 int GUI_ListBox::NumEntries()
 {
-	return entries.size();
+	return cState()->entries.size();
 }
 
 bool GUI_ListBox::IsHighlight(UINT index)
 {
-	if (!selectBox || index > entries.size()) return false;
+	auto s = cState();
+	if (!s->GetSelectBox() || index > s->entries.size()) return false;
 
 	for (UINT i = 0; i < hilights.size(); ++i)
 	{
@@ -197,3 +205,8 @@ int GUI_ListBox::GetNeededListBoxHeight(int numlines, GUI_STYLE styleid)
 	return numlines * (fontheight + 2) + style->MarginTop() + style->MarginBottom();
 }
 
+
+GUI_ListBoxState *GUI_ListBox::cState()
+{
+	return (GUI_ListBoxState*)state;
+}

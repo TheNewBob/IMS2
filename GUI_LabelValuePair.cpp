@@ -1,6 +1,6 @@
 #include "GUI_Common.h"
 #include "GUI_LabelValuePair.h"
-
+#include "GUI_LabelValuePairState.h"
 
 GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect, int _id, GUI_ElementStyle *_style, GUI_font *_valuefont)
 	: GUI_BaseElement(_rect, _id, _style), label(_label), valuefont(_valuefont)
@@ -18,15 +18,26 @@ GUI_LabelValuePair::~GUI_LabelValuePair()
 {
 }
 
+void GUI_LabelValuePair::initialiseState()
+{
+	state = new GUI_LabelValuePairState(this);
+}
+
 
 void GUI_LabelValuePair::SetValue(string _value, bool hilighted)
 {
-	value = _value;
+	cState()->SetValue(_value);
 	//erase the old value on the source surface
 	RECT availablerect = _R(labelwidth, style->MarginTop(), width - style->MarginLeft(), height - style->MarginBottom());
 	GUI_Draw::ColorFill(availablerect, src, style->BackgroundColor());
 	//print the new text
-	valuefont->Print(src, value, labelwidth, height / 2, availablerect, hilighted, T_LEFT, V_CENTER);
+	valuefont->Print(src, cState()->GetValue(), labelwidth, height / 2, availablerect, hilighted, T_LEFT, V_CENTER);
+}
+
+
+string GUI_LabelValuePair::GetValue()
+{
+	return cState()->GetValue();
 }
 
 
@@ -51,3 +62,8 @@ void GUI_LabelValuePair::createLabel()
 		false, T_LEFT, V_CENTER);
 }
 
+
+GUI_LabelValuePairState *GUI_LabelValuePair::cState()
+{
+	return (GUI_LabelValuePairState*)state;
+}

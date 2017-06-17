@@ -1,5 +1,6 @@
 #pragma once
 
+class GUI_ListBoxState;
 
 /**
  * \brief A box diplaying a scrollable list of text elements.
@@ -76,10 +77,12 @@ public:
 	 */
 	static int GetNeededListBoxHeight(int numlines, GUI_STYLE styleid);
 
-private:
+protected:
 
 
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
+	virtual void initialiseState();
+
 
 	/**
 	 * \brief Draws the ListBox and its scrollbar to its source surface
@@ -92,11 +95,14 @@ private:
 	int lineSpace;											//!< The spacing between the lines of the ListBox, in pixel
 	int scrlBarWidth;										//!< THe width of the scrollbar in pixel
 	int scrlBarHeight;										//!< The height of the scrollbar in pixel
-	vector<std::string> entries;							//!< List of the elements in this ListBox
-	bool selectBox;											//!< Stores whether this is a multi-select box 	
-	bool noSelect;											//!< Stores whether elements of this ListBox can be selected at all
+//	vector<std::string> entries;							//!< List of the elements in this ListBox
+//	bool selectBox;											//!< Stores whether this is a multi-select box 	
+//	bool noSelect;											//!< Stores whether elements of this ListBox can be selected at all
 	GUI_ScrollBar *scrollbar;								//!< Pointer to the ListBox's scrollbar element
 	
 	vector<UINT> hilights;									//!< List of indices of all selected items in a multi-select box
 	GUI_TEXT_POS listJustification;							//!< Stores the justification of the list text
+
+private:
+	GUI_ListBoxState *cState();
 };

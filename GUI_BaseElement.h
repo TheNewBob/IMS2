@@ -25,7 +25,8 @@ struct BLITDATA
 
 #pragma once
 class GUIplugin;
-
+class GUI_BaseElementState;
+class GUI_BaseElementResource;
 
 /**
  * \brief Base class of GUI elements. All GUI elements must derive from this class.
@@ -33,6 +34,9 @@ class GUIplugin;
 class GUI_BaseElement
 {
 	friend class GUIentity;
+	friend class GUI_BaseElementState;
+	friend class GUI_BaseElementResource;
+
 public:
 	/**
 	 * \param _rect The rectangle of the element, relative to its parent.
@@ -164,6 +168,23 @@ public:
 	 */
 	void RemovePlugin(GUIplugin *plugin);
 
+	/**
+	 * \brief initiates state sharing between this element and another of same type.
+	 * Two elements should share state when they are controlling the physically same thing.
+	 */
+	void ShareStateWith(GUI_BaseElement *who);
+
+	/**
+	 * \brief Lets this element know that an element that shared its state no longer does so, presumably because it got destroyed.
+	 */
+	void CancelStateSharingWith(GUI_BaseElement *who);
+
+
+	/**
+	 * \brief Informs this object that its state is no longer available.
+	 */
+	void RevokeState();
+
 protected:
 	GUI_ELEMENT_TYPE type;				//!< The type of this element
 	RECT rect;							//!< Rect the element should draw on, relative to parent
@@ -178,6 +199,19 @@ protected:
 	GUI_ElementStyle *style;			//!< The style used by this element
 	bool visible;						//!< Whether the element is visible or not (if false, element and any of its children will neither draw nor process events)
 	bool isfixed = false;				//!< Whether the element retains a fixed position in a scrolling frame
+	bool updatenextframe = false;		//!< True if the element needs to be redrawn.
+
+	/**
+	* \brief Sets the state this element uses.
+	*/
+	void setState(GUI_BaseElementState *state);
+
+	GUI_BaseElementState *state = NULL; //!< The object defining the state of this element.
+
+	/**
+	 * \brief Called at object creation. Use in inheriting classes to create state object.
+	 */
+	virtual void initialiseState() = 0;
 
 
 	/**

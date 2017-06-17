@@ -13,6 +13,11 @@ GUI_StaticButton::~GUI_StaticButton(void)
 {
 }
 
+void GUI_StaticButton::initialiseState()
+{
+
+}
+
 void GUI_StaticButton::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {
 	BLITDATA blitdata;

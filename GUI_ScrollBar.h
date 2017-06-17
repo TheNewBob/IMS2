@@ -38,12 +38,14 @@ public:
 	 */
 	int GetScrollPos(){ return scrollpos; };
 
-private:
+protected:
 	/**
 	 * \brief Draws the scrollbar to its source surface
 	 */
 	void createScrollBar();
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
+	virtual void initialiseState();
+
 	int scrollpos = 0;											//!< Stores the current scrollposition of the scrollbar
 	int scrollrange = 0;										//!< Stores the scrollrange of the scrollbar
 	int scrollspeed = 1;										//!< Stores the scrollspeed of the scrollbar

@@ -1,5 +1,7 @@
 #pragma once
 
+class GUI_RadioButtonState;
+
 /**
  * \brief RadioButtons are checkboxes that can be grouped together and make sure that only one member of the group is checked at any time
  */
@@ -43,12 +45,14 @@ public:
 protected:
 	vector<GUI_RadioButton*> groupedbuttons;				//!< contains pointers to all buttons grouped with this
 	virtual bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
+	virtual void initialiseState();
 
 private:
 	/**
 	 * \brief This method is only called internally among members of a group to set their state.
 	 */
 	void uncheck();
+	GUI_RadioButtonState *cState();
 
 };
 

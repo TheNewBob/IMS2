@@ -1,17 +1,24 @@
 #include "GUI_Common.h"
 #include "GUI_CheckBox.h"
 #include "GUI_RadioButton.h"
+#include "GUI_CheckBoxState.h"
+#include "GUI_RadioButtonState.h"
 
 
 GUI_RadioButton::GUI_RadioButton(string _text, RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_CheckBox(_text, _rect, _id, _style)
 {
-	checked = false;
+
 }
 
 
 GUI_RadioButton::~GUI_RadioButton()
 {
+}
+
+void GUI_RadioButton::initialiseState()
+{
+	state = new GUI_RadioButtonState(this);
 }
 
 
@@ -91,4 +98,10 @@ bool GUI_RadioButton::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 		}
 	}
 	return false;
+}
+
+
+GUI_RadioButtonState *GUI_RadioButton::cState()
+{
+	return (GUI_RadioButtonState*)state;
 }
