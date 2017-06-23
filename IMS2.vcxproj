@@ -295,6 +295,7 @@
     <ClInclude Include="GUI_ElementStyle.h" />
     <ClInclude Include="GUI_font.h" />
     <ClInclude Include="GUI_Label.h" />
+    <ClInclude Include="GUI_LabelState.h" />
     <ClInclude Include="GUI_LabelValuePair.h" />
     <ClInclude Include="GUI_LabelValuePairState.h" />
     <ClInclude Include="GUI_ListBox.h" />

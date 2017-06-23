@@ -1,10 +1,13 @@
 #include "GUI_Common.h"
 #include "GUI_DynamicButton.h"
+#include "GUI_LabelState.h"
 #include "math.h"
 
 GUI_DynamicButton::GUI_DynamicButton(string _text, RECT _rect, int _id, GUI_ElementStyle *_style)
-	: GUI_BaseElement(_rect, _id, _style), text(_text)
+	: GUI_BaseElement(_rect, _id, _style)
 {
+	swapState(new GUI_LabelState(this));
+	cState()->SetText(_text);
 	style = _style;
 	font = style->GetFont();
 	createButton();
@@ -50,10 +53,16 @@ void GUI_DynamicButton::createButton()
 	oapiReleaseSketchpad(skp);
 
 	//print text
-	font->Print(tgt, text, width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
+	font->Print(tgt, cState()->GetText(), width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_CENTER, V_CENTER);
 
 	//assign new surface as source
 	src = tgt;
+}
+
+
+GUI_LabelState *GUI_DynamicButton::cState()
+{
+	return (GUI_LabelState*)state;
 }
 

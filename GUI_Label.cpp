@@ -1,10 +1,12 @@
 #include "GUI_Common.h"
 #include "GUI_Label.h"
-
+#include "GUI_LabelState.h"
 
 GUI_Label::GUI_Label(string _text, RECT _rect, int _id, GUI_ElementStyle *_style)
-	: GUI_BaseElement(_rect, _id, _style), text(_text)
+	: GUI_BaseElement(_rect, _id, _style)
 {
+	swapState(new GUI_LabelState(this));
+	cState()->SetText(_text);
 	createLabel();
 }
 
@@ -35,13 +37,19 @@ void GUI_Label::createLabel()
 		oapiDestroySurface(src);
 	}
 	src = GUI_Draw::createElementBackground(style, width, height);
-	font->Print(src, text, width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
+	font->Print(src, cState()->GetText(), width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_CENTER, V_CENTER);
 }
 
 
 void GUI_Label::ChangeText(string text)
 {
-	this->text = text;
+	cState()->SetText(text);
 	createLabel();
+}
+
+
+GUI_LabelState *GUI_Label::cState()
+{
+	return (GUI_LabelState*)state;
 }

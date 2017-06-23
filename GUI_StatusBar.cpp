@@ -1,7 +1,6 @@
 #include "GUI_Common.h"
 #include "GUI_StatusBar.h"
-# include "GUI_StatusBarState.h"
-
+#include "GUI_StatusBarState.h"
 
 GUI_StatusBar::GUI_StatusBar(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_BaseElement(_rect, _id, _style)
@@ -95,6 +94,10 @@ void GUI_StatusBar::createStatusBar()
 
 bool GUI_StatusBar::updateMe()
 {
+	if (updatenextframe)
+	{
+		bool bugme = true;
+	}
 	return updatenextframe;
 }
 
@@ -176,7 +179,6 @@ void GUI_StatusBar::prepareEmptyStatusString(string &str)
 	font->Print(src, str, width / 2, (int)(height * 3.5), _R(style->CornerRadius(), height * 3, width - style->CornerRadius(), height * 4),
 		false, T_CENTER, V_CENTER);
 }
-
 
 GUI_StatusBarState *GUI_StatusBar::cState()
 {

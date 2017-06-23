@@ -916,5 +916,8 @@
     <ClInclude Include="GUI_Label.h">
       <Filter>GUI\GUI elements\Label</Filter>
     </ClInclude>
+    <ClInclude Include="GUI_LabelState.h">
+      <Filter>GUI\GUI elements\Label</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

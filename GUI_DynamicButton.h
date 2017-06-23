@@ -1,6 +1,6 @@
 #pragma once
-#include "GUI_BaseElement.h"
 
+class GUI_LabelState;
  
 /**
  * \brief Draws a button with definable text.
@@ -26,11 +26,15 @@ private:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
 
-	string text;							//!< Stores the text being displayed on the button
-
 	/**
 	 * \brief Draws the button to its source surface
 	 */
 	void createButton();
+
+	/**
+	* \brief Helper function to simplify casting of the state.
+	*/
+	GUI_LabelState *cState();
+
 };
 

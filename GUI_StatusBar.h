@@ -58,7 +58,6 @@ protected:
 
 	void createStatusBar();
 
-	bool updatenextframe = false;
 /*	double fillstatus = 1.0;									//!< How much the bar is filled: >= 0 <= 1
 	double maxcapacity = 100;									//!< the maximum amount of whatever the statusbar represents.
 	string unitstring = "%";									//!< the unit of whatever the statusbar represents. default: %

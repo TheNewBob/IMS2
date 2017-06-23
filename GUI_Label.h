@@ -1,5 +1,6 @@
 #pragma once
 
+class GUI_LabelState;
 /**
  * A label is a simple text on a single line without visible borders and without event handling
  *
@@ -35,8 +36,12 @@ public:
 private:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 
-	string text;						//!< Stores the text of the label
 	void createLabel();					//!< Draws the label to its source surface
+
+	/**
+	* \brief Helper function to simplify casting of the state.
+	*/
+	GUI_LabelState *cState();
 
 };
 
