@@ -41,6 +41,6 @@ public:
 
 protected:
 	vector<std::string> entries;							//!< List of the elements in this ListBox
-	bool selectBox;											//!< Stores whether this is a multi-select box 	
-	bool noSelect;											//!< Stores whether elements of this ListBox can be selected at all
+	bool selectBox = false;											//!< Stores whether this is a multi-select box 	
+	bool noSelect = false;											//!< Stores whether elements of this ListBox can be selected at all
 };
