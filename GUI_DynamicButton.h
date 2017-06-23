@@ -25,7 +25,6 @@ private:
 	
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
-	virtual void initialiseState();
 
 	string text;							//!< Stores the text being displayed on the button
 

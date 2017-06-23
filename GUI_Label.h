@@ -34,7 +34,6 @@ public:
 
 private:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
-	virtual void initialiseState();
 
 	string text;						//!< Stores the text of the label
 	void createLabel();					//!< Draws the label to its source surface

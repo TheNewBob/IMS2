@@ -5,6 +5,8 @@
 GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect, int _id, GUI_ElementStyle *_style, GUI_font *_valuefont)
 	: GUI_BaseElement(_rect, _id, _style), label(_label), valuefont(_valuefont)
 {
+	swapState(new GUI_LabelValuePairState(this));
+
 	if (valuefont == NULL)
 	{
 		valuefont = style->GetFont();
@@ -16,11 +18,6 @@ GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect,
 
 GUI_LabelValuePair::~GUI_LabelValuePair()
 {
-}
-
-void GUI_LabelValuePair::initialiseState()
-{
-	state = new GUI_LabelValuePairState(this);
 }
 
 

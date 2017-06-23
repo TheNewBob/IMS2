@@ -81,8 +81,6 @@ protected:
 
 
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
-	virtual void initialiseState();
-
 
 	/**
 	 * \brief Draws the ListBox and its scrollbar to its source surface

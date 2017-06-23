@@ -24,7 +24,6 @@ public:
 protected:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
-	virtual void initialiseState();
 
 	RECT srcRect;							//!< Stores the rectangle of the buttons bitmap on the source surface
 };

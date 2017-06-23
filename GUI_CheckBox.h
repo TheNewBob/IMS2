@@ -39,7 +39,6 @@ public:
 
 
 protected:
-	virtual void initialiseState();
 	virtual void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	virtual bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
 

@@ -311,11 +311,11 @@
     <ClInclude Include="GUI_ModuleFunction_Thruster.h" />
     <ClInclude Include="GUI_Page.h" />
     <ClInclude Include="GUI_RadioButton.h" />
-    <ClInclude Include="GUI_RadioButtonState.h" />
     <ClInclude Include="GUI_ScrollablePage.h" />
     <ClInclude Include="GUI_ScrollBar.h" />
     <ClInclude Include="GUI_StaticButton.h" />
     <ClInclude Include="GUI_StatusBar.h" />
+    <ClInclude Include="GUI_StatusBarState.h" />
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />

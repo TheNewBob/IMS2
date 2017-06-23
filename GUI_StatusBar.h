@@ -1,4 +1,7 @@
 #pragma once
+
+class GUI_StatusBarState;
+
 class GUI_StatusBar :
 	public GUI_BaseElement
 {
@@ -52,17 +55,15 @@ public:
 protected:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
-	virtual void initialiseState();
-
 
 	void createStatusBar();
 
 	bool updatenextframe = false;
-	double fillstatus = 1.0;									//!< How much the bar is filled: >= 0 <= 1
+/*	double fillstatus = 1.0;									//!< How much the bar is filled: >= 0 <= 1
 	double maxcapacity = 100;									//!< the maximum amount of whatever the statusbar represents.
 	string unitstring = "%";									//!< the unit of whatever the statusbar represents. default: %
 	bool verbose = false;
-	bool unitscaling = false;
+	bool unitscaling = false;*/
 
 	bool updateMe();
 	
@@ -89,5 +90,12 @@ protected:
 	* \see prepareEmptyStatusString()
 	*/
 	void prepareEmptyStatusString(string &str);
+
+private:
+	/**
+	* \brief Helper function to simplify casting of the state.
+	*/
+	GUI_StatusBarState *cState();
+
 };
 

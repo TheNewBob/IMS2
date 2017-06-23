@@ -129,6 +129,12 @@
     <Filter Include="GUI\GUI elements\GUI_RadioButton">
       <UniqueIdentifier>{277f19e8-fe03-4968-aa8c-456b5de6739d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\GUI elements\StatusBar">
+      <UniqueIdentifier>{2acb8e0f-27aa-4fea-b0ef-ff71f9375494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI elements\Label">
+      <UniqueIdentifier>{606cc155-f3ac-4857-895f-7288c26f97ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -174,9 +180,6 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUI_ScrollBar.cpp">
-      <Filter>GUI\GUI elements</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI_Label.cpp">
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
     <ClCompile Include="GUI_MainConstruct.cpp">
@@ -332,9 +335,6 @@
     <ClCompile Include="IMS_Manager_Base.cpp">
       <Filter>Core\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_StatusBar.cpp">
-      <Filter>GUI\GUI elements</Filter>
-    </ClCompile>
     <ClCompile Include="GUI_ModuleFunction_Tank.cpp">
       <Filter>Modules\Module functionalities\Tank</Filter>
     </ClCompile>
@@ -452,6 +452,12 @@
     <ClCompile Include="GUI_RadioButton.cpp">
       <Filter>GUI\GUI elements\GUI_RadioButton</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_StatusBar.cpp">
+      <Filter>GUI\GUI elements\StatusBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Label.cpp">
+      <Filter>GUI\GUI elements\Label</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -494,9 +500,6 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUI_ScrollBar.h">
-      <Filter>GUI\GUI elements</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_Label.h">
       <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="GUI_MainConstruct.h">
@@ -739,9 +742,6 @@
     <ClInclude Include="Managers.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_StatusBar.h">
-      <Filter>GUI\GUI elements</Filter>
-    </ClInclude>
     <ClInclude Include="GUI_ModuleFunction_Tank.h">
       <Filter>Modules\Module functionalities\Tank</Filter>
     </ClInclude>
@@ -907,8 +907,14 @@
     <ClInclude Include="GUI_RadioButton.h">
       <Filter>GUI\GUI elements\GUI_RadioButton</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_RadioButtonState.h">
-      <Filter>GUI\GUI elements\GUI_RadioButton</Filter>
+    <ClInclude Include="GUI_StatusBar.h">
+      <Filter>GUI\GUI elements\StatusBar</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_StatusBarState.h">
+      <Filter>GUI\GUI elements\StatusBar</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Label.h">
+      <Filter>GUI\GUI elements\Label</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

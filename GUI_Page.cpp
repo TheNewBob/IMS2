@@ -15,11 +15,6 @@ GUI_Page::~GUI_Page(void)
 }
 
 
-void GUI_Page::initialiseState()
-{
-	//this element doesn't have a state.
-}
-
 bool GUI_Page::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 //a page returns always false when clicked. 
 //Otherwise a click on an empty area of a page would always trigger a redraw, which is not desired.

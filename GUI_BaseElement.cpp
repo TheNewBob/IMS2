@@ -19,7 +19,7 @@ GUI_BaseElement::GUI_BaseElement(RECT _rect, int _id, GUI_ElementStyle *_style)
 
 GUI_BaseElement::~GUI_BaseElement()
 {
-	RevokeState();
+	revokeState();
 
 	//some elements like pages don't actually allocate a source surface
 	if (src != NULL)
@@ -235,13 +235,13 @@ void GUI_BaseElement::ShareStateWith(GUI_BaseElement *who)
 void GUI_BaseElement::CancelStateSharingWith(GUI_BaseElement *who)
 {
 	state->CancelSharingWith(this);
-	RevokeState();
+	revokeState();
 }
 
 
-void GUI_BaseElement::RevokeState()
+void GUI_BaseElement::revokeState()
 {
-	if (!state != NULL) 
+	if (state != NULL) 
 	{
 		// destroy the state if it is owned by the calling element, otherwise just don't reference it anymore.
 		if (state->IsOwnedBy(this))
@@ -261,11 +261,30 @@ void GUI_BaseElement::setState(GUI_BaseElementState *state)
 {
 	if (state != NULL)
 	{
-		RevokeState();
-		this->state = state;
+		revokeState();
 	}
+	this->state = state;
 }
 
+void GUI_BaseElement::swapState(GUI_BaseElementState *newstate)
+{
+	assert(newstate->sharers.size() == 0 && "A state that is already shared cannot replace another state!");
+	newstate->owner = this;
+
+	// if this element doesn't have a state yet, we don't need to worry about sharers.
+	if (state != NULL)
+	{
+		newstate->owner = this;
+		for (UINT i = state->sharers.size(); i > 0; --i)
+		{
+			GUI_BaseElement *sharer = state->sharers[i];
+			newstate->ShareWith(sharer);
+			state->CancelSharingWith(sharer);
+		}
+	}
+	
+	setState(newstate);
+}
 
 void GUI_BaseElement::calculateBlitData(int xoffset, int yoffset, RECT &drawablerect, BLITDATA &OUT_blitdata)
 {

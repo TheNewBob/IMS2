@@ -180,11 +180,6 @@ public:
 	void CancelStateSharingWith(GUI_BaseElement *who);
 
 
-	/**
-	 * \brief Informs this object that its state is no longer available.
-	 */
-	void RevokeState();
-
 protected:
 	GUI_ELEMENT_TYPE type;				//!< The type of this element
 	RECT rect;							//!< Rect the element should draw on, relative to parent
@@ -206,12 +201,18 @@ protected:
 	*/
 	void setState(GUI_BaseElementState *state);
 
-	GUI_BaseElementState *state = NULL; //!< The object defining the state of this element.
+	/**
+	* \brief Informs this object that its state is no longer available.
+	*/
+	void revokeState();
 
 	/**
-	 * \brief Called at object creation. Use in inheriting classes to create state object.
+	 * \brief Replaces this elements state with a new state that receives all of the old states sharers.
 	 */
-	virtual void initialiseState() = 0;
+	void swapState(GUI_BaseElementState *newstate);
+
+
+	GUI_BaseElementState *state = NULL; //!< The object defining the state of this element.
 
 
 	/**

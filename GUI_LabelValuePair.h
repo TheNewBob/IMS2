@@ -52,7 +52,6 @@ protected:
 	void changeValue();
 	
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
-	virtual void initialiseState();
 
 private:
 	/**

@@ -15,12 +15,6 @@ GUI_DynamicButton::~GUI_DynamicButton()
 {
 }
 
-void GUI_DynamicButton::initialiseState()
-{
-	//This element doesn't actually have a state.
-}
-
-
 
 void GUI_DynamicButton::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {

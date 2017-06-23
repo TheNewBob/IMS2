@@ -2,7 +2,7 @@
 #include "GUI_CheckBox.h"
 #include "GUI_RadioButton.h"
 #include "GUI_CheckBoxState.h"
-#include "GUI_RadioButtonState.h"
+
 
 
 GUI_RadioButton::GUI_RadioButton(string _text, RECT _rect, int _id, GUI_ElementStyle *_style)
@@ -16,15 +16,9 @@ GUI_RadioButton::~GUI_RadioButton()
 {
 }
 
-void GUI_RadioButton::initialiseState()
-{
-	state = new GUI_RadioButtonState(this);
-}
-
-
 bool GUI_RadioButton::ToggleChecked()
 {
-	if (!checked)
+	if (!cState()->GetChecked())
 	{
 		SetChecked();
 		return true;
@@ -34,7 +28,7 @@ bool GUI_RadioButton::ToggleChecked()
 
 void GUI_RadioButton::SetChecked(bool _checked)
 {
-	if (!checked)
+	if (!cState()->GetChecked())
 	{
 		for (UINT i = 0; i < groupedbuttons.size(); ++i)
 		{
@@ -46,13 +40,13 @@ void GUI_RadioButton::SetChecked(bool _checked)
 
 GUI_RadioButton *GUI_RadioButton::GetCheckedButton()
 {
-	if (checked)
+	if (cState()->GetChecked())
 	{
 		return this;
 	}
 	for (UINT i = 0; i < groupedbuttons.size(); ++i)
 	{
-		if (groupedbuttons[i]->checked)
+		if (groupedbuttons[i]->Checked())
 		{
 			return groupedbuttons[i];
 		}
@@ -89,7 +83,7 @@ void GUI_RadioButton::CreateGroup(vector<GUI_RadioButton*> buttonsingroup)
 
 bool GUI_RadioButton::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 {
-	if (_event == LBUP && !checked)
+	if (_event == LBUP && !cState()->GetChecked())
 	{
 		if (GUI_BaseElement::ProcessMe(_event, _x, _y))
 		{
@@ -101,7 +95,7 @@ bool GUI_RadioButton::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 }
 
 
-GUI_RadioButtonState *GUI_RadioButton::cState()
+GUI_CheckBoxState *GUI_RadioButton::cState()
 {
-	return (GUI_RadioButtonState*)state;
+	return (GUI_CheckBoxState*)state;
 }

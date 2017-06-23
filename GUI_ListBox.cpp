@@ -8,6 +8,7 @@
 GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle, bool _selectBox, bool _noSelect)
 	: GUI_BaseElement(_mRect, _id, _style)
 {
+	swapState(new GUI_ListBoxState(this));
 	//calculating how many lines the ListBox can display and max length of line
 	style = _style;
 	lineSpace = 2;
@@ -31,10 +32,6 @@ GUI_ListBox::~GUI_ListBox(void)
 	delete scrollbar;
 }
 
-void GUI_ListBox::initialiseState()
-{
-	state = new GUI_ListBoxState(this);
-}
 
 void GUI_ListBox::AddElement(string element, bool hilight)
 //adds a new element to the list, and marks it either selected or not
@@ -70,7 +67,7 @@ void GUI_ListBox::Draw(SURFHANDLE surf, RECT &drawablerect, int xoffset, int yof
 	int posInDrawList = 0;						//notes the position in the currently visible list as opposed to the entire list
 
 
-
+	auto s = cState();
 
 	for (UINT i = scrollbar->GetScrollPos(); i < s->entries.size() && int(i) < scrollbar->GetScrollPos() + nLines; ++i, ++posInDrawList)
 	{

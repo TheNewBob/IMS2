@@ -18,10 +18,6 @@ GUI_ScrollablePage::~GUI_ScrollablePage()
 	delete scrollbar;
 }
 
-void GUI_ScrollablePage::initialiseState()
-{
-
-}
 
 void GUI_ScrollablePage::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {

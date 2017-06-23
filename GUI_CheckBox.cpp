@@ -5,6 +5,7 @@
 GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_BaseElement(_rect, _id, _style), text(_text)
 {
+	swapState(new GUI_CheckBoxState(this));
 	createCheckBox();
 	ToggleChecked();
 }
@@ -12,12 +13,6 @@ GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *
 
 GUI_CheckBox::~GUI_CheckBox()
 {
-}
-
-
-void GUI_CheckBox::initialiseState()
-{
-	state = new GUI_CheckBoxState(this);
 }
 
 

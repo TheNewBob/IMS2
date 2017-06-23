@@ -1,8 +1,13 @@
 #pragma once
+
+class GUI_BaseElement;
+
 class GUI_BaseElementState
 {
+	friend class GUI_BaseElement;
 public:
 	GUI_BaseElementState(GUI_BaseElement *owner) : owner(owner) {};
+
 	virtual ~GUI_BaseElementState() 
 	{
 		for (auto i = sharers.begin(); i != sharers.end(); ++i)
@@ -35,6 +40,7 @@ public:
 	
 	/**
 	 * \brief Lets the state know that it is no longer shared with the passed element.
+	 * \note Setting or revoking state of the sharer is the responsibility of the caller!
 	 */
 	void CancelSharingWith(GUI_BaseElement *sharer)
 	{

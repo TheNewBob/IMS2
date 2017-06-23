@@ -30,7 +30,7 @@ public:
 	virtual void SetChecked(bool _checked = true);
 
 	/**
-	 * Returns the checke button in the group of this button
+	 * Returns the checked button in the group of this button
 	 */
 	GUI_RadioButton *GetCheckedButton();
 
@@ -45,14 +45,13 @@ public:
 protected:
 	vector<GUI_RadioButton*> groupedbuttons;				//!< contains pointers to all buttons grouped with this
 	virtual bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
-	virtual void initialiseState();
 
 private:
 	/**
 	 * \brief This method is only called internally among members of a group to set their state.
 	 */
 	void uncheck();
-	GUI_RadioButtonState *cState();
+	GUI_CheckBoxState *cState();
 
 };
 

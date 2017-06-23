@@ -14,10 +14,6 @@ GUI_ScrollBar::~GUI_ScrollBar()
 {
 }
 
-void GUI_ScrollBar::initialiseState()
-{
-
-}
 
 void GUI_ScrollBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect)
 {
