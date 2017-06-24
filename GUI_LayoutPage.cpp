@@ -19,6 +19,7 @@ GUI_LayoutPage::~GUI_LayoutPage()
 
 RECT GUI_LayoutPage::getElementRect(string elementid)
 {
+	assert(layouts != NULL && "LayoutPage attempts to create children with uninitialised layout!");
 	//check how much space we have to draw on and which layout we have to use for that.
 	RECT usablerect = calculateUsableRect();
 	int usablewidth = usablerect.right - usablerect.left;

@@ -3,7 +3,7 @@
 //this class handles the construction menu
 
 
-class GUI_MainConstruct : public GUI_Page
+class GUI_MainConstruct : public GUI_LayoutPage
 {
 public:
 	GUI_MainConstruct(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel);
@@ -12,6 +12,8 @@ public:
 
 private:
 	int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
+
+	void mapLayoutIdentifiers();
 
 	IMS2 *vessel;
 	GUI_ListBox *dockedVesselsList;

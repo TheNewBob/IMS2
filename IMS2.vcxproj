@@ -77,7 +77,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>tinyxml2;.\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -236,6 +236,7 @@
     <ClCompile Include="IMS_TouchdownPointManager.cpp" />
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="LayoutManager.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PowerBus.cpp" />
     <ClCompile Include="PowerChild.cpp" />
@@ -255,6 +256,7 @@
     <ClCompile Include="StateNode.cpp" />
     <ClCompile Include="IMS_Storable.cpp" />
     <ClCompile Include="StyleSet.cpp" />
+    <ClCompile Include="tinyxml2\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationFailedEvent.h" />
@@ -331,6 +333,7 @@
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
     <ClInclude Include="IMS_TouchdownPointManager.h" />
+    <ClInclude Include="LayoutManager.h" />
     <ClInclude Include="PowerBus.h" />
     <ClInclude Include="PowerChild.h" />
     <ClInclude Include="PowerCircuit.h" />
@@ -379,6 +382,7 @@
     <ClInclude Include="IMS_Storable.h" />
     <ClInclude Include="StyleSet.h" />
     <ClInclude Include="TdPointsChangedEvent.h" />
+    <ClInclude Include="tinyxml2\tinyxml2.h" />
     <ClInclude Include="ToggleGearEvent.h" />
     <ClInclude Include="TrackingAnimationStatusEvent.h" />
     <ClInclude Include="VesselLayoutChangedEvent.h" />

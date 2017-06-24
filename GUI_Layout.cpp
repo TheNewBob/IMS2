@@ -6,7 +6,6 @@ GUI_Layout::GUI_Layout()
 {
 }
 
-
 GUI_Layout::~GUI_Layout()
 {
 }
@@ -23,10 +22,11 @@ void GUI_Layout::AddRow(vector<LAYOUTFIELD> fields, int height)
 
 RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
 {
-	RECT fieldrect;
+	RECT fieldrect = _R(0, 0, 0, 0);
 	for (UINT i = 0; i < rows.size(); ++i)
 	{
 		LAYOUTROW &row = rows[i];
+		fieldrect.left = 0;
 		for (UINT j = 0; j < row.fields.size(); ++j)
 		{
 			LAYOUTFIELD &field = row.fields[j];

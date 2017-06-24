@@ -54,7 +54,7 @@ struct LAYOUTCOLLECTION
 		GUI_Layout *propperlayout = NULL;
 		for (auto i = layouts.begin(); i != layouts.end(); ++i)
 		{
-			if (width < i->first)
+			if (i->first < width)
 			{
 				propperlayout = i->second;
 			}

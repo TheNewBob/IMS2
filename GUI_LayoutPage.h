@@ -2,7 +2,7 @@
 #include "GUI_Page.h"
 
 
-
+struct LAYOUTCOLLECTION;
 
 class GUI_LayoutPage :
 	public GUI_Page

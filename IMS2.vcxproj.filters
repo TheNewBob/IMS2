@@ -138,6 +138,12 @@
     <Filter Include="GUI\GUI elements\LayoutPage">
       <UniqueIdentifier>{e7085893-1d00-4aaf-a46c-baeb056f8a4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{5537bf6d-8a8e-4d39-9091-4602755d6227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\TinyXml">
+      <UniqueIdentifier>{df8ca3be-9cd9-4baf-824f-1a9af0b305e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -466,6 +472,12 @@
     </ClCompile>
     <ClCompile Include="GUI_Layout.cpp">
       <Filter>GUI\GUI elements\LayoutPage</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutManager.cpp">
+      <Filter>GUI\GUI elements\LayoutPage</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2\tinyxml2.cpp">
+      <Filter>Dependencies\TinyXml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -933,6 +945,12 @@
     </ClInclude>
     <ClInclude Include="GUI_Layout.h">
       <Filter>GUI\GUI elements\LayoutPage</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutManager.h">
+      <Filter>GUI\GUI elements\LayoutPage</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2\tinyxml2.h">
+      <Filter>Dependencies\TinyXml</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
