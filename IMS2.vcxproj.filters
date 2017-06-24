@@ -135,6 +135,9 @@
     <Filter Include="GUI\GUI elements\Label">
       <UniqueIdentifier>{606cc155-f3ac-4857-895f-7288c26f97ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\GUI elements\LayoutPage">
+      <UniqueIdentifier>{e7085893-1d00-4aaf-a46c-baeb056f8a4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -457,6 +460,12 @@
     </ClCompile>
     <ClCompile Include="GUI_Label.cpp">
       <Filter>GUI\GUI elements\Label</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_LayoutPage.cpp">
+      <Filter>GUI\GUI elements\LayoutPage</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Layout.cpp">
+      <Filter>GUI\GUI elements\LayoutPage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -918,6 +927,12 @@
     </ClInclude>
     <ClInclude Include="GUI_LabelState.h">
       <Filter>GUI\GUI elements\Label</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_LayoutPage.h">
+      <Filter>GUI\GUI elements\LayoutPage</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Layout.h">
+      <Filter>GUI\GUI elements\LayoutPage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

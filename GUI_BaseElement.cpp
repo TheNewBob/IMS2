@@ -364,3 +364,15 @@ void GUI_BaseElement::calculateMyDrawableRect(RECT &drawablerect_parent, int xof
 	}
 
 }
+
+
+RECT GUI_BaseElement::calculateUsableRect()
+{
+	RECT usablerect = rect;
+	usablerect.left += style->MarginLeft();
+	usablerect.right -= style->MarginRight();
+	usablerect.top += style->MarginTop();
+	usablerect.bottom -= style->MarginBottom();
+
+	return usablerect;
+}

@@ -172,6 +172,8 @@
     <ClCompile Include="GUI_font.cpp" />
     <ClCompile Include="GUI_Label.cpp" />
     <ClCompile Include="GUI_LabelValuePair.cpp" />
+    <ClCompile Include="GUI_Layout.cpp" />
+    <ClCompile Include="GUI_LayoutPage.cpp" />
     <ClCompile Include="GUI_ListBox.cpp" />
     <ClCompile Include="GUI_MainConfig.cpp" />
     <ClCompile Include="GUI_MainConstruct.cpp" />
@@ -298,6 +300,8 @@
     <ClInclude Include="GUI_LabelState.h" />
     <ClInclude Include="GUI_LabelValuePair.h" />
     <ClInclude Include="GUI_LabelValuePairState.h" />
+    <ClInclude Include="GUI_Layout.h" />
+    <ClInclude Include="GUI_LayoutPage.h" />
     <ClInclude Include="GUI_ListBox.h" />
     <ClInclude Include="GUI_ListBoxState.h" />
     <ClInclude Include="GUI_MainConfig.h" />

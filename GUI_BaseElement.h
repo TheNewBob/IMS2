@@ -299,4 +299,9 @@ protected:
 	 */
 	void calculateMyDrawableRect(RECT &drawablerect_parent, int xoffset, int yoffset, RECT &OUT_mydrawablerect);
 
+	/**
+	 * \return The actually usable rect of this element after subtracting the style margins.
+	 */
+	RECT calculateUsableRect();
+
 };
