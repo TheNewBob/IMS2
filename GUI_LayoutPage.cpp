@@ -1,5 +1,6 @@
 #include "GUI_Common.h"
 #include "GUI_Page.h"
+#include "LayoutElement.h"
 #include "GUI_Layout.h"
 #include "GUI_LayoutPage.h"
 

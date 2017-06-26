@@ -4,6 +4,7 @@
 
 #include "GUI_ScrollBar.h"
 #include "GUI_Page.h"
+#include "LayoutElement.h"
 #include "GUI_Layout.h"
 #include "GUI_LayoutPage.h"
 #include "GUI_Label.h"

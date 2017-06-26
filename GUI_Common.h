@@ -219,6 +219,5 @@ typedef enum
 #include "GUI_BaseElement.h"
 #include "GUI_BaseElementState.h"
 #include "GUI_BaseElementResource.h"
-
-
+#include "tinyxml2.h"
 

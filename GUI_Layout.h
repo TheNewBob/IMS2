@@ -1,28 +1,25 @@
 #pragma once
 
-struct LAYOUTFIELD
-{
-	double width = 0;
-	string elementid = "";
-};
+class LayoutField;
+class LayoutRow;
 
-struct LAYOUTROW
-{
-	vector<LAYOUTFIELD> fields;
-	int height = -1;
-};
 
-class GUI_Layout
+class GUI_Layout : public LayoutElement
 {
 public:
 	GUI_Layout();
 	~GUI_Layout();
 
 	/**
-	 * \brief Adds a row to the layout.
+	 * \brief Creates a row out of a vector of fields and adds it to the layout.
 	 * \note Rows are added consecutively from top to bottom.
 	 */
-	void AddRow(vector<LAYOUTFIELD> fields, int height);
+	void AddRow(vector<LayoutField> fields, double height);
+
+	/**
+	 * \brief Adds an already built row to the layout.
+	 */
+	void AddRow(LayoutRow row);
 	
 	/**
 	 * \return The rect (position and dimensions) for a field with a certain id, in pixel.
@@ -31,15 +28,18 @@ public:
 	 */
 	RECT GetFieldRectForRowWidth(string field_id, int rowwidth);
 
+	static int EmToPx(double em);
+	static int RelToPx(double rel, double rowwidth);
 private:
 
-	vector<LAYOUTROW> rows;			//!< The rows in this layout, from top to bottom.
+	vector<LayoutRow> rows;			//!< The rows in this layout, from top to bottom.
 
+	static int pixel_per_em;
 
 	/**
 	 * \return True if a row contains the passed field, false if not.
 	 */
-	bool rowContainsField(string field_id, LAYOUTROW &IN_row);
+	bool rowContainsField(string field_id, LayoutRow &IN_row);
 
 };
 

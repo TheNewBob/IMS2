@@ -236,7 +236,10 @@
     <ClCompile Include="IMS_TouchdownPointManager.cpp" />
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="LayoutElement.cpp" />
+    <ClCompile Include="LayoutField.cpp" />
     <ClCompile Include="LayoutManager.cpp" />
+    <ClCompile Include="LayoutRow.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PowerBus.cpp" />
     <ClCompile Include="PowerChild.cpp" />
@@ -333,7 +336,11 @@
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
     <ClInclude Include="IMS_TouchdownPointManager.h" />
+    <ClInclude Include="LayoutElement.h" />
+    <ClInclude Include="LayoutField.h" />
     <ClInclude Include="LayoutManager.h" />
+    <ClInclude Include="LayoutRow.h" />
+    <ClInclude Include="layout_includes.h" />
     <ClInclude Include="PowerBus.h" />
     <ClInclude Include="PowerChild.h" />
     <ClInclude Include="PowerCircuit.h" />

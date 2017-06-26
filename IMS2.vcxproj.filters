@@ -144,6 +144,9 @@
     <Filter Include="Dependencies\TinyXml">
       <UniqueIdentifier>{df8ca3be-9cd9-4baf-824f-1a9af0b305e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Layout">
+      <UniqueIdentifier>{3df4f998-b9b6-4dcc-ad88-a37f8100e5ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -470,14 +473,23 @@
     <ClCompile Include="GUI_LayoutPage.cpp">
       <Filter>GUI\GUI elements\LayoutPage</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_Layout.cpp">
-      <Filter>GUI\GUI elements\LayoutPage</Filter>
-    </ClCompile>
-    <ClCompile Include="LayoutManager.cpp">
-      <Filter>GUI\GUI elements\LayoutPage</Filter>
-    </ClCompile>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
       <Filter>Dependencies\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Layout.cpp">
+      <Filter>GUI\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutManager.cpp">
+      <Filter>GUI\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutRow.cpp">
+      <Filter>GUI\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutField.cpp">
+      <Filter>GUI\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutElement.cpp">
+      <Filter>GUI\Layout</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -943,14 +955,26 @@
     <ClInclude Include="GUI_LayoutPage.h">
       <Filter>GUI\GUI elements\LayoutPage</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_Layout.h">
-      <Filter>GUI\GUI elements\LayoutPage</Filter>
-    </ClInclude>
-    <ClInclude Include="LayoutManager.h">
-      <Filter>GUI\GUI elements\LayoutPage</Filter>
-    </ClInclude>
     <ClInclude Include="tinyxml2\tinyxml2.h">
       <Filter>Dependencies\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Layout.h">
+      <Filter>GUI\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutManager.h">
+      <Filter>GUI\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutElement.h">
+      <Filter>GUI\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutRow.h">
+      <Filter>GUI\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutField.h">
+      <Filter>GUI\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="layout_includes.h">
+      <Filter>GUI\Layout</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
