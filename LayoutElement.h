@@ -22,7 +22,7 @@ class LayoutElement
 {
 public:
 	LayoutElement();
-	~LayoutElement();
+	virtual ~LayoutElement();
 
 	double GetMarginLeft();
 	void SetMarginLeft(double margin_left);

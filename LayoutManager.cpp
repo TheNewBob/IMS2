@@ -175,6 +175,7 @@ LayoutField LayoutManager::loadFieldFromXml(tinyxml2::XMLElement *field)
 	LayoutField newfield;
 	setLayoutElementAttributesFromXml(newfield, field);
 
+
 	XML::XMLElement *fieldwidth = field->FirstChildElement("width");
 	if (fieldwidth != NULL)
 	{
@@ -189,6 +190,13 @@ LayoutField LayoutManager::loadFieldFromXml(tinyxml2::XMLElement *field)
 	if (fieldelement != NULL)
 	{
 		newfield.SetElementId(fieldelement->GetText());
+	}
+
+	//check if the field has a nested layout
+	XML::XMLElement *xmllayout = field->FirstChildElement("layout");
+	if (xmllayout != NULL)
+	{
+		newfield.SetNestedLayout(loadLayoutFromXml(xmllayout));
 	}
 
 	return newfield;

@@ -28,10 +28,10 @@ RECT GUI_LayoutPage::getElementRect(string elementid)
 
 	//Get the elements rect, then translate its position by the left and top margins
 	RECT elementrect = usedlayout->GetFieldRectForRowWidth(elementid, usablewidth);
-	elementrect.left += style->MarginLeft();
+/*	elementrect.left += style->MarginLeft();
 	elementrect.right += style->MarginLeft();
 	elementrect.top += style->MarginTop();
-	elementrect.bottom += style->MarginTop();
+	elementrect.bottom += style->MarginTop();*/
 
 	return elementrect;
 }
