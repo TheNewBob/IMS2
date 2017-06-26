@@ -9,6 +9,8 @@
 namespace XML = tinyxml2;
 
 map<string, LAYOUTCOLLECTION*> LayoutManager::layoutcollections;
+string LayoutManager::defaultpath = "config/IMS2/GUI/layouts/default";
+string LayoutManager::layoutpath = "";
 
 LayoutManager::LayoutManager()
 {
@@ -22,15 +24,29 @@ LayoutManager::~LayoutManager()
 
 LAYOUTCOLLECTION *LayoutManager::GetLayout(string filename)
 {
-	//debug
-	filename = "config/IMS2/GUI/Layouts/default/test.xml";
-
 	auto layoutit = layoutcollections.find(filename);
 	LAYOUTCOLLECTION *layouts = NULL;
 	if (layoutit == layoutcollections.end())
 	{
+		XML::XMLDocument *doc;
 		//layout is not cashed, try to load from file.
-		XML::XMLDocument *doc = loadXmlFile(filename);
+		if (layoutpath == "")
+		{
+			//no custom layout given, load from default
+			doc = loadXmlFile(defaultpath + "/" + filename);
+		}
+		else
+		{
+			//there's a layout path given, try loading from there, revert to default if not found.
+			try
+			{
+				doc = loadXmlFile(layoutpath + "/" + filename);
+			}
+			catch (runtime_error)
+			{
+				doc = loadXmlFile(defaultpath + "/" + filename);
+			}
+		}
 		
 		try
 		{
@@ -87,13 +103,15 @@ XML::XMLDocument *LayoutManager::loadXmlFile(string filename)
 {
 	XML::XMLDocument *doc = new XML::XMLDocument;
 	doc->LoadFile(filename.data());
-
 	if (doc->ErrorID() != XML::XMLError::XML_SUCCESS)
 	{
+
 		string msg = filename + ": " + doc->ErrorName();
 		Helpers::writeToLog(msg, L_ERROR);
 		throw runtime_error("Error while loading layouts, see log.");
 	}
+
+//	string bugme = doc->FirstChild()->GetText
 
 	return doc;
 }

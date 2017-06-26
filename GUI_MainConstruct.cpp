@@ -9,6 +9,22 @@
 #include "IMS_InputCallback.h"
 #include "LayoutManager.h"
 
+/**
+* \file defines content and functionality for the construction menu.
+*/
+
+const static string FILENAME				= "mainconstruct.xml";
+const static string DOCKED_VESSELS_LABEL	= "docked_vessels_label";
+const static string DOCKED_VESSELS_LIST		= "docked_vessels_list";
+const static string INTEGRATE_BTNS_PAGE		= "integrate_btns_page";
+const static string ROTATE_DOCKED_BTN		= "rotate_docked_btn";
+const static string INTEGRATE_DOCKED_BTN	= "integrate_docked_btn";
+const static string DETACH_DOCKED_BTN		= "detach_docked_btn";
+const static string IN_STACK_LABEL			= "in_stack_label";
+const static string IN_STACK_LIST			= "in_stack_list";
+const static string UPDATE_STACK_BTN		= "update_stack_btn";
+const static string ASSEMBLE_ALL_BTN		= "assemble_all_btn";
+
 GUI_MainConstruct::GUI_MainConstruct(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel)
 	: GUI_LayoutPage(mRect, MD_CONSTRUCTION_MNU, _style), vessel(_vessel)
 {
@@ -16,62 +32,23 @@ GUI_MainConstruct::GUI_MainConstruct(RECT mRect, GUI_ElementStyle *_style, IMS2 
 	//register element in manager BEFORE adding children
 	gui->RegisterGuiElement(this, GUI_MAIN_DISPLAY);
 
-	layouts = LayoutManager::GetLayout("");
+	layouts = LayoutManager::GetLayout(FILENAME);
 
-/*	GUI_Layout *testlayout = new GUI_Layout;
-	vector<LayoutField> row;
-	LayoutField field;
-	field.width = 1.0;
-	field.elementid = "title";
-	row.push_back(field);
-	testlayout->AddRow(row, 25);
-	field.width = 0.6;
-	field.elementid = "dockedVesselsList";
-	row.clear();
-	row.push_back(field);
-	field.width = 0.4;
-	field.elementid = "integrateButtonsPage";
-	row.push_back(field);
-	testlayout->AddRow(row, 250);
+	gui->CreateLabel("docked vessels", getElementRect(DOCKED_VESSELS_LABEL), MD_CONSTRUCTION_MNU);
+	dockedVesselsList = gui->CreateListBox(getElementRect(DOCKED_VESSELS_LIST), MD_CONSTRUCTION_MNU, MD_CM_DOCKED_VESSELS_LIST);
 
-	layouts = new LAYOUTCOLLECTION;
-	layouts->AddLayout(1, testlayout);*/
-
-	gui->CreateLabel("docked vessels", getElementRect("docked_vessels_label"), MD_CONSTRUCTION_MNU);
-	dockedVesselsList = gui->CreateListBox(getElementRect("docked_vessels_list"), MD_CONSTRUCTION_MNU, MD_CM_DOCKED_VESSELS_LIST);
-
-	integrateButtonsPage = gui->CreatePage(getElementRect("integrate_buttons_page"), MD_CONSTRUCTION_MNU, MD_CM_INT_BTNS_PAGE);
+	integrateButtonsPage = gui->CreatePage(getElementRect(INTEGRATE_BTNS_PAGE), MD_CONSTRUCTION_MNU, MD_CM_INT_BTNS_PAGE);
 	integrateButtonsPage->SetVisible(false);
 
-	gui->CreateDynamicButton("rotate", getElementRect("rotate_docked_btn"), MD_CM_INT_BTNS_PAGE, MD_CM_ROTATE_BTN);
-	gui->CreateDynamicButton("integrate", getElementRect("integrate_docked_btn"), MD_CM_INT_BTNS_PAGE, MD_CM_INTEGRATE_BTN);
-	gui->CreateDynamicButton("detach", getElementRect("detach_docked_btn"), MD_CM_INT_BTNS_PAGE, MD_CM_DETATCH_BTN);
+	gui->CreateDynamicButton("rotate", getElementRect(ROTATE_DOCKED_BTN), MD_CM_INT_BTNS_PAGE, MD_CM_ROTATE_BTN);
+	gui->CreateDynamicButton("integrate", getElementRect(INTEGRATE_DOCKED_BTN), MD_CM_INT_BTNS_PAGE, MD_CM_INTEGRATE_BTN);
+	gui->CreateDynamicButton("detach", getElementRect(DETACH_DOCKED_BTN), MD_CM_INT_BTNS_PAGE, MD_CM_DETATCH_BTN);
 
-	gui->CreateLabel("vessels in stack", getElementRect("in_stack_label"), MD_CONSTRUCTION_MNU);
-	stackVesselsList = gui->CreateListBox(getElementRect("stacked_vessels_list"), MD_CONSTRUCTION_MNU, MD_CM_STACKED_VESSELS_LIST);
+	gui->CreateLabel("vessels in stack", getElementRect(IN_STACK_LABEL), MD_CONSTRUCTION_MNU);
+	stackVesselsList = gui->CreateListBox(getElementRect(IN_STACK_LIST), MD_CONSTRUCTION_MNU, MD_CM_STACKED_VESSELS_LIST);
 
-	gui->CreateDynamicButton("update stack", getElementRect("update_stack_btn"), MD_CONSTRUCTION_MNU, MD_CM_UPDATE_STACK_BTN);
-	gui->CreateDynamicButton("assemble all", getElementRect("assemble_all_btn"), MD_CONSTRUCTION_MNU, MD_CM_ASSEMBLE_ALL_BTN);
-
-	/*
-	//docked vessels operations
-	gui->CreateLabel("docked vessels", _R(30, 0, int(width * 0.6), 25), MD_CONSTRUCTION_MNU);
-	dockedVesselsList = gui->CreateListBox(_R(30, 30, int(width * 0.6), 280), MD_CONSTRUCTION_MNU, MD_CM_DOCKED_VESSELS_LIST);
-
-	integrateButtonsPage = gui->CreatePage(_R(int(width * 0.6) + 10, 0, 450, 225), MD_CONSTRUCTION_MNU, MD_CM_INT_BTNS_PAGE);
-	integrateButtonsPage->SetVisible(false);
-
-	gui->CreateDynamicButton("rotate", _R(style->MarginLeft(), 30, 120, 55), MD_CM_INT_BTNS_PAGE, MD_CM_ROTATE_BTN);
-	gui->CreateDynamicButton("integrate", _R(style->MarginLeft(), 60, 120, 85), MD_CM_INT_BTNS_PAGE, MD_CM_INTEGRATE_BTN);
-	gui->CreateDynamicButton("detach", _R(style->MarginLeft(), 90, 120, 115), MD_CM_INT_BTNS_PAGE, MD_CM_DETATCH_BTN);
-	
-
-	//stacked vessels operations
-	gui->CreateLabel("vessels in stack", _R(30, 290, int(width * 0.6), 315), MD_CONSTRUCTION_MNU);
-	stackVesselsList = gui->CreateListBox(_R(30, 320, int(width * 0.6), height - 10), MD_CONSTRUCTION_MNU, MD_CM_STACKED_VESSELS_LIST);
-	gui->CreateDynamicButton("update stack", _R(int(width * 0.6) + 10, 320, int(width * 0.6) + 130, 345), MD_CONSTRUCTION_MNU, MD_CM_UPDATE_STACK_BTN);
-	gui->CreateDynamicButton("assemble all", _R(int(width * 0.6) + 10, 350, int(width * 0.6) + 130, 375), MD_CONSTRUCTION_MNU, MD_CM_ASSEMBLE_ALL_BTN);*/
-	
+	gui->CreateDynamicButton("update stack", getElementRect(UPDATE_STACK_BTN), MD_CONSTRUCTION_MNU, MD_CM_UPDATE_STACK_BTN);
+	gui->CreateDynamicButton("assemble all", getElementRect(ASSEMBLE_ALL_BTN), MD_CONSTRUCTION_MNU, MD_CM_ASSEMBLE_ALL_BTN);
 }
 
 
@@ -165,7 +142,3 @@ void GUI_MainConstruct::UpdateDockedVesselsList(std::vector<DOCKEDVESSEL*> &vess
 	}
 }
 
-void GUI_MainConstruct::mapLayoutIdentifiers()
-{
-
-}

@@ -13,8 +13,6 @@ public:
 private:
 	int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 
-	void mapLayoutIdentifiers();
-
 	IMS2 *vessel;
 	GUI_ListBox *dockedVesselsList;
 	GUI_ListBox *stackVesselsList;

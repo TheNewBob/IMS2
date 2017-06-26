@@ -15,7 +15,7 @@ private:
 
 	static map<string, LAYOUTCOLLECTION*> layoutcollections;
 	static string defaultpath;
-
+	static string layoutpath;
 	static tinyxml2::XMLDocument *loadXmlFile(string filename);
 	static LAYOUTCOLLECTION *loadLayoutCollectionFromXml(tinyxml2::XMLDocument *doc);
 	static GUI_Layout *loadLayoutFromXml(tinyxml2::XMLElement *layout);

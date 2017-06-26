@@ -12,11 +12,6 @@ public:
 	virtual ~GUI_LayoutPage();
 
 protected:
-	/**
-	 * \brief override this function to define the layout identifiers for the pages children,
-	 *	and map the respective GUI elements to them so they can get placed in the layout on creation.
-	 */
-	virtual void mapLayoutIdentifiers() = 0;
 
 	/**
 	 * \brief Returns the rect (position and dimension) of the element with the corresponding layout id.

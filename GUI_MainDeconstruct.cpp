@@ -11,31 +11,47 @@
 #include "SimpleShape.h"
 #include "IMS_General_ModuleData.h"
 #include "IMS_Algs.h"
+#include "LayoutManager.h"
 
 using namespace IMS_Algs;
 
+const static string FILENAME = "maindeconstruct.xml";
+const static string MODULES_IN_VESSEL_LABEL = "modules_in_vessel_label";
+const static string MODULES_IN_VESSEL_LIST = "modules_in_vessel_list";
+const static string SORT_X_BTN = "sort_x_btn";
+const static string SORT_Y_BTN = "sort_y_btn";
+const static string SORT_Z_BTN = "sort_z_btn";
+const static string SYMMETRY_CHKBX = "symmetry_chkbx";
+const static string SELECTED_MODULES_LABEL = "selected_modules_label";
+const static string SELECTED_MODULES_LIST = "selected_modules_list";
+const static string DISASSEMBLE_BTN = "disassemble_btn";
+
+
 GUI_MainDeconstruct::GUI_MainDeconstruct(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel)
-	: GUI_Page(mRect, MD_DECONSTRUCTION_MNU, _style), vessel(_vessel)
+	: GUI_LayoutPage(mRect, MD_DECONSTRUCTION_MNU, _style), vessel(_vessel)
 {
 	GUImanager *gui = vessel->GetGUI();
 	//register element in manager BEFORE adding children
 	gui->RegisterGuiElement(this, GUI_MAIN_DISPLAY);
 
+	layouts = LayoutManager::GetLayout(FILENAME);
+
 	//docked vessels operations
-	gui->CreateLabel("modules in vessel", _R(30, 0, int(width * 0.6), 25), MD_DECONSTRUCTION_MNU);
-	modules_list = gui->CreateListBox(_R(30, 30, int(width * 0.6), 280), MD_DECONSTRUCTION_MNU, MD_DM_MODULES_LIST);
+	gui->CreateLabel("modules in vessel", getElementRect("modules_in_vessel_label"), MD_DECONSTRUCTION_MNU);
+	modules_list = gui->CreateListBox(getElementRect("modules_in_vessel_list"), MD_DECONSTRUCTION_MNU, MD_DM_MODULES_LIST);
 
 
-	gui->CreateDynamicButton("sort by X", _R(int(width * 0.6) + 10, 30, int(width * 0.6) + 130, 55), MD_DECONSTRUCTION_MNU, MD_DM_SORTX_BTN);
-	gui->CreateDynamicButton("sort by Y", _R(int(width * 0.6) + 10, 60, int(width * 0.6) + 130, 85), MD_DECONSTRUCTION_MNU, MD_DM_SORTY_BTN);
-	gui->CreateDynamicButton("sort by Z", _R(int(width * 0.6) + 10, 90, int(width * 0.6) + 130, 115), MD_DECONSTRUCTION_MNU, MD_DM_SORTZ_BTN);
-	symmetry_box = gui->CreateCheckBox("symmetrical", _R(int(width * 0.6) + 10, 120, int(width * 0.6) + 130, 145), MD_DECONSTRUCTION_MNU, MD_DM_SYMMETRY_CHKBX);
+	gui->CreateDynamicButton("sort by X", getElementRect("sort_x_btn"), MD_DECONSTRUCTION_MNU, MD_DM_SORTX_BTN);
+	gui->CreateDynamicButton("sort by Y", getElementRect("sort_y_btn"), MD_DECONSTRUCTION_MNU, MD_DM_SORTY_BTN);
+	gui->CreateDynamicButton("sort by Z", getElementRect("sort_z_btn"), MD_DECONSTRUCTION_MNU, MD_DM_SORTZ_BTN);
+	symmetry_box = gui->CreateCheckBox("symmetrical", getElementRect("symmetry_chkbx"), MD_DECONSTRUCTION_MNU, MD_DM_SYMMETRY_CHKBX);
 
 	//stacked vessels operations
-	gui->CreateLabel("selected modules", _R(30, 290, int(width * 0.6), 315), MD_DECONSTRUCTION_MNU);
-	selected_modules_list = gui->CreateListBox(_R(30, 320, int(width * 0.6), height - 10), MD_DECONSTRUCTION_MNU, MD_DM_SELECTED_MODULES_LIST);
-	gui->CreateDynamicButton("disassemble", _R(int(width * 0.6) + 10, 320, int(width * 0.6) + 130, 345), MD_DECONSTRUCTION_MNU, MD_DM_DECONSTRUCT_BTN);
-	gui->CreateDynamicButton("set staging", _R(int(width * 0.6) + 10, 350, int(width * 0.6) + 130, 375), MD_DECONSTRUCTION_MNU, MD_DM_STAGING_BTN);
+	gui->CreateLabel("selected modules", getElementRect("selected_modules_label"), MD_DECONSTRUCTION_MNU);
+	selected_modules_list = gui->CreateListBox(getElementRect("selected_modules_list"), MD_DECONSTRUCTION_MNU, MD_DM_SELECTED_MODULES_LIST);
+	gui->CreateDynamicButton("disassemble", getElementRect("disassemble_btn"), MD_DECONSTRUCTION_MNU, MD_DM_DECONSTRUCT_BTN);
+
+//	gui->CreateDynamicButton("set staging", _R(int(width * 0.6) + 10, 350, int(width * 0.6) + 130, 375), MD_DECONSTRUCTION_MNU, MD_DM_STAGING_BTN);
 
 	UpdateModulesList();
 
