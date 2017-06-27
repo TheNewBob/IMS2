@@ -1,4 +1,6 @@
 #include "GUI_Common.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
 #include "GUI_Page.h"
 
 GUI_Page::GUI_Page(RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground)
@@ -95,4 +97,22 @@ void GUI_Page::createPage()
 	src = tgt;
 }
 
+RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts)
+{
+	vector<string> ignore_none;
+	return getElementRect(elementid, layouts, ignore_none);
+}
 
+
+RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields)
+{
+	//check how much space we have to draw on and which layout we have to use for that.
+	RECT usablerect = calculateUsableRect();
+	int usablewidth = usablerect.right - usablerect.left;
+	GUI_Layout *usedlayout = layouts->GetLayoutForWidth(usablewidth);
+
+	//Get the elements rect, then translate its position by the left and top margins
+	RECT elementrect = usedlayout->GetFieldRectForRowWidth(elementid, usablewidth, ignore_fields);
+
+	return elementrect;
+}

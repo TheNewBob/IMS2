@@ -38,8 +38,12 @@ int GUI_Layout::RelToPx(double rel, double rowwidth)
 	return (int)(rowwidth * rel);
 }
 
-RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
+
+RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> &ignore)
 {
+	//just make sure somebody doesn't screw himself over.
+	assert(find(ignore.begin(), ignore.end(), field_id) == ignore.end() && "Ignoring the field that is searched for!");
+
 	RECT fieldrect = _R(0, 0, 0, 0);
 	//deducting the layouts overall margin from the available rowwidth and setting starting position.
 	int leftmargin = RelToPx(margin.left, rowwidth);
@@ -54,6 +58,11 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
 	for (UINT i = 0; i < rows.size(); ++i)
 	{
 		LayoutRow &row = rows[i];
+		//don't include this row in the calculation if it has only ignored fields.
+		if (rowCanBeIgnored(row, ignore))
+		{
+			continue;
+		}
 
 		//include margin and padding of the row into the calculation
 		fieldrect.top = fieldrect.top + EmToPx(row.margin.top);
@@ -63,24 +72,30 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
 			- RelToPx(row.margin.left, rowwidth)
 			- RelToPx(row.margin.right, rowwidth);
 		fieldrect.left += RelToPx(row.padding.left, availablerowwidth);
-		double availablerowheight = EmToPx(row.height) - EmToPx(row.padding.top) - EmToPx(row.padding.bottom);
+		int availablerowheight = EmToPx(row.height) - EmToPx(row.padding.top) - EmToPx(row.padding.bottom);
 
 		for (UINT j = 0; j < row.fields.size(); ++j)
 		{
 			LayoutField &field = row.fields[j];
+			//if the field is on the ignored list, don't count it. Following fields will move to the left.
+			if (find(ignore.begin(), ignore.end(), field.elementid) != ignore.end())
+			{
+				continue;
+			}
+			
 			int fieldwidth = (int)(field.width * availablerowwidth);
 			if (field.elementid == field_id || field.nestedlayout != NULL)
 			{
 				//calculate the effective size and position of the field, after margin and padding have been deducted.
 				fieldrect.top = fieldrect.top + EmToPx(row.padding.top + field.margin.top + field.padding.top);
-				double availablefieldheight = availablerowheight - EmToPx(
+				int availablefieldheight = availablerowheight - EmToPx(
 					field.margin.top + field.padding.top
 					+ field.margin.bottom + field.padding.bottom);
 
 				fieldrect.bottom = fieldrect.top + availablefieldheight;
-				double leftmargin = RelToPx(field.margin.left, fieldwidth);
-				double rightmargin = RelToPx(field.margin.right, fieldwidth);
-				double availablefieldwidth = fieldwidth - leftmargin - rightmargin;
+				int leftmargin = RelToPx(field.margin.left, fieldwidth);
+				int rightmargin = RelToPx(field.margin.right, fieldwidth);
+				int availablefieldwidth = fieldwidth - leftmargin - rightmargin;
 
 				fieldrect.left = fieldrect.left + leftmargin + RelToPx(field.padding.left, availablefieldwidth);
 				fieldrect.right = fieldrect.left + availablefieldwidth;
@@ -96,7 +111,7 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
 					//close the bulkheads and seal the hatches, we're going on a recursion!
 					try
 					{
-						RECT nestedfieldrect = field.nestedlayout->GetFieldRectForRowWidth(field_id, availablefieldwidth);
+						RECT nestedfieldrect = field.nestedlayout->GetFieldRectForRowWidth(field_id, availablefieldwidth, ignore);
 
 						//the following is a bit of a twister.
 						//Basically, if the field with a nested layout also has an element, it is assumed that the layout
@@ -136,6 +151,37 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
 	throw invalid_argument(msg);
 }
 
+
+RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
+{
+	vector<string> ignore_none;
+	return GetFieldRectForRowWidth(field_id, rowwidth, ignore_none);
+}
+
+
+int GUI_Layout::GetLayoutHeight()
+{
+	vector<string> ignore_none;
+	return GetLayoutHeight(ignore_none);
+}
+
+
+
+int GUI_Layout::GetLayoutHeight(vector<string> &ignore)
+{
+	int totalheight = EmToPx(margin.top + margin.bottom + padding.top + padding.bottom);
+	for (UINT i = 0; i < rows.size(); ++i)
+	{
+		LayoutRow &r = rows[i];
+		if (!rowCanBeIgnored(r, ignore))
+		{
+			totalheight += EmToPx(r.height + r.margin.top + r.margin.bottom);
+		}
+	}
+	return totalheight;
+}
+
+
 bool GUI_Layout::rowContainsField(string field_id, LayoutRow &IN_row)
 {
 	assert(field_id != "" && "Cannot search for empty field_id in layout row!");
@@ -148,5 +194,23 @@ bool GUI_Layout::rowContainsField(string field_id, LayoutRow &IN_row)
 		}
 	}
 
+	return false;
+}
+
+
+bool GUI_Layout::rowCanBeIgnored(LayoutRow &IN_row, vector<string> &ignored_fields)
+{
+	UINT ignored_fields_in_row = 0;
+	for (auto i = IN_row.fields.begin(); i != IN_row.fields.end(); ++i)
+	{
+		if (find(ignored_fields.begin(), ignored_fields.end(), i->elementid) != ignored_fields.end())
+		{
+			ignored_fields_in_row += 1;
+		}
+	}
+	if (ignored_fields_in_row == IN_row.fields.size())
+	{
+		return true;
+	}
 	return false;
 }

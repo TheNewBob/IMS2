@@ -3,7 +3,7 @@
 //this class handles the construction menu
 
 
-class GUI_MainConstruct : public GUI_LayoutPage
+class GUI_MainConstruct : public GUI_Page
 {
 public:
 	GUI_MainConstruct(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel);

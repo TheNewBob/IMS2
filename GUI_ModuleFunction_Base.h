@@ -46,6 +46,16 @@ public:
 		rect.bottom = ypos + height;
 	};
 
+	/**
+	 * \return The estimated width the element will have.
+	 */
+	static int predictWidth(GUIplugin *gui, int parentid)
+	{
+		RECT parentrect;
+		gui->GetElementById(parentid)->GetRect(parentrect);
+		return parentrect.right - parentrect.left;
+	}
+
 private:
 
 	/**
@@ -63,7 +73,6 @@ private:
 		retrect.right -= 30;
 		return retrect;
 	}
-
 
 };
 

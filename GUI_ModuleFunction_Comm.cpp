@@ -17,64 +17,46 @@
 #include "IMS_ModuleFunction_Comm.h"
 #include "GUI_ModuleFunction_Comm.h"
 #include "IMS_InputCallback.h"
+#include "LayoutManager.h"
 
+const static string FILENAME = "modulefunctions/comm.xml";
+const static string NAME_LABEL = "name_label";
+const static string STATUS = "status";
+const static string DEPLOY_CHKBX = "deploy_chkbx";
+const static string SCAN_CHKBX = "scan_chkbx";
+const static string TRACK_CHKBX = "track_chkbx";
+const static string SET_TGT_BTN = "set_tgt_btn";
+const static string TGT_DESCRIPTION = "tgt_description";
 
 GUI_ModuleFunction_Comm::GUI_ModuleFunction_Comm(IMS_ModuleFunction_Comm *_function, GUIplugin *gui, bool hasdeployment, bool hasscanning, bool hastracking)
-	: GUI_ModuleFunction_Base(getHeight(hasdeployment, hasscanning, hastracking), gui, gui->GetStyle(STYLE_BUTTON)), function(_function)
+	: GUI_ModuleFunction_Base(getHeight(hasdeployment, hasscanning, hastracking, predictWidth(gui, INT_MAX)), gui, gui->GetStyle(STYLE_BUTTON)), function(_function)
 {
+	//compose a list of fields we don't need for this instance, because the functionality is not supported.
+	vector<string> ignore_fields;
+	makeIgnoredFields(ignore_fields, hasdeployment, hasscanning, hastracking);
+	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
+
 	//create the required controls
-	gui->CreateLabel(function->GetData()->GetName(), _R(10, 10, width - 10, 35), id);
+	gui->CreateLabel(function->GetData()->GetName(), getElementRect(NAME_LABEL, l, ignore_fields), id);
 
 	//the statedescription will always be there
-	statedescription = gui->CreateLabelValuePair("Status:", "", _R(120, 40, 400, 65), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
+	statedescription = gui->CreateLabelValuePair("Status:", "", getElementRect(STATUS, l, ignore_fields), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
 
-	int curypos = 40;
 	if (hasdeployment)
 	{
-		deploybox = gui->CreateCheckBox("deploy", _R(15, curypos, 120, curypos + 25), id);
-		curypos += 30;
+		deploybox = gui->CreateCheckBox("deploy", getElementRect(DEPLOY_CHKBX, l, ignore_fields), id);
 	}
 
 	if (hasscanning)
 	{
-		searchbox = gui->CreateCheckBox("scan", _R(15, curypos, 120, curypos + 25), id);
-		curypos += 30;
+		searchbox = gui->CreateCheckBox("scan", getElementRect(SCAN_CHKBX, l, ignore_fields), id);
 	}
 
 	if (hastracking)
 	{
-		//now things are getting a bit more complicated, because tracking controll needs 3 gui elements to work, 
-		//resulting in three possible layouts depending on what other controls are supported
-
-		trackbox = gui->CreateCheckBox("track", _R(15, curypos, 120, curypos + 25), id);
-
-		if (curypos == 40)
-		{
-			//tracking is all there is. draw the button and the indicator on the line below, side by side
-			//the gui will look like this:
-			//trackbox		statedescription
-			//targetbtn		targetdescription
-			settargetbtn = gui->CreateDynamicButton("set target", _R(15, 70, 95, 95), id);
-			targetdescription = gui->CreateLabelValuePair("Target:", "None", _R(120, 70, 400, 95), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
-		}
-		else if (curypos == 70)
-		{
-			//the upper line is taken by either the deploybox or the searchbox. set the gui up like this:
-			//whateverbox		statedescription
-			//trackbox
-			//targetbtn			targetdescription
-			settargetbtn = gui->CreateDynamicButton("set target", _R(120, 100, 200, 125), id);
-			targetdescription = gui->CreateLabelValuePair("Target:", "None", _R(120, 100, 400, 125), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
-		}
-		else
-		{
-			//all operations are supported, set the GUI up like this:
-			//deploybox			statedescription
-			//searchbox			targetdescription
-			//trackbox			targetbtn
-			targetdescription = gui->CreateLabelValuePair("Target:", "None", _R(120, 70, 400, 95), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
-			settargetbtn = gui->CreateDynamicButton("set target", _R(120, 100, 200, 125), id);
-		}
+		trackbox = gui->CreateCheckBox("track", getElementRect(TRACK_CHKBX, l, ignore_fields), id);
+		settargetbtn = gui->CreateDynamicButton("set target", getElementRect(SET_TGT_BTN, l, ignore_fields), id);
+		targetdescription = gui->CreateLabelValuePair("Target:", "None", getElementRect(TGT_DESCRIPTION, l, ignore_fields), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
 	}
 }
 
@@ -252,34 +234,36 @@ void GUI_ModuleFunction_Comm::SetTargetDescription(string target, bool hilighted
 	}
 }
 
-int GUI_ModuleFunction_Comm::getHeight(bool hasdeployment, bool hasscanning, bool hastracking)
+int GUI_ModuleFunction_Comm::getHeight(bool hasdeployment, bool hasscanning, bool hastracking, int width)
 {
-	if (!hastracking) 
-	{
-		//there are no tracking controls. this means the interface consists of either one or two lines,
-		//depending on what else there is
-		if (hasscanning && hasdeployment)
-		{
-			//both deployment and scanning controls are present, we have two lines
-			return 100;
-		}
-		else
-		{
-			//only one line
-			return 70;
-		}
-	}
-	else if (!hasscanning && !hasdeployment)
-	{
-		//tracking controls are the only controls there are. we need 2 lines
-		return 100;
-	}
-
-	//any other combination, we need 3 lines
-	return 130;
+	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
+	GUI_Layout *usedlayout = l->GetLayoutForWidth(width);
+	
+	vector<string> ignored_fields;
+	makeIgnoredFields(ignored_fields, hasdeployment, hasscanning, hastracking);
+	return usedlayout->GetLayoutHeight(ignored_fields);
 }
 
 
+void GUI_ModuleFunction_Comm::makeIgnoredFields(vector<string> &OUT_ignored_fields, bool hasdeployment, bool hasscanning, bool hastracking)
+{
+	if (!hastracking)
+	{
+		OUT_ignored_fields.push_back(TRACK_CHKBX);
+		OUT_ignored_fields.push_back(SET_TGT_BTN);
+		OUT_ignored_fields.push_back(TGT_DESCRIPTION);
+	}
+
+	if (!hasscanning)
+	{
+		OUT_ignored_fields.push_back(SCAN_CHKBX);
+	}
+
+	if (!hasdeployment)
+	{
+		OUT_ignored_fields.push_back(DEPLOY_CHKBX);
+	}
+}
 
 
 

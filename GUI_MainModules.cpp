@@ -11,35 +11,43 @@
 #include "GUI_Module.h"
 #include "IMS_InputCallback.h"
 #include "GUI_MainModules.h"
+#include "LayoutManager.h"
+
+const static string FILENAME = "mainmenu/modules.xml";
+const static string BACK_BTN = "back_btn";
+const static string MAIN_PAGE = "main_page";
+const static string MODULES_IN_VESSEL_LABEL = "modules_in_vessel_label";
+const static string MODULES_LIST = "modules_list";
+const static string SHOW_MODULE_BTN = "show_module_btn";
 
 
 GUI_MainModules::GUI_MainModules(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel)
 	: GUI_Page(mRect, MD_MODULES_MENU, _style), vessel(_vessel)
 {
 	GUImanager *gui = vessel->GetGUI();
-
 	//register element in manager BEFORE adding children
 	gui->RegisterGuiElement(this, GUI_MAIN_DISPLAY);
 
+	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
+
 	//the close button that leads back from a module's page to the module selection page
-	closebtn = gui->CreateDynamicButton("back", _R(width - 80, 10, width - 10, 35), MD_MODULES_MENU, MD_MODULES_ROOT_BTN, STYLE_BOLD_BUTTON);
+	closebtn = gui->CreateDynamicButton("back", getElementRect(BACK_BTN, layouts), MD_MODULES_MENU, MD_MODULES_ROOT_BTN, STYLE_BOLD_BUTTON);
 	closebtn->SetVisible(false);
 
-	RECT menurect = _R(0, 0, width, height);
-
 	//create a page that will contain the module selection
-	mainpage = gui->CreatePage(menurect, MD_MODULES_MENU, MD_MODULES_MODSELECTPG);
-	//create a page that will contain all module controls
-	modcontrolpage = gui->CreatePage(_R(10, 40, rect.right - 10, height), MD_MODULES_MENU, MD_MODULES_CTRLPG);
-	modcontrolpage->SetVisible(false);
-
+	mainpage = gui->CreatePage(getElementRect(MAIN_PAGE, layouts), MD_MODULES_MENU, MD_MODULES_MODSELECTPG);
 	//create a listbox listing all the modules
-	gui->CreateLabel("modules in vessel", _R(30, 0, int(width * 0.6), 25), MD_MODULES_MODSELECTPG);
-	moduleslist = gui->CreateListBox(_R(30, 30, int(width * 0.6), 280), MD_MODULES_MODSELECTPG, MD_MODULES_MODLIST);
-
+	gui->CreateLabel("modules in vessel", getElementRect(MODULES_IN_VESSEL_LABEL, layouts), MD_MODULES_MODSELECTPG);
+	moduleslist = gui->CreateListBox(getElementRect(MODULES_LIST, layouts), MD_MODULES_MODSELECTPG, MD_MODULES_MODLIST);
 	//create a button to switch to the menu page of the currently selected module
-	gui->CreateDynamicButton("show", _R(int(width * 0.6) + 10, 30, int(width * 0.6) + 130, 55), MD_MODULES_MODSELECTPG, MD_MODULES_MODSELECTBTN);
+	gui->CreateDynamicButton("show", getElementRect(SHOW_MODULE_BTN, layouts), MD_MODULES_MODSELECTPG, MD_MODULES_MODSELECTBTN);
 
+	//create a page that will contain all module controls
+	//this is a dynamically assembled listview. It uses the same space as the main page, but we automatically stretch it to use the full height.
+	RECT listviewrect = getElementRect(MAIN_PAGE, layouts);
+	listviewrect.bottom = height;
+	modcontrolpage = gui->CreatePage(listviewrect, MD_MODULES_MENU, MD_MODULES_CTRLPG);
+	modcontrolpage->SetVisible(false);
 }
 
 

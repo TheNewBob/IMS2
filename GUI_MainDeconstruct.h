@@ -14,7 +14,7 @@ typedef enum
 
 
 class GUI_MainDeconstruct :
-	public GUI_LayoutPage
+	public GUI_Page
 {
 public:
 	GUI_MainDeconstruct(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel);

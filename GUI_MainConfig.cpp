@@ -14,19 +14,25 @@
 #include "Managers.h"
 #include "IMS_RcsManager.h"
 #include "IMS_TouchdownPointManager.h"
+#include "LayoutManager.h"
+
+const static string FILENAME = "mainmenu/config.xml";
+const static string RCS_ASSIST_CHKBX = "rcs_assist_chkbx";
+const static string SCENED_ASSIST_CHKBX = "scened_assist_chkbx";
 
 GUI_MainConfig::GUI_MainConfig(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vessel)
 	: GUI_Page(mRect, MD_CONFIG_MENU, _style), vessel(_vessel)
 {
 	GUImanager *gui = vessel->GetGUI();
-
 	//register element in manager BEFORE adding children
 	gui->RegisterGuiElement(this, GUI_MAIN_DISPLAY);
 
-	rcs_assist = gui->CreateCheckBox("RCS Assist", _R(20, 10, width / 2 - 20, 35), id, MD_CONFIG_RCSASSISTCHKBX);
+	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
+
+	rcs_assist = gui->CreateCheckBox("RCS Assist", getElementRect(RCS_ASSIST_CHKBX, layouts), id, MD_CONFIG_RCSASSISTCHKBX);
 	rcs_assist->SetChecked(true);
 
-	scened_assist = gui->CreateCheckBox("ScenEd placement assist", _R(width / 2 + 20, 10, width - 20, 35), id, MD_CONFIG_SCENEDCHKBX);
+	scened_assist = gui->CreateCheckBox("ScenEd placement assist", getElementRect(SCENED_ASSIST_CHKBX, layouts), id, MD_CONFIG_SCENEDCHKBX);
 	scened_assist->SetChecked(false);
 }
 

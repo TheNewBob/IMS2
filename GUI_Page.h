@@ -1,5 +1,8 @@
 #pragma once
 
+struct LAYOUTCOLLECTION;
+class GUI_Layout;
+
 /**
  * \brief A class that is an empty GUI element used to group children.
  *
@@ -33,7 +36,22 @@ protected:
 	 * \brief Forces the page to stretch its size to include all current children. 
 	 * \note Does not resize the background in case The page is drawn with a background!
 	 */
-	void reSize();														
+	void reSize();		
+
+	/**
+	* \return the rect (position and dimension) of the element with the corresponding layout id.
+	* \param elementid The string identifier that assigns the element its place in the layout. NOT the GUI-id of the element!
+	* \param layout The layout collection to read the elements rect from.
+	*/
+	RECT getElementRect(string elementid, LAYOUTCOLLECTION *layouts);
+
+	/**
+	 * \return the rect (position and dimension) of the element with the corresponding layout id, while ignoring rows that only consist of certain fields.
+	 * \param elementid The string identifier that assigns the element its place in the layout. NOT the GUI-id of the element!
+	 * \param layout The layout collection to read the elements rect from.
+	 * \param ignore_fields The id of fields that you want to cut from the layout. If a row contains only ignored fields, the following rows will move up.
+	 */
+	RECT getElementRect(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields);
 
 private: 
 	/**

@@ -28,6 +28,24 @@ public:
 	 */
 	RECT GetFieldRectForRowWidth(string field_id, int rowwidth);
 
+	/**
+	 * \return The The rect (position and dimensions) for a field with a certain id, discounting any fields which contain an element matching an id listed in ignore.
+	 * \param field_id The id of the field to calculate dimensions for. Empty fields cannot be searched for, because there would be no point in that.
+	 * \param rowwidth The current width of the row in pixel.
+	 * \param ignore A vector with field ids. Any fields containing such an id will be treated as if it didn't exist in the layout!
+	 */
+	RECT GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> &ignore);
+	
+	/**
+	 * \return The total height of the layout
+	 */
+	int GetLayoutHeight();
+
+	/**
+	 * \return The height of the layout, ignoring rows that consist only of ignored fields.
+	 */
+	int GetLayoutHeight(vector<string> &ignore);
+
 	static int EmToPx(double em);
 	static int RelToPx(double rel, double rowwidth);
 private:
@@ -40,6 +58,11 @@ private:
 	 * \return True if a row contains the passed field, false if not.
 	 */
 	bool rowContainsField(string field_id, LayoutRow &IN_row);
+
+	/**
+	 * \return True if a row contains no fields except for ignored ones, false otherwise.
+	 */
+	bool rowCanBeIgnored(LayoutRow &IN_row, vector<string> &ignored_fields);
 
 };
 

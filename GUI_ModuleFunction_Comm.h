@@ -45,7 +45,13 @@ protected:
 
 private:
 	/* returns the required height of this element based on the controls it needs to support */
-	int getHeight(bool hasdeployment, bool hasscanning, bool hastracking);
+	int getHeight(bool hasdeployment, bool hasscanning, bool hastracking, int width);
+	
+	/**
+	 * \brief constructs a vector with the ignored fields for this layout.
+	 */
+	void makeIgnoredFields(vector<string> &OUT_ignored_fields, bool hasdeployment, bool hasscanning, bool hastracking);
+
 
 };
 

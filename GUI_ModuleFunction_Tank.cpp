@@ -19,20 +19,31 @@
 #include "IMS_ModuleFunction_Pressurised.h"
 #include "IMS_ModuleFunction_Tank.h"
 #include "GUI_ModuleFunction_Tank.h"
+#include "LayoutManager.h"
+
+const static string FILENAME = "modulefunctions/tank.xml";
+const static string CHEAT_BTN = "cheat_btn";
+const static string PROPELLANT_LABEL = "propellant_label";
+const static string PROPELLANT_STATUS = "propellant_status";
+const static string VALVE_CHKBX = "valve_chkbx";
+const static string CHANGE_PROPTYPE_BTN = "change_proptype_btn";
 
 GUI_ModuleFunction_Tank::GUI_ModuleFunction_Tank(IMS_ModuleFunction_Tank *tank, GUIplugin *gui)
 	: GUI_ModuleFunction_Base(100, gui, gui->GetStyle(STYLE_DEFAULT)), tank(tank)
 {
-	proplabel = gui->CreateLabel("placeholder", _R(60, 10, width - 60, 35), id);
-	status = gui->CreateStatusBar(_R(10, 40, width - 10, 65), id);
-	valve = gui->CreateCheckBox("valve open", _R(10, 70, width / 2, 95), id);
+	
+	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
+
+	proplabel = gui->CreateLabel("placeholder", getElementRect(PROPELLANT_LABEL, l), id);
+	status = gui->CreateStatusBar(getElementRect(PROPELLANT_STATUS, l), id);
+	valve = gui->CreateCheckBox("valve open", getElementRect(VALVE_CHKBX, l), id);
 	valve->SetChecked(true);
-	proptypebtn = gui->CreateDynamicButton("designate propellant", _R(width - 160, 70, width - 10, 95), id);
+	proptypebtn = gui->CreateDynamicButton("designate propellant", getElementRect(CHANGE_PROPTYPE_BTN, l), id);
 	proptypebtn->SetVisible(false);
 
 //create cheatbutton in debug builds. Made permanent for now.	
 //#ifdef _DEBUG
-	cheatbutton = gui->CreateDynamicButton("fill", _R(width - 60, 10, width - 10, 35), id);
+	cheatbutton = gui->CreateDynamicButton("fill", getElementRect(CHEAT_BTN, l), id);
 //#endif
 }
 

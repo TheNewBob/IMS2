@@ -12,22 +12,52 @@
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_ModuleFunction_Thruster.h"
 #include "GUI_ModuleFunction_Thruster.h"
+#include "LayoutManager.h"
+
+const static string FILENAME = "modulefunctions/thruster.xml";
+const static string THRUSTER_NAME_LABEL = "thruster_name_label";
+const static string GROUPS_LABEL = "groups_label";
+const static string GROUP_1_CHKBX = "group_1_chkbx";
+const static string GROUP_2_CHKBX = "group_2_chkbx";
+const static string GROUP_3_CHKBX = "group_3_chkbx";
+const static string GROUP_4_CHKBX = "group_4_chkbx";
+const static string GROUP_NONE_CHKBX = "group_none_chkbx";
+const static string MODES_LABEL = "modes_label";
+const static string MODES_LIST = "modes_list";
 
 
 GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thruster *thruster, GUIplugin *gui)
 	: GUI_ModuleFunction_Base(getHeight(thruster->GetData()->getNumberOfModes()), gui, gui->GetStyle(STYLE_BUTTON)), basethruster(thruster)
 {
+	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
+
 	//Add the name label
-	gui->CreateLabel(basethruster->GetData()->GetName(), _R(10, 10, width - 10, 35), id);
+	gui->CreateLabel(basethruster->GetData()->GetName(), getElementRect(THRUSTER_NAME_LABEL, l), id);
+
+	//create label and radio buttons for thruster group assignement
+	gui->CreateLabel("Group", getElementRect(GROUPS_LABEL, l), id);
+	groupbuttons.push_back(gui->CreateRadioButton("1", getElementRect(GROUP_1_CHKBX, l), id));
+	groupbuttons.push_back(gui->CreateRadioButton("2", getElementRect(GROUP_2_CHKBX, l), id));
+	groupbuttons.push_back(gui->CreateRadioButton("3", getElementRect(GROUP_3_CHKBX, l), id));
+	groupbuttons.push_back(gui->CreateRadioButton("4", getElementRect(GROUP_4_CHKBX, l), id));
+	groupbuttons.push_back(gui->CreateRadioButton("none", getElementRect(GROUP_NONE_CHKBX, l), id));
+	GUI_RadioButton::CreateGroup(groupbuttons);
+	//default checked is always 4th button, "no group"
+	groupbuttons[4]->SetChecked();
+
+	// the field for the thrustermode will need a bit of dynamic adjustment. We'll take the layout size as maximum.
+	RECT modesrect = getElementRect(MODES_LIST, l);
 
 	//if there is more than one thrustermode, create a selection for them
 	int nummodes = thruster->GetData()->getNumberOfModes();
 	if (nummodes > 1)
 	{
 		//only create a select box if there is more than one mode
-		gui->CreateLabel("Mode", _R(15, 40, 60, 65), id);
-		//the select box will stretch a bit for more modes, but will not display more than 4 entries without scrolling
-		modesbox = gui->CreateListBox(_R(15, 70, width - 10, min(nummodes * 25 + 70, 170)), id);
+		gui->CreateLabel("Mode", getElementRect(MODES_LABEL, l), id);
+		//the layout size is the maximum size of the list, but if there's fewer modes, make it smaller.
+		int fontheight = style->GetFont()->GetfHeight();
+		modesrect.bottom = min(modesrect.bottom, modesrect.top + (nummodes + 1) * fontheight);	//one line is for top and bottom padding
+		modesbox = gui->CreateListBox(modesrect, id);
 		for (UINT i = 0; i < (UINT)nummodes; ++i)
 		{
 			THRUSTERMODE *curmode = thruster->GetData()->GetThrusterMode(i);
@@ -39,25 +69,20 @@ GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thru
 	}
 	else
 	{
-		//otherwise, just print the attributes
+		//if there's only one mode, just print the thrusters properties.
 		THRUSTERMODE *mode = thruster->GetData()->GetThrusterMode(0);
-		gui->CreateLabelValuePair("Ve:", Helpers::doubleToUnitString(mode->Isp, "m/s"), _R(15, 70, 165, 95), id, -1, STYLE_DEFAULT);
-		gui->CreateLabelValuePair("Thrust:", Helpers::doubleToUnitString(mode->Isp, "N"), _R(170, 70, 320, 95), id, -1, STYLE_DEFAULT);
+		gui->CreateLabel("Properties", getElementRect(MODES_LABEL, l), id);
+		int fontheight = style->GetFont()->GetfHeight();
+		modesrect.bottom = modesrect.top + fontheight;
+		//split the width of the modesrect into two.
+		int originalright = modesrect.right;
+		modesrect.right = modesrect.left + modesrect.right / 2;
+		gui->CreateLabelValuePair("Ve:", Helpers::doubleToUnitString(mode->Isp, "m/s"), modesrect, id, -1, STYLE_DEFAULT);
+		modesrect.right = originalright;
+		modesrect.left = modesrect.left + modesrect.right / 2;
+		gui->CreateLabelValuePair("Thrust:", Helpers::doubleToUnitString(mode->Isp, "N"), modesrect, id, -1, STYLE_DEFAULT);
 	}
 
-	//starting y position after the listbox
-	int  cury = min(nummodes, 4) * 25 + 80;
-
-	//create label and radio buttons for thruster group assignement
-	gui->CreateLabel("Group", _R(15, cury, 70, cury  +  25), id);
-	groupbuttons.push_back(gui->CreateRadioButton("1", _R(15, cury + 30, 65, cury + 55), id));
-	groupbuttons.push_back(gui->CreateRadioButton("2", _R(70, cury + 30, 110, cury + 55), id));
-	groupbuttons.push_back(gui->CreateRadioButton("3", _R(115, cury + 30, 165, cury + 55), id));
-	groupbuttons.push_back(gui->CreateRadioButton("4", _R(170, cury + 30, 210, cury + 55), id));
-	groupbuttons.push_back(gui->CreateRadioButton("none", _R(215, cury + 30, 300, cury + 55), id));
-	GUI_RadioButton::CreateGroup(groupbuttons);
-	//default checked is always 4th button, "no group"
-	groupbuttons[4]->SetChecked();
 }
 
 GUI_ModuleFunction_Thruster::~GUI_ModuleFunction_Thruster()
