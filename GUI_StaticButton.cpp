@@ -23,7 +23,7 @@ void GUI_StaticButton::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &d
 	//parents rect, so no need to draw.
 	if (blitdata.width > 0 && blitdata.height > 0)
 	{
-		oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, srcRect.left + blitdata.srcx, srcRect.top + blitdata.srcy, blitdata.width, blitdata.height);
+		oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 	}
 }
 

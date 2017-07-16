@@ -20,7 +20,7 @@ void GUI_CheckBox::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawa
 {
 	BLITDATA blitdata;
 	calculateBlitData(xoffset + rect.left, yoffset + rect.top, drawablerect, blitdata);
-	oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, blitdata.srcx, blitdata.srcy, blitdata.width, blitdata.height);
+	oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 }
 
 

@@ -46,12 +46,12 @@ void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 		if (s->GetFillStatus() == 1.0)
 		{
 			//the status bar is completely filled, just blit the whole filled bar
-			oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, blitdata.srcx, height * 2, blitdata.width, blitdata.height);
+			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 		}
 		else if (s->GetFillStatus() == 0.0)
 		{
 			//the status bar is completely empty, just blit the whole empty bar
-			oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, blitdata.srcx, height * 3, blitdata.width, blitdata.height);
+			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 		}
 		else
 		{
@@ -60,8 +60,15 @@ void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 			int splitfromleft = (int)(width * s->GetFillStatus());
 			int splitfromright = width - splitfromleft;
 			//draw the full part of the status bar
-			oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, blitdata.srcx, height * 2, blitdata.width - splitfromright, blitdata.height);
-			oapiBlt(_tgt, src, blitdata.targetx + splitfromleft, blitdata.targety, blitdata.srcx + splitfromleft, height * 3, blitdata.width - splitfromleft, blitdata.height);
+			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
+			RECT splittgtrect = blitdata.tgtrect;
+			splittgtrect.left += splitfromleft;
+			RECT splitsrcrect = blitdata.srcrect;
+			splitsrcrect.left += splitfromleft;
+			splitsrcrect.top = height * 3;
+			splitsrcrect.bottom = splitsrcrect.top + blitdata.height;
+			//oapiBlt(_tgt, src, &blitdata.targetx + splitfromleft, blitdata.targety, blitdata.srcx + splitfromleft, height * 3, blitdata.width - splitfromleft, blitdata.height);
+			oapiBlt(_tgt, src, &splittgtrect, &splitsrcrect, SURF_PREDEF_CK);
 		}
 	}
 }

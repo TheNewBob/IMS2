@@ -299,17 +299,17 @@ void GUI_BaseElement::calculateBlitData(int xoffset, int yoffset, RECT &drawable
 
 	//the target position is either where the element is supposed to be drawn,
 	//or the beginning of the drawable rect if the position is outside the drawable rect
-	OUT_blitdata.targetx = max(xoffset, drawablerect.left);
-	OUT_blitdata.targety = max(yoffset, drawablerect.top);
+	OUT_blitdata.tgtrect.left = max(xoffset, drawablerect.left);
+	OUT_blitdata.tgtrect.top = max(yoffset, drawablerect.top);
 
 	//the dimensions of the blitting rectangle are either the element's dimensions,
 	//or the remaining space in the drwable rectangle
 	
 	//first, calculate the maximum dimensions the element can have after we calculated its top left position
-	int maxheight = min(height, height - (OUT_blitdata.targety - yoffset));
+	int maxheight = min(height, height - (OUT_blitdata.tgtrect.top - yoffset));
 	
 	//next, see if those dimensions overlap the drawable rect at their opposite side
-	int bottomposition = OUT_blitdata.targety + maxheight;
+	int bottomposition = OUT_blitdata.tgtrect.top + maxheight;
 
 	if (bottomposition > drawablerect.bottom)
 	{
@@ -318,11 +318,15 @@ void GUI_BaseElement::calculateBlitData(int xoffset, int yoffset, RECT &drawable
 
 	OUT_blitdata.width = width;
 	OUT_blitdata.height = maxheight;
+	OUT_blitdata.tgtrect.right = OUT_blitdata.tgtrect.left + OUT_blitdata.width;
+	OUT_blitdata.tgtrect.bottom = OUT_blitdata.tgtrect.top + OUT_blitdata.height;
 
 	//the source rectangle starts at 0,0. But if the image was cropped on the left top,
 	//we need to move it. The bottom right will be automatically cropped by width and height
-	OUT_blitdata.srcx = max(0, drawablerect.left - xoffset);
-	OUT_blitdata.srcy = max(0, drawablerect.top - yoffset);
+	OUT_blitdata.srcrect.left = max(0, drawablerect.left - xoffset);
+	OUT_blitdata.srcrect.top = max(0, drawablerect.top - yoffset);
+	OUT_blitdata.srcrect.right = OUT_blitdata.srcrect.left + OUT_blitdata.width;
+	OUT_blitdata.srcrect.bottom = OUT_blitdata.srcrect.top + OUT_blitdata.height;
 }
 
 

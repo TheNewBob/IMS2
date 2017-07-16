@@ -23,12 +23,11 @@ void GUI_DynamicButton::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &
 {
 	BLITDATA blitdata;
 	calculateBlitData(xoffset + rect.left, yoffset + rect.top, drawablerect, blitdata);
-
 	//width or height == 0 indicates that the element is completely outside its
 	//parents rect, so no need to draw.
 	if (blitdata.width > 0 && blitdata.height > 0)
 	{
-		oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, blitdata.srcx, blitdata.srcy, blitdata.width, blitdata.height);
+		oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 	}
 }
 
@@ -58,6 +57,7 @@ void GUI_DynamicButton::createButton()
 
 	//assign new surface as source
 	src = tgt;
+
 }
 
 

@@ -55,7 +55,7 @@ void GUI_ListBox::Draw(SURFHANDLE surf, RECT &drawablerect, int xoffset, int yof
 	if (blitdata.width > 0 && blitdata.height > 0)
 	{
 		//draw background and frame
-		oapiBlt(surf, src, blitdata.targetx, blitdata.targety, blitdata.srcx, blitdata.srcy, blitdata.width, blitdata.height);
+		oapiBlt(surf, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 	}
 
 	//find printable rect (

@@ -24,7 +24,7 @@ void GUI_ScrollBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 	//parents rect, so no need to draw.
 	if (blitdata.width > 0 && blitdata.height > 0)
 	{
-		oapiBlt(_tgt, src, blitdata.targetx, blitdata.targety, blitdata.srcx, blitdata.srcy, blitdata.width, blitdata.height);
+		oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 	}
 }
 

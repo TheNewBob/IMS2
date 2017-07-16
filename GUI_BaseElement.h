@@ -8,12 +8,15 @@
  */
 struct BLITDATA
 {
-	int targetx;			//!< left coordinate to blit to
+/*	int targetx;			//!< left coordinate to blit to
 	int targety;			//!< top coordinate to blit to
 	int srcx;				//!< left coordinate to blit from
-	int srcy;				//!< top coordinates to blit from
+	int srcy;				//!< top coordinates to blit from*/
 	int width;				//!< width of the rectangle to be blited
 	int height;				//!< height of the rectangle to be blited
+
+	RECT srcrect;
+	RECT tgtrect;
 
 	BLITDATA()
 	{

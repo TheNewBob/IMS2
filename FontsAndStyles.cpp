@@ -141,7 +141,8 @@ void FontsAndStyles::createStyles()
 	GUI_ElementStyle *newstyle = CreateStyle(STYLE_DEFAULT, STYLE_NONE);
 	newstyle->Set(color, "0, 255, 255");
 	newstyle->Set(hilightcolor, "0, 255, 255");
-	newstyle->Set(bgcolor, "8, 8, 24");
+	newstyle->Set(fillcolor, "8, 8, 24");
+	newstyle->Set(keycolor, "255,105,180");
 	newstyle->Set(linewidth, "1");
 	newstyle->Set(roundcorners, "1,3");
 	newstyle->Set(cornerradius, "12");
@@ -176,7 +177,7 @@ void FontsAndStyles::createStyles()
 	newstyle = CreateStyle(STYLE_DEBUG, STYLE_NONE);
 	newstyle->Set(color, "255, 0, 255");
 	newstyle->Set(hilightcolor, "255, 255, 255");
-	newstyle->Set(bgcolor, "0, 0, 255");
+	newstyle->Set(keycolor, "0, 0, 255");
 	newstyle->Set(linewidth, "1");
 	newstyle->Set(roundcorners, "1,3");
 	newstyle->Set(cornerradius, "12");

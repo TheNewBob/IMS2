@@ -1,17 +1,17 @@
 #include "GUI_Common.h"
 
-GUI_font::GUI_font(int height, string face, bool proportional, int _id, GUI_COLOR _color, GUI_COLOR _bgcolor, GUI_COLOR _hilightcolor, GUI_COLOR _hilightbg, FontStyle style)
+GUI_font::GUI_font(int height, string face, bool proportional, int _id, GUI_COLOR _color, GUI_COLOR _keycolor, GUI_COLOR _hilightcolor, GUI_COLOR _hilightbg, FontStyle style)
 {
 	fheight = height;
 	id = _id;
 	hilightbg = _hilightbg;
 	hilightcolor = _hilightcolor;
-	bgcolor = _bgcolor;
+	keycolor = _keycolor;
 	color = _color;
 
 	if (hilightbg == GUI_COLOR(0, 0, 0))
 	{
-		hilightbg = bgcolor;
+		hilightbg = _hilightbg;
 	}
 	if (hilightcolor == GUI_COLOR(0, 0, 0))
 	{
@@ -65,8 +65,11 @@ void GUI_font::createFont(Font *font)
 	
 	SURFHANDLE tgt = oapiCreateSurfaceEx(width, height, OAPISURFACE_SKETCHPAD);
 	
-	//fill the font background color
-	oapiColourFill(tgt, oapiGetColour(bgcolor.r, bgcolor.g, bgcolor.b), 0, 0, width, fheight);
+	//fill the font key color
+	DWORD surfkeycolor = oapiGetColour(keycolor.r, keycolor.g, keycolor.b);
+	oapiColourFill(tgt, surfkeycolor, 0, 0, width, fheight);
+	oapiSetSurfaceColourKey(tgt, surfkeycolor);
+
 	//if we have a hilight version of the font, we need another row with different background color
 	if (hasHighlightFont)
 	{
@@ -130,26 +133,32 @@ void GUI_font::Print(SURFHANDLE tgt, std::string &text, int _x, int _y, RECT &el
 	}
 
 	int tgtoffset = 0;
+	RECT srcrect = _R(0, srcy, 0, srcy + fheight);
+	RECT tgtrect = _R(startx, _y, startx, _y + fheight);
+
 	for (UINT i = 0; i < text.length(); ++i)
 	{
 		//int srcx = srcX + (text.c_str()[i] - 32) * fwidth;
 		int ch = text.c_str()[i] - 32;
-		int srcx = charpos[ch];
+		//int srcx = charpos[ch];
+		srcrect.left = charpos[ch];
 		int charwidth = width;
 		if (ch < 93)
 		{
 			charwidth = charpos[ch + 1];
 		}
-		charwidth -= srcx;
-		int tgtx = startx + tgtoffset;
+		charwidth -= srcrect.left;
+		tgtrect.left = startx + tgtoffset;
 		tgtoffset += charwidth - 1;
+		srcrect.right = srcrect.left + charwidth - 1;
+		tgtrect.right = tgtrect.left + charwidth - 1;
 
-		if (tgtx < elementPos.left || tgtx + charwidth > elementPos.right)
-			//making sure function doesn't print beyond elements boundaries
+		if (tgtrect.left < elementPos.left || tgtrect.right > elementPos.right)
 		{
+			//making sure function doesn't print beyond elements boundaries
 			break;
 		}
-		oapiBlt(tgt, src, tgtx, _y, srcx, srcy, charwidth - 1, fheight);
+		oapiBlt(tgt, src, &tgtrect, &srcrect, SURF_PREDEF_CK);
 	}
 }
 

@@ -6,9 +6,9 @@
 GUI_ElementStyle::GUI_ElementStyle()
 {
 	_color = GUI_COLOR(255, 255, 255);
-	_bgcolor = GUI_COLOR(0, 0, 0);
+	_keycolor = GUI_COLOR(255,105,180);
 	_hilightcolor = GUI_COLOR(0, 0, 0);
-	_fillcolor = GUI_COLOR(-1, -1, -1);
+	_fillcolor = GUI_COLOR(0, 0, 0);
 	_font = NULL;
 }
 
@@ -17,7 +17,7 @@ GUI_ElementStyle::GUI_ElementStyle(GUI_ElementStyle *inherit_from)
 	_font = inherit_from->_font;
 	_color = inherit_from->_color;
 	_hilightcolor = inherit_from->_hilightcolor;
-	_bgcolor = inherit_from->_bgcolor;
+	_keycolor = inherit_from->_keycolor;
 	_fillcolor = inherit_from->_fillcolor;
 	_linewidth = inherit_from->_linewidth;
 	_cornerradius = inherit_from->_cornerradius;
@@ -37,7 +37,7 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 
 	try
 	{
-		if (field == color || field == hilightcolor || field == bgcolor || field == fillcolor)
+		if (field == color || field == hilightcolor || field == keycolor || field == fillcolor)
 		{
 			//set colors
 			int blue, green, red;
@@ -59,10 +59,10 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 				_hilightcolor.g = green;
 				_hilightcolor.b = blue;
 				break;
-			case bgcolor:
-				_bgcolor.r = red;
-				_bgcolor.g = green;
-				_bgcolor.b = blue;
+			case keycolor:
+				_keycolor.r = red;
+				_keycolor.g = green;
+				_keycolor.b = blue;
 				break;
 			case fillcolor:
 				_fillcolor.r = red;

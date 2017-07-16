@@ -12,7 +12,7 @@ typedef enum
 {
 	color,					//!< border color, string input format: "rrr,ggg,bbb"
 	hilightcolor,			//!< alternate fill color if the element is hilighted, string input format: "rrr,ggg,bbb" 
-	bgcolor,				//!< The background color, which is NOT the fill color. Since we have no color-code blitting, we have to blit whole rectangles, so the background color of an element should match the fill color of its parent. string input format: "rrr,ggg,bbb"
+	keycolor,				//!< The background color, which is NOT the fill color. Since we have no color-code blitting, we have to blit whole rectangles, so the background color of an element should match the fill color of its parent. string input format: "rrr,ggg,bbb"
 	fillcolor,				//!< The color with which the rectangle of the element is filled. string input format: "rrr,ggg,bbb"
 	linewidth,				//!< The width of drawn lines, like biorders, in pixel. string input format: "1"
 	cornerradius,			//!< corner radius in pixel if this element is to have rounded corners. string input format: "10"
@@ -60,7 +60,7 @@ public:
 	 * \param color The desired color
 	 * \see STYLE_PROPERTIES
 	 */
-	void SetBgColor(GUI_COLOR color){ _bgcolor = color; };
+	void SetKeyColor(GUI_COLOR color){ _keycolor = color; };
 
 	/**
 	 * \brief Sets the highlight color of the style
@@ -142,7 +142,7 @@ public:
 	 * \note Not to be confused with the fill color!
 	 * \see STYLE_PROPERTIES
 	 */
-	GUI_COLOR BackgroundColor(){ return _bgcolor; };
+	GUI_COLOR BackgroundColor(){ return _keycolor; };
 	
 	/**
 	 * \return the hilight color of this style
@@ -179,7 +179,7 @@ private:
 	GUI_font *_font = NULL;									//!< Pointer to the font that will be used for text output by an element using this style
 	GUI_COLOR _color;										//!< Line drawing color 
 	GUI_COLOR _hilightcolor;								//!< The color the element should be filled with when highlighted
-	GUI_COLOR _bgcolor;										//!< The background color the element IS DRAWN UPPON (not the color the element is drawn in, like for example in css)
+	GUI_COLOR _keycolor;									//!< Keycolor of this element (i.e. transparent color)
 	GUI_COLOR _fillcolor;									//!< The color the element should be filled with.
 	int _linewidth = 1;										//!< Width of drawn lines (usually the borders) in pixel
 	int _cornerradius = 0;									//!< Corner radius, in pixel

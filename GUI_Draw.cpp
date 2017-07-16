@@ -19,8 +19,12 @@ SURFHANDLE GUI_Draw::createElementBackground(GUI_ElementStyle *style, int width,
 	
 	//Reminder: DWORD color formatting for oapiColourFill is NOT the same as for Sketchpad operations.
 	//don't use getDWORDColor here, and don't use oapiGetColor when working with Sketchpad!
-	DWORD color = oapiGetColour(style->_bgcolor.r, style->_bgcolor.g, style->_bgcolor.b);
+	DWORD color = oapiGetColour(style->_keycolor.r, style->_keycolor.g, style->_keycolor.b);
 	oapiColourFill(srf, color, 0, 0, width, height);
+
+	//set colorkey for the surface.
+	oapiSetSurfaceColourKey(srf, color);
+
 	return srf;
 }
 

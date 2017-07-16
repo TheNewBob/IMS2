@@ -13,7 +13,7 @@ public:
 	 * \param proportional Flag for proportional/fixed pitch font (not sure what that means, it's a sketchpad option)
 	 * \param _id identifier for this font
 	 * \param _color The text color of the font
-	 * \param _bgcolor The color of the background the font is drawn on (as we can't do color key blitting!)
+	 * \param _keycolor The color of the background the font is drawn on (as we can't do color key blitting!)
 	 * \param _hilightcolor An alternate color in which the font should appear when hilighted. if not defined, no hilight font will be created
 	 * \param _hilightbg An alternate background color for the highlighted font. If undefined, the normal background color will be used
 	 * \param style font decoration style (bold, italic, underlined etc)
@@ -21,7 +21,7 @@ public:
 	 *	as these arguments will be passed unaltered to sketchpad to draw the font.
 	 * \see FontsAndStyles
 	 */
-	GUI_font(int height, string face, bool proportional, int _id, GUI_COLOR _color, GUI_COLOR _bgcolor,
+	GUI_font(int height, string face, bool proportional, int _id, GUI_COLOR _color, GUI_COLOR _keycolor,
 		GUI_COLOR _hilightcolor = GUI_COLOR(0, 0, 0), GUI_COLOR _hilightbg = GUI_COLOR(0,0,0), FontStyle style = FONT_NORMAL);
 
 	~GUI_font();
@@ -73,7 +73,7 @@ private:
 	SURFHANDLE src;			//!< source surface with the prerendered font
 	bool hasHighlightFont;	//!< whether or not this font has a variant for highlights
 	GUI_COLOR color;		//!< The default color of this font
-	GUI_COLOR bgcolor;		//!< The default background color (the color the font is drawn on, since we don't have transparency)
+	GUI_COLOR keycolor;		//!< The default background color (the color the font is drawn on, since we don't have transparency)
 	GUI_COLOR hilightcolor; //!< The color of this font if the text is hilighted
 	GUI_COLOR hilightbg;	//!< The background color to draw the hilighted font on
 
