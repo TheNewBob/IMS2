@@ -19,7 +19,7 @@ protected:
 	int width;
 	int height;
 
-	GUIpopup(GUI_BaseElement *parent, RECT rect, GUI_STYLE styleid);
+	GUIpopup(GUI_BaseElement *parent, RECT rect, string styleid);
 	virtual ~GUIpopup();
 
 

@@ -175,7 +175,7 @@ void IMS2::InitialiseGUI()
 			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);
 	}
 	//allocate panel elements
-	mainDispSurface = new GUI_MainDisplay(this, GUI->GetStyle(STYLE_WINDOW_BORDER), ENGINEERINGPANEL);
+	mainDispSurface = new GUI_MainDisplay(this, GUI->GetStyle(STYLE_PAGE), ENGINEERINGPANEL);
 	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, _R(1176, 428, 1676, 1046));
 }
 

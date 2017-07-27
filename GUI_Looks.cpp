@@ -1,48 +1,11 @@
 #include "GUI_Common.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 
-FontsAndStyles *FontsAndStyles::instance = NULL;
-
-FontsAndStyles::FontsAndStyles()
-{
-	createFonts();
-	createStyles();
-}
+map<string, StyleSet*> GUI_Looks::stylesets;
+string GUI_Looks::defaultStyle = "default";
 
 
-FontsAndStyles::~FontsAndStyles()
-{
-	for (map<string, StyleSet*>::iterator i = stylesets.begin(); i != stylesets.end(); ++i)
-	{
-		delete i->second;
-	}
-}
-
-
-FontsAndStyles *FontsAndStyles::GetInstance()
-{
-	if (instance == NULL)
-	{
-		instance = new FontsAndStyles();
-	}
-	return instance;
-}
-
-void FontsAndStyles::DestroyInstance()
-{
-	if (instance != NULL)
-	{
-		delete instance;
-	}
-}
-
-
-
-
-
-
-
-GUI_font *FontsAndStyles::CreateFont(int height, string face, bool proportional, GUI_FONT id, GUI_COLOR color, GUI_COLOR bgcolor,
+GUI_font *GUI_Looks::MakeFont(int height, string face, bool proportional, string id, GUI_COLOR color, GUI_COLOR bgcolor,
 	GUI_COLOR hilightcolor, GUI_COLOR hilightbg, FontStyle style, string styleset)
 {
 	GUI_font *newFont = new GUI_font(height, face, proportional, id, color, bgcolor, hilightcolor, hilightbg, style);
@@ -60,7 +23,7 @@ GUI_font *FontsAndStyles::CreateFont(int height, string face, bool proportional,
 
 
 
-GUI_ElementStyle *FontsAndStyles::GetStyle(GUI_STYLE styleId, string styleset)
+GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 {
 	assert(stylesets.find(styleset) != stylesets.end());	//the styleset has not been created!
 	return stylesets[styleset]->GetStyle(styleId);
@@ -68,21 +31,32 @@ GUI_ElementStyle *FontsAndStyles::GetStyle(GUI_STYLE styleId, string styleset)
 
 
 
-GUI_font *FontsAndStyles::GetFont(GUI_FONT fontId, string styleset)
+GUI_font *GUI_Looks::GetFont(string fontId, string styleset)
 {
 	assert(stylesets.find(styleset) != stylesets.end());	//the styleset has not been created!
-	if (fontId == GUI_NO_FONT)
-	{
-		return NULL;
-	}
+	assert(fontId != "" && "Cannot pass an empty font id!");
 	return stylesets[styleset]->GetFont(fontId);
+}
+
+GUI_COLOR GUI_Looks::StringToColor(string strRGB)
+{
+	vector<string> tokens;
+	Helpers::Tokenize(strRGB, tokens, ",");
+	if (tokens.size() != 3) throw runtime_error("Color string must contain 3 comma-separated values between 0 and 255 (like 255,255,255)");
+	int blue, green, red;
+	red = atoi(tokens[0].data());
+	green = atoi(tokens[1].data());
+	blue = atoi(tokens[2].data());
+	GUI_COLOR color;
+	color.r = red;
+	color.g = green;
+	color.b = blue;
+	return color;
 }
 
 
 
-/* creates a new style inherited from inherit_from
-* if no inherit_from is passed, the default style will be inherited*/
-GUI_ElementStyle *FontsAndStyles::CreateStyle(GUI_STYLE styleId, GUI_STYLE inherit_from, string styleset)
+GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, string styleset)
 {
 	GUI_ElementStyle *parentstyle = NULL;
 	GUI_ElementStyle *newstyle;
@@ -96,7 +70,7 @@ GUI_ElementStyle *FontsAndStyles::CreateStyle(GUI_STYLE styleId, GUI_STYLE inher
 		Helpers::writeToLog("style created for non-existing styleset \"" + styleset + "\". Creating styleset implicitly", L_WARNING);
 	}
 	
-	if (inherit_from != STYLE_NONE)
+	if (inherit_from != "")
 	{
 		//retrieve the parent style
 		try
@@ -121,20 +95,26 @@ GUI_ElementStyle *FontsAndStyles::CreateStyle(GUI_STYLE styleId, GUI_STYLE inher
 }
 
 
-//creates the neccessary fonts. If fonts with different colors, sizes or background colors are needed, create them here
-void FontsAndStyles::createFonts()
+void GUI_Looks::createFonts()
+{
+	//STUB
+}
+
+/*void GUI_Looks::createFonts()
 {
 	//registering fonts
 	CreateFont(16, "Arial", true, GUI_SMALL_DEFAULT_FONT, GUI_COLOR(0, 255, 255), GUI_COLOR(8, 8, 24), GUI_COLOR(8, 8, 24), GUI_COLOR(0, 255, 255));
 	CreateFont(16, "Arial", true, GUI_SMALL_ERROR_FONT, GUI_COLOR(0, 255, 255), GUI_COLOR(8, 8, 24), GUI_COLOR(255, 0, 0), GUI_COLOR(8, 8, 24));
 	CreateFont(20, "Arial", true, GUI_LARGE_DEFAULT_FONT, GUI_COLOR(0, 255, 255), GUI_COLOR(8, 8, 24));
+}*/
+
+void GUI_Looks::createStyles()
+{
+	//STUB
 }
 
-
-
-//creates all the styles. play around here if you want to change the skin.
-//multiple skins and skin-switching not implemented yet, but will be fairly trivial
-void FontsAndStyles::createStyles()
+/*
+void GUI_Looks::createStyles()
 {
 	//create default style. This style should define the color scheme, which should not be changed by later styles.
 
@@ -192,9 +172,9 @@ void FontsAndStyles::createStyles()
 	newstyle = CreateStyle(STYLE_LISTBOX, STYLE_DEFAULT);
 	newstyle->Set(margin, "5, 10, 5, 10");
 
-}
+}*/
 
-void FontsAndStyles::createStyleSet(string name)
+void GUI_Looks::createStyleSet(string name)
 {
 	//since this will one day depend on modder input, we'll handle it with a log message, not an assert
 	if (stylesets.find(name) == stylesets.end())
@@ -206,3 +186,4 @@ void FontsAndStyles::createStyleSet(string name)
 		Helpers::writeToLog("Multiple styles named " + name, L_WARNING);
 	}
 }
+

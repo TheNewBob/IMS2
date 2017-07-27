@@ -40,7 +40,7 @@ GUI_ModuleFunction_Comm::GUI_ModuleFunction_Comm(IMS_ModuleFunction_Comm *_funct
 	gui->CreateLabel(function->GetData()->GetName(), getElementRect(NAME_LABEL, l, ignore_fields), id);
 
 	//the statedescription will always be there
-	statedescription = gui->CreateLabelValuePair("Status:", "", getElementRect(STATUS, l, ignore_fields), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
+	statedescription = gui->CreateLabelValuePair("Status:", "", getElementRect(STATUS, l, ignore_fields), id, -1, STYLE_DEFAULT, "small-error-font");
 
 	if (hasdeployment)
 	{
@@ -56,7 +56,7 @@ GUI_ModuleFunction_Comm::GUI_ModuleFunction_Comm(IMS_ModuleFunction_Comm *_funct
 	{
 		trackbox = gui->CreateCheckBox("track", getElementRect(TRACK_CHKBX, l, ignore_fields), id);
 		settargetbtn = gui->CreateDynamicButton("set target", getElementRect(SET_TGT_BTN, l, ignore_fields), id);
-		targetdescription = gui->CreateLabelValuePair("Target:", "None", getElementRect(TGT_DESCRIPTION, l, ignore_fields), id, -1, STYLE_DEFAULT, GUI_SMALL_ERROR_FONT);
+		targetdescription = gui->CreateLabelValuePair("Target:", "None", getElementRect(TGT_DESCRIPTION, l, ignore_fields), id, -1, STYLE_DEFAULT, "small-error-font");
 	}
 }
 

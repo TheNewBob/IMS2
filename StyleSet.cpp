@@ -20,7 +20,7 @@ StyleSet::~StyleSet()
 }
 
 
-void StyleSet::AddStyle(GUI_ElementStyle *style, GUI_STYLE styleid)
+void StyleSet::AddStyle(GUI_ElementStyle *style, string styleid)
 {
 	//check if the style already exists
 	if (styles.find(styleid) == styles.end())
@@ -33,7 +33,7 @@ void StyleSet::AddStyle(GUI_ElementStyle *style, GUI_STYLE styleid)
 	}
 }
 
-void StyleSet::AddFont(GUI_font *font, GUI_FONT fontid)
+void StyleSet::AddFont(GUI_font *font, string fontid)
 {
 	//check if the style already exists
 	if (fonts.find(fontid) == fonts.end())
@@ -49,9 +49,9 @@ void StyleSet::AddFont(GUI_font *font, GUI_FONT fontid)
 
 
 
-GUI_ElementStyle *StyleSet::GetStyle(GUI_STYLE styleId)
+GUI_ElementStyle *StyleSet::GetStyle(string styleId)
 {
-	map<GUI_STYLE, GUI_ElementStyle*>::iterator i = styles.find(styleId);
+	map<string, GUI_ElementStyle*>::iterator i = styles.find(styleId);
 	if (i == styles.end())
 	{
 		throw invalid_argument("Style has not been created yet!");
@@ -61,9 +61,9 @@ GUI_ElementStyle *StyleSet::GetStyle(GUI_STYLE styleId)
 
 
 
-GUI_font *StyleSet::GetFont(GUI_FONT fontId)
+GUI_font *StyleSet::GetFont(string fontId)
 {
-	map<GUI_FONT, GUI_font*>::iterator i = fonts.find(fontId);
+	map<string, GUI_font*>::iterator i = fonts.find(fontId);
 	if (i == fonts.end())
 	{
 		throw invalid_argument("Font has not been created yet!");

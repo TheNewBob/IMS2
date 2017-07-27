@@ -3,14 +3,14 @@
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
 #include "IMS.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "GUIplugin.h"
 #include "GUIpopup.h"
 
 
-GUIpopup::GUIpopup(GUI_BaseElement *parent, RECT rect, GUI_STYLE styleid)
+GUIpopup::GUIpopup(GUI_BaseElement *parent, RECT rect, string styleid)
 {
 	//calculate width and height of the popup
 	width = rect.right - rect.left;

@@ -31,7 +31,7 @@ GUI_MainModules::GUI_MainModules(RECT mRect, GUI_ElementStyle *_style, IMS2 *_ve
 	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
 
 	//the close button that leads back from a module's page to the module selection page
-	closebtn = gui->CreateDynamicButton("back", getElementRect(BACK_BTN, layouts), MD_MODULES_MENU, MD_MODULES_ROOT_BTN, STYLE_BOLD_BUTTON);
+	closebtn = gui->CreateDynamicButton("back", getElementRect(BACK_BTN, layouts), MD_MODULES_MENU, MD_MODULES_ROOT_BTN, "bold_button");
 	closebtn->SetVisible(false);
 
 	//create a page that will contain the module selection

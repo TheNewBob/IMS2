@@ -1,9 +1,9 @@
 #include "GUI_Common.h"
 #include "Events.h"
-#include "GUI_Surface.h"
+#include "GUI_Surface.h"#include "GUI_Layout.h"
 #include "GUI_elements.h"
 #include "IMS.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "GUIplugin.h"
@@ -11,11 +11,11 @@
 #include "GUIalert.h"
 
 
-GUIalert::GUIalert(string text, GUI_BaseElement *parent, RECT rect, GUI_STYLE styleid)
+GUIalert::GUIalert(string text, GUI_BaseElement *parent, RECT rect, string styleid)
 	: GUIpopup(parent, rect, styleid)
 {
 	//create the text
-	GUI_ElementStyle *style = fontsandstyles->GetInstance()->GetStyle(styleid);
+	GUI_ElementStyle *style = GUI_Looks::GetStyle(styleid);
 	RECT textrect = _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), style->MarginTop() + style->GetFont()->GetfHeight() + 4);
 	CreateLabel(text, textrect, POPUP, ALERTTEXT, styleid);
 

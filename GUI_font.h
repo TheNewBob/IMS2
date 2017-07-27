@@ -19,9 +19,9 @@ public:
 	 * \param style font decoration style (bold, italic, underlined etc)
 	 * \note See orbiter api reference of oapiCreateFont() for more explanation on height, face, proportional and style,
 	 *	as these arguments will be passed unaltered to sketchpad to draw the font.
-	 * \see FontsAndStyles
+	 * \see GUI_Looks
 	 */
-	GUI_font(int height, string face, bool proportional, int _id, GUI_COLOR _color, GUI_COLOR _keycolor,
+	GUI_font(int height, string face, bool proportional, string _id, GUI_COLOR _color, GUI_COLOR _keycolor,
 		GUI_COLOR _hilightcolor = GUI_COLOR(0, 0, 0), GUI_COLOR _hilightbg = GUI_COLOR(0,0,0), FontStyle style = FONT_NORMAL);
 
 	~GUI_font();
@@ -46,7 +46,7 @@ public:
 	/**
 	 * \return The id of this font
 	 */
-	int GetId();
+	string GetId();
 
 	/**
 	 * \return The text size of this font (pixel)
@@ -66,7 +66,7 @@ public:
 	int GetTextWidth(string &text);
 
 private:
-	int id;					//!< The id of this font
+	string id;					//!< The id of this font
 	int fheight;			//!< height of a symbol (font size)
 	int fwidth;				//!< average width of a symbol
 	int width;				//!< Entire width of the texture used to prerender the font

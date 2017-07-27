@@ -103,7 +103,7 @@ public:
 	 * \param rect Drawing rectangle relative to the parent. pass 0,0,0,0 to let the function choose a sensible size depending on parent and text
 	 * \param styleid Identifier for the style the alert should be drawn in, if different than normal
 	 */
-	static void Alert(string text, GUI_BaseElement *parent, RECT rect = _R(0,0,0,0), GUI_STYLE styleid = STYLE_ERROR_ALERT);
+	static void Alert(string text, GUI_BaseElement *parent, RECT rect = _R(0,0,0,0), string styleid = STYLE_ERROR_ALERT);
 
 	static void ListDialog(string title, vector<string> &items, GUI_BaseElement *parent, bool(*callback)(int, void*), void *usrdata = NULL, RECT rect = _R(0, 0, 0, 0));
 

@@ -1,7 +1,7 @@
 
 #include "GUI_Common.h"
 #include "GUI_ElementStyle.h"
-
+#include "GUI_Looks.h"
 
 GUI_ElementStyle::GUI_ElementStyle()
 {
@@ -40,34 +40,20 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 		if (field == color || field == hilightcolor || field == keycolor || field == fillcolor)
 		{
 			//set colors
-			int blue, green, red;
-			vector<string> tokens;
-			Helpers::Tokenize(value, tokens, ",");
-			if (tokens.size() != 3) throw STYLEPROPERTY_VALUE_INVALID;
-			red = atoi(tokens[0].data());
-			green = atoi(tokens[1].data());
-			blue = atoi(tokens[2].data());
+			GUI_COLOR tempcolor = GUI_Looks::StringToColor(value);
 			switch (field)
 			{
 			case color: 
-				_color.r = red;
-				_color.g = green;
-				_color.b = blue;
+				_color = tempcolor;
 				break;
 			case hilightcolor: 
-				_hilightcolor.r = red;
-				_hilightcolor.g = green;
-				_hilightcolor.b = blue;
+				_hilightcolor = tempcolor;
 				break;
 			case keycolor:
-				_keycolor.r = red;
-				_keycolor.g = green;
-				_keycolor.b = blue;
+				_keycolor = tempcolor;
 				break;
 			case fillcolor:
-				_fillcolor.r = red;
-				_fillcolor.g = green;
-				_fillcolor.b = blue;
+				_fillcolor = tempcolor;
 				break;
 			}
 		}
@@ -131,7 +117,7 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 	}
 	catch (int e)
 	{
-		throw STYLEPROPERTY_VALUE_INVALID;
+		throw invalid_argument("Invalid value for style attribute: " + value);
 	}
 }
 

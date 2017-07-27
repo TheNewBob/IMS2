@@ -3,7 +3,7 @@
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
 #include "IMS.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "GUIplugin.h"
@@ -11,7 +11,7 @@
 #include "GUIlistPopup.h"
 
 
-GUIlistPopup::GUIlistPopup(string title, vector<string> items, GUI_BaseElement *parent, RECT rect, bool(*callback)(int, void*), void *usrdata, GUI_STYLE styleid)
+GUIlistPopup::GUIlistPopup(string title, vector<string> items, GUI_BaseElement *parent, RECT rect, bool(*callback)(int, void*), void *usrdata, string styleid)
 	: GUIpopup(parent, rect, styleid)
 {
 	CreateLabel(title, _R(10, 10, width - 10, 35), POPUP);

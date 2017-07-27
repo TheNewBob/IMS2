@@ -10,6 +10,7 @@
  */
 typedef enum
 {
+	unknown,
 	color,					//!< border color, string input format: "rrr,ggg,bbb"
 	hilightcolor,			//!< alternate fill color if the element is hilighted, string input format: "rrr,ggg,bbb" 
 	keycolor,				//!< The background color, which is NOT the fill color. Since we have no color-code blitting, we have to blit whole rectangles, so the background color of an element should match the fill color of its parent. string input format: "rrr,ggg,bbb"

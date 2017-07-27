@@ -155,7 +155,8 @@
     <ClCompile Include="Event_Timed.cpp" />
     <ClCompile Include="FiringSolutionCalculator.cpp" />
     <ClCompile Include="FiringSolutionThruster.cpp" />
-    <ClCompile Include="FontsAndStyles.cpp" />
+    <ClCompile Include="GUI_Looks.cpp" />
+    <ClCompile Include="GuiXmlLoader.cpp" />
     <ClCompile Include="FSThrusterCollection.cpp" />
     <ClCompile Include="GUIalert.cpp" />
     <ClCompile Include="GUIentity.cpp" />
@@ -280,7 +281,8 @@
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="FiringSolutionCalculator.h" />
     <ClInclude Include="FiringSolutionThruster.h" />
-    <ClInclude Include="FontsAndStyles.h" />
+    <ClInclude Include="GUI_Looks.h" />
+    <ClInclude Include="GuiXmlLoader.h" />
     <ClInclude Include="FSThrusterCollection.h" />
     <ClInclude Include="GUIalert.h" />
     <ClInclude Include="GUIentity.h" />

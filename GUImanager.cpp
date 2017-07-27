@@ -2,7 +2,7 @@
 #include "Events.h"
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "GUIplugin.h"
@@ -252,7 +252,7 @@ void GUImanager::registerPreStep()
 
 
 
-void GUImanager::Alert(string text, GUI_BaseElement *parent, RECT rect, GUI_STYLE styleid)
+void GUImanager::Alert(string text, GUI_BaseElement *parent, RECT rect, string styleid)
 {
 	if (rect.left == 0 && rect.top == 0 &&
 		rect.right == 0 && rect.bottom == 0)

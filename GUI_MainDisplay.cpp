@@ -30,7 +30,7 @@ void GUI_MainDisplay::PostInit()
 	RECT menurect = _R(0, 40, width, height - 10);
 	GUImanager *gui = vessel->GetGUI();
 	//button that leads back to the root menu. always visible except in root menu
-	rootbutton = gui->CreateDynamicButton("X", _R(width - 40, 10, width - 10, 35), GUI_MAIN_DISPLAY, GUI_MAIN_ROOT_BTN, STYLE_BOLD_BUTTON);
+	rootbutton = gui->CreateDynamicButton("X", _R(width - 40, 10, width - 10, 35), GUI_MAIN_DISPLAY, GUI_MAIN_ROOT_BTN, "bolb-button");
 	rootbutton->SetVisible(false);
 	//declare root menu. Add new submenu points here.
 	rootmenu = gui->CreatePage(menurect, GUI_MAIN_DISPLAY, GUI_MAIN_ROOT_MNU);

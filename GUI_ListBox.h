@@ -75,7 +75,7 @@ public:
 	 * \param numlines How many lines the listbox should be able to display
 	 * \param styleid Id of the style the listbox would use
 	 */
-	static int GetNeededListBoxHeight(int numlines, GUI_STYLE styleid);
+	static int GetNeededListBoxHeight(int numlines, string styleid);
 
 protected:
 

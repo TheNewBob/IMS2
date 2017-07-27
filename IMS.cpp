@@ -12,7 +12,8 @@
 #include "IMS_TouchdownPointManager.h"
 #include "autopilot_includes.h"
 #include "GUI_Common.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
+#include "GuiXmlLoader.h"
 //#include "vld.h"
 
 
@@ -32,7 +33,7 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 #else 
 	Helpers::SetLogLevel(L_WARNING);
 #endif
-
+	GuiXmlLoader::LoadStyleSets("Config/IMS2/GUI/Skins");
 }
 
 // --------------------------------------------------------------
@@ -42,7 +43,6 @@ DLLCLBK void ExitModule (HINSTANCE hModule)
 {
 	oapiDestroySurface(IMS2::pilotPanelBG);
 	oapiDestroySurface(IMS2::engPanelBG);
-	FontsAndStyles::DestroyInstance();
 	
 }
 

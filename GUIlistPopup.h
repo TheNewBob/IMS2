@@ -19,7 +19,7 @@ class GUIlistPopup :
 	public GUIpopup
 {
 public:
-	GUIlistPopup(string title, vector<string> items, GUI_BaseElement *parent, RECT rect, bool(*callback)(int, void*), void *usrdata = NULL, GUI_STYLE styleid = STYLE_DEFAULT);
+	GUIlistPopup(string title, vector<string> items, GUI_BaseElement *parent, RECT rect, bool(*callback)(int, void*), void *usrdata = NULL, string styleid = STYLE_DEFAULT);
 	~GUIlistPopup();
 	bool ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 

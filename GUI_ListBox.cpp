@@ -1,7 +1,7 @@
 #include "GUI_common.h"
 #include "GUI_ScrollBar.h"
 #include "GUI_ListBox.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 #include "GUI_ListBoxState.h"
 
 
@@ -194,9 +194,9 @@ void GUI_ListBox::createListBox(GUI_ElementStyle *scrollbarstyle)
 }
 
 
-int GUI_ListBox::GetNeededListBoxHeight(int numlines, GUI_STYLE styleid)
+int GUI_ListBox::GetNeededListBoxHeight(int numlines, string styleid)
 {
-	GUI_ElementStyle *style = FontsAndStyles::GetInstance()->GetStyle(styleid);
+	GUI_ElementStyle *style = GUI_Looks::GetStyle(styleid);
 	int fontheight = style->GetFont()->GetfHeight();
 	//2 pixels spacing between lines
 	return numlines * (fontheight + 2) + style->MarginTop() + style->MarginBottom();

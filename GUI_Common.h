@@ -13,36 +13,44 @@ class GUI_font;
 using namespace oapi;
 
 /**
- * Identifiers for the available styles
+ * Identifiers fordefault styles
  */
-typedef enum
+const string STYLE_DEFAULT = "default";				//!< A default style using the properties most commonly used by GUI elements
+const string STYLE_PAGE = "page";					//!< Used for important windows that need a more descernible border
+const string STYLE_BUTTON = "button";				//!< Style commonly used for buttons
+const string STYLE_HEADING = "heading";				//!< A style used for most text headings
+const string STYLE_CHECKBOX = "checkbox";			//!< Style that defines the common apearance of checkboxes
+const string STYLE_STATUSBAR = "statusbar";			//!< Style for status bars
+const string STYLE_LISTBOX = "listbox";
+const string STYLE_ERROR_ALERT = "error-alert";		//!< Style for error popups
+
+
+/*typedef enum
 {
 	//identifiers for styles
 	STYLE_NONE,					//!< Use this as parent style if you don't inherit from any style
 	STYLE_DEFAULT,				//!< A default style using the properties most commonly used by GUI elements
-	STYLE_WINDOW_BORDER,		//!< Used for important windows that need a more descernible border
+	STYLE_PAGE,		//!< Used for important windows that need a more descernible border
 	STYLE_BUTTON,				//!< Style commonly used for buttons
-	STYLE_BOLD_BUTTON,			//!< An alternate style for more emphasised buttons that should sitick out
 	STYLE_HEADING,				//!< A style used for most text headings
 	STYLE_CHECKBOX,				//!< Style that defines the common apearance of checkboxes
-	STYLE_DEBUG,				//!< A rather gaudy style that lets you discern the different colors more easily
-	STYLE_ERROR_ALERT,			//!< Style for error popups
 	STYLE_STATUSBAR,				//!< Style for status bars
-	STYLE_LISTBOX
-} GUI_STYLE;
+	STYLE_LISTBOX,
+	STYLE_ERROR_ALERT			//!< Style for error popups
+} string;*/
 
 
 /**
  * Identifiers for the available fonts
  */
-typedef enum
+/*typedef enum
 {
 	//font identifiers
 	GUI_NO_FONT,					//!< placeholder for situations where you want to pass an invalid font id
 	GUI_SMALL_DEFAULT_FONT,			//!< default small font with hilighting
 	GUI_SMALL_ERROR_FONT,			//!< small font where the hilight represents an error message (non-hilight same as GUI_SMALL_DEFAULT_FONT)
 	GUI_LARGE_DEFAULT_FONT			//!< default large font without hilight
-} GUI_FONT;
+} GUI_FONT;*/
 
 enum 
 {

@@ -69,7 +69,7 @@ public:
 	 * \return A pointer to the newly created GUI_Page.
 	 * \see GUI_Page
 	 */
-	GUI_Page *CreatePage(RECT _rect, int parent, int _id = -1, GUI_STYLE styleId = STYLE_DEFAULT, bool drawbackground = false);
+	GUI_Page *CreatePage(RECT _rect, int parent, int _id = -1, string styleId = STYLE_DEFAULT, bool drawbackground = false);
 
 	/**
 	 * \brief Creates a new GUI_Label element
@@ -81,7 +81,7 @@ public:
 	 * \return A pointer to the newly created GUI_Label
 	 * \see GUI_Label
 	 */
-	GUI_Label *CreateLabel(string text, RECT _rect, int parent, int _id = -1, GUI_STYLE styleId = STYLE_HEADING);
+	GUI_Label *CreateLabel(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_HEADING);
 
 
 	/**
@@ -97,7 +97,7 @@ public:
 	 * \see GUI_LabelValuePair
 	 */
 	GUI_LabelValuePair *CreateLabelValuePair(string label, string value, RECT _rect, int parent, int id = -1, 
-		GUI_STYLE styleId = STYLE_HEADING, GUI_FONT valueFontId = GUI_NO_FONT);
+		string styleId = STYLE_HEADING, string valueFontId = "");
 
 
 	/**
@@ -113,7 +113,7 @@ public:
 	 * \see GUI_ListBox
 	 */
 	GUI_ListBox *CreateListBox(RECT _rect, int parent, int _id = -1,
-		GUI_STYLE styleId = STYLE_LISTBOX, GUI_STYLE scrollbar_styleId = STYLE_LISTBOX, bool _multiselect = false, bool _noSelect = false);
+		string styleId = STYLE_LISTBOX, string scrollbar_styleId = STYLE_LISTBOX, bool _multiselect = false, bool _noSelect = false);
 
 
 	/**
@@ -138,7 +138,7 @@ public:
 	 * \param styleId The identifier of the Style this element should be drawn in
 	 * \return A pointer to the newly created GUI_DynamicButton
 	*/
-	GUI_DynamicButton *CreateDynamicButton(string text, RECT _rect, int parent, int _id = -1, GUI_STYLE styleId = STYLE_BUTTON);
+	GUI_DynamicButton *CreateDynamicButton(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_BUTTON);
 
 	/**
 	 * \brief Creates a new GUI_CheckBox.
@@ -150,7 +150,7 @@ public:
 	 * \return A pointer to the newly created GUI_CheckBox
 	 * \see GUI_CheckBox
 	 */
-	GUI_CheckBox *CreateCheckBox(string text, RECT _rect, int parent, int _id = -1, GUI_STYLE styleId = STYLE_CHECKBOX);
+	GUI_CheckBox *CreateCheckBox(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_CHECKBOX);
 
 	/**
 	* \brief Creates a new GUI_RadioButton.
@@ -162,9 +162,9 @@ public:
 	* \return A pointer to the newly created GUI_RRadioButton
 	* \see GUI_RadioButton
 	*/
-	GUI_RadioButton *CreateRadioButton(string text, RECT _rect, int parent, int _id = -1, GUI_STYLE styleId = STYLE_CHECKBOX);
+	GUI_RadioButton *CreateRadioButton(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_CHECKBOX);
 
-	GUI_StatusBar *CreateStatusBar(RECT _rect, int parent, int _id = -1, GUI_STYLE styleid = STYLE_STATUSBAR);
+	GUI_StatusBar *CreateStatusBar(RECT _rect, int parent, int _id = -1, string styleid = STYLE_STATUSBAR);
 
 
 
@@ -178,12 +178,12 @@ public:
 	/** 
 	 * \return A pointer to the style matching the passed id
 	*/
-	GUI_ElementStyle *GetStyle(GUI_STYLE _styleId = STYLE_DEFAULT);
+	GUI_ElementStyle *GetStyle(string _styleId = STYLE_DEFAULT);
 
 	/** 
 	 * \return A pointer to the font matching the passed id
 	*/
-	GUI_font *GetFont(GUI_FONT _fontid);
+	GUI_font *GetFont(string _fontid);
 
 	/**
 	 * \brief checks if any children had an update NOT triggered by user input.
@@ -208,7 +208,6 @@ protected:
 	
 	map<int, GUI_BaseElement*> elements;			//!< a searchtree containing all GUI_Elements of this entity
 	UINT newuid = GUI_UID_DOMAIN;					//!< Variable used to pass out dynamic UIDs for GUI elements
-	FontsAndStyles *fontsandstyles;					//!< Pointer to the global FontsAndStyles instance
 	string styleset = "default";					//!< Identifier of the defualt styleset of this entity
 
 

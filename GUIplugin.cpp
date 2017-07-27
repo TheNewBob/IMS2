@@ -3,7 +3,7 @@
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
 #include "IMS.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 #include "GUIentity.h"
 #include "GUIplugin.h"
 

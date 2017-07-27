@@ -57,9 +57,6 @@
     <Filter Include="GUI\GUI managment">
       <UniqueIdentifier>{44d6be60-a15e-440f-ae95-3069a0b5e58f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\Style">
-      <UniqueIdentifier>{1ad967e4-6b89-41a2-affa-69abefd76f9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Algorithms">
       <UniqueIdentifier>{7b6b4778-131f-4212-a54d-b7c877f19056}</UniqueIdentifier>
     </Filter>
@@ -143,6 +140,9 @@
     </Filter>
     <Filter Include="GUI\Layout">
       <UniqueIdentifier>{3df4f998-b9b6-4dcc-ad88-a37f8100e5ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GUI Looks">
+      <UniqueIdentifier>{1ad967e4-6b89-41a2-affa-69abefd76f9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -290,17 +290,14 @@
     <ClCompile Include="GUIentity.cpp">
       <Filter>GUI\GUI managment</Filter>
     </ClCompile>
-    <ClCompile Include="FontsAndStyles.cpp">
-      <Filter>GUI\Style</Filter>
-    </ClCompile>
     <ClCompile Include="GUI_font.cpp">
-      <Filter>GUI\Style</Filter>
+      <Filter>GUI\GUI Looks</Filter>
     </ClCompile>
     <ClCompile Include="GUI_ElementStyle.cpp">
-      <Filter>GUI\Style</Filter>
+      <Filter>GUI\GUI Looks</Filter>
     </ClCompile>
     <ClCompile Include="StyleSet.cpp">
-      <Filter>GUI\Style</Filter>
+      <Filter>GUI\GUI Looks</Filter>
     </ClCompile>
     <ClCompile Include="GUI_Module.cpp">
       <Filter>Modules</Filter>
@@ -485,6 +482,12 @@
     <ClCompile Include="LayoutElement.cpp">
       <Filter>GUI\Layout</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_Looks.cpp">
+      <Filter>GUI\GUI Looks</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiXmlLoader.cpp">
+      <Filter>GUI\GUI Looks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -664,17 +667,14 @@
     <ClInclude Include="GUIentity.h">
       <Filter>GUI\GUI managment</Filter>
     </ClInclude>
-    <ClInclude Include="FontsAndStyles.h">
-      <Filter>GUI\Style</Filter>
-    </ClInclude>
     <ClInclude Include="GUI_font.h">
-      <Filter>GUI\Style</Filter>
+      <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
     <ClInclude Include="GUI_ElementStyle.h">
-      <Filter>GUI\Style</Filter>
+      <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
     <ClInclude Include="StyleSet.h">
-      <Filter>GUI\Style</Filter>
+      <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Module.h">
       <Filter>Modules</Filter>
@@ -966,6 +966,12 @@
     </ClInclude>
     <ClInclude Include="layout_includes.h">
       <Filter>GUI\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Looks.h">
+      <Filter>GUI\GUI Looks</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiXmlLoader.h">
+      <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

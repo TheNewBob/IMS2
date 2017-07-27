@@ -10,7 +10,7 @@
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_InputCallback.h"
 #include "GUI_Module.h"
-#include "FontsAndStyles.h"
+#include "GUI_Looks.h"
 
 
 GUI_Module::GUI_Module(GUImanager *vesselgui, IMS_Module *_module)

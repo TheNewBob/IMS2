@@ -1,6 +1,6 @@
 #include "GUI_Common.h"
 
-GUI_font::GUI_font(int height, string face, bool proportional, int _id, GUI_COLOR _color, GUI_COLOR _keycolor, GUI_COLOR _hilightcolor, GUI_COLOR _hilightbg, FontStyle style)
+GUI_font::GUI_font(int height, string face, bool proportional, string _id, GUI_COLOR _color, GUI_COLOR _keycolor, GUI_COLOR _hilightcolor, GUI_COLOR _hilightbg, FontStyle style)
 {
 	fheight = height;
 	id = _id;
@@ -181,7 +181,7 @@ int GUI_font::GetTextWidth(string &text)
 }
 
 
-int GUI_font::GetId()
+string GUI_font::GetId()
 {
 	return id;
 }
