@@ -63,8 +63,7 @@ GUI_Label *GUIentity::CreateLabel(string _text, RECT _rect, int parent, int _id,
 GUI_LabelValuePair *GUIentity::CreateLabelValuePair(string label, string value, RECT _rect, int parent, int id,
 	string styleId, string valueFontId)
 {
-	GUI_LabelValuePair *newelement = new GUI_LabelValuePair(label, value, _rect, id, GUI_Looks::GetStyle(styleId, styleset),
-		GUI_Looks::GetFont(valueFontId, styleset));
+	GUI_LabelValuePair *newelement = new GUI_LabelValuePair(label, value, _rect, id, GUI_Looks::GetStyle(styleId, styleset));
 	RegisterGuiElement(newelement, parent);
 	return newelement;
 }

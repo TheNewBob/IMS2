@@ -217,6 +217,7 @@ typedef enum
 	ALL = UPPER_RIGHT | UPPER_LEFT | LOWER_LEFT | LOWER_RIGHT		//!< Shorthand to define all four corners as rounded
 } CORNERS;
 
+
 //I know it is very atypical to have an include at the end of a header.
 //these files are included here because all GUI classes need them, but the included files also needs the stuff defined in this header.
 //it might be uncommon, but still seems better than having to put the include in every singel GUI-related cpp file.

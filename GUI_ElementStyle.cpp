@@ -1,6 +1,8 @@
 
 #include "GUI_Common.h"
 #include "GUI_ElementStyle.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
 #include "GUI_Looks.h"
 
 GUI_ElementStyle::GUI_ElementStyle()
@@ -59,7 +61,7 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 		}
 		else if (field == linewidth)
 		{
-			_linewidth = atoi(value.data());
+			_linewidth = (int)max(1, (GUI_Layout::EmToPx(Helpers::stringToDouble(value.data()))));
 		}
 		else if (field == roundcorners)
 		{
@@ -89,7 +91,7 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 		}
 		else if (field == cornerradius)
 		{
-			_cornerradius = atoi(value.data());
+			_cornerradius = (int)max(1, (GUI_Layout::EmToPx(Helpers::stringToDouble(value.data()))));
 		}
 		else if (field == margin)
 		{
@@ -100,16 +102,16 @@ void GUI_ElementStyle::Set(STYLE_PROPERTIES field, string value)
 				switch (i)
 				{
 				case 0:
-					_margin_top = atoi(tokens[i].data());
+					_margin_top = (int)max(1, (GUI_Layout::EmToPx(Helpers::stringToDouble(tokens[i].data()))));
 					break;
 				case 1:
-					_margin_left = atoi(tokens[i].data());
+					_margin_left = (int)max(1, (GUI_Layout::EmToPx(Helpers::stringToDouble(tokens[i].data()))));
 					break;
 				case 2:
-					_margin_bottom = atoi(tokens[i].data());
+					_margin_bottom = (int)max(1, (GUI_Layout::EmToPx(Helpers::stringToDouble(tokens[i].data()))));
 					break;
 				case 3:
-					_margin_right = atoi(tokens[i].data());
+					_margin_right = (int)max(1, (GUI_Layout::EmToPx(Helpers::stringToDouble((tokens[i].data())))));
 					break;
 				}
 			}
@@ -136,3 +138,48 @@ GUI_font *GUI_ElementStyle::GetFont()
 	return _font;
 }
 
+void GUI_ElementStyle::SetColor(GUI_COLOR color)
+{ 
+	_color = color; 
+}
+
+
+void GUI_ElementStyle::SetKeyColor(GUI_COLOR color)
+{ 
+	_keycolor = color; 
+}
+
+void GUI_ElementStyle::SetHilightColor(GUI_COLOR color)
+{
+	_hilightcolor = color; 
+}
+
+void GUI_ElementStyle::SetFillColor(GUI_COLOR color)
+{ 
+	_fillcolor = color; 
+}
+
+void GUI_ElementStyle::SetMarginTop(double margin)
+{
+	_margin_top = GUI_Layout::EmToPx(margin); 
+}
+
+void GUI_ElementStyle::SetMarginBottom(double margin)
+{
+	_margin_bottom = GUI_Layout::EmToPx(margin); 
+}
+
+void GUI_ElementStyle::SetMarginLeft(double margin)
+{
+	_margin_left = GUI_Layout::EmToPx(margin); 
+}
+
+void GUI_ElementStyle::SetMarginRight(double margin)
+{
+	_margin_right = GUI_Layout::EmToPx(margin); 
+}
+
+void GUI_ElementStyle::SetCornerRadius(double radius)
+{
+	_cornerradius = GUI_Layout::EmToPx(radius); 
+}

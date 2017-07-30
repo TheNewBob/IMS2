@@ -1,4 +1,5 @@
 #pragma once
+
 struct RECT_DOUBLE
 {
 	double left = 0;
@@ -16,7 +17,6 @@ struct RECT_DOUBLE
 		this->bottom = bottom;
 	};
 };
-
 
 class LayoutElement
 {

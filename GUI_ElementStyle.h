@@ -40,6 +40,7 @@ public:
 	 * \brief General setter for properties that takes a string containing the value
 	 * \param field The property to set
 	 * \param value The value for the property as a string. Formatting depends on the property being set
+	 * \note All size attributes are read as em.
 	 */
 	void Set(STYLE_PROPERTIES field, string value);
 	
@@ -54,63 +55,63 @@ public:
 	 * \param color The desired color
 	 * \see STYLE_PROPERTIES
 	 */
-	void SetColor(GUI_COLOR color){ _color = color; };
+	void SetColor(GUI_COLOR color);
 
 	/**
  	 * \brief Sets the background color of the style
 	 * \param color The desired color
 	 * \see STYLE_PROPERTIES
 	 */
-	void SetKeyColor(GUI_COLOR color){ _keycolor = color; };
+	void SetKeyColor(GUI_COLOR color);
 
 	/**
 	 * \brief Sets the highlight color of the style
 	 * \param color The desired color
 	 * \see STYLE_PROPERTIES
 	 */
-	void SetHilightColor(GUI_COLOR color){ _hilightcolor = color; };
+	void SetHilightColor(GUI_COLOR color);
 
 	/**
 	 * \brief Sets the fill color of the style
 	 * \param color The desired color
 	 * \see STYLE_PROPERTIES
 	 */
-	void SetFillColor(GUI_COLOR color){ _fillcolor = color; };
+	void SetFillColor(GUI_COLOR color);
 
 	/**
-	 * \brief Sets the top margin in pixel
+	 * \brief Sets the top margin in em
 	 * \param margin The margin on which children cannot draw, from the top of the element
 	 * \see STYLE_PROPERTIES
 	 */
-	void SetMarginTop(int margin){ _margin_top = margin; };
+	void SetMarginTop(double margin);
 
 	/**
-	* \brief Sets the bottom margin in pixel
+	* \brief Sets the bottom margin in em
 	* \param margin The margin on which children cannot draw, from the bottom of the element
 	* \see STYLE_PROPERTIES
 	*/
-	void SetMarginBottom(int margin){ _margin_bottom = margin; };
+	void SetMarginBottom(double margin);
 
 	/**
-	* \brief Sets the left margin in pixel
+	* \brief Sets the left margin in em
 	* \param margin The margin on which children cannot draw, from the left edge of the element
 	* \see STYLE_PROPERTIES
 	*/
-	void SetMarginLeft(int margin){ _margin_left = margin; };
+	void SetMarginLeft(double margin);
 
 	/**
-	* \brief Sets the right margin in pixel
+	* \brief Sets the right margin in em
 	* \param margin The margin on which children cannot draw, from the right edge of the element
 	* \see STYLE_PROPERTIES
 	*/
-	void SetMarginRight(int margin){ _margin_right = margin; };
+	void SetMarginRight(double margin);
 
 	/**
-	* \brief Sets the corner radius in pixel
+	* \brief Sets the corner radius in em
 	* \param radius the radius by which designated corners will be rounded
 	* \see STYLE_PROPERTIES
 	*/
-	void SetCornerRadius(int radius){ _cornerradius = radius; };
+	void SetCornerRadius(double radius);
 
 	/**
 	 * \return The font belonging to this style

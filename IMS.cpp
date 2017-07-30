@@ -13,6 +13,8 @@
 #include "autopilot_includes.h"
 #include "GUI_Common.h"
 #include "GUI_Looks.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
 #include "GuiXmlLoader.h"
 //#include "vld.h"
 

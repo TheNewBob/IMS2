@@ -1,9 +1,9 @@
 #include "GUI_common.h"
 #include "tinyxml2.h"
-#include "GUI_Looks.h"
-#include "GuiXmlLoader.h"
 #include "LayoutElement.h"
 #include "GUI_Layout.h"
+#include "GUI_Looks.h"
+#include "GuiXmlLoader.h"
 #include <Windows.h>
 
 namespace XML = tinyxml2;
@@ -46,6 +46,7 @@ void GuiXmlLoader::LoadStyleSets(string stylesets_root)
 		}
 	} while (FindNextFile(hfind, &searchresult));
 	FindClose(hfind);
+	GUI_Looks::GetStyle("default");
 }
 
 void GuiXmlLoader::LoadStyleSet(string stylesets_root, string styleset)
@@ -141,6 +142,16 @@ void GuiXmlLoader::loadStyleAttribute(tinyxml2::XMLElement *xmlattribute, GUI_El
 		// the font needs special treatment
 		style->SetFont(GUI_Looks::GetFont(xmlattribute->GetText(), styleset));
 	}
+	else if (attr == "inset")
+	{
+		//so does inset
+		RECT_DOUBLE rect = readRect(xmlattribute);
+		style->SetMarginLeft(rect.left);
+		style->SetMarginTop(rect.top);
+		style->SetMarginRight(rect.right);
+		style->SetMarginBottom(rect.bottom);
+
+	}
 	else
 	{
 		try {
@@ -180,7 +191,7 @@ void GuiXmlLoader::loadFonts(tinyxml2::XMLDocument *file, string styleset)
 	while (currentfont != NULL)
 	{
 		loadFont(currentfont, styleset);
-		currentfont = currentfont->NextSiblingElement("style");
+		currentfont = currentfont->NextSiblingElement("font");
 	}
 }
 
@@ -296,4 +307,50 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	}
 
 	GUI_Looks::MakeFont(size, face, true, id, color, key, hilight, hilight_key, emphasis, styleset); 
+}
+
+
+RECT_DOUBLE GuiXmlLoader::readRect(tinyxml2::XMLElement *element)
+{
+	RECT_DOUBLE rect;
+
+	if (element != NULL)
+	{
+		try
+		{
+			//a rect with the passed name is defined, try reading the individual values.
+			XML::XMLElement *value = element->FirstChildElement("left");
+			if (value != NULL)
+			{
+				rect.left = Helpers::stringToDouble(value->GetText());
+			}
+
+			value = element->FirstChildElement("top");
+			if (value != NULL)
+			{
+				rect.top = Helpers::stringToDouble(value->GetText());
+			}
+
+			value = element->FirstChildElement("right");
+			if (value != NULL)
+			{
+				rect.right = Helpers::stringToDouble(value->GetText());
+			}
+
+			value = element->FirstChildElement("bottom");
+			if (value != NULL)
+			{
+				rect.bottom = Helpers::stringToDouble(value->GetText());
+			}
+		}
+		catch (exception e)
+		{
+			string rectname = element->Name();
+			string msg = "An error has occured while reading the rect \"" + rectname + "\": " + e.what();
+			throw runtime_error(msg.data());
+		}
+	}
+
+
+	return rect;
 }
