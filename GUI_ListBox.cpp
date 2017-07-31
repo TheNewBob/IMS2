@@ -185,11 +185,16 @@ void GUI_ListBox::createListBox(GUI_ElementStyle *scrollbarstyle)
 	AddChild(scrollbar);
 
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
-	//copy scrollbar to this surface
-	oapiBlt(tgt, scrollbar->GetSurface(), width - scrlBarWidth, 0, 0, 0, scrlBarWidth, height);
 	Sketchpad *skp = oapiGetSketchpad(tgt);
 	GUI_Draw::DrawRectangle(_R(0, 0, width, height), skp, style);
 	oapiReleaseSketchpad(skp);
+
+	//copy scrollbar to this surface
+	//oapiBlt(tgt, scrollbar->GetSurface(), width - scrlBarWidth, 0, 0, 0, scrlBarWidth, height);
+	RECT tgtrect = _R(width - scrlBarWidth, 0, width, height);
+	RECT srcrect = _R(0, 0, scrlBarWidth, height);
+	oapiBlt(tgt, scrollbar->GetSurface(), &tgtrect, &srcrect, SURF_PREDEF_CK);
+
 	src = tgt;
 }
 

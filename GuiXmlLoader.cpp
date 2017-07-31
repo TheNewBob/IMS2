@@ -46,7 +46,7 @@ void GuiXmlLoader::LoadStyleSets(string stylesets_root)
 		}
 	} while (FindNextFile(hfind, &searchresult));
 	FindClose(hfind);
-	GUI_Looks::GetStyle("default");
+	GUI_Looks::GetFont("default");
 }
 
 void GuiXmlLoader::LoadStyleSet(string stylesets_root, string styleset)
@@ -202,13 +202,13 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	XML::XMLElement *font_size = xmlfont->FirstChildElement("size");
 	XML::XMLElement *font_color = xmlfont->FirstChildElement("color");
 	XML::XMLElement *font_hilight = xmlfont->FirstChildElement("hilight-color");
-	XML::XMLElement *font_hilight_key = xmlfont->FirstChildElement("hilight-key-color");
+	XML::XMLElement *font_hilight_bg = xmlfont->FirstChildElement("hilight-background");
 	XML::XMLElement *font_key = xmlfont->FirstChildElement("key-color");
 	XML::XMLElement *font_emphasis = xmlfont->FirstChildElement("emphasis");
 
 	string id, face;
 	int size;
-	GUI_COLOR color, hilight, hilight_key, key;
+	GUI_COLOR color, hilight, hilight_bg, key;
 	FontStyle emphasis;
 
 	if (font_id == NULL) throw runtime_error("Font has no <id>!");
@@ -267,17 +267,20 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 		hilight = GUI_Looks::StringToColor(font_hilight->GetText());
 	}
 
-	if (font_hilight_key == NULL)
+	if (font_hilight_bg == NULL)
 	{
-		hilight_key = key;
+		hilight_bg = GUI_Looks::StringToColor("255,255,255");
 	}
 	else
 	{
 		if (font_hilight == NULL)
 		{
-			Helpers::writeToLog(string("Font " + id + " has <hilight-key-color>, but no <hilight-color>. Attribute will have no effect!"), L_WARNING);
+			Helpers::writeToLog(string("Font " + id + " has <hilight-background>, but no <hilight-color>. Attribute will have no effect!"), L_WARNING);
 		}
-		hilight = GUI_Looks::StringToColor(font_hilight->GetText());
+		else {
+			hilight = GUI_Looks::StringToColor(font_hilight->GetText());
+			hilight_bg = GUI_Looks::StringToColor(font_hilight_bg->GetText());
+		}
 	}
 
 	if (font_emphasis == NULL)
@@ -306,7 +309,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 		}
 	}
 
-	GUI_Looks::MakeFont(size, face, true, id, color, key, hilight, hilight_key, emphasis, styleset); 
+	GUI_Looks::MakeFont(size, face, true, id, color, key, hilight, hilight_bg, emphasis, styleset); 
 }
 
 

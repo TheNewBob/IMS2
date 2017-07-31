@@ -101,12 +101,17 @@ void GUI_ScrollablePage::createScrollablePage(GUI_ElementStyle *scrollbarstyle)
 	GUI_BaseElement::AddChild(scrollbar);
 
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
-	//copy scrollbar to this surface
-	oapiBlt(tgt, scrollbar->GetSurface(), width - scrlbarwidth, 0, 0, 0, scrlbarwidth, height);
 
 	Sketchpad *skp = oapiGetSketchpad(tgt);
 	GUI_Draw::DrawRectangle(_R(0, 0, width, height), skp, style);
 	oapiReleaseSketchpad(skp);
+
+	//copy scrollbar to this surface
+//	oapiBlt(tgt, scrollbar->GetSurface(), width - scrlbarwidth, 0, 0, 0, scrlbarwidth, height);
+	RECT tgtrect = _R(width - scrlbarwidth, 0, width, height);
+	RECT srcrect = _R(0, 0, scrlbarwidth, height);
+	oapiBlt(tgt, scrollbar->GetSurface(), &tgtrect, &srcrect, SURF_PREDEF_CK);
+
 	src = tgt;
 
 }
