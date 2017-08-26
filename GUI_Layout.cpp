@@ -182,22 +182,6 @@ int GUI_Layout::GetLayoutHeight(vector<string> &ignore)
 }
 
 
-bool GUI_Layout::rowContainsField(string field_id, LayoutRow &IN_row)
-{
-	assert(field_id != "" && "Cannot search for empty field_id in layout row!");
-
-	for (auto i = IN_row.fields.begin(); i != IN_row.fields.end(); ++i)
-	{
-		if ((*i).elementid == field_id)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
 bool GUI_Layout::rowCanBeIgnored(LayoutRow &IN_row, vector<string> &ignored_fields)
 {
 	UINT ignored_fields_in_row = 0;
@@ -213,4 +197,31 @@ bool GUI_Layout::rowCanBeIgnored(LayoutRow &IN_row, vector<string> &ignored_fiel
 		return true;
 	}
 	return false;
+}
+
+
+string GUI_Layout::GetStyleForField(string field_id)
+{
+	for (UINT i = 0; i < rows.size(); ++i)
+	{
+		for (auto j = rows[i].fields.begin(); j != rows[i].fields.end(); ++j)
+		{
+			LayoutField *field = &(*j);
+			string fieldstyle = "";
+			if (field->elementid == field_id)
+			{
+				fieldstyle = field->GetElementStyle();
+			}
+			else if (field->nestedlayout != NULL) 
+			{
+				fieldstyle = field->nestedlayout->GetStyleForField(field_id);
+			}
+
+			if (fieldstyle != "")
+			{
+				return fieldstyle;
+			}
+		}
+	}
+	return "";
 }

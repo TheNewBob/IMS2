@@ -4,12 +4,14 @@
 #include "GUI_ScrollablePage.h"
 #include "GUIentity.h"
 #include "GUIplugin.h"
+#include "GUImanager.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
 
-
-GUI_ScrollablePage::GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle) 
+GUI_ScrollablePage::GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_style)
 	: GUI_Page(mRect, _id, _style, false)
 {
-	createScrollablePage(_scrollbarstyle);
+	createResources();
 }
 
 
@@ -82,14 +84,18 @@ void GUI_ScrollablePage::DrawChildren(SURFHANDLE _tgt, RECT &drawablerect, int x
 
 
 
-void GUI_ScrollablePage::createScrollablePage(GUI_ElementStyle *scrollbarstyle)
+void GUI_ScrollablePage::createResources()
 {
-	if (scrollbarstyle == NULL)
+	if (src != NULL)
 	{
-		scrollbarstyle = style;
+		oapiDestroySurface(src);
 	}
+
 	//create the scrollbar
-	int scrlbarwidth = 24;
+	int scrlbarwidth = GUI_Layout::EmToPx(1.5);
+	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
+
+
 	scrollbar = new GUI_ScrollBar(_R(width - scrlbarwidth, 0, width, height), GUI_SCROLLBAR, scrollbarstyle);
 	scrollbar->SetNoBlit(true);
 	scrollbar->SetScrollSpeed(10);

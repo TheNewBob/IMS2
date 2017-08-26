@@ -69,7 +69,7 @@ public:
 	 * \return A pointer to the newly created GUI_Page.
 	 * \see GUI_Page
 	 */
-	GUI_Page *CreatePage(RECT _rect, int parent, int _id = -1, string styleId = STYLE_DEFAULT, bool drawbackground = false);
+	GUI_Page *CreatePage(RECT _rect, int parent, int _id = -1, string styleId = "", bool drawbackground = false);
 
 	/**
 	 * \brief Creates a new GUI_Label element
@@ -81,7 +81,7 @@ public:
 	 * \return A pointer to the newly created GUI_Label
 	 * \see GUI_Label
 	 */
-	GUI_Label *CreateLabel(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_HEADING);
+	GUI_Label *CreateLabel(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
 
 	/**
@@ -97,7 +97,7 @@ public:
 	 * \see GUI_LabelValuePair
 	 */
 	GUI_LabelValuePair *CreateLabelValuePair(string label, string value, RECT _rect, int parent, int id = -1, 
-		string styleId = STYLE_HEADING, string valueFontId = "");
+		string styleId = "", string valueFontId = "");
 
 
 	/**
@@ -113,7 +113,7 @@ public:
 	 * \see GUI_ListBox
 	 */
 	GUI_ListBox *CreateListBox(RECT _rect, int parent, int _id = -1,
-		string styleId = STYLE_LISTBOX, string scrollbar_styleId = STYLE_LISTBOX, bool _multiselect = false, bool _noSelect = false);
+		string styleId = "", string scrollbar_styleId = "", bool _multiselect = false, bool _noSelect = false);
 
 
 	/**
@@ -138,7 +138,7 @@ public:
 	 * \param styleId The identifier of the Style this element should be drawn in
 	 * \return A pointer to the newly created GUI_DynamicButton
 	*/
-	GUI_DynamicButton *CreateDynamicButton(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_BUTTON);
+	GUI_DynamicButton *CreateDynamicButton(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
 	/**
 	 * \brief Creates a new GUI_CheckBox.
@@ -150,7 +150,7 @@ public:
 	 * \return A pointer to the newly created GUI_CheckBox
 	 * \see GUI_CheckBox
 	 */
-	GUI_CheckBox *CreateCheckBox(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_CHECKBOX);
+	GUI_CheckBox *CreateCheckBox(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
 	/**
 	* \brief Creates a new GUI_RadioButton.
@@ -162,9 +162,9 @@ public:
 	* \return A pointer to the newly created GUI_RRadioButton
 	* \see GUI_RadioButton
 	*/
-	GUI_RadioButton *CreateRadioButton(string text, RECT _rect, int parent, int _id = -1, string styleId = STYLE_CHECKBOX);
+	GUI_RadioButton *CreateRadioButton(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
-	GUI_StatusBar *CreateStatusBar(RECT _rect, int parent, int _id = -1, string styleid = STYLE_STATUSBAR);
+	GUI_StatusBar *CreateStatusBar(RECT _rect, int parent, int _id = -1, string styleId = STYLE_STATUSBAR);
 
 
 

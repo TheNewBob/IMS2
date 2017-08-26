@@ -56,7 +56,7 @@ protected:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
 
-	void createStatusBar();
+	virtual void createResources();
 
 /*	double fillstatus = 1.0;									//!< How much the bar is filled: >= 0 <= 1
 	double maxcapacity = 100;									//!< the maximum amount of whatever the statusbar represents.

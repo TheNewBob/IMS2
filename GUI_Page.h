@@ -53,12 +53,14 @@ protected:
 	 */
 	RECT getElementRect(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields);
 
+	string getElementStyle(string elementid, LAYOUTCOLLECTION *layouts);
+
 private: 
 	/**
 	 * \brief Draws the page to its source surface, if it was created with a drawable background
 	 */
-	void createPage();
-
+	virtual void createResources();
+	
 };
 
 

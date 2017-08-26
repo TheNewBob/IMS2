@@ -48,6 +48,7 @@ void GUIentity::RegisterGuiElement(GUI_BaseElement *_element, int _parentId)
 
 GUI_Page *GUIentity::CreatePage(RECT _rect, int parent, int _id, string styleId, bool drawbackground)
 {
+	if (styleId == "") styleId = STYLE_PAGE;
 	GUI_Page *newPage = new GUI_Page(_rect, _id, GUI_Looks::GetStyle(styleId, styleset), drawbackground);
 	RegisterGuiElement(newPage, parent);
 	return newPage;
@@ -55,6 +56,7 @@ GUI_Page *GUIentity::CreatePage(RECT _rect, int parent, int _id, string styleId,
 
 GUI_Label *GUIentity::CreateLabel(string _text, RECT _rect, int parent, int _id, string styleId)
 {
+	if (styleId == "") styleId = STYLE_HEADING;
 	GUI_Label *newlabel = new GUI_Label(_text, _rect, _id, GUI_Looks::GetStyle(styleId, styleset));
 	RegisterGuiElement(newlabel, parent);
 	return newlabel;
@@ -63,6 +65,7 @@ GUI_Label *GUIentity::CreateLabel(string _text, RECT _rect, int parent, int _id,
 GUI_LabelValuePair *GUIentity::CreateLabelValuePair(string label, string value, RECT _rect, int parent, int id,
 	string styleId, string valueFontId)
 {
+	if (styleId == "") styleId = STYLE_DEFAULT;
 	GUI_LabelValuePair *newelement = new GUI_LabelValuePair(label, value, _rect, id, GUI_Looks::GetStyle(styleId, styleset));
 	RegisterGuiElement(newelement, parent);
 	return newelement;
@@ -72,23 +75,24 @@ GUI_LabelValuePair *GUIentity::CreateLabelValuePair(string label, string value, 
 GUI_ListBox *GUIentity::CreateListBox(RECT _rect, int parent, int _id, string styleId,
 	string scrollbar_styleId, bool _selectBox, bool _noSelect)
 {
-	GUI_ListBox *newBox = new GUI_ListBox(_rect, _id, GUI_Looks::GetStyle(styleId), 
-			GUI_Looks::GetStyle(scrollbar_styleId), _selectBox, _noSelect);
+	if (styleId == "") styleId = STYLE_LISTBOX;
+	GUI_ListBox *newBox = new GUI_ListBox(_rect, _id, GUI_Looks::GetStyle(styleId), _selectBox, _noSelect);
 	RegisterGuiElement(newBox, parent);
 	return newBox;
 }
 
 
-GUI_StaticButton *GUIentity::CreateStaticButton(RECT _rect, int srcX, int srcY, SURFHANDLE _src, int parent, int _id)
+/*GUI_StaticButton *GUIentity::CreateStaticButton(RECT _rect, int srcX, int srcY, SURFHANDLE _src, int parent, int _id)
 {
 	GUI_StaticButton *newButton = new GUI_StaticButton(_rect, srcX, srcY, _src, _id);
 	RegisterGuiElement(newButton, parent);
 	return newButton;
-}
+}*/
 
 
 GUI_DynamicButton *GUIentity::CreateDynamicButton(string text, RECT _rect, int parent, int _id, string styleId)
 {
+	if (styleId == "") styleId = STYLE_BUTTON;
 	GUI_DynamicButton *newButton = new GUI_DynamicButton(text, _rect, _id, GUI_Looks::GetStyle(styleId));
 	RegisterGuiElement(newButton, parent);
 	return newButton;
@@ -97,6 +101,7 @@ GUI_DynamicButton *GUIentity::CreateDynamicButton(string text, RECT _rect, int p
 
 GUI_CheckBox *GUIentity::CreateCheckBox(string text, RECT _rect, int parent, int _id, string styleId)
 {
+	if (styleId == "") styleId = STYLE_CHECKBOX;
 	GUI_CheckBox *newbox = new GUI_CheckBox(text, _rect, _id, GUI_Looks::GetStyle(styleId));
 	RegisterGuiElement(newbox, parent);
 	return newbox;
@@ -105,14 +110,16 @@ GUI_CheckBox *GUIentity::CreateCheckBox(string text, RECT _rect, int parent, int
 
 GUI_RadioButton *GUIentity::CreateRadioButton(string text, RECT _rect, int parent, int _id, string styleId)
 {
+	if (styleId == "") styleId = STYLE_CHECKBOX;
 	GUI_RadioButton *newbtn = new GUI_RadioButton(text, _rect, _id, GUI_Looks::GetStyle(styleId));
 	RegisterGuiElement(newbtn, parent);
 	return newbtn;
 }
 
-GUI_StatusBar *GUIentity::CreateStatusBar(RECT _rect, int parent, int _id, string styleid)
+GUI_StatusBar *GUIentity::CreateStatusBar(RECT _rect, int parent, int _id, string styleId)
 {
-	GUI_StatusBar *newbar = new GUI_StatusBar(_rect, _id, GUI_Looks::GetStyle(styleid));
+	if (styleId == "") styleId = STYLE_STATUSBAR;
+	GUI_StatusBar *newbar = new GUI_StatusBar(_rect, _id, GUI_Looks::GetStyle(styleId));
 	RegisterGuiElement(newbar, parent);
 	return newbar;
 }

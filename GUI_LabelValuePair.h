@@ -44,7 +44,7 @@ protected:
 	/**
 	 * \brief Draws the element to its source surface
 	 */
-	void createLabel();	
+	virtual void createResources();
 	
 	/**
 	 * Reprints the value text onto the source surface

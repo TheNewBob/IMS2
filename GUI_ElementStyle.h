@@ -29,11 +29,11 @@ class GUI_ElementStyle
 {
 	friend class GUI_Draw;
 public:
-	GUI_ElementStyle();
+	GUI_ElementStyle(string styleid);
 	/**
 	 * \param inherit_from A parent style that serves as a default configuration for all properties of this style
 	 */
-	GUI_ElementStyle(GUI_ElementStyle *inherit_from);
+	GUI_ElementStyle(string styleid, GUI_ElementStyle *inherit_from);
 	~GUI_ElementStyle();
 	
 	/**
@@ -125,7 +125,12 @@ public:
 	DWORD GetCorners();
 	
 	/**
-	 * \return THe line width of the style, in pixel
+	 * \return the id of this style.
+	 */
+	string GetId(){ return id; };
+
+	/**
+	 * \return The line width of the style, in pixel
 	 */
 	int LineWidth(){ return _linewidth; };
 	
@@ -157,6 +162,19 @@ public:
 	GUI_COLOR FillColor(){ return _fillcolor; };
 
 	/**
+	 * \return the child style of this element.
+	 * \note This will be NULL in most cases, since only few elements have integrated children.
+	 */
+	GUI_ElementStyle *GetChildStyle() { return childstyle; };
+
+	/**
+	 * \brief Sets a childstyle for this element.
+	 * Childstyles are for a statically integrated child of the element, like scrollbars,
+	 * not for the dynamically added children of pages.
+	 */
+	void SetChildStyle(GUI_ElementStyle *style) { childstyle = style; };
+
+	/**
 	 * \return the top margin in pixel
 	 */
 	int MarginTop(){ return _margin_top; };
@@ -177,7 +195,7 @@ public:
 	int MarginRight(){ return _margin_right; };
 
 private:
-
+	string id = "";											//!< Identifier for this style. Must be unique within styleset.
 	GUI_font *_font = NULL;									//!< Pointer to the font that will be used for text output by an element using this style
 	GUI_COLOR _color;										//!< Line drawing color 
 	GUI_COLOR _hilightcolor;								//!< The color the element should be filled with when highlighted
@@ -187,9 +205,10 @@ private:
 	int _cornerradius = 0;									//!< Corner radius, in pixel
 	DWORD _roundcorners = CORNERS::ALL;						//!< Bitmask to define which corners are rounded
 	
-	int _margin_top = 5;									//!< Top margin in pixel
-	int _margin_bottom = 5;									//!< Bottom margin in pixel
-	int _margin_left = 5;									//!< Left margin in pixel
-	int _margin_right = 5;									//!< Right margin in pixel
+	int _margin_top = 0;									//!< Top margin in pixel
+	int _margin_bottom = 0;									//!< Bottom margin in pixel
+	int _margin_left = 0;									//!< Left margin in pixel
+	int _margin_right = 0;									//!< Right margin in pixel
+	GUI_ElementStyle *childstyle = NULL;					//!some elements have an integrated child, the style for which is saved here.
 };
 

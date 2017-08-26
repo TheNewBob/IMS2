@@ -118,6 +118,18 @@ public:
 	 */
 	static void ClearPopup(GUIpopup *popup = NULL);
 
+	/**
+	 * \brief Get a style from the currently used styleset
+	 */
+	GUI_ElementStyle *GetStyle(string styleid);
+
+	/**
+	 * \brief Sets the currently used styleset.
+	 * \note If the style changes, all elements have to redraw their resources,
+	 *	so this should not be called lightly!
+	 */
+	void SetStyleset(string styleset);
+
 	//TODO: refactor GUI eventhandling so popups can communicate information to their parent element when destroyed
 
 private:
@@ -147,6 +159,7 @@ private:
 	GUI_Surface *GetSurfaceById(int _id);
 	
 	IMS2 *vessel;										//!< The vessel containing this GUImanager
+	string styleset = "default";						//!< Identifier of the currently used styleset.
 
 	vector<GUI_Surface*> surfaces;						//!< stores pointers to all GUIsurfaces
 

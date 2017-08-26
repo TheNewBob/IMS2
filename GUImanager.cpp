@@ -338,3 +338,17 @@ void GUImanager::ClearPopup(GUIpopup *popup)
 		}
 	}
 }
+
+GUI_ElementStyle *GUImanager::GetStyle(string styleid) 
+{
+	return GUI_Looks::GetStyle(styleid, styleset);
+}
+
+void GUImanager::SetStyleset(string styleset)
+{
+	if (styleset != this->styleset)
+	{
+		//somebody just changed the styleset!
+		this->styleset = styleset;
+	}
+}

@@ -6,7 +6,7 @@ GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *
 	: GUI_BaseElement(_rect, _id, _style), text(_text)
 {
 	swapState(new GUI_CheckBoxState(this));
-	createCheckBox();
+	createResources();
 	ToggleChecked();
 }
 
@@ -78,8 +78,13 @@ void GUI_CheckBox::SetChecked(bool _checked)
 	}
 }
 
-void GUI_CheckBox::createCheckBox()
+void GUI_CheckBox::createResources()
 {
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
+
 	//the actual box of the checkbox will size itself to the font height
 	int fontheight = font->GetfHeight();
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width + fontheight * 2, height);

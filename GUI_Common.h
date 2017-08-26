@@ -21,6 +21,7 @@ const string STYLE_BUTTON = "button";				//!< Style commonly used for buttons
 const string STYLE_HEADING = "heading";				//!< A style used for most text headings
 const string STYLE_CHECKBOX = "checkbox";			//!< Style that defines the common apearance of checkboxes
 const string STYLE_STATUSBAR = "statusbar";			//!< Style for status bars
+const string STYLE_SCROLLBAR = "scrollbar";
 const string STYLE_LISTBOX = "listbox";
 const string STYLE_ERROR_ALERT = "error-alert";		//!< Style for error popups
 

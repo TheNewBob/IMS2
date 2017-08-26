@@ -29,10 +29,10 @@ GUI_MainConfig::GUI_MainConfig(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vess
 
 	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
 
-	rcs_assist = gui->CreateCheckBox("RCS Assist", getElementRect(RCS_ASSIST_CHKBX, layouts), id, MD_CONFIG_RCSASSISTCHKBX);
+	rcs_assist = gui->CreateCheckBox("RCS Assist", getElementRect(RCS_ASSIST_CHKBX, layouts), id, MD_CONFIG_RCSASSISTCHKBX, getElementStyle(RCS_ASSIST_CHKBX, layouts));
 	rcs_assist->SetChecked(true);
 
-	scened_assist = gui->CreateCheckBox("ScenEd placement assist", getElementRect(SCENED_ASSIST_CHKBX, layouts), id, MD_CONFIG_SCENEDCHKBX);
+	scened_assist = gui->CreateCheckBox("ScenEd placement assist", getElementRect(SCENED_ASSIST_CHKBX, layouts), id, MD_CONFIG_SCENEDCHKBX, getElementStyle(SCENED_ASSIST_CHKBX, layouts));
 	scened_assist->SetChecked(false);
 }
 

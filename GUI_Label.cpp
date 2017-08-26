@@ -7,7 +7,7 @@ GUI_Label::GUI_Label(string _text, RECT _rect, int _id, GUI_ElementStyle *_style
 {
 	swapState(new GUI_LabelState(this));
 	cState()->SetText(_text);
-	createLabel();
+	createResources();
 }
 
 
@@ -29,7 +29,7 @@ void GUI_Label::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawable
 	}
 }
 
-void GUI_Label::createLabel()
+void GUI_Label::createResources()
 {
 	//destroy an existing surface before allocating it anew
 	if (src != NULL)
@@ -45,7 +45,7 @@ void GUI_Label::createLabel()
 void GUI_Label::ChangeText(string text)
 {
 	cState()->SetText(text);
-	createLabel();
+	createResources();
 }
 
 

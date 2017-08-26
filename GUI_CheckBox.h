@@ -45,7 +45,7 @@ protected:
 	/**
 	 * \brief Draws the checkbox to its source surface
 	 */
-	void createCheckBox();
+	virtual void createResources();
 
 	string text;				//!< Stores the text of the checkbox
 //	bool checked;				//!< Stores the state of the Checkbox

@@ -10,7 +10,7 @@ GUI_DynamicButton::GUI_DynamicButton(string _text, RECT _rect, int _id, GUI_Elem
 	cState()->SetText(_text);
 	style = _style;
 	font = style->GetFont();
-	createButton();
+	createResources();
 }
 
 
@@ -42,8 +42,13 @@ bool GUI_DynamicButton::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 }
 
 //allocates the surface and draws the button on initialisation
-void GUI_DynamicButton::createButton()
+void GUI_DynamicButton::createResources()
 {
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
+
 	//allocate own surface and fill with background color
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 

@@ -5,29 +5,32 @@
 #include "GUI_Layout.h"
 #include "GUI_Looks.h"
 
-GUI_ElementStyle::GUI_ElementStyle()
+GUI_ElementStyle::GUI_ElementStyle(string styleid)
+	: id(styleid),
+	  _color(GUI_COLOR(255, 255, 255)),
+	  _keycolor(GUI_COLOR(255, 105, 180)),
+	  _hilightcolor(GUI_COLOR(0, 0, 0)),
+	  _fillcolor(GUI_COLOR(0, 0, 0)),
+	  _font(NULL)
 {
-	_color = GUI_COLOR(255, 255, 255);
-	_keycolor = GUI_COLOR(255,105,180);
-	_hilightcolor = GUI_COLOR(0, 0, 0);
-	_fillcolor = GUI_COLOR(0, 0, 0);
-	_font = NULL;
 }
 
-GUI_ElementStyle::GUI_ElementStyle(GUI_ElementStyle *inherit_from)
+GUI_ElementStyle::GUI_ElementStyle(string styleid, GUI_ElementStyle *inherit_from)
+	: id(styleid),
+  	  _font(inherit_from->_font),
+	  _color(inherit_from->_color),
+	  _hilightcolor(inherit_from->_hilightcolor),
+	  _keycolor(inherit_from->_keycolor),
+	  _fillcolor(inherit_from->_fillcolor),
+	  _linewidth(inherit_from->_linewidth),
+	  _cornerradius(inherit_from->_cornerradius),
+	  _roundcorners(inherit_from->_roundcorners),
+	  _margin_top(inherit_from->_margin_top),
+	  _margin_bottom(inherit_from->_margin_bottom),
+	  _margin_left(inherit_from->_margin_left),
+	  _margin_right(inherit_from->_margin_right),
+	  childstyle(inherit_from->childstyle)
 {
-	_font = inherit_from->_font;
-	_color = inherit_from->_color;
-	_hilightcolor = inherit_from->_hilightcolor;
-	_keycolor = inherit_from->_keycolor;
-	_fillcolor = inherit_from->_fillcolor;
-	_linewidth = inherit_from->_linewidth;
-	_cornerradius = inherit_from->_cornerradius;
-	_roundcorners = inherit_from->_roundcorners;
-	_margin_top = inherit_from->_margin_top;
-	_margin_bottom = inherit_from->_margin_bottom;
-	_margin_left = inherit_from->_margin_left;
-	_margin_right = inherit_from->_margin_right;
 }
 
 GUI_ElementStyle::~GUI_ElementStyle()

@@ -6,7 +6,7 @@ GUI_ScrollBar::GUI_ScrollBar(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_BaseElement(_rect, _id, _style)
 {
 	style = _style;
-	createScrollBar();
+	createResources();
 }
 
 
@@ -29,8 +29,13 @@ void GUI_ScrollBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 }
 
 
-void GUI_ScrollBar::createScrollBar()
+void GUI_ScrollBar::createResources()
 {
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
+
 	//allocate own surface and fill with background color
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 
@@ -39,7 +44,7 @@ void GUI_ScrollBar::createScrollBar()
 	RECT temprect = _R(0, 0, width, width);
 	//we face the problem that we need to draw a rectangle, but it's only the upper part of the actual scrollbar. 
 	//Hence bottom corners must not be rounded even if the style says so. We need to extract the top corners.
-	GUI_ElementStyle *tempstyle = new GUI_ElementStyle(style);
+	GUI_ElementStyle *tempstyle = new GUI_ElementStyle("temp", style);
 	DWORD tempcorners = style->GetCorners();
 	string corners = "";
 	if ((UPPER_RIGHT & tempcorners) == UPPER_RIGHT)

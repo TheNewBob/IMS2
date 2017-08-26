@@ -183,6 +183,13 @@ public:
 	void CancelStateSharingWith(GUI_BaseElement *who);
 
 
+	/**
+	 * \brief Sets a new style for this element.
+	 * \note This forces the element to recreate its resources, so use sparingly!
+	 */
+	void SetStyle(GUI_ElementStyle *style);
+
+
 protected:
 	GUI_ELEMENT_TYPE type;				//!< The type of this element
 	RECT rect;							//!< Rect the element should draw on, relative to parent
@@ -303,8 +310,14 @@ protected:
 	void calculateMyDrawableRect(RECT &drawablerect_parent, int xoffset, int yoffset, RECT &OUT_mydrawablerect);
 
 	/**
+	* \brief Triggers the element to create or re-create its bitmap resources.
+	*/
+	virtual void createResources() = 0;
+
+
+	/**
 	 * \return The actually usable rect of this element after subtracting the style margins.
 	 */
-	RECT calculateUsableRect();
+//	RECT calculateUsableRect();
 
 };

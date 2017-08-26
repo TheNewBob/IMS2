@@ -8,7 +8,7 @@ GUI_Page::GUI_Page(RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackg
 {
 	if (drawbackground)
 	{
-		createPage();
+		createResources();
 	}
 }
 
@@ -86,8 +86,13 @@ void GUI_Page::reSize()
 }
 
 
-void GUI_Page::createPage()
+void GUI_Page::createResources()
 {
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
+
 	//allocate own surface and fill with background color
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 
@@ -107,12 +112,17 @@ RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts)
 RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields)
 {
 	//check how much space we have to draw on and which layout we have to use for that.
-	RECT usablerect = calculateUsableRect();
-	int usablewidth = usablerect.right - usablerect.left;
-	GUI_Layout *usedlayout = layouts->GetLayoutForWidth(usablewidth);
+	GUI_Layout *usedlayout = layouts->GetLayoutForWidth(width);
 
 	//Get the elements rect, then translate its position by the left and top margins
-	RECT elementrect = usedlayout->GetFieldRectForRowWidth(elementid, usablewidth, ignore_fields);
+	RECT elementrect = usedlayout->GetFieldRectForRowWidth(elementid, width, ignore_fields);
 
 	return elementrect;
+}
+
+
+string GUI_Page::getElementStyle(string elementid, LAYOUTCOLLECTION *layouts)
+{
+	GUI_Layout *usedlayout = layouts->GetLayoutForWidth(width);
+	return usedlayout->GetStyleForField(elementid);
 }

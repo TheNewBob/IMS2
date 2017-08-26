@@ -82,12 +82,12 @@ GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, st
 			//this exception should eventually be handled in the parser that reads styles from file
 			throw invalid_argument("ERROR: parent style does not exist!");
 		}
-		newstyle = new GUI_ElementStyle(stylesets[styleset]->GetStyle(inherit_from));
+		newstyle = new GUI_ElementStyle(styleId, stylesets[styleset]->GetStyle(inherit_from));
 	}
 	else
 	{
 		//create the style without a parent
-		newstyle = new GUI_ElementStyle();
+		newstyle = new GUI_ElementStyle(styleId);
 	}
 
 	stylesets[styleset]->AddStyle(newstyle, styleId);

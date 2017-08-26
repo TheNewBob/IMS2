@@ -173,9 +173,6 @@
     <ClCompile Include="GUI_Page.cpp">
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_StaticButton.cpp">
-      <Filter>GUI\GUI elements</Filter>
-    </ClCompile>
     <ClCompile Include="GUI_surface.cpp">
       <Filter>GUI\GUI surfaces</Filter>
     </ClCompile>
@@ -506,9 +503,6 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Page.h">
-      <Filter>GUI\GUI elements</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_StaticButton.h">
       <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Surface.h">

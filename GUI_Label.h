@@ -36,7 +36,7 @@ public:
 private:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 
-	void createLabel();					//!< Draws the label to its source surface
+	virtual void createResources();
 
 	/**
 	* \brief Helper function to simplify casting of the state.

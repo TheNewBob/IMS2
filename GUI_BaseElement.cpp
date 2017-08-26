@@ -107,7 +107,20 @@ void GUI_BaseElement::DrawChildren(SURFHANDLE _tgt, RECT &drawablerect, int xoff
 }
 
 
-
+void GUI_BaseElement::SetStyle(GUI_ElementStyle *style)
+{
+	if (style != this->style)
+	{
+		if (src != NULL)
+		{
+			oapiDestroySurface(src);
+			src = NULL;
+		}
+		
+		this->style = style;
+		createResources();
+	}
+}
 
 
 
@@ -327,6 +340,13 @@ void GUI_BaseElement::calculateBlitData(int xoffset, int yoffset, RECT &drawable
 	OUT_blitdata.srcrect.top = max(0, drawablerect.top - yoffset);
 	OUT_blitdata.srcrect.right = OUT_blitdata.srcrect.left + OUT_blitdata.width;
 	OUT_blitdata.srcrect.bottom = OUT_blitdata.srcrect.top + OUT_blitdata.height;
+/*	OUT_blitdata.srcrect.left = 0;
+	OUT_blitdata.srcrect.top = 0;
+	OUT_blitdata.srcrect.right = OUT_blitdata.width;
+	OUT_blitdata.srcrect.bottom = OUT_blitdata.height;*/
+
+	//TODO: Something's really weird here...
+
 }
 
 
@@ -370,13 +390,3 @@ void GUI_BaseElement::calculateMyDrawableRect(RECT &drawablerect_parent, int xof
 }
 
 
-RECT GUI_BaseElement::calculateUsableRect()
-{
-	RECT usablerect = rect;
-	usablerect.left += style->MarginLeft();
-	usablerect.right -= style->MarginRight();
-	usablerect.top += style->MarginTop();
-	usablerect.bottom -= style->MarginBottom();
-
-	return usablerect;
-}

@@ -137,20 +137,23 @@ void GuiXmlLoader::loadStyleAttribute(tinyxml2::XMLElement *xmlattribute, GUI_El
 	string attr = xmlattribute->Name();
 	STYLE_PROPERTIES prop = unknown;
 
+	//fonts, insets and childstyle require special assignment, the rest can be set by simple text properties.
 	if (attr == "font") 
 	{
-		// the font needs special treatment
 		style->SetFont(GUI_Looks::GetFont(xmlattribute->GetText(), styleset));
 	}
 	else if (attr == "inset")
 	{
-		//so does inset
 		RECT_DOUBLE rect = readRect(xmlattribute);
 		style->SetMarginLeft(rect.left);
 		style->SetMarginTop(rect.top);
 		style->SetMarginRight(rect.right);
 		style->SetMarginBottom(rect.bottom);
 
+	}
+	else if (attr == "childstyle")
+	{
+		style->SetChildStyle(GUI_Looks::GetStyle(xmlattribute->GetText(), styleset));
 	}
 	else
 	{

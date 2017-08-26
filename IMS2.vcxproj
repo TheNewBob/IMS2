@@ -188,7 +188,6 @@
     <ClCompile Include="GUI_RadioButton.cpp" />
     <ClCompile Include="GUI_ScrollablePage.cpp" />
     <ClCompile Include="GUI_ScrollBar.cpp" />
-    <ClCompile Include="GUI_StaticButton.cpp" />
     <ClCompile Include="GUI_StatusBar.cpp" />
     <ClCompile Include="GUI_surface.cpp" />
     <ClCompile Include="IMS.cpp" />
@@ -323,7 +322,6 @@
     <ClInclude Include="GUI_RadioButton.h" />
     <ClInclude Include="GUI_ScrollablePage.h" />
     <ClInclude Include="GUI_ScrollBar.h" />
-    <ClInclude Include="GUI_StaticButton.h" />
     <ClInclude Include="GUI_StatusBar.h" />
     <ClInclude Include="GUI_StatusBarState.h" />
     <ClInclude Include="GUI_Surface.h" />

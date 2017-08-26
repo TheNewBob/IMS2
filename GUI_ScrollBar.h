@@ -42,7 +42,7 @@ protected:
 	/**
 	 * \brief Draws the scrollbar to its source surface
 	 */
-	void createScrollBar();
+	virtual void createResources();
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
 
 	int scrollpos = 0;											//!< Stores the current scrollposition of the scrollbar

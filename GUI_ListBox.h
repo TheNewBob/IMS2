@@ -18,7 +18,7 @@ public:
 	* \param _selectBox Pass true to make this a multi-select box
 	* \param _noSelect Pass true to disable selection by the user
 	*/
-	GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle = NULL, bool _selectBox = false, bool _noSelect = false);
+	GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, bool _selectBox = false, bool _noSelect = false);
 	~GUI_ListBox(void);
 
 	/**
@@ -86,7 +86,7 @@ protected:
 	 * \brief Draws the ListBox and its scrollbar to its source surface
 	 * \param scrollbarstyle The style in which the scrollbar should be drawn
 	 */
-	void createListBox(GUI_ElementStyle *scrollbarstyle);
+	virtual void createResources();
 
 	int nLines;												//!< Stores the number of lines The listbox can display without scrolling
 	int selected;											//!< Stores the primary selected element (in a multi-select box, the last item to be selected).

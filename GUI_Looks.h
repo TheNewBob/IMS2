@@ -1,6 +1,5 @@
 #pragma once
 
-
 /**
  * \file GUI_Looks.h
  * IMS2 has a dynamic style managment with the aim to be able to define UI skins in external files to allow modding,

@@ -35,6 +35,13 @@ public:
 	 * \param ignore A vector with field ids. Any fields containing such an id will be treated as if it didn't exist in the layout!
 	 */
 	RECT GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> &ignore);
+
+	/**
+	 * \return The id of the style for a certain field.
+	 * \param field_id The id of the field to retrieve the style for.
+	 * \note In case no style is given for the field, returns an empty string, which defers style selection to the factory of the element.
+	 */
+	string GetStyleForField(string field_id);
 	
 	/**
 	 * \return The total height of the layout
@@ -53,11 +60,6 @@ private:
 	vector<LayoutRow> rows;			//!< The rows in this layout, from top to bottom.
 
 	static int pixel_per_em;
-
-	/**
-	 * \return True if a row contains the passed field, false if not.
-	 */
-	bool rowContainsField(string field_id, LayoutRow &IN_row);
 
 	/**
 	 * \return True if a row contains no fields except for ignored ones, false otherwise.

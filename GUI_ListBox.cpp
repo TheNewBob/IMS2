@@ -3,9 +3,10 @@
 #include "GUI_ListBox.h"
 #include "GUI_Looks.h"
 #include "GUI_ListBoxState.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
 
-
-GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle, bool _selectBox, bool _noSelect)
+GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, bool _selectBox, bool _noSelect)
 	: GUI_BaseElement(_mRect, _id, _style)
 {
 	swapState(new GUI_ListBoxState(this));
@@ -21,7 +22,7 @@ GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, GUI_Ele
 	auto s = cState();
 	s->SetSelectBox(_selectBox);
 	s->SetnoSelect(_noSelect);
-	createListBox(_scrollbarstyle);
+	createResources();
 }
 
 GUI_ListBox::~GUI_ListBox(void)
@@ -173,14 +174,17 @@ bool GUI_ListBox::IsHighlight(UINT index)
 	return false;
 }
 
-void GUI_ListBox::createListBox(GUI_ElementStyle *scrollbarstyle)
+void GUI_ListBox::createResources()
 {
-	if (scrollbarstyle == NULL)
+	if (src != NULL)
 	{
-		scrollbarstyle = style;
+		oapiDestroySurface(src);
 	}
+
 	//create the scrollbar
-	scrlBarWidth = 24;
+	scrlBarWidth = GUI_Layout::EmToPx(1.5);
+	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
+	
 	scrollbar = new GUI_ScrollBar(_R(width - scrlBarWidth, 0, width, height), GUI_SCROLLBAR, scrollbarstyle);
 	AddChild(scrollbar);
 

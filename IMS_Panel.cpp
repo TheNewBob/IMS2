@@ -160,7 +160,7 @@ void IMS2::InitialiseGUI()
 		engPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
 //		engPanelBG = oapiCreateTextureSurface(1680, 1050);
 
-		GUI_ElementStyle *defaultstyle = GUI->GetStyle();
+		GUI_ElementStyle *defaultstyle = GUI->GetStyle("default");
 		oapiColourFill(engPanelBG, oapiGetColour(defaultstyle->BackgroundColor().r,
 			defaultstyle->BackgroundColor().g,
 			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);
@@ -169,7 +169,7 @@ void IMS2::InitialiseGUI()
 	{
 		pilotPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
 
-		GUI_ElementStyle *defaultstyle = GUI->GetStyle();
+		GUI_ElementStyle *defaultstyle = GUI->GetStyle("default");
 		oapiColourFill(pilotPanelBG, oapiGetColour(defaultstyle->BackgroundColor().r,
 			defaultstyle->BackgroundColor().g,
 			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);

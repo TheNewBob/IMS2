@@ -1,10 +1,11 @@
-#include "Common.h"
+#include "GUI_common.h"
 #include "LayoutElement.h"
 #include "LayoutField.h"
 #include "LayoutRow.h"
 #include "GUI_Layout.h"
 #include "tinyxml2.h"
 #include "LayoutManager.h"
+#include "GUI_Looks.h"
 
 namespace XML = tinyxml2;
 
@@ -208,6 +209,19 @@ LayoutField LayoutManager::loadFieldFromXml(tinyxml2::XMLElement *field)
 	if (fieldelement != NULL)
 	{
 		newfield.SetElementId(fieldelement->GetText());
+		//check if the element has a non-default style
+		XML::XMLElement *fieldstyle = field->FirstChildElement("style");
+		if (fieldstyle != NULL)
+		{
+			try {
+				GUI_ElementStyle *style = GUI_Looks::GetStyle(fieldstyle->GetText());
+				newfield.SetElementStyle(fieldstyle->GetText());
+			}
+			catch (invalid_argument e) {
+				Helpers::writeToLog(string("No such style: " + string(fieldstyle->GetText()) + ", using default style for element!"), L_WARNING);
+			}
+			
+		}
 	}
 
 	//check if the field has a nested layout

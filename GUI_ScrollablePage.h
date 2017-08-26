@@ -15,7 +15,7 @@ public:
 	 * \param _style The style to render the checkbox in
 	 * \param _scrollbarstyle An alternate style to draw the scrollbar in
 	 */
-	GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_style, GUI_ElementStyle *_scrollbarstyle = NULL);
+	GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_style);
 	virtual ~GUI_ScrollablePage();
 	
 	/**
@@ -42,12 +42,8 @@ protected:
 	virtual void AddChild(GUI_BaseElement *child);
 	virtual int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 
+	virtual void createResources();
 
-
-private:
-	void createScrollablePage(GUI_ElementStyle *scrollbarstyle);			//!< Draws the ScrollablePage and its children to the source surface
-
-
-
+	
 };
 

@@ -29,7 +29,7 @@ private:
 	/**
 	 * \brief Draws the button to its source surface
 	 */
-	void createButton();
+	virtual void createResources();
 
 	/**
 	* \brief Helper function to simplify casting of the state.

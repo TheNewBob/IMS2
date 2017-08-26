@@ -11,7 +11,7 @@ GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect,
 	{
 		valuefont = style->GetFont();
 	}
-	createLabel();
+	createResources();
 	SetValue(_value);
 }
 
@@ -51,8 +51,13 @@ void GUI_LabelValuePair::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT 
 	}
 }
 
-void GUI_LabelValuePair::createLabel()
+void GUI_LabelValuePair::createResources()
 {
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
+
 	labelwidth = font->GetTextWidth(string(label + " ")) + style->MarginLeft();
 	src = GUI_Draw::createElementBackground(style, width, height);
 	font->Print(src, label, style->MarginLeft(), height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),

@@ -6,7 +6,7 @@ GUI_StatusBar::GUI_StatusBar(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_BaseElement(_rect, _id, _style)
 {
 	swapState(new GUI_StatusBarState(this));
-	createStatusBar();
+	createResources();
 }
 
 
@@ -78,9 +78,15 @@ bool GUI_StatusBar::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 	return false;
 }
 
-void GUI_StatusBar::createStatusBar()
+void GUI_StatusBar::createResources()
 {
 	assert(height > font->GetfHeight() && "StatusBar must be taller than its font!");
+
+	if (src != NULL)
+	{
+		oapiDestroySurface(src);
+	}
+
 	//allocate own surface and fill with background color
 	//two complete representations of the bar are needed: one filled, one empty.
 	//And we need an area on which to draw the text being shown in the bar

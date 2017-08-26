@@ -34,6 +34,16 @@ void LayoutField::SetElementId(string element_id)
 	elementid = element_id; 
 }
 
+string LayoutField::GetElementStyle()
+{
+	return styleid;
+}
+
+void LayoutField::SetElementStyle(string style)
+{
+	styleid = style;
+}
+
 void LayoutField::SetNestedLayout(GUI_Layout *layout)
 {
 	assert(nestedlayout == NULL && "You're not allowed to overwrite a nested layout!");
