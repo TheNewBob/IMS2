@@ -159,7 +159,6 @@ private:
 	GUI_Surface *GetSurfaceById(int _id);
 	
 	IMS2 *vessel;										//!< The vessel containing this GUImanager
-	string styleset = "default";						//!< Identifier of the currently used styleset.
 
 	vector<GUI_Surface*> surfaces;						//!< stores pointers to all GUIsurfaces
 

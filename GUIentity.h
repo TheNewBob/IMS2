@@ -208,7 +208,7 @@ protected:
 	
 	map<int, GUI_BaseElement*> elements;			//!< a searchtree containing all GUI_Elements of this entity
 	UINT newuid = GUI_UID_DOMAIN;					//!< Variable used to pass out dynamic UIDs for GUI elements
-	string styleset = "default";					//!< Identifier of the defualt styleset of this entity
+	string styleset = "code";					//!< Identifier of the defualt styleset of this entity
 
 
 };
