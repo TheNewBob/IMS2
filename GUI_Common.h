@@ -23,7 +23,7 @@ const string STYLE_CHECKBOX = "checkbox";			//!< Style that defines the common a
 const string STYLE_STATUSBAR = "statusbar";			//!< Style for status bars
 const string STYLE_SCROLLBAR = "scrollbar";
 const string STYLE_LISTBOX = "listbox";
-const string STYLE_ERROR_ALERT = "error-alert";		//!< Style for error popups
+const string STYLE_ERROR = "error";		//!< Style for error popups
 
 
 /*typedef enum

@@ -1,6 +1,6 @@
 #include "GUI_Common.h"
 #include "Events.h"
-#include "GUI_Surface.h"#include "GUI_Layout.h"
+#include "GUI_Surface.h"
 #include "GUI_elements.h"
 #include "IMS.h"
 #include "GUI_Looks.h"

@@ -46,11 +46,15 @@ void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 		if (s->GetFillStatus() == 1.0)
 		{
 			//the status bar is completely filled, just blit the whole filled bar
+			blitdata.srcrect.top = height * 2;
+			blitdata.srcrect.bottom = height * 3;
 			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 		}
 		else if (s->GetFillStatus() == 0.0)
 		{
 			//the status bar is completely empty, just blit the whole empty bar
+			blitdata.srcrect.top = height * 3;
+			blitdata.srcrect.bottom = height * 4;
 			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 		}
 		else
@@ -59,16 +63,28 @@ void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 			//calculate the split between full and empty status bar
 			int splitfromleft = (int)(width * s->GetFillStatus());
 			int splitfromright = width - splitfromleft;
-			//draw the full part of the status bar
-			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
-			RECT splittgtrect = blitdata.tgtrect;
-			splittgtrect.left += splitfromleft;
-			RECT splitsrcrect = blitdata.srcrect;
-			splitsrcrect.left += splitfromleft;
-			splitsrcrect.top = height * 3;
-			splitsrcrect.bottom = splitsrcrect.top + blitdata.height;
-			//oapiBlt(_tgt, src, &blitdata.targetx + splitfromleft, blitdata.targety, blitdata.srcx + splitfromleft, height * 3, blitdata.width - splitfromleft, blitdata.height);
-			oapiBlt(_tgt, src, &splittgtrect, &splitsrcrect, SURF_PREDEF_CK);
+
+			//calculate the source and target rects for the full part of the status bar and blit it.
+			RECT fullsrcrect = _R(blitdata.srcrect.left,
+				height * 2,
+				blitdata.srcrect.right - splitfromright,
+				height * 3);
+
+			RECT fulltgtrect = blitdata.tgtrect;
+			fulltgtrect.right -= splitfromright;
+			
+			oapiBlt(_tgt, src, &fulltgtrect, &fullsrcrect, SURF_PREDEF_CK);
+
+			//calculate the source and target rects for the empty part of the status bar and blit it.
+			RECT emptysrcrect = _R(blitdata.srcrect.left + splitfromleft,
+				height * 3,
+				blitdata.srcrect.right,
+				height * 4);
+
+			RECT emptytgtrect = blitdata.tgtrect;
+			emptytgtrect.left += splitfromleft;
+
+			oapiBlt(_tgt, src, &emptytgtrect, &emptysrcrect, SURF_PREDEF_CK);
 		}
 	}
 }
