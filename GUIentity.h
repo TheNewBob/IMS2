@@ -170,10 +170,14 @@ public:
 
 	/**
 	 * \brief Sets the styleset this GUIentity uses.
-	 * \note Currently only affects elements that are added after the call to this function!!
-	 * \param _styleset A string identifying the desired  StyleSet
+	 * \param _styleset A string identifying the desired StyleSet
 	 */
 	void SetStyleSet(string _styleset);
+
+	/**
+	 * \return The id of the currently active styleset.
+	 */
+	string GetStyleSet();
 
 	/** 
 	 * \return A pointer to the style matching the passed id
@@ -194,7 +198,6 @@ public:
 	 * \return True if any o the elments in this entity have requested a redraw, false otherwise
 	 */
 	virtual bool Update() = 0;
-
 
 protected:
 	/**

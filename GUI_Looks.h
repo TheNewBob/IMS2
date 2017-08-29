@@ -56,6 +56,8 @@ public:
 	 */
 	static GUI_COLOR StringToColor(string strRGB);
 
+	static vector<string> GetAvailableStyleSets();
+
 private:
 	GUI_Looks();
 	~GUI_Looks();

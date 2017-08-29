@@ -14,7 +14,6 @@ GUI_font *GUI_Looks::MakeFont(int height, string face, bool proportional, string
 	if (stylesets.find(styleset) == stylesets.end())
 	{
 		createStyleSet(styleset);
-		Helpers::writeToLog(string("font created for non-existing styleset \"" + styleset + "\". Creating styleset implicitly"), L_WARNING);
 	}
 	
 	stylesets[styleset]->AddFont(newFont, id);
@@ -52,6 +51,16 @@ GUI_COLOR GUI_Looks::StringToColor(string strRGB)
 	color.g = green;
 	color.b = blue;
 	return color;
+}
+
+vector<string> GUI_Looks::GetAvailableStyleSets()
+{
+	vector<string> retval;
+	for (auto i = stylesets.begin(); i != stylesets.end(); ++i)
+	{
+		retval.push_back(i->first);
+	}
+	return retval;
 }
 
 

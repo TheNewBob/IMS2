@@ -107,7 +107,8 @@ enum
 	MD_CONFIG_MENU,
 	MD_CONFIG_RCSASSISTCHKBX,
 	MD_CONFIG_SCENEDCHKBX,
-
+	MD_CONFIG_STYLESETSLISTBX,
+	
 	//this marks the beginning of available UIDs for dynamic assignement
 	GUI_UID_DOMAIN
 };

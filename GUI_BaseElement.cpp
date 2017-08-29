@@ -118,7 +118,17 @@ void GUI_BaseElement::SetStyle(GUI_ElementStyle *style)
 		}
 		
 		this->style = style;
+		font = this->style->GetFont();
 		createResources();
+		updatenextframe = true;
+	}
+}
+
+void GUI_BaseElement::SetStyleSetForPlugins(string styleset)
+{
+	for (auto i = plugins.begin(); i != plugins.end(); ++i)
+	{
+		(*i)->SetStyleSet(styleset);
 	}
 }
 

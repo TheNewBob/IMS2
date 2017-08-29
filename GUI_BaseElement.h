@@ -189,6 +189,11 @@ public:
 	 */
 	void SetStyle(GUI_ElementStyle *style);
 
+	/**
+	 * Sets the styleset for the plugins of this element.
+	 */
+	void SetStyleSetForPlugins(string styleset);
+
 
 protected:
 	GUI_ELEMENT_TYPE type;				//!< The type of this element

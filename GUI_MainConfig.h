@@ -15,6 +15,8 @@ private:
 	IMS2 *vessel;
 	GUI_CheckBox *rcs_assist;
 	GUI_CheckBox *scened_assist;
+	GUI_ListBox *stylesets;
+	GUI_DynamicButton *setstylesetbtn;
 	
 	int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 };

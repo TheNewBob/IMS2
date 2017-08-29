@@ -145,11 +145,25 @@ GUI_BaseElement *GUIentity::GetElementById(int _id)
 
 
 
-
-//TODO: implement gui recreation so this function actually has an impact after elements were created
 void GUIentity::SetStyleSet(string _styleset)
 {
-	styleset = _styleset;
+	if (styleset != _styleset)
+	{
+		styleset = _styleset;
+		for (auto i = elements.begin(); i != elements.end(); ++i)
+		{
+			GUI_BaseElement *element = i->second;
+			string styleid = element->GetStyle()->GetId();
+			GUI_ElementStyle *newstyle = GUI_Looks::GetStyle(styleid, styleset);
+			element->SetStyle(newstyle);
+			element->SetStyleSetForPlugins(styleset);
+		}
+	}
+}
+
+string GUIentity::GetStyleSet()
+{
+	return styleset;
 }
 
 
