@@ -1,11 +1,4 @@
 #pragma once
-#include "Common.h"
-#include "GUI_Common.h"
-#include "GUI_BaseElement.h"
-#include "GUI_Page.h"
-#include "GUI_Surface_Base.h"
-#include "GUI_Surface.h"
-
 
 /**
  * An IMS2 specific implementation of a GUI_Surface.

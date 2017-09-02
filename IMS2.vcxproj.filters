@@ -21,9 +21,6 @@
     <Filter Include="ModuleData">
       <UniqueIdentifier>{8df63080-f920-481a-ac80-79eff0546016}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\GUI surfaces\MainDisplay menus">
-      <UniqueIdentifier>{c61c4bfc-e183-401e-9894-3e5e65274057}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IMS_Maths">
       <UniqueIdentifier>{455ca7c9-06e4-46b2-9df1-3e351c582956}</UniqueIdentifier>
     </Filter>
@@ -144,6 +141,12 @@
     <Filter Include="GUI\GUI Looks">
       <UniqueIdentifier>{1ad967e4-6b89-41a2-affa-69abefd76f9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\IMS2 Menus">
+      <UniqueIdentifier>{b6e8d4d5-5938-4f51-b6a5-34ecf628890a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\IMS2 Menus\MainDisplay menus">
+      <UniqueIdentifier>{c61c4bfc-e183-401e-9894-3e5e65274057}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -173,9 +176,6 @@
     <ClCompile Include="GUI_Page.cpp">
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_surface.cpp">
-      <Filter>GUI\GUI surfaces</Filter>
-    </ClCompile>
     <ClCompile Include="IMS_ModuleDataManager.cpp">
       <Filter>ModuleData</Filter>
     </ClCompile>
@@ -189,13 +189,10 @@
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
     <ClCompile Include="GUI_MainConstruct.cpp">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI_MainDisplay.cpp">
-      <Filter>GUI\GUI surfaces</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClCompile>
     <ClCompile Include="GUI_MainDeconstruct.cpp">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClCompile>
     <ClCompile Include="IMS_ModuleComparators.cpp">
       <Filter>Modules</Filter>
@@ -258,7 +255,7 @@
       <Filter>ModuleData</Filter>
     </ClCompile>
     <ClCompile Include="GUI_MainModules.cpp">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClCompile>
     <ClCompile Include="IMS_ModuleFunction_Animation.cpp">
       <Filter>Modules\Module functionalities\Animations</Filter>
@@ -393,7 +390,7 @@
       <Filter>Modules\Module functionalities\Gear</Filter>
     </ClCompile>
     <ClCompile Include="GUI_MainConfig.cpp">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Autopilot_Killrot.cpp">
       <Filter>Autopilots</Filter>
@@ -485,6 +482,18 @@
     <ClCompile Include="GuiXmlLoader.cpp">
       <Filter>GUI\GUI Looks</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_Surface_Base.cpp">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_surface.cpp">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_MainDisplay.cpp">
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS2_GUI_Surface.cpp">
+      <Filter>GUI\IMS2 Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -505,9 +514,6 @@
     <ClInclude Include="GUI_Page.h">
       <Filter>GUI\GUI elements</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_Surface.h">
-      <Filter>GUI\GUI surfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Misc</Filter>
     </ClInclude>
@@ -527,13 +533,10 @@
       <Filter>GUI\GUI elements</Filter>
     </ClInclude>
     <ClInclude Include="GUI_MainConstruct.h">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI_MainDisplay.h">
-      <Filter>GUI\GUI surfaces</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClInclude>
     <ClInclude Include="GUI_MainDeconstruct.h">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClInclude>
     <ClInclude Include="Calc.h">
       <Filter>IMS_Maths</Filter>
@@ -626,7 +629,7 @@
       <Filter>ModuleData</Filter>
     </ClInclude>
     <ClInclude Include="GUI_MainModules.h">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClInclude>
     <ClInclude Include="IMS_ModuleFunction_Animation.h">
       <Filter>Modules\Module functionalities\Animations</Filter>
@@ -842,7 +845,7 @@
       <Filter>EventHandling\Events\animation events</Filter>
     </ClInclude>
     <ClInclude Include="GUI_MainConfig.h">
-      <Filter>GUI\GUI surfaces\MainDisplay menus</Filter>
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Autopilot_Base.h">
       <Filter>Autopilots</Filter>
@@ -966,6 +969,18 @@
     </ClInclude>
     <ClInclude Include="GuiXmlLoader.h">
       <Filter>GUI\GUI Looks</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Surface_Base.h">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Surface.h">
+      <Filter>GUI\GUI surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_MainDisplay.h">
+      <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS2_GUI_Surface.h">
+      <Filter>GUI\IMS2 Menus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

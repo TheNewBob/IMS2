@@ -16,12 +16,13 @@ public:
 	 * \param vessel The vessel this GUI_Surface runs on
 	 * \param style The style for this surface
 	 * \param panelid The orbiter id of the panel this surface is visible on
+	 * \param gui The gui manager this surface
 	 * \param rootelement A page that serves as the root element for this surface.
 	 * \note A page instance passed to a Surface MUST handle its initialisation
 	 * (and the creation of its children) in its PostConstruction method.
 	 * \see GUI_Page::PostConstruction()
 	 */
-	GUI_Surface(VESSEL3 *vessel, int panelid, GUI_Page *rootelement);
+	GUI_Surface(VESSEL3 *vessel, int panelid, GUImanager *gui, GUI_Page *rootelement);
 	virtual ~GUI_Surface();
 
 	virtual void PostInit();

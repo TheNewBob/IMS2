@@ -2,8 +2,8 @@
 #include "GUI_Surface_Base.h"
 
 
-GUI_Surface_Base::GUI_Surface_Base(VESSEL3 *vessel, int panelid)
-	: vessel(vessel), panelId(panelid)
+GUI_Surface_Base::GUI_Surface_Base(VESSEL3 *vessel, int panelid, GUImanager *gui)
+	: vessel(vessel), panelId(panelid), gui(gui)
 {
 }
 

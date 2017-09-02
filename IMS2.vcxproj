@@ -190,7 +190,9 @@
     <ClCompile Include="GUI_ScrollBar.cpp" />
     <ClCompile Include="GUI_StatusBar.cpp" />
     <ClCompile Include="GUI_surface.cpp" />
+    <ClCompile Include="GUI_Surface_Base.cpp" />
     <ClCompile Include="IMS.cpp" />
+    <ClCompile Include="IMS2_GUI_Surface.cpp" />
     <ClCompile Include="IMSgetSet.cpp" />
     <ClCompile Include="IMS_Animation_Base.cpp" />
     <ClCompile Include="IMS_Animation_Continuous.cpp" />
@@ -326,7 +328,9 @@
     <ClInclude Include="GUI_StatusBarState.h" />
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
+    <ClInclude Include="GUI_Surface_Base.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
+    <ClInclude Include="IMS2_GUI_Surface.h" />
     <ClInclude Include="IMS_AutopilotOperation_Base.h" />
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
     <ClInclude Include="IMS_Autopilot_Base.h" />
