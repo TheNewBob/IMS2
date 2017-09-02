@@ -3,6 +3,7 @@
 struct LAYOUTCOLLECTION;
 class GUI_Layout;
 
+
 /**
  * \brief A class that is an empty GUI element used to group children.
  *
@@ -22,6 +23,14 @@ public:
 	* \see ScrollablePage
     */
 	GUI_Page(RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground = false);
+	
+	/**
+	 * Override this method if you need a page to be created after construction.
+	 * This is usually the case for root elements that are children of a GUI_Surface.
+	 * \param gui The gui entity that should receive the page.
+	 */
+	virtual void PostConstruction(GUIentity *gui) {};
+
 	virtual ~GUI_Page(void);
 
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);

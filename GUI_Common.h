@@ -4,8 +4,11 @@
  */
 #pragma once
 
-#include "Common.h"
-#include "instrument.h"
+#include "orbitersdk.h"
+#include "assert.h"
+#include <string>
+#include <vector>
+#include <map>
 
 class GUI_Surface;
 class GUI_font;

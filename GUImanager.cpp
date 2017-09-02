@@ -1,5 +1,6 @@
 #include "GUI_Common.h"
 #include "Events.h"
+#include "GUI_Surface_Base.h"
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
 #include "GUI_Looks.h"
@@ -176,24 +177,15 @@ bool GUImanager::AddChildToParent(GUI_BaseElement *child, int parentId)
 	GUI_Surface *parentSurf = NULL;
 	GUI_BaseElement *parentElement = NULL;
 
-	//check whether the parent is a surface or an element. One day I'll have to refactor this
-	parentSurf = GetSurfaceById(parentId);
-	if (parentSurf == NULL)
+	//check if an element with the passed id exists
+	parentElement = GetElementById(parentId);
+	if (parentElement == NULL)
 	{
-		//check if we have a common element instead
-		parentElement = GetElementById(parentId);
-		if (parentElement == NULL)
-		{
-			return false;
-		}
-		else
-		{
-			parentElement->AddChild(child);
-		}
+		return false;
 	}
 	else
 	{
-		parentSurf->AddChild(child);
+		parentElement->AddChild(child);
 	}
 	return true;
 }
