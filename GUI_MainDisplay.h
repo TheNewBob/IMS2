@@ -8,12 +8,12 @@ class GUI_MainConfig;
 //the main display to the right of the engineering panel
 
 class GUI_MainDisplay :
-	public GUI_Surface
+	public IMS_RootPage
 {
 public:
-	GUI_MainDisplay(IMS2 *_vessel, GUI_ElementStyle *_style, int _panelid);
+	GUI_MainDisplay(IMS2 *vessel, RECT rect, GUI_ElementStyle *style);
 	~GUI_MainDisplay(void);
-	void PostInit();
+	void PostConstruction(GUIentity *gui);
 	bool ProcessMouse2D (GUI_MOUSE_EVENT _event, int mx, int my);
 	void UpdateDockedVesselsList(vector<DOCKEDVESSEL*> &vesselList);
 	void UpdateModulesList();
@@ -33,5 +33,7 @@ private:
 
 	//overload from EventHandler
 	bool ProcessEvent(Event_Base *e);
+
+	IMS2 *vessel;
 	
 };

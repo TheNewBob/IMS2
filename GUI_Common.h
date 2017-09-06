@@ -14,6 +14,7 @@ class GUI_Surface;
 class GUI_font;
 
 using namespace oapi;
+using namespace std;
 
 /**
  * Identifiers fordefault styles
@@ -58,17 +59,13 @@ const string STYLE_ERROR = "error";		//!< Style for error popups
 
 enum 
 {
-	//DEPRECATED!!
 	//identifiers for GUI element types 
-	//identifies any scrollbar that is directly integrated into an element
-	//note that scrollbars are not registered with the manager but managed by
-	//their parent element itself. Therefore, it is ok for scrollbars to all
-	//have the same id. Any element that registers with the GUI manager, however,
-	//MUST have a locally unique id (that is, unique to the gui manager instance
-	//it is registered at. Every vessel has its own).
-	GUI_SCROLLBAR,				
+	// Any element that registers with the GUI manager MUST have a locally unique id 
+	// (that is, unique to the gui manager instance). For dynamic elements the id should
+	// therefore be created dynamically by the manager.
+
 	//main display elements
-	GUI_MAIN_DISPLAY,			//GUI_Surface
+	GUI_MAIN_DISPLAY,			
 	GUI_MAIN_ROOT_BTN,
 	GUI_MAIN_ROOT_MNU,
 	GUI_MAIN_ROOT_CONSTMNU_BTN,

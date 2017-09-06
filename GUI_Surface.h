@@ -1,7 +1,7 @@
 /**
  * Class that embeds the IMS GUI into an Orbiter PanelElement.
  *
- * This is the class that actually receives input and redwaw events from Orbiter,
+ * This is the class that actually receives input and redraw events from Orbiter,
  * so every GUI element must be a child of a GUI_Surface at the root of its branch
  * \todo Derives from PanelElement, but how necessary that really is will be revealed when MFDs are implemented.
  *		It might be possible to discard that dependency.

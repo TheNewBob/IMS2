@@ -10,18 +10,16 @@
 #include "GUIpopup.h"
 #include "GUIalert.h"
 #include "GUIlistPopup.h"
-#include "IMS.h"
+
 
 unsigned long GUImanager::lastclock = 0;
 unsigned int GUImanager::managerinstances = 0;
 map<GUIplugin*, GUI_BaseElement*> GUImanager::temporaryplugins;
 
 
-GUImanager::GUImanager(IMS2* _vessel)
-// _vessel: vessel for which the GUImanager is designed
-//guiTextures: texture surface from which to blit GUI elements
+GUImanager::GUImanager(VESSEL3 *vessel)
+	: vessel(vessel)
 {
-	vessel = _vessel;
 	curEvent = LBNONE;
 	managerinstances++;
 }

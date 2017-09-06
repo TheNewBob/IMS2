@@ -491,7 +491,7 @@
     <ClCompile Include="GUI_MainDisplay.cpp">
       <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClCompile>
-    <ClCompile Include="IMS2_GUI_Surface.cpp">
+    <ClCompile Include="IMS_RootPage.cpp">
       <Filter>GUI\IMS2 Menus</Filter>
     </ClCompile>
   </ItemGroup>
@@ -979,7 +979,7 @@
     <ClInclude Include="GUI_MainDisplay.h">
       <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClInclude>
-    <ClInclude Include="IMS2_GUI_Surface.h">
+    <ClInclude Include="IMS_RootPage.h">
       <Filter>GUI\IMS2 Menus</Filter>
     </ClInclude>
   </ItemGroup>

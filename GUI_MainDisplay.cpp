@@ -1,7 +1,8 @@
+#include "Common.h"
 #include "GUI_Common.h"
 #include "Events.h"
-#include "GUI_Surface.h"
 #include "GUI_elements.h"
+#include "IMS_RootPage.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "IMS.h"
@@ -12,8 +13,8 @@
 #include "GUI_MainConfig.h"
 #include "GUI_MainDisplay.h"
 
-GUI_MainDisplay::GUI_MainDisplay(IMS2 *_vessel, GUI_ElementStyle *_style, int _panelid)
-: GUI_Surface(_vessel, _style, _panelid)
+GUI_MainDisplay::GUI_MainDisplay(IMS2 *vessel, RECT rect, GUI_ElementStyle *style)
+	: IMS_RootPage(vessel, GUI_MAIN_DISPLAY, rect, style), vessel(vessel)
 {
 	
 }
@@ -23,12 +24,10 @@ GUI_MainDisplay::~GUI_MainDisplay(void)
 }
 
 //create children
-void GUI_MainDisplay::PostInit()
+void GUI_MainDisplay::PostConstruction(GUIentity *gui)
 {
-
 	//menu size will be the same for all menus
 	RECT menurect = _R(0, 40, width, height - 10);
-	GUImanager *gui = vessel->GetGUI();
 	//button that leads back to the root menu. always visible except in root menu
 	rootbutton = gui->CreateDynamicButton("X", _R(width - 40, 10, width - 10, 35), GUI_MAIN_DISPLAY, GUI_MAIN_ROOT_BTN/*, "bolb-button"*/);
 	rootbutton->SetVisible(false);
@@ -83,10 +82,6 @@ bool GUI_MainDisplay::ProcessMe(int eventId)
 
 void GUI_MainDisplay::UpdateDockedVesselsList(std::vector<DOCKEDVESSEL*> &vesselList)
 {
-	if (!isInitialised)
-	{
-		return;
-	}
 	construct->UpdateDockedVesselsList(vesselList);
 	vessel->GetGUI()->RedrawGUISurface(id);
 }
@@ -94,10 +89,6 @@ void GUI_MainDisplay::UpdateDockedVesselsList(std::vector<DOCKEDVESSEL*> &vessel
 
 void GUI_MainDisplay::UpdateModulesList()
 {
-	if (!isInitialised)
-	{
-		return;
-	}
 	deconstruct->UpdateModulesList();
 	vessel->GetGUI()->RedrawGUISurface(id);
 }

@@ -1,3 +1,4 @@
+#include "Common.h"
 #include "GUI_Common.h"
 #include "GUIentity.h"
 #include "GUImanager.h"

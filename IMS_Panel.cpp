@@ -1,4 +1,4 @@
-//#include "Common.h"
+#include "Common.h"
 #include "GUI_Common.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
@@ -174,9 +174,12 @@ void IMS2::InitialiseGUI()
 			defaultstyle->BackgroundColor().g,
 			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);
 	}
-	//allocate panel elements
-	mainDispSurface = new GUI_MainDisplay(this, GUI->GetStyle(STYLE_PAGE), ENGINEERINGPANEL);
-	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, _R(1176, 428, 1676, 1046));
+
+	//create SwingShot panel elements
+	RECT maindisplayrect = _R(1176, 428, 1676, 1046);
+	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(this, maindisplayrect, GUI->GetStyle(STYLE_PAGE));
+	mainDispSurface = new GUI_Surface(this, ENGINEERINGPANEL, GUI, maindisplay);
+	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, maindisplayrect);
 }
 
 void IMS2::DestroyGUI()

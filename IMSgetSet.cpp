@@ -1,3 +1,4 @@
+#include "Common.h"
 #include "GUI_Common.h"
 #include "Managers.h"
 #include "IMS_CoGmanager.h"

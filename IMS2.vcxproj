@@ -192,7 +192,6 @@
     <ClCompile Include="GUI_surface.cpp" />
     <ClCompile Include="GUI_Surface_Base.cpp" />
     <ClCompile Include="IMS.cpp" />
-    <ClCompile Include="IMS2_GUI_Surface.cpp" />
     <ClCompile Include="IMSgetSet.cpp" />
     <ClCompile Include="IMS_Animation_Base.cpp" />
     <ClCompile Include="IMS_Animation_Continuous.cpp" />
@@ -233,6 +232,7 @@
     <ClCompile Include="IMS_PropellantInjector.cpp" />
     <ClCompile Include="IMS_PropulsionManager.cpp" />
     <ClCompile Include="IMS_RcsManager.cpp" />
+    <ClCompile Include="IMS_RootPage.cpp" />
     <ClCompile Include="IMS_State.cpp" />
     <ClCompile Include="IMS_TouchdownPointManager.cpp" />
     <ClCompile Include="Instrument.cpp" />
@@ -330,13 +330,13 @@
     <ClInclude Include="AnimationEvent_Base.h" />
     <ClInclude Include="GUI_Surface_Base.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
-    <ClInclude Include="IMS2_GUI_Surface.h" />
     <ClInclude Include="IMS_AutopilotOperation_Base.h" />
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
     <ClInclude Include="IMS_Autopilot_Base.h" />
     <ClInclude Include="IMS_Autopilot_Killrot.h" />
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
+    <ClInclude Include="IMS_RootPage.h" />
     <ClInclude Include="IMS_TouchdownPointManager.h" />
     <ClInclude Include="LayoutElement.h" />
     <ClInclude Include="LayoutField.h" />

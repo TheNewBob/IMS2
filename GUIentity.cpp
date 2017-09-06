@@ -2,7 +2,6 @@
 #include "Events.h"
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
-#include "IMS.h"
 #include "GUI_Looks.h"
 #include "GUIentity.h"
 

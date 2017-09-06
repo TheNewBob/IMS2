@@ -219,7 +219,7 @@ private:
 	MESHHANDLE hPanelMesh;                       // 2-D instrument panel mesh handle
  	GUImanager *GUI;							 //GUI manager that handles GUI for this vessel
 	//panel elements
- 	GUI_MainDisplay *mainDispSurface;
+ 	GUI_Surface *mainDispSurface;
 
 
 	vector<IMS_Module*> modules;

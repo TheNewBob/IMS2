@@ -14,7 +14,7 @@ public:
 	/**
 	 * \param _vessel The vessel containing this GUImanager
 	 */
-	GUImanager(IMS2* _vessel);
+	GUImanager(VESSEL3 *vessel);
 	~GUImanager(void);
 
 	/**
@@ -158,7 +158,7 @@ private:
 	 */
 	GUI_Surface *GetSurfaceById(int _id);
 	
-	IMS2 *vessel;										//!< The vessel containing this GUImanager
+	VESSEL3 *vessel;										//!< The vessel containing this GUImanager
 
 	vector<GUI_Surface*> surfaces;						//!< stores pointers to all GUIsurfaces
 
