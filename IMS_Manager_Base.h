@@ -1,5 +1,7 @@
 #pragma once
-#include "EventHandler.h"
+
+class IMS2;
+
 class IMS_Manager_Base :
 	public EventHandler
 {

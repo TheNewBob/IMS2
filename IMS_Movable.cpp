@@ -1,4 +1,6 @@
 #include "GUIincludes.h"
+#include "Common.h"
+#include "ModuleTypes.h"
 #include "Events.h"
 #include "IMS_ModuleFunctionData_Base.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"

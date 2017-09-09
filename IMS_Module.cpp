@@ -1,5 +1,6 @@
 #pragma once
 #include "GUI_Common.h"
+#include "Common.h"
 #include "GUI_elements.h"
 #include "GUIentity.h"
 #include "GUIplugin.h"

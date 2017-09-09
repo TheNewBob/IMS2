@@ -1,4 +1,5 @@
 #include "GUI_Common.h"
+#include "Helpers.h"
 #include "StyleSet.h"
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 class SimpleShape;
+struct IMSATTACHMENTPOINT;
 
 /**
 * \brief Contains data to construct the hullshape as loaded from file.

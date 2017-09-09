@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "Helpers.h"
 
 class GUI_Surface;
 class GUI_font;

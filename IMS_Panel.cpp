@@ -4,7 +4,11 @@
 #include "GUImanager.h"
 #include "Events.h"
 #include "IMS.h"
+#include "GUI_Surface_Base.h"
 #include "GUI_Surface.h"
+#include "GUI_BaseElement.h"
+#include "GUI_Page.h"
+#include "IMS_RootPage.h"
 #include "GUI_MainDisplay.h"
 
 bool IMS2::clbkLoadPanel2D(int id, PANELHANDLE hPanel, DWORD viewW, DWORD viewH) 
@@ -103,7 +107,8 @@ void IMS2::DefineEngPanel(PANELHANDLE hPanel)
 
 	//register GUI_Surface with Orbiter
 	  GUI->RegisterSurfaceWithOrbiter(mainDispSurface, hPanel, engPanelBG);
-	  mainDispSurface->UpdateDockedVesselsList(dockedVesselsList);
+	  // TODO: method has changed object. Check if this still needs to be executed.
+	  //mainDispSurface->UpdateDockedVesselsList(dockedVesselsList);
 }
 
 
