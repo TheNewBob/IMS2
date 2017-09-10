@@ -19,6 +19,7 @@ GUI_Surface::~GUI_Surface()
 
 void GUI_Surface::PostInit()
 {
+	// TODO: Registering child must be handled differently now!
 	assert(isInitialised);
 	gui->RegisterGuiElement(page, id);
 	page->PostConstruction(gui);

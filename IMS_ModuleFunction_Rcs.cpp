@@ -1,4 +1,5 @@
 #include "GUIIncludes.h"
+#include "Common.h"
 #include "ModuleFunctionIncludes.h"
 #include "IMS.h"
 #include "IMS_Manager_Base.h"

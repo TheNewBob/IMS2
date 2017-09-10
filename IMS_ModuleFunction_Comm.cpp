@@ -1,4 +1,5 @@
 #include "GuiIncludes.h"
+#include "Common.h"
 #include "ModuleFunctionIncludes.h"
 #include "StateMachineIncludes.h"
 #include "IMS_ModuleFunctionData_Comm.h"

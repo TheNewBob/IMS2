@@ -17,6 +17,8 @@ class GUI_font;
 using namespace oapi;
 using namespace std;
 
+//static double RAD_PER_DEGREE = 0.0174532925;
+
 /**
  * Identifiers fordefault styles
  */

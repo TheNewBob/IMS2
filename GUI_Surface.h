@@ -1,3 +1,7 @@
+#pragma once
+
+class GUI_Page;
+
 /**
  * Class that embeds the IMS GUI into an Orbiter PanelElement.
  *

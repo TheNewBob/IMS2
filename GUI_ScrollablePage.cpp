@@ -96,7 +96,7 @@ void GUI_ScrollablePage::createResources()
 	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
 
 
-	scrollbar = new GUI_ScrollBar(_R(width - scrlbarwidth, 0, width, height), GUI_SCROLLBAR, scrollbarstyle);
+	scrollbar = new GUI_ScrollBar(_R(width - scrlbarwidth, 0, width, height), -1, scrollbarstyle);
 	scrollbar->SetNoBlit(true);
 	scrollbar->SetScrollSpeed(10);
 	scrollbar->SetFixed(true);

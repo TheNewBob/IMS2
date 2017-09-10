@@ -5,7 +5,11 @@
 #include "Events.h"
 #include "IMS.h"
 #include "IMS_Module.h"
+#include "GUI_Surface_Base.h"
 #include "GUI_Surface.h"
+#include "GUI_BaseElement.h"
+#include "GUI_Page.h"
+#include "IMS_RootPage.h"
 #include "GUI_MainDisplay.h"
 #include "Calc.h"
 
@@ -121,7 +125,8 @@ void IMS2::UpdateDockPorts(bool hasAssimilated)
 		modules[i]->UpdateAttachmentPoints(hasAssimilated);
 	}
 
-	if (hasAssimilated) mainDispSurface->UpdateModulesList();
+	// TODO propagate via events
+	//if (hasAssimilated) mainDispSurface->UpdateModulesList();
 }
 
 //establishes connection between attachment points of INTEGRATED modules (circular connections possible!)
@@ -176,8 +181,10 @@ void IMS2::HandleDockEvent()
 {
 	UpdateDockPorts(isSetForRedock);
 	isSetForRedock = false;
-	mainDispSurface->UpdateDockedVesselsList(dockedVesselsList);
-	mainDispSurface->UpdateModulesList();
+
+	// TODO Propagate via events
+	/*	mainDispSurface->UpdateDockedVesselsList(dockedVesselsList);
+	mainDispSurface->UpdateModulesList();*/
 
 }
 

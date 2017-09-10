@@ -247,7 +247,7 @@ IVECTOR2 *GUI_Draw::createRoundedCornerVertexList(IVECTOR2 center, int corner_ra
 	//generate the vertices for this corner
 	while (angle <= anglestop + 0.01)			//needs a bit of tolerance due to double inprecisions
 	{
-		double radangle = angle * RAD_PER_DEGREE;
+		double radangle = angle * PI / 180;
 		verts[vertidx].x = (int)round((double)corner_radius * cos(radangle) + center.x);
 		verts[vertidx].y = (int)round((double)corner_radius * -sin(radangle) + center.y);
 
@@ -267,7 +267,7 @@ IVECTOR2 *GUI_Draw::addVertexToVertexList(IVECTOR2 vert, int &IN_OUT_numvertices
 	{
 		if (IN_OUT_numvertices == 0)
 		{
-			throw INVALID_ARGUMENT_EXCEPTION;
+			throw invalid_argument("passed empty vertex list!");
 		}
 		//append to list
 		newlist = new IVECTOR2[IN_OUT_numvertices + 1];

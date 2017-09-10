@@ -1,5 +1,5 @@
 #include "GUI_Common.h"
-#include "Events.h"
+#include "GUI_Surface_Base.h"
 #include "GUI_Surface.h"
 #include "GUI_elements.h"
 #include "GUI_Looks.h"

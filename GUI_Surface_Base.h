@@ -33,7 +33,7 @@ public:
 	* \param mx cursor X position relative to this element.
 	* \param my cursor Y position relative to this element.
 	*/
-	virtual bool ProcessMouse2D(int event, int mx, int my) { return false; };
+	virtual bool ProcessMouse2D(int event, int mx, int my);
 
 	/**
 	* \brief Checks all decendants for visual updates.
