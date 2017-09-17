@@ -185,8 +185,15 @@ void GUI_ListBox::createResources()
 	scrlBarWidth = GUI_Layout::EmToPx(1.5);
 	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
 	
-	scrollbar = new GUI_ScrollBar(_R(width - scrlBarWidth, 0, width, height), -1, scrollbarstyle);
-	AddChild(scrollbar);
+	if (scrollbar == NULL)
+	{
+		scrollbar = new GUI_ScrollBar(_R(width - scrlBarWidth, 0, width, height), GUI_SCROLLBAR, scrollbarstyle);
+		AddChild(scrollbar);
+	}
+	else
+	{
+		scrollbar->SetStyle(scrollbarstyle);
+	}
 
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 	Sketchpad *skp = oapiGetSketchpad(tgt);

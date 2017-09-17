@@ -39,10 +39,14 @@ int GUI_Layout::RelToPx(double rel, double rowwidth)
 }
 
 
-RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> &ignore)
+RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> ignore)
 {
-	//just make sure somebody doesn't screw himself over.
-	assert(find(ignore.begin(), ignore.end(), field_id) == ignore.end() && "Ignoring the field that is searched for!");
+	//Make sure that the searched field isn't on the ignore list.
+	auto searched_field = find(ignore.begin(), ignore.end(), field_id);
+	if (searched_field != ignore.end())
+	{
+		ignore.erase(searched_field);
+	}
 
 	RECT fieldrect = _R(0, 0, 0, 0);
 	//deducting the layouts overall margin from the available rowwidth and setting starting position.

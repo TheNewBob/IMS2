@@ -12,6 +12,21 @@
 #include "GUI_MainModules.h"
 #include "GUI_MainConfig.h"
 #include "GUI_MainDisplay.h"
+#include "LayoutManager.h"
+#include "GUI_Looks.h"
+
+const string FILENAME = "mainmenu/root.xml";
+const string ROOT_BTN = "root_btn";
+const string MAIN_MNU = "main_menu";
+const string ASSEMBLY_BTN = "assembly_btn";
+const string DECONSTRUCT_BTN = "deconstruct_btn";
+const string MODULES_BTN = "modules_btn";
+const string CONFIG_BTN = "config_btn";
+const string ASSEMBLY_PG = "assembly_pg";
+const string DECONSTRUCT_PG = "deconstruct_pg";
+const string MODULES_PG = "modules_pg";
+const string CONFIG_PG = "config_pg";
+
 
 GUI_MainDisplay::GUI_MainDisplay(IMS2 *vessel, RECT rect, GUI_ElementStyle *style)
 	: IMS_RootPage(vessel, GUI_MAIN_DISPLAY, rect, style), vessel(vessel)
@@ -26,28 +41,30 @@ GUI_MainDisplay::~GUI_MainDisplay(void)
 //create children
 void GUI_MainDisplay::PostConstruction(GUIentity *gui)
 {
+	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
+	vector<string> ignorepages = { MAIN_MNU, ASSEMBLY_PG, DECONSTRUCT_PG, MODULES_PG, CONFIG_PG };
+
 	//menu size will be the same for all menus
-	RECT menurect = _R(0, 40, width, height - 10);
 	//button that leads back to the root menu. always visible except in root menu
-	rootbutton = gui->CreateDynamicButton("X", _R(width - 40, 10, width - 10, 35), id, GUI_MAIN_ROOT_BTN);
+	rootbutton = gui->CreateDynamicButton("X", getElementRect(ROOT_BTN, layouts), id, GUI_MAIN_ROOT_BTN, getElementStyle(ROOT_BTN, layouts));
 	rootbutton->SetVisible(false);
 	//declare root menu. Add new submenu points here.
-	rootmenu = gui->CreatePage(menurect, id, GUI_MAIN_ROOT_MNU);
+	rootmenu = gui->CreatePage(getElementRect(MAIN_MNU, layouts), id, GUI_MAIN_ROOT_MNU);
 	activemenu = rootmenu;
 	//buttons that bring up the sub menus
-	gui->CreateDynamicButton("Assembly", _R(50, 10, width - 50, 35), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONSTMNU_BTN);
-	gui->CreateDynamicButton("Disassembly", _R(50, 50, width - 50, 75), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_DECONSTMNU_BTN);
-	gui->CreateDynamicButton("Module Control", _R(50, 90, width - 50, 115), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_MODULES_BTN);
-	gui->CreateDynamicButton("General Configuration", _R(50, 130, width - 50, 155), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONFIGMNU_BTN);
+	gui->CreateDynamicButton("Assembly", getElementRect(ASSEMBLY_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONSTMNU_BTN, getElementStyle(ASSEMBLY_BTN, layouts));
+	gui->CreateDynamicButton("Disassembly", getElementRect(DECONSTRUCT_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_DECONSTMNU_BTN, getElementStyle(DECONSTRUCT_BTN, layouts));
+	gui->CreateDynamicButton("Module Control", getElementRect(MODULES_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_MODULES_BTN, getElementStyle(MODULES_BTN, layouts));
+	gui->CreateDynamicButton("General Configuration", getElementRect(CONFIG_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONFIGMNU_BTN, getElementStyle(CONFIG_BTN, layouts));
 
 	//construction menu
-	construct = new GUI_MainConstruct(menurect, style, vessel);
+	construct = new GUI_MainConstruct(getElementRect(ASSEMBLY_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(ASSEMBLY_PG, layouts)), vessel);
 	construct->SetVisible(false);
-	deconstruct = new GUI_MainDeconstruct(menurect, style, vessel);
+	deconstruct = new GUI_MainDeconstruct(getElementRect(DECONSTRUCT_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(DECONSTRUCT_PG, layouts)), vessel);
 	deconstruct->SetVisible(false);
-	modulescontrol = new GUI_MainModules(menurect, style, vessel);
+	modulescontrol = new GUI_MainModules(getElementRect(MODULES_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(MODULES_PG, layouts)), vessel);
 	modulescontrol->SetVisible(false);
-	generalconfig = new GUI_MainConfig(menurect, style, vessel);
+	generalconfig = new GUI_MainConfig(getElementRect(CONFIG_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(CONFIG_PG, layouts)), vessel);
 	generalconfig->SetVisible(false);
 }
 

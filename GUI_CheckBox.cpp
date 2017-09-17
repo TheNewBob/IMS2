@@ -20,7 +20,22 @@ void GUI_CheckBox::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawa
 {
 	BLITDATA blitdata;
 	calculateBlitData(xoffset + rect.left, yoffset + rect.top, drawablerect, blitdata);
-	oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
+	// Check how to compose the element depending on whether it is checked or not.
+	int fontheight = font->GetfHeight();
+	RECT boxsrcrect = boxsrcrect = _R(0, 0, fontheight, height);
+	if (!cState()->GetChecked())
+	{
+		boxsrcrect.left += width;
+		boxsrcrect.right += width;
+	}
+	RECT boxtgtrect = blitdata.tgtrect;
+	boxtgtrect.right = boxtgtrect.left + fontheight;
+	RECT textsrcrect = _R(fontheight, 0, width, height);
+	RECT texttgtrect = blitdata.tgtrect;
+	texttgtrect.left += fontheight;
+
+	oapiBlt(_tgt, src, &texttgtrect, &textsrcrect, SURF_PREDEF_CK);
+	oapiBlt(_tgt, src, &boxtgtrect, &boxsrcrect, SURF_PREDEF_CK);
 }
 
 
@@ -43,18 +58,10 @@ bool GUI_CheckBox::ToggleChecked()
 {
 	auto s = cState();
 	s->SetChecked(!s->GetChecked());
-	//copy the appropriate graphic in front of the text
-	int fontheight = font->GetfHeight();
-	if (s->GetChecked())
-	{
-		oapiBlt(src, src, style->MarginLeft(), 0, width + fontheight, 0, fontheight, height);
-	}
-	else
-	{
-		oapiBlt(src, src, style->MarginLeft(), 0, width, 0, fontheight, height);
-	}
 	return s->GetChecked();
 }
+
+
 
 bool GUI_CheckBox::Checked()
 {
@@ -66,16 +73,6 @@ void GUI_CheckBox::SetChecked(bool _checked)
 {
 	auto s = cState();
 	s->SetChecked(_checked);
-	//copy the appropriate graphic in front of the text
-	int fontheight = font->GetfHeight();
-	if (s->GetChecked())
-	{
-		oapiBlt(src, src, style->MarginLeft(), 0, width + fontheight, 0, fontheight, height);
-	}
-	else
-	{
-		oapiBlt(src, src, style->MarginLeft(), 0, width, 0, fontheight, height);
-	}
 }
 
 void GUI_CheckBox::createResources()
@@ -90,14 +87,15 @@ void GUI_CheckBox::createResources()
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width + fontheight * 2, height);
 
 	Sketchpad *skp = oapiGetSketchpad(tgt);
-	//draw both the unchecked and the checked box after the width of the element
+	//draw the checked box in front of the text, the unchecked behind it. We'll blit selectively depending on state when drawing.
 	GUI_Draw::DrawRectangle(_R(width, height / 2 - fontheight / 2, width + fontheight, height / 2 + fontheight / 2), skp, style);
-	GUI_Draw::DrawRectangle(_R(width + fontheight, height / 2 - fontheight / 2, width + fontheight * 2, height / 2 + fontheight / 2), skp, style, true);
+	GUI_Draw::DrawRectangle(_R(0, height / 2 - fontheight / 2, fontheight, height / 2 + fontheight / 2), skp, style, true);
 
 	oapiReleaseSketchpad(skp);
 
 	//print text
-	font->Print(tgt, text, fontheight + font->GetfWidth() + style->MarginLeft(), height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
+	font->Print(tgt, text, fontheight + font->GetfWidth() + style->MarginLeft(), height / 2, 
+		_R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_LEFT, V_CENTER);
 
 	//assign new surface as source

@@ -35,7 +35,7 @@ public:
 
 
 protected:
-	GUI_ScrollBar *scrollbar;								//!< Stores a pointer to the scrollbar element
+	GUI_ScrollBar *scrollbar = NULL;								//!< Stores a pointer to the scrollbar element
 	
 	virtual void DrawChildren(SURFHANDLE _tgt, RECT &drawablerect, int xoffset = 0, int yoffset = 0);
 	virtual void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);

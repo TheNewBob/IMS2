@@ -49,7 +49,9 @@ void GUI_ScrollablePage::DrawChildren(SURFHANDLE _tgt, RECT &drawablerect, int x
 	//get the real drawable rect of this element
 	RECT mydrawablerect;
 	calculateMyDrawableRect(drawablerect, xoffset + rect.left, yoffset + rect.top, mydrawablerect);
-
+	// Take the linestrength into account, otherwise elements might overlap the pages border when scrolling.
+	mydrawablerect.top += style->LineWidth() + 1;   // Not sure why this additional pixel is necessary, but it is!
+	mydrawablerect.bottom -= style->LineWidth();
 	//factor the scroll position into the drawing position of the child elements
 	int scrollyOffset = newyOffset - scrollbar->GetScrollPos();
 	
@@ -95,11 +97,17 @@ void GUI_ScrollablePage::createResources()
 	int scrlbarwidth = GUI_Layout::EmToPx(1.5);
 	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
 
-
-	scrollbar = new GUI_ScrollBar(_R(width - scrlbarwidth, 0, width, height), -1, scrollbarstyle);
-	scrollbar->SetNoBlit(true);
-	scrollbar->SetScrollSpeed(10);
-	scrollbar->SetFixed(true);
+	if (scrollbar == NULL)
+	{
+		scrollbar = new GUI_ScrollBar(_R(width - scrlbarwidth, 0, width, height), GUI_SCROLLBAR, scrollbarstyle);
+		scrollbar->SetNoBlit(true);
+		scrollbar->SetScrollSpeed(10);
+		scrollbar->SetFixed(true);
+	}
+	else 
+	{
+		scrollbar->SetStyle(scrollbarstyle);
+	}
 
 	//don't use the overloaded addchild method, because that one will to calculate
 	//scrollrange for the contained elements. Since the scrollbar is the only element

@@ -52,6 +52,11 @@ void StyleSet::AddFont(GUI_font *font, string fontid)
 
 GUI_ElementStyle *StyleSet::GetStyle(string styleId)
 {
+	if (styleId == "")
+	{
+		styleId = "default";
+	}
+
 	map<string, GUI_ElementStyle*>::iterator i = styles.find(styleId);
 	if (i == styles.end())
 	{

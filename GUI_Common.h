@@ -66,7 +66,7 @@ enum
 	// Any element that registers with the GUI manager MUST have a locally unique id 
 	// (that is, unique to the gui manager instance). For dynamic elements the id should
 	// therefore be created dynamically by the manager.
-
+	GUI_SCROLLBAR,			//identifies scrollbars to their parents
 	//main display elements
 	GUI_MAIN_DISPLAY,			
 	GUI_MAIN_ROOT_BTN,

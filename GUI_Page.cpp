@@ -4,7 +4,7 @@
 #include "GUI_Page.h"
 
 GUI_Page::GUI_Page(RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground)
-: GUI_BaseElement(mRect, _id, _style)
+	: GUI_BaseElement(mRect, _id, _style), drawBackground(drawbackground)
 {
 	if (drawbackground)
 	{
@@ -93,13 +93,16 @@ void GUI_Page::createResources()
 		oapiDestroySurface(src);
 	}
 
-	//allocate own surface and fill with background color
-	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
+	if (drawBackground)
+	{
+		//allocate own surface and fill with background color
+		SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 
-	Sketchpad *skp = oapiGetSketchpad(tgt);
-	GUI_Draw::DrawRectangle(_R(0, 0, width, height), skp, style);
-	oapiReleaseSketchpad(skp);
-	src = tgt;
+		Sketchpad *skp = oapiGetSketchpad(tgt);
+		GUI_Draw::DrawRectangle(_R(0, 0, width, height), skp, style);
+		oapiReleaseSketchpad(skp);
+		src = tgt;
+	}
 }
 
 RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts)

@@ -34,7 +34,7 @@ public:
 	 * \param rowwidth The current width of the row in pixel.
 	 * \param ignore A vector with field ids. Any fields containing such an id will be treated as if it didn't exist in the layout!
 	 */
-	RECT GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> &ignore);
+	RECT GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> ignore);
 
 	/**
 	 * \return The id of the style for a certain field.

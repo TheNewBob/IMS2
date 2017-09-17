@@ -96,7 +96,7 @@ protected:
 //	vector<std::string> entries;							//!< List of the elements in this ListBox
 //	bool selectBox;											//!< Stores whether this is a multi-select box 	
 //	bool noSelect;											//!< Stores whether elements of this ListBox can be selected at all
-	GUI_ScrollBar *scrollbar;								//!< Pointer to the ListBox's scrollbar element
+	GUI_ScrollBar *scrollbar = NULL;						//!< Pointer to the ListBox's scrollbar element
 	
 	vector<UINT> hilights;									//!< List of indices of all selected items in a multi-select box
 	GUI_TEXT_POS listJustification;							//!< Stores the justification of the list text

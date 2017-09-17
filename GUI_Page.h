@@ -64,6 +64,7 @@ protected:
 
 	string getElementStyle(string elementid, LAYOUTCOLLECTION *layouts);
 
+	bool drawBackground;
 private: 
 	/**
 	 * \brief Draws the page to its source surface, if it was created with a drawable background
