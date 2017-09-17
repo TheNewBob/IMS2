@@ -169,7 +169,6 @@ GUI_Surface *GUImanager::GetSurfaceById(int _id)
 	return NULL;
 }
 
-
 bool GUImanager::AddChildToParent(GUI_BaseElement *child, int parentId)
 {
 	GUI_Surface *parentSurf = NULL;

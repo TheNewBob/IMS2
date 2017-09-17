@@ -31,6 +31,12 @@ public:
 	virtual ~GUIentity();
 
 	/**
+	 * \brief Registers aGUI Page without a parent, i.e. a root element.
+	 * \note Only used by surfaces to register direct decendants.
+	 */
+	void RegisterGuiRootPage(GUI_Page * rootpage);
+	
+	/**
 	 * \brief Registers a GUI element that has not been created by this GUIentity. 
 	 *
 	 * This is commonly used by specific submenu classes or other non-standard 
@@ -200,6 +206,7 @@ public:
 	virtual bool Update() = 0;
 
 protected:
+	
 	/**
 	 * \brief Adds a GUI_ElementBase to a parent.
 	 *

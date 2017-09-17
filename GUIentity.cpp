@@ -22,12 +22,19 @@ GUIentity::~GUIentity()
 }
 
 
+void GUIentity::RegisterGuiRootPage(GUI_Page * rootpage)
+{
+	if (rootpage->GetId() == -1)
+	{
+		rootpage->id = GetDynamicUID();
+	}
 
-//registers a GUI element that has not been created by a factory function of the GUIentity
-//use for registering non-regular GUI elements, most likely custom menu pages
+	elements[rootpage->GetId()] = rootpage;
+}
+
 void GUIentity::RegisterGuiElement(GUI_BaseElement *_element, int _parentId)
 {
-	//an id of -1 means that the id is not static, I.E. it might be different during different sessions
+	//an element id of -1 means that the id is not static, I.E. it might be different during different sessions
 	// in this case, the generator will give it an ID that is guaranteed to be unique
 	if (_element->GetId() == -1)
 	{

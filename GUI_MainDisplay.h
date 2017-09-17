@@ -19,7 +19,7 @@ public:
 	void UpdateModulesList();
 
 private:
-	virtual bool ProcessMe(int eventId);
+	virtual int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 	void switchMenu(GUI_BaseElement *switch_to);
 
 	GUI_DynamicButton *rootbutton;

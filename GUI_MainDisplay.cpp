@@ -29,10 +29,10 @@ void GUI_MainDisplay::PostConstruction(GUIentity *gui)
 	//menu size will be the same for all menus
 	RECT menurect = _R(0, 40, width, height - 10);
 	//button that leads back to the root menu. always visible except in root menu
-	rootbutton = gui->CreateDynamicButton("X", _R(width - 40, 10, width - 10, 35), GUI_MAIN_DISPLAY, GUI_MAIN_ROOT_BTN/*, "bolb-button"*/);
+	rootbutton = gui->CreateDynamicButton("X", _R(width - 40, 10, width - 10, 35), id, GUI_MAIN_ROOT_BTN);
 	rootbutton->SetVisible(false);
 	//declare root menu. Add new submenu points here.
-	rootmenu = gui->CreatePage(menurect, GUI_MAIN_DISPLAY, GUI_MAIN_ROOT_MNU);
+	rootmenu = gui->CreatePage(menurect, id, GUI_MAIN_ROOT_MNU);
 	activemenu = rootmenu;
 	//buttons that bring up the sub menus
 	gui->CreateDynamicButton("Assembly", _R(50, 10, width - 50, 35), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONSTMNU_BTN);
@@ -51,9 +51,11 @@ void GUI_MainDisplay::PostConstruction(GUIentity *gui)
 	generalconfig->SetVisible(false);
 }
 
-bool GUI_MainDisplay::ProcessMe(int eventId)
+int GUI_MainDisplay::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 {
-	if (eventId == -1) return false;
+	//get the clicked element
+	int eventId = GUI_BaseElement::ProcessChildren(_event, _x, _y);
+	if (eventId == -1) return -1;
 
 	switch (eventId)
 	{

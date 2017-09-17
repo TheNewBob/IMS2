@@ -7,7 +7,7 @@
 
 
 IMS_RootPage::IMS_RootPage(IMS2 *vessel, int id, RECT mRect, GUI_ElementStyle *style)
-	: GUI_Page(mRect, id, style)
+	: GUI_Page(mRect, id, style, true)
 {
 	// connect the event handler to the vessel. 
 	// Since root elements cannot be moved, there's no need to provide for further coupling and decoupling.

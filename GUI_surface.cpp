@@ -19,9 +19,9 @@ GUI_Surface::~GUI_Surface()
 
 void GUI_Surface::PostInit()
 {
-	// TODO: Registering child must be handled differently now!
 	assert(isInitialised);
-	gui->RegisterGuiElement(page, id);
+	gui->RegisterGuiRootPage(page);
+	// let the page create its children
 	page->PostConstruction(gui);
 }
 
@@ -36,7 +36,12 @@ bool GUI_Surface::Redraw2D(SURFHANDLE surf)
 bool GUI_Surface::ProcessMouse2D (GUI_MOUSE_EVENT _event, int mx, int my)
 {
 	assert(isInitialised);
-	page->ProcessMouse(_event, mx, my);
+	int clickedElement = page->ProcessMouse(_event, mx, my);
+	if (clickedElement != -1)
+	{
+		gui->RedrawGUISurface(id);
+		return true;
+	}
 	return false;
 }
 

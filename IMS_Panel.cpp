@@ -182,7 +182,7 @@ void IMS2::InitialiseGUI()
 
 	//create SwingShot panel elements
 	RECT maindisplayrect = _R(1176, 428, 1676, 1046);
-	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(this, maindisplayrect, GUI->GetStyle(STYLE_PAGE));
+	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(this, _R(0, 0, maindisplayrect.right - maindisplayrect.left, maindisplayrect.bottom - maindisplayrect.top), GUI->GetStyle(STYLE_PAGE));
 	mainDispSurface = new GUI_Surface(this, ENGINEERINGPANEL, GUI, maindisplay);
 	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, maindisplayrect);
 }
