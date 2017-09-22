@@ -32,22 +32,22 @@ GUI_MainModules::GUI_MainModules(RECT mRect, GUI_ElementStyle *_style, IMS2 *_ve
 	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
 
 	//the close button that leads back from a module's page to the module selection page
-	closebtn = gui->CreateDynamicButton("back", getElementRect(BACK_BTN, layouts), MD_MODULES_MENU, MD_MODULES_ROOT_BTN, "bold_button");
+	closebtn = gui->CreateDynamicButton(getLayoutDataForElement(BACK_BTN, layouts), "back", MD_MODULES_MENU, MD_MODULES_ROOT_BTN);
 	closebtn->SetVisible(false);
 
 	//create a page that will contain the module selection
-	mainpage = gui->CreatePage(getElementRect(MAIN_PAGE, layouts), MD_MODULES_MENU, MD_MODULES_MODSELECTPG);
+	mainpage = gui->CreatePage(getLayoutDataForElement(MAIN_PAGE, layouts), MD_MODULES_MENU, MD_MODULES_MODSELECTPG);
 	//create a listbox listing all the modules
-	gui->CreateLabel("modules in vessel", getElementRect(MODULES_IN_VESSEL_LABEL, layouts), MD_MODULES_MODSELECTPG);
-	moduleslist = gui->CreateListBox(getElementRect(MODULES_LIST, layouts), MD_MODULES_MODSELECTPG, MD_MODULES_MODLIST);
+	gui->CreateLabel(getLayoutDataForElement(MODULES_IN_VESSEL_LABEL, layouts), "modules in vessel", MD_MODULES_MODSELECTPG);
+	moduleslist = gui->CreateListBox(getLayoutDataForElement(MODULES_LIST, layouts), MD_MODULES_MODSELECTPG, MD_MODULES_MODLIST);
 	//create a button to switch to the menu page of the currently selected module
-	gui->CreateDynamicButton("show", getElementRect(SHOW_MODULE_BTN, layouts), MD_MODULES_MODSELECTPG, MD_MODULES_MODSELECTBTN);
+	gui->CreateDynamicButton(getLayoutDataForElement(SHOW_MODULE_BTN, layouts), "show", MD_MODULES_MODSELECTPG, MD_MODULES_MODSELECTBTN);
 
 	//create a page that will contain all module controls
 	//this is a dynamically assembled listview. It uses the same space as the main page, but we automatically stretch it to use the full height.
-	RECT listviewrect = getElementRect(MAIN_PAGE, layouts);
-	listviewrect.bottom = height;
-	modcontrolpage = gui->CreatePage(listviewrect, MD_MODULES_MENU, MD_MODULES_CTRLPG);
+	LAYOUTDATA listviewdata = getLayoutDataForElement(MAIN_PAGE, layouts);
+	listviewdata.rect.bottom = height;
+	modcontrolpage = gui->CreatePage(listviewdata.rect, MD_MODULES_MENU, MD_MODULES_CTRLPG);
 	modcontrolpage->SetVisible(false);
 }
 

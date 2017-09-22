@@ -33,32 +33,32 @@ GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thru
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
 
 	//Add the name label
-	gui->CreateLabel(basethruster->GetData()->GetName(), getElementRect(THRUSTER_NAME_LABEL, l), id);
+	gui->CreateLabel(getLayoutDataForElement(THRUSTER_NAME_LABEL, l), basethruster->GetData()->GetName(), id);
 
 	//create label and radio buttons for thruster group assignement
-	gui->CreateLabel("Group", getElementRect(GROUPS_LABEL, l), id);
-	groupbuttons.push_back(gui->CreateRadioButton("1", getElementRect(GROUP_1_CHKBX, l), id));
-	groupbuttons.push_back(gui->CreateRadioButton("2", getElementRect(GROUP_2_CHKBX, l), id));
-	groupbuttons.push_back(gui->CreateRadioButton("3", getElementRect(GROUP_3_CHKBX, l), id));
-	groupbuttons.push_back(gui->CreateRadioButton("4", getElementRect(GROUP_4_CHKBX, l), id));
-	groupbuttons.push_back(gui->CreateRadioButton("none", getElementRect(GROUP_NONE_CHKBX, l), id));
+	gui->CreateLabel(getLayoutDataForElement(GROUPS_LABEL, l), "Group", id);
+	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_1_CHKBX, l), "1", id));
+	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_2_CHKBX, l), "2", id));
+	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_3_CHKBX, l), "3", id));
+	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_4_CHKBX, l), "4", id));
+	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_NONE_CHKBX, l), "none", id));
 	GUI_RadioButton::CreateGroup(groupbuttons);
 	//default checked is always 4th button, "no group"
 	groupbuttons[4]->SetChecked();
 
 	// the field for the thrustermode will need a bit of dynamic adjustment. We'll take the layout size as maximum.
-	RECT modesrect = getElementRect(MODES_LIST, l);
+	LAYOUTDATA modesdata = getLayoutDataForElement(MODES_LIST, l);
 
 	//if there is more than one thrustermode, create a selection for them
 	int nummodes = thruster->GetData()->getNumberOfModes();
 	if (nummodes > 1)
 	{
 		//only create a select box if there is more than one mode
-		gui->CreateLabel("Mode", getElementRect(MODES_LABEL, l), id);
+		gui->CreateLabel(getLayoutDataForElement(MODES_LABEL, l), "Mode", id);
 		//the layout size is the maximum size of the list, but if there's fewer modes, make it smaller.
 		int fontheight = style->GetFont()->GetfHeight();
-		modesrect.bottom = min(modesrect.bottom, modesrect.top + (nummodes + 1) * fontheight);	//one line is for top and bottom padding
-		modesbox = gui->CreateListBox(modesrect, id);
+		modesdata.rect.bottom = min(modesdata.rect.bottom, modesdata.rect.top + (nummodes + 1) * fontheight);	//one line is for top and bottom padding
+		modesbox = gui->CreateListBox(modesdata, id);
 		for (UINT i = 0; i < (UINT)nummodes; ++i)
 		{
 			THRUSTERMODE *curmode = thruster->GetData()->GetThrusterMode(i);
@@ -72,16 +72,16 @@ GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thru
 	{
 		//if there's only one mode, just print the thrusters properties.
 		THRUSTERMODE *mode = thruster->GetData()->GetThrusterMode(0);
-		gui->CreateLabel("Properties", getElementRect(MODES_LABEL, l), id);
+		gui->CreateLabel(getLayoutDataForElement(MODES_LABEL, l), "Properties", id);
 		int fontheight = style->GetFont()->GetfHeight();
-		modesrect.bottom = modesrect.top + fontheight;
+		modesdata.rect.bottom = modesdata.rect.top + fontheight;
 		//split the width of the modesrect into two.
-		int originalright = modesrect.right;
-		modesrect.right = modesrect.left + modesrect.right / 2;
-		gui->CreateLabelValuePair("Ve:", Helpers::doubleToUnitString(mode->Isp, "m/s"), modesrect, id, -1, STYLE_DEFAULT);
-		modesrect.right = originalright;
-		modesrect.left = modesrect.left + modesrect.right / 2;
-		gui->CreateLabelValuePair("Thrust:", Helpers::doubleToUnitString(mode->Isp, "N"), modesrect, id, -1, STYLE_DEFAULT);
+		int originalright = modesdata.rect.right;
+		modesdata.rect.right = modesdata.rect.left + modesdata.rect.right / 2;
+		gui->CreateLabelValuePair(modesdata, "Ve:", Helpers::doubleToUnitString(mode->Isp, "m/s"), id, -1);
+		modesdata.rect.right = originalright;
+		modesdata.rect.left = modesdata.rect.left + modesdata.rect.right / 2;
+		gui->CreateLabelValuePair(modesdata, "Thrust:", Helpers::doubleToUnitString(mode->Isp, "N"), id, -1);
 	}
 
 }

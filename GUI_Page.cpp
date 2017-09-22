@@ -105,22 +105,20 @@ void GUI_Page::createResources()
 	}
 }
 
-RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts)
+LAYOUTDATA GUI_Page::getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts)
 {
 	vector<string> ignore_none;
-	return getElementRect(elementid, layouts, ignore_none);
+	return getLayoutDataForElement(elementid, layouts, ignore_none);
 }
 
 
-RECT GUI_Page::getElementRect(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields)
+LAYOUTDATA GUI_Page::getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields)
 {
 	//check how much space we have to draw on and which layout we have to use for that.
 	GUI_Layout *usedlayout = layouts->GetLayoutForWidth(width);
 
 	//Get the elements rect, then translate its position by the left and top margins
-	RECT elementrect = usedlayout->GetFieldRectForRowWidth(elementid, width, ignore_fields);
-
-	return elementrect;
+	return usedlayout->GetLayoutDataForField(elementid, width, ignore_fields);
 }
 
 

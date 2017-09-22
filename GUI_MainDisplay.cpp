@@ -46,25 +46,29 @@ void GUI_MainDisplay::PostConstruction(GUIentity *gui)
 
 	//menu size will be the same for all menus
 	//button that leads back to the root menu. always visible except in root menu
-	rootbutton = gui->CreateDynamicButton("X", getElementRect(ROOT_BTN, layouts), id, GUI_MAIN_ROOT_BTN, getElementStyle(ROOT_BTN, layouts));
+	rootbutton = gui->CreateDynamicButton(getLayoutDataForElement(ROOT_BTN, layouts), "X", id, GUI_MAIN_ROOT_BTN);
 	rootbutton->SetVisible(false);
 	//declare root menu. Add new submenu points here.
-	rootmenu = gui->CreatePage(getElementRect(MAIN_MNU, layouts), id, GUI_MAIN_ROOT_MNU);
+	rootmenu = gui->CreatePage(getLayoutDataForElement(MAIN_MNU, layouts), id, GUI_MAIN_ROOT_MNU);
 	activemenu = rootmenu;
 	//buttons that bring up the sub menus
-	gui->CreateDynamicButton("Assembly", getElementRect(ASSEMBLY_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONSTMNU_BTN, getElementStyle(ASSEMBLY_BTN, layouts));
-	gui->CreateDynamicButton("Disassembly", getElementRect(DECONSTRUCT_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_DECONSTMNU_BTN, getElementStyle(DECONSTRUCT_BTN, layouts));
-	gui->CreateDynamicButton("Module Control", getElementRect(MODULES_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_MODULES_BTN, getElementStyle(MODULES_BTN, layouts));
-	gui->CreateDynamicButton("General Configuration", getElementRect(CONFIG_BTN, layouts), GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONFIGMNU_BTN, getElementStyle(CONFIG_BTN, layouts));
+	gui->CreateDynamicButton(getLayoutDataForElement(ASSEMBLY_BTN, layouts), "Assembly", GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONSTMNU_BTN);
+	gui->CreateDynamicButton(getLayoutDataForElement(DECONSTRUCT_BTN, layouts), "Disassembly", GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_DECONSTMNU_BTN);
+	gui->CreateDynamicButton(getLayoutDataForElement(MODULES_BTN, layouts), "Module Control", GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_MODULES_BTN);
+	gui->CreateDynamicButton(getLayoutDataForElement(CONFIG_BTN, layouts), "General Configuration", GUI_MAIN_ROOT_MNU, GUI_MAIN_ROOT_CONFIGMNU_BTN);
 
 	//construction menu
-	construct = new GUI_MainConstruct(getElementRect(ASSEMBLY_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(ASSEMBLY_PG, layouts)), vessel);
+	LAYOUTDATA layoutdata = getLayoutDataForElement(ASSEMBLY_PG, layouts, ignorepages);
+	construct = new GUI_MainConstruct(layoutdata.rect, gui->GetStyle(layoutdata.styleId), vessel);
 	construct->SetVisible(false);
-	deconstruct = new GUI_MainDeconstruct(getElementRect(DECONSTRUCT_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(DECONSTRUCT_PG, layouts)), vessel);
+	layoutdata = getLayoutDataForElement(DECONSTRUCT_PG, layouts, ignorepages);
+	deconstruct = new GUI_MainDeconstruct(layoutdata.rect, gui->GetStyle(layoutdata.styleId), vessel);
 	deconstruct->SetVisible(false);
-	modulescontrol = new GUI_MainModules(getElementRect(MODULES_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(MODULES_PG, layouts)), vessel);
+	layoutdata = getLayoutDataForElement(MODULES_PG, layouts, ignorepages);
+	modulescontrol = new GUI_MainModules(layoutdata.rect, gui->GetStyle(layoutdata.styleId), vessel);
 	modulescontrol->SetVisible(false);
-	generalconfig = new GUI_MainConfig(getElementRect(CONFIG_PG, layouts, ignorepages), gui->GetStyle(getElementStyle(CONFIG_PG, layouts)), vessel);
+	layoutdata = getLayoutDataForElement(CONFIG_PG, layouts, ignorepages);
+	generalconfig = new GUI_MainConfig(layoutdata.rect, gui->GetStyle(layoutdata.styleId), vessel);
 	generalconfig->SetVisible(false);
 }
 

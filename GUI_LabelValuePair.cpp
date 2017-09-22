@@ -6,11 +6,6 @@ GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect,
 	: GUI_BaseElement(_rect, _id, _style), label(_label), valuefont(_valuefont)
 {
 	swapState(new GUI_LabelValuePairState(this));
-
-	if (valuefont == NULL)
-	{
-		valuefont = style->GetFont();
-	}
 	createResources();
 	SetValue(_value);
 }
@@ -57,6 +52,16 @@ void GUI_LabelValuePair::createResources()
 	{
 		oapiDestroySurface(src);
 	}
+
+	if (style->GetChildStyle() == NULL)
+	{
+		valuefont = style->GetFont();
+	}
+	else
+	{
+		valuefont = style->GetChildStyle()->GetFont();
+	}
+
 
 	labelwidth = font->GetTextWidth(string(label + " ")) + style->MarginLeft();
 	src = GUI_Draw::createElementBackground(style, width, height);

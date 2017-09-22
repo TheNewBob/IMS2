@@ -10,6 +10,9 @@
 #include "GUI_Page.h"
 #include "IMS_RootPage.h"
 #include "GUI_MainDisplay.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
+
 
 bool IMS2::clbkLoadPanel2D(int id, PANELHANDLE hPanel, DWORD viewW, DWORD viewH) 
 {
@@ -27,8 +30,8 @@ bool IMS2::clbkLoadPanel2D(int id, PANELHANDLE hPanel, DWORD viewW, DWORD viewH)
 			break; 
 
 		case ENGINEERINGPANEL: 
-			DefineEngPanel(hPanel);
-			SetPanelScale (hPanel, viewW, viewH);
+			DefineEngPanel(hPanel, viewW, viewH);
+			SetPanelScaling (hPanel, 1, 1);
 			oapiSetPanelNeighbours (-1, -1, 0, -1); // register areas for panel 1 here 
 			SetCameraDefaultDirection (_V(0,0,1)); // forward
 			oapiCameraSetCockpitDir (0,0);         // look forward
@@ -74,14 +77,12 @@ void IMS2::DefineMainPanel(PANELHANDLE hPanel)
 	
 }
 
-void IMS2::DefineEngPanel(PANELHANDLE hPanel)
+void IMS2::DefineEngPanel(PANELHANDLE hPanel, DWORD width, DWORD height)
 {
-	  static DWORD panelW = 1680;
-	  static DWORD panelH = 1050;
-	  float fpanelW = (float)panelW;
-	  float fpanelH = (float)panelH;
-	  static DWORD texW   = 1680;
-	  static DWORD texH   = 1050;
+	  float fpanelW = (float)width;
+	  float fpanelH = (float)height;
+	  static DWORD texW   = width;
+	  static DWORD texH   = height;
 	  float ftexW   = (float)texW;
 	  float ftexH   = (float)texH;
 
@@ -102,7 +103,7 @@ void IMS2::DefineEngPanel(PANELHANDLE hPanel)
 	  MESHGROUP grp = {VTX, IDX, 4, 6, 0, 0, 0, 0, 0};
 	  oapiAddMeshGroup (hPanelMesh, &grp);
 
-	  SetPanelBackground (hPanel, &engPanelBG, 1, hPanelMesh, panelW, panelH, 0,
+	  SetPanelBackground (hPanel, &engPanelBG, 1, hPanelMesh, width, height, 0,
 	    PANEL_ATTACH_BOTTOM | PANEL_MOVEOUT_BOTTOM | PANEL_MOVEOUT_TOP);
 
 	//register GUI_Surface with Orbiter
@@ -157,31 +158,32 @@ void IMS2::InitialiseGUI()
 	//initalising GUI for vessel
 	hPanelMesh = NULL;
 	GUI = new GUImanager(this);
-
+	DWORD screenWidth, screenHeight, depth;
+	oapiGetViewportSize(&screenWidth, &screenHeight, &depth);
 	
 	//create panel backgrounds if they are not yet initialised
 	if (engPanelBG == NULL)
 	{
-		engPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
-//		engPanelBG = oapiCreateTextureSurface(1680, 1050);
+		engPanelBG = oapiCreateSurfaceEx(screenWidth, screenHeight, OAPISURFACE_TEXTURE);
 
 		GUI_ElementStyle *defaultstyle = GUI->GetStyle("default");
-		oapiColourFill(engPanelBG, oapiGetColour(defaultstyle->BackgroundColor().r,
-			defaultstyle->BackgroundColor().g,
-			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);
+		oapiColourFill(engPanelBG, oapiGetColour(defaultstyle->FillColor().r,
+			defaultstyle->FillColor().g,
+			defaultstyle->FillColor().b), 0, 0, screenWidth, screenHeight);
 	}
 	if (pilotPanelBG == NULL)
 	{
 		pilotPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
 
 		GUI_ElementStyle *defaultstyle = GUI->GetStyle("default");
-		oapiColourFill(pilotPanelBG, oapiGetColour(defaultstyle->BackgroundColor().r,
-			defaultstyle->BackgroundColor().g,
-			defaultstyle->BackgroundColor().b), 0, 0, 1680, 1050);
+		oapiColourFill(pilotPanelBG, oapiGetColour(defaultstyle->FillColor().r,
+			defaultstyle->FillColor().g,
+			defaultstyle->FillColor().b), 0, 0, 1680, 1050);
 	}
 
 	//create SwingShot panel elements
-	RECT maindisplayrect = _R(1176, 428, 1676, 1046);
+	RECT maindisplayrect = _R(screenWidth * 0.7, screenHeight * 0.4, screenWidth * 0.997, screenHeight * 0.997);
+	//RECT maindisplayrect = _R(1176, 428, 1676, 1046);
 	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(this, _R(0, 0, maindisplayrect.right - maindisplayrect.left, maindisplayrect.bottom - maindisplayrect.top), GUI->GetStyle(STYLE_PAGE));
 	mainDispSurface = new GUI_Surface(this, ENGINEERINGPANEL, GUI, maindisplay);
 	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, maindisplayrect);

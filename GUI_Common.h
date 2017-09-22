@@ -20,7 +20,7 @@ using namespace std;
 //static double RAD_PER_DEGREE = 0.0174532925;
 
 /**
- * Identifiers fordefault styles
+ * Identifiers for default styles
  */
 const string STYLE_DEFAULT = "default";				//!< A default style using the properties most commonly used by GUI elements
 const string STYLE_PAGE = "page";					//!< Used for important windows that need a more descernible border
@@ -33,32 +33,12 @@ const string STYLE_LISTBOX = "listbox";
 const string STYLE_ERROR = "error";		//!< Style for error popups
 
 
-/*typedef enum
+struct LAYOUTDATA
 {
-	//identifiers for styles
-	STYLE_NONE,					//!< Use this as parent style if you don't inherit from any style
-	STYLE_DEFAULT,				//!< A default style using the properties most commonly used by GUI elements
-	STYLE_PAGE,		//!< Used for important windows that need a more descernible border
-	STYLE_BUTTON,				//!< Style commonly used for buttons
-	STYLE_HEADING,				//!< A style used for most text headings
-	STYLE_CHECKBOX,				//!< Style that defines the common apearance of checkboxes
-	STYLE_STATUSBAR,				//!< Style for status bars
-	STYLE_LISTBOX,
-	STYLE_ERROR_ALERT			//!< Style for error popups
-} string;*/
+	RECT rect;
+	string styleId;
+};
 
-
-/**
- * Identifiers for the available fonts
- */
-/*typedef enum
-{
-	//font identifiers
-	GUI_NO_FONT,					//!< placeholder for situations where you want to pass an invalid font id
-	GUI_SMALL_DEFAULT_FONT,			//!< default small font with hilighting
-	GUI_SMALL_ERROR_FONT,			//!< small font where the hilight represents an error message (non-hilight same as GUI_SMALL_DEFAULT_FONT)
-	GUI_LARGE_DEFAULT_FONT			//!< default large font without hilight
-} GUI_FONT;*/
 
 enum 
 {

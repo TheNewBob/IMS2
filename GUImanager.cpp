@@ -60,7 +60,6 @@ GUI_MOUSE_EVENT GUImanager::GetEvent(int _event)
 
 
 void GUImanager::RegisterGUISurface(GUI_Surface *surf, int _id, RECT surfacePos)
-//registers a new GUI surface in Orbiter as well as in the GUImanager
 {
 
 	//if the surface hasn't been registered yet in the manager, register it now
@@ -136,7 +135,7 @@ void GUImanager::RedrawCurrentPanel()
 		{
 			if (surfaces[i]->GetPanelId() == curPanelId)
 			{
-				oapiTriggerPanelRedrawArea(curPanelId, surfaces[i]->GetId());
+				vessel->TriggerPanelRedrawArea(curPanelId, surfaces[i]->GetId());
 			}
 		}
 	}
@@ -147,7 +146,7 @@ void GUImanager::RedrawGUISurface(int surfId)
 	//check whether the vessel actually has focus and is in internal camera. Otherwise a redraw is just a waste of cycles
 	if (oapiCameraInternal() && vessel == oapiGetFocusInterface())
 	{
-		oapiTriggerPanelRedrawArea(curPanelId, surfId);
+		vessel->TriggerPanelRedrawArea(curPanelId, surfId);
 	}
 
 }

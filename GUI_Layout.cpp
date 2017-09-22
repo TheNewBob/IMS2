@@ -39,7 +39,7 @@ int GUI_Layout::RelToPx(double rel, double rowwidth)
 }
 
 
-RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> ignore)
+LAYOUTDATA GUI_Layout::GetLayoutDataForField(string field_id, int rowwidth, vector<string> ignore)
 {
 	//Make sure that the searched field isn't on the ignore list.
 	auto searched_field = find(ignore.begin(), ignore.end(), field_id);
@@ -48,7 +48,8 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<s
 		ignore.erase(searched_field);
 	}
 
-	RECT fieldrect = _R(0, 0, 0, 0);
+	LAYOUTDATA fielddata;
+	RECT &fieldrect = fielddata.rect;
 	//deducting the layouts overall margin from the available rowwidth and setting starting position.
 	int leftmargin = RelToPx(margin.left, rowwidth);
 	int rightmargin = RelToPx(margin.right, rowwidth);
@@ -107,7 +108,8 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<s
 				if (field.elementid == field_id)
 				{
 					//we have found the field we were looking for, return the rect.
-					return fieldrect;
+					fielddata.styleId = field.GetElementStyle();
+					return fielddata;
 				}
 				else if (field.nestedlayout != NULL)
 				{
@@ -115,8 +117,8 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<s
 					//close the bulkheads and seal the hatches, we're going on a recursion!
 					try
 					{
-						RECT nestedfieldrect = field.nestedlayout->GetFieldRectForRowWidth(field_id, availablefieldwidth, ignore);
-
+						LAYOUTDATA nestedfielddata = field.nestedlayout->GetLayoutDataForField(field_id, availablefieldwidth, ignore);
+						
 						//the following is a bit of a twister.
 						//Basically, if the field with a nested layout also has an element, it is assumed that the layout
 						//applies to elements nested inside that element. Hence, the rect has to be relative for that parent, i.e. origin 0,0.
@@ -125,15 +127,16 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<s
 						//Ergo, the rect needs to be relative to the current layout.
 						if (field.elementid == "")
 						{
-							fieldrect.left += nestedfieldrect.left;
-							fieldrect.top += nestedfieldrect.top;
-							fieldrect.right = fieldrect.left + (nestedfieldrect.right - nestedfieldrect.left);
-							fieldrect.bottom = fieldrect.top + (nestedfieldrect.bottom - nestedfieldrect.top);
-							return fieldrect;
+							fieldrect.left += nestedfielddata.rect.left;
+							fieldrect.top += nestedfielddata.rect.top;
+							fieldrect.right = fieldrect.left + (nestedfielddata.rect.right - nestedfielddata.rect.left);
+							fieldrect.bottom = fieldrect.top + (nestedfielddata.rect.bottom - nestedfielddata.rect.top);
+							fielddata.styleId = nestedfielddata.styleId;
+							return fielddata;
 						}
 						else
 						{
-							return nestedfieldrect;
+							return nestedfielddata;
 						}
 					}
 					catch (invalid_argument)
@@ -156,10 +159,10 @@ RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth, vector<s
 }
 
 
-RECT GUI_Layout::GetFieldRectForRowWidth(string field_id, int rowwidth)
+LAYOUTDATA GUI_Layout::GetLayoutDataForField(string field_id, int rowwidth)
 {
 	vector<string> ignore_none;
-	return GetFieldRectForRowWidth(field_id, rowwidth, ignore_none);
+	return GetLayoutDataForField(field_id, rowwidth, ignore_none);
 }
 
 

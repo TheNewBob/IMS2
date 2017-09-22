@@ -38,26 +38,26 @@ GUI_ModuleFunction_Comm::GUI_ModuleFunction_Comm(IMS_ModuleFunction_Comm *_funct
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
 
 	//create the required controls
-	gui->CreateLabel(function->GetData()->GetName(), getElementRect(NAME_LABEL, l, ignore_fields), id);
+	gui->CreateLabel(getLayoutDataForElement(NAME_LABEL, l), function->GetData()->GetName(), id);
 
 	//the statedescription will always be there
-	statedescription = gui->CreateLabelValuePair("Status:", "", getElementRect(STATUS, l, ignore_fields), id, -1, STYLE_DEFAULT, "small-error-font");
+	statedescription = gui->CreateLabelValuePair(getLayoutDataForElement(STATUS, l), "Status:", "", id, -1);
 
 	if (hasdeployment)
 	{
-		deploybox = gui->CreateCheckBox("deploy", getElementRect(DEPLOY_CHKBX, l, ignore_fields), id);
+		deploybox = gui->CreateCheckBox(getLayoutDataForElement(DEPLOY_CHKBX, l, ignore_fields), "deploy", id);
 	}
 
 	if (hasscanning)
 	{
-		searchbox = gui->CreateCheckBox("scan", getElementRect(SCAN_CHKBX, l, ignore_fields), id);
+		searchbox = gui->CreateCheckBox(getLayoutDataForElement(SCAN_CHKBX, l, ignore_fields), "scan", id);
 	}
 
 	if (hastracking)
 	{
-		trackbox = gui->CreateCheckBox("track", getElementRect(TRACK_CHKBX, l, ignore_fields), id);
-		settargetbtn = gui->CreateDynamicButton("set target", getElementRect(SET_TGT_BTN, l, ignore_fields), id);
-		targetdescription = gui->CreateLabelValuePair("Target:", "None", getElementRect(TGT_DESCRIPTION, l, ignore_fields), id, -1, STYLE_DEFAULT, "small-error-font");
+		trackbox = gui->CreateCheckBox(getLayoutDataForElement(TRACK_CHKBX, l, ignore_fields), "track", id);
+		settargetbtn = gui->CreateDynamicButton(getLayoutDataForElement(SET_TGT_BTN, l), "set target", id);
+		targetdescription = gui->CreateLabelValuePair(getLayoutDataForElement(TGT_DESCRIPTION, l, ignore_fields), "Target:", "None", id, -1);
 	}
 }
 

@@ -52,7 +52,7 @@ protected:
 	* \param elementid The string identifier that assigns the element its place in the layout. NOT the GUI-id of the element!
 	* \param layout The layout collection to read the elements rect from.
 	*/
-	RECT getElementRect(string elementid, LAYOUTCOLLECTION *layouts);
+	LAYOUTDATA getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts);
 
 	/**
 	 * \return the rect (position and dimension) of the element with the corresponding layout id, while ignoring rows that only consist of certain fields.
@@ -60,7 +60,7 @@ protected:
 	 * \param layout The layout collection to read the elements rect from.
 	 * \param ignore_fields The id of fields that you want to cut from the layout. If a row contains only ignored fields, the following rows will move up.
 	 */
-	RECT getElementRect(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields);
+	LAYOUTDATA getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields);
 
 	string getElementStyle(string elementid, LAYOUTCOLLECTION *layouts);
 

@@ -22,19 +22,19 @@ public:
 	void AddRow(LayoutRow row);
 	
 	/**
-	 * \return The rect (position and dimensions) for a field with a certain id, in pixel.
+	 * \return The layout data of the requested element from the layout for a given row width.
 	 * \param field_id The id of the field to calculate dimensions for. Empty fields cannot be searched for, because there would be no point in that.
 	 * \param rowwidth The current width of the row in pixel.
 	 */
-	RECT GetFieldRectForRowWidth(string field_id, int rowwidth);
+	LAYOUTDATA GetLayoutDataForField(string field_id, int rowwidth);
 
 	/**
-	 * \return The The rect (position and dimensions) for a field with a certain id, discounting any fields which contain an element matching an id listed in ignore.
+	 * \return The layout data for a field with a certain id, discounting any fields which contain an element matching an id listed in ignore.
 	 * \param field_id The id of the field to calculate dimensions for. Empty fields cannot be searched for, because there would be no point in that.
 	 * \param rowwidth The current width of the row in pixel.
 	 * \param ignore A vector with field ids. Any fields containing such an id will be treated as if it didn't exist in the layout!
 	 */
-	RECT GetFieldRectForRowWidth(string field_id, int rowwidth, vector<string> ignore);
+	LAYOUTDATA GetLayoutDataForField(string field_id, int rowwidth, vector<string> ignore);
 
 	/**
 	 * \return The id of the style for a certain field.

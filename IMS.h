@@ -200,7 +200,7 @@ private:
 
 	//IMS_Panel.cpp
 	void DefineMainPanel(PANELHANDLE hPanel);
-	void DefineEngPanel(PANELHANDLE hPanel);
+	void DefineEngPanel(PANELHANDLE hPanel, DWORD width, DWORD height);
 	void SetPanelScale (PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
 	void InitialiseGUI();				//initialises GUI surfaces so their headers don't have to be included in any other files
 	void DestroyGUI();

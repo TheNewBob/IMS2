@@ -145,7 +145,7 @@ public:
 	GUI_COLOR Color(){ return _color; };
 	
 	/**
-	 * \return The background color of this style
+	 * \return The key color of this style
 	 * \note Not to be confused with the fill color!
 	 * \see STYLE_PROPERTIES
 	 */

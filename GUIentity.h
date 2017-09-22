@@ -78,6 +78,11 @@ public:
 	GUI_Page *CreatePage(RECT _rect, int parent, int _id = -1, string styleId = "", bool drawbackground = false);
 
 	/**
+	 * \brief Creates a new GUI_Page element with it position, dimensions and style defined by data received from a layout.
+	 */
+	GUI_Page *CreatePage(LAYOUTDATA &layoutdata, int parent, int _id = -1, bool drawbackground = false);
+	
+	/**
 	 * \brief Creates a new GUI_Label element
 	 * \param text The text being displayed on the label 
 	 * \param _rect The drawing rectangle the page occupies in its parent (i.e. relative to the top-left of the parent)
@@ -89,6 +94,10 @@ public:
 	 */
 	GUI_Label *CreateLabel(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
+	/**
+	 * \brief Creates a new GUI_Label element with it position, dimensions and style defined by by data received from a layout.
+	 */
+	GUI_Label *CreateLabel(LAYOUTDATA &layoutdata, string text, int parent, int _id = -1);
 
 	/**
 	 * \brief Creates a new GUI_LabelValuePair
@@ -103,8 +112,12 @@ public:
 	 * \see GUI_LabelValuePair
 	 */
 	GUI_LabelValuePair *CreateLabelValuePair(string label, string value, RECT _rect, int parent, int id = -1, 
-		string styleId = "", string valueFontId = "");
+		string styleId = "");
 
+	/**
+ 	 * \brief Creates a new GUI_LabelValuePair element with its position, dimensions and style defined by data received from a layout.
+ 	 */
+	GUI_LabelValuePair *CreateLabelValuePair(LAYOUTDATA &layoutdata, string label, string value, int parent, int id = -1);
 
 	/**
 	 * \brief Creates a new GUI_ListBox.
@@ -119,10 +132,16 @@ public:
 	 * \see GUI_ListBox
 	 */
 	GUI_ListBox *CreateListBox(RECT _rect, int parent, int _id = -1,
-		string styleId = "", string scrollbar_styleId = "", bool _multiselect = false, bool _noSelect = false);
-
+		string styleId = "", bool _multiselect = false, bool _noSelect = false);
 
 	/**
+ 	 * \brief Creates a new GUI_CreateListBox element with its position, dimensions and style defined by data received from a layout.
+	 */
+	GUI_ListBox *CreateListBox(LAYOUTDATA &layoutdata, int parent, int _id = -1,
+		bool _multiselect = false, bool _noSelect = false);
+
+	/**
+	 * \DEPRECATED
 	 * \brief Creates a new GUI_StaticButton.
 	 * \param _rect The drawing rectangle the page occupies in its parent (i.e. relative to the top-left of the parent)
 	 * \param srcX The coordinate of the lefthand edge on the texture the element takes its image from
@@ -133,7 +152,7 @@ public:
 	 * \return Pointer to the newly created GUI_StaticButton
 	 * \see GUI_StaticButton
 	 */
-	GUI_StaticButton *CreateStaticButton(RECT _rect, int srcX, int srcY, SURFHANDLE _src, int parent, int _id = -1);
+//	GUI_StaticButton *CreateStaticButton(RECT _rect, int srcX, int srcY, SURFHANDLE _src, int parent, int _id = -1);
 
 	/**
 	 * \brief Creates a new GUI_DynamicButton
@@ -145,6 +164,11 @@ public:
 	 * \return A pointer to the newly created GUI_DynamicButton
 	*/
 	GUI_DynamicButton *CreateDynamicButton(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
+
+	/**
+	 * \brief Creates a new GUI_DynamicButton element with its position, dimensions and style defined by data received from a layout.
+	 */
+	GUI_DynamicButton *CreateDynamicButton(LAYOUTDATA &layoutdata, string text, int parent, int _id = -1);
 
 	/**
 	 * \brief Creates a new GUI_CheckBox.
@@ -159,6 +183,11 @@ public:
 	GUI_CheckBox *CreateCheckBox(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
 	/**
+	 * \brief Creates a new GUI_CreateCheckBox element with its position, dimensions and style defined by data received from a layout.
+	 */
+	GUI_CheckBox *CreateCheckBox(LAYOUTDATA &layoutdata, string text, int parent, int _id = -1);
+
+	/**
 	* \brief Creates a new GUI_RadioButton.
 	* \param text The text to be displayed next to the button
 	* \param _rect The drawing rectangle the button (and its text) occupies in its parent (i.e. relative to the top-left of the parent)
@@ -170,8 +199,26 @@ public:
 	*/
 	GUI_RadioButton *CreateRadioButton(string text, RECT _rect, int parent, int _id = -1, string styleId = "");
 
-	GUI_StatusBar *CreateStatusBar(RECT _rect, int parent, int _id = -1, string styleId = STYLE_STATUSBAR);
+	/**
+	 * \brief Creates a new GUI_RadioButton element with its position, dimensions and style defined by data received from a layout.
+	 */
+	GUI_RadioButton *CreateRadioButton(LAYOUTDATA &layoutdata, string text, int parent, int _id = -1);
 
+	/**
+	 * \brief Creates a GUI_StatusBar element.
+	 * \param _rect _rect The drawing rectangle the status bar occupies in its parent (i.e. relative to the top-left of the parent)
+	 * \param parent The locally unique identifier of the parent this element should become a child of.
+	 * \param _id A locally unique identifier for this element. Pass -1 (default) to let the GUIentity assign an id itself
+	 * \param styleId The identifier of the Style this element should be drawn in
+	 * \return A pointer to the newly created GUI_StatusBar
+	 * \see GUI_RadioButton
+	 */
+	GUI_StatusBar *CreateStatusBar(RECT _rect, int parent, int _id = -1, string styleId = "");
+
+	/**
+	 * \brief Creates a new GUI_StatusBar element with its position, dimensions and style defined by data received from a layout.
+	 */
+	GUI_StatusBar *CreateStatusBar(LAYOUTDATA &layoutdata, int parent, int _id = -1);
 
 
 	/**
