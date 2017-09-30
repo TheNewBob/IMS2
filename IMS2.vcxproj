@@ -185,6 +185,7 @@
     <ClCompile Include="GUI_ModuleFunction_Tank.cpp" />
     <ClCompile Include="GUI_ModuleFunction_Thruster.cpp" />
     <ClCompile Include="GUI_Page.cpp" />
+    <ClCompile Include="GUI_Panel.cpp" />
     <ClCompile Include="GUI_RadioButton.cpp" />
     <ClCompile Include="GUI_ScrollablePage.cpp" />
     <ClCompile Include="GUI_ScrollBar.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="IMS_AutoPilotOperation_Killrot.cpp" />
     <ClCompile Include="IMS_Autopilot_Killrot.cpp" />
     <ClCompile Include="IMS_CoGmanager.cpp" />
+    <ClCompile Include="IMS_EngineeringPanel.cpp" />
     <ClCompile Include="IMS_Location.cpp" />
     <ClCompile Include="IMS_Manager_Base.cpp" />
     <ClCompile Include="IMS_Matrix.cpp" />
@@ -321,6 +323,7 @@
     <ClInclude Include="GUI_ModuleFunction_Tank.h" />
     <ClInclude Include="GUI_ModuleFunction_Thruster.h" />
     <ClInclude Include="GUI_Page.h" />
+    <ClInclude Include="GUI_Panel.h" />
     <ClInclude Include="GUI_RadioButton.h" />
     <ClInclude Include="GUI_ScrollablePage.h" />
     <ClInclude Include="GUI_ScrollBar.h" />
@@ -334,6 +337,7 @@
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
     <ClInclude Include="IMS_Autopilot_Base.h" />
     <ClInclude Include="IMS_Autopilot_Killrot.h" />
+    <ClInclude Include="IMS_EngineeringPanel.h" />
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
     <ClInclude Include="IMS_RootPage.h" />

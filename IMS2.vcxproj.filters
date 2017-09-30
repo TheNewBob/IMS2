@@ -494,6 +494,12 @@
     <ClCompile Include="IMS_RootPage.cpp">
       <Filter>GUI\IMS2 Menus</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_Panel.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_EngineeringPanel.cpp">
+      <Filter>GUI\IMS2 Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -980,6 +986,12 @@
       <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
     </ClInclude>
     <ClInclude Include="IMS_RootPage.h">
+      <Filter>GUI\IMS2 Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Panel.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_EngineeringPanel.h">
       <Filter>GUI\IMS2 Menus</Filter>
     </ClInclude>
   </ItemGroup>

@@ -128,7 +128,7 @@ void GUI_BaseElement::SetStyleSetForPlugins(string styleset)
 {
 	for (auto i = plugins.begin(); i != plugins.end(); ++i)
 	{
-		(*i)->SetStyleSet(styleset);
+		(*i)->SetStyleset(styleset);
 	}
 }
 

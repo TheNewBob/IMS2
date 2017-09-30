@@ -225,7 +225,7 @@ public:
 	 * \brief Sets the styleset this GUIentity uses.
 	 * \param _styleset A string identifying the desired StyleSet
 	 */
-	void SetStyleSet(string _styleset);
+	virtual void SetStyleset(string _styleset);
 
 	/**
 	 * \return The id of the currently active styleset.

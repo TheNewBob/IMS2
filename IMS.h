@@ -216,7 +216,7 @@ private:
 	UINT GetDockIndex(DOCKHANDLE dockH);
 
 
-	MESHHANDLE hPanelMesh;                       // 2-D instrument panel mesh handle
+//	MESHHANDLE hPanelMesh;                       // 2-D instrument panel mesh handle
  	GUImanager *GUI;							 //GUI manager that handles GUI for this vessel
 	//panel elements
  	GUI_Surface *mainDispSurface;

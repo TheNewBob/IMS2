@@ -43,8 +43,8 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 // --------------------------------------------------------------
 DLLCLBK void ExitModule (HINSTANCE hModule)
 {
-	oapiDestroySurface(IMS2::pilotPanelBG);
-	oapiDestroySurface(IMS2::engPanelBG);
+	//oapiDestroySurface(IMS2::pilotPanelBG);
+	//oapiDestroySurface(IMS2::engPanelBG);
 	
 }
 

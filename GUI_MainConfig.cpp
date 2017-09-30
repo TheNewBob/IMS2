@@ -89,7 +89,7 @@ int GUI_MainConfig::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 
 	case MD_CONFIG_STYLESETSLISTBX:
 		//set a new styleset
-		vessel->GetGUI()->SetStyleSet(stylesets->GetSelectedText());
+		vessel->GetGUI()->SetStyleset(stylesets->GetSelectedText());
 		break;
 	}
 

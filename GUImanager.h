@@ -1,5 +1,6 @@
 #pragma once
 class GUIpopup;
+class GUI_Panel;
 
 /**
  * \brief The GUI manager is a GUIentity with enhanced functionality to embedd a GUI in an orbiter vessel. 
@@ -29,7 +30,7 @@ public:
 	 * \see RegisterSurfaceWithOrbiter()
 	 */
 	void RegisterGUISurface(GUI_Surface *surf, int _id, RECT surfacePos);
-	
+
 	/**
 	 * \brief This function has to be called from clbkLoadPanel2d to register the GUI_Surface to the orbiter SURFHANDLE
 	 * \param surf The GUI_Surface object to register
@@ -37,6 +38,27 @@ public:
 	 * \param tgt The SURFHANDLE from which this surface will receive input and redraw events
 	*/
 	void RegisterSurfaceWithOrbiter(GUI_Surface *surf, PANELHANDLE hpanel, SURFHANDLE tgt);
+
+	/**
+	 * \brief Registers a panel instance with this manager.
+	 * The manager will take ownership of the passed pointer and will deallocate it on vessel destruction.
+	 */
+	void RegisterGUIPanel(GUI_Panel *panel);
+
+	/**
+	 * \return True if a panel with the passed id is registered in the manager,
+	 *	false if not.
+	 */
+	bool IsPanelRegistered(int id);
+
+	/**
+	 * \brief Loads the panel with the passed id, if it has one.
+	 * Call this method from clbkLoadPanel2D.
+	 * \param id The id of the panel to load.
+	 * \param hpanel The handle for this panel.
+	 * \return True if the panel is registered in the manager and was loaded, false if not.
+	 */
+	bool LoadPanel(int id, PANELHANDLE hpanel);
 
 	/**
 	 * \return The id of the currently active orbiter panel (the panel active in the cockpit of the vessel) 
@@ -88,7 +110,7 @@ public:
 	* in the panel that update at the same interval update at the same time.
 	* For example, two elements that update every second should do so in the
 	* same frame, not half a second appart from each other, because it saves 
-	* resources. Check your intervals with this function
+	* resources. Check your intervals with this method
 	* to facilitate that synchronicity.
 	* \param interval_in_miliseconds The interval you wish to check
 	* \return True if the interval_in_miliseconds has passed,
@@ -130,7 +152,10 @@ public:
 	 */
 	void SetStyleset(string styleset);
 
-	//TODO: refactor GUI eventhandling so popups can communicate information to their parent element when destroyed
+	/**
+	 * \brief returns the MESHHANDLE for the panel mesh.
+	 */
+	MESHHANDLE GetPanelMesh();
 
 private:
 
@@ -164,7 +189,7 @@ private:
 
 	int curPanelId;										//!< Stores the id of currently active panel
 	GUI_MOUSE_EVENT curEvent;							//!< The event currently being propagated through the children of this GUImanager
-
+	map<int, GUI_Panel*> panels;						//!< The panels registered in this manager.
 
 	//static synchronised gui clock
 	static unsigned long lastclock;						//!< Remembers the time of the last frame					
@@ -181,4 +206,6 @@ private:
 	* to the new sim-time.
 	*/
 	static void registerPreStep();		
+
+	MESHHANDLE hPanelMesh = NULL;                       // 2-D instrument panel mesh handle
 };

@@ -12,7 +12,8 @@
 #include "GUI_MainDisplay.h"
 #include "LayoutElement.h"
 #include "GUI_Layout.h"
-
+#include "GUI_Panel.h"
+#include "IMS_EngineeringPanel.h"
 
 bool IMS2::clbkLoadPanel2D(int id, PANELHANDLE hPanel, DWORD viewW, DWORD viewH) 
 {
@@ -27,25 +28,22 @@ bool IMS2::clbkLoadPanel2D(int id, PANELHANDLE hPanel, DWORD viewW, DWORD viewH)
 			SetCameraDefaultDirection (_V(0,0,1)); // forward
 			oapiCameraSetCockpitDir (0,0);         // look forward
 			//redraw areas
-			break; 
+			GUI->SetCurPanelId(id);
+			GUI->RedrawCurrentPanel();
+			break;
 
-		case ENGINEERINGPANEL: 
-			DefineEngPanel(hPanel, viewW, viewH);
-			SetPanelScaling (hPanel, 1, 1);
-			oapiSetPanelNeighbours (-1, -1, 0, -1); // register areas for panel 1 here 
-			SetCameraDefaultDirection (_V(0,0,1)); // forward
-			oapiCameraSetCockpitDir (0,0);         // look forward
+		default:
+			GUI->LoadPanel(id, hPanel);
 			break;
 	}
 
-	GUI->SetCurPanelId(id);
-	GUI->RedrawCurrentPanel();
 	return true;
 }
 
 
 void IMS2::DefineMainPanel(PANELHANDLE hPanel)
 {
+	static MESHHANDLE hPanelMesh = NULL;
 	  static DWORD panelW = 1280;
 	  static DWORD panelH =  800;
 	  float fpanelW = (float)panelW;
@@ -98,7 +96,7 @@ void IMS2::DefineEngPanel(PANELHANDLE hPanel, DWORD width, DWORD height)
 		2,0,3
 	  };
 
-	  if (hPanelMesh) oapiDeleteMesh (hPanelMesh);
+/*	  if (hPanelMesh) oapiDeleteMesh (hPanelMesh);
 	  hPanelMesh = oapiCreateMesh (0,0);
 	  MESHGROUP grp = {VTX, IDX, 4, 6, 0, 0, 0, 0, 0};
 	  oapiAddMeshGroup (hPanelMesh, &grp);
@@ -109,7 +107,7 @@ void IMS2::DefineEngPanel(PANELHANDLE hPanel, DWORD width, DWORD height)
 	//register GUI_Surface with Orbiter
 	  GUI->RegisterSurfaceWithOrbiter(mainDispSurface, hPanel, engPanelBG);
 	  // TODO: method has changed object. Check if this still needs to be executed.
-	  //mainDispSurface->UpdateDockedVesselsList(dockedVesselsList);
+	  //mainDispSurface->UpdateDockedVesselsList(dockedVesselsList);*/
 }
 
 
@@ -156,13 +154,15 @@ bool IMS2::clbkPanelMouseEvent (int id, int event, int mx, int my, void *context
 void IMS2::InitialiseGUI()
 {
 	//initalising GUI for vessel
-	hPanelMesh = NULL;
+	// hPanelMesh = NULL;
 	GUI = new GUImanager(this);
 	DWORD screenWidth, screenHeight, depth;
 	oapiGetViewportSize(&screenWidth, &screenHeight, &depth);
 	
 	//create panel backgrounds if they are not yet initialised
-	if (engPanelBG == NULL)
+	IMS_EngineeringPanel *engpanel = new IMS_EngineeringPanel(120, 64, 68, 67, screenWidth, screenHeight, this, GUI);
+	GUI->RegisterGUIPanel(engpanel);
+	/*	if (engPanelBG == NULL)
 	{
 		engPanelBG = oapiCreateSurfaceEx(screenWidth, screenHeight, OAPISURFACE_TEXTURE);
 
@@ -170,7 +170,7 @@ void IMS2::InitialiseGUI()
 		oapiColourFill(engPanelBG, oapiGetColour(defaultstyle->FillColor().r,
 			defaultstyle->FillColor().g,
 			defaultstyle->FillColor().b), 0, 0, screenWidth, screenHeight);
-	}
+	}*/
 	if (pilotPanelBG == NULL)
 	{
 		pilotPanelBG = oapiCreateSurfaceEx(1680, 1050, OAPISURFACE_TEXTURE);
@@ -182,16 +182,16 @@ void IMS2::InitialiseGUI()
 	}
 
 	//create SwingShot panel elements
-	RECT maindisplayrect = _R(screenWidth * 0.7, screenHeight * 0.4, screenWidth * 0.997, screenHeight * 0.997);
+/*	RECT maindisplayrect = _R(screenWidth * 0.7, screenHeight * 0.4, screenWidth * 0.997, screenHeight * 0.997);
 	//RECT maindisplayrect = _R(1176, 428, 1676, 1046);
 	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(this, _R(0, 0, maindisplayrect.right - maindisplayrect.left, maindisplayrect.bottom - maindisplayrect.top), GUI->GetStyle(STYLE_PAGE));
 	mainDispSurface = new GUI_Surface(this, ENGINEERINGPANEL, GUI, maindisplay);
-	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, maindisplayrect);
+	GUI->RegisterGUISurface(mainDispSurface, GUI_MAIN_DISPLAY, maindisplayrect);*/
 }
 
 void IMS2::DestroyGUI()
 {
-	if (hPanelMesh) oapiDeleteMesh (hPanelMesh);
+//	if (hPanelMesh) oapiDeleteMesh (hPanelMesh);
 	delete GUI;
 }
 

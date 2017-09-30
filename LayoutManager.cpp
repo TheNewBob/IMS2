@@ -91,7 +91,7 @@ LAYOUTCOLLECTION *LayoutManager::loadLayoutCollectionFromXml(tinyxml2::XMLDocume
 		{
 			minwidth = Helpers::stringToInt(xmlminwidth->GetText());
 		}
-		layouts->AddLayout(minwidth, newlayout);
+		layouts->AddLayout(GUI_Layout::EmToPx(minwidth), newlayout);
 
 		layout = layout->NextSiblingElement("layout");
 	}

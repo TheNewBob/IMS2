@@ -10,6 +10,7 @@
 #include "GUIpopup.h"
 #include "GUIalert.h"
 #include "GUIlistPopup.h"
+#include "GUI_Panel.h"
 
 
 unsigned long GUImanager::lastclock = 0;
@@ -79,6 +80,32 @@ void GUImanager::RegisterSurfaceWithOrbiter(GUI_Surface *surf, PANELHANDLE hpane
 	//register the surface in Orbiter
 	vessel->RegisterPanelArea(hpanel, surf->GetId(), surf->rect, 
 		PANEL_REDRAW_USER, PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED | PANEL_MOUSE_LBUP | PANEL_MOUSE_ONREPLAY, tgt, surf);
+}
+
+void GUImanager::RegisterGUIPanel(GUI_Panel *panel)
+{
+	assert(panels.find(panel->id) == panels.end() && "Panel registered twice!");
+	panels[panel->id] = panel;
+}
+
+bool GUImanager::IsPanelRegistered(int id)
+{
+	return panels.find(id) != panels.end();
+}
+
+bool GUImanager::LoadPanel(int id, PANELHANDLE hpanel)
+{
+	auto panelit = panels.find(id);
+	
+	if (panelit != panels.end())
+	{
+		panelit->second->loadPanel(this, hpanel, hPanelMesh, GUI_Looks::GetStyle("default", styleset), vessel);
+		SetCurPanelId(id);
+		RedrawCurrentPanel();
+		return true;
+	}
+
+	return false;
 }
 
 bool GUImanager::Update()
@@ -337,6 +364,12 @@ void GUImanager::SetStyleset(string styleset)
 	if (styleset != this->styleset)
 	{
 		//somebody just changed the styleset!
-		this->styleset = styleset;
+		GUIentity::SetStyleset(styleset);
+		panels[curPanelId]->redrawPanel(this, GetStyle("default"));
 	}
+}
+
+MESHHANDLE GUImanager::GetPanelMesh()
+{
+	return hPanelMesh;
 }

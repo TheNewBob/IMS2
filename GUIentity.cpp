@@ -191,7 +191,7 @@ GUI_BaseElement *GUIentity::GetElementById(int _id)
 
 
 
-void GUIentity::SetStyleSet(string _styleset)
+void GUIentity::SetStyleset(string _styleset)
 {
 	if (styleset != _styleset)
 	{
