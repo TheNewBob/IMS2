@@ -7,15 +7,19 @@ public:
 	virtual ~GUI_LabelValuePairState() {};
 
 	virtual string GetValue() { return value; };
-	virtual void SetValue(string value)
+	virtual bool GetHilighted() { return hilighted; };
+
+	virtual void SetValue(string value, bool hilighted)
 	{
-		if (this->value != value)
+		if (this->value != value || this->hilighted != hilighted)
 		{
 			this->value = value;
+			this->hilighted = hilighted;
 			propagateStateChange();
 		}
 	};
 
 protected:
 	string value = "";
+	bool hilighted = false;
 };

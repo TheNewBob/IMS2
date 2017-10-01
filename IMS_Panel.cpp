@@ -160,7 +160,7 @@ void IMS2::InitialiseGUI()
 	oapiGetViewportSize(&screenWidth, &screenHeight, &depth);
 	
 	//create panel backgrounds if they are not yet initialised
-	IMS_EngineeringPanel *engpanel = new IMS_EngineeringPanel(120, 64, 68, 67, screenWidth, screenHeight, this, GUI);
+	IMS_EngineeringPanel *engpanel = new IMS_EngineeringPanel(120, 64, screenWidth, screenHeight, this, GUI);
 	GUI->RegisterGUIPanel(engpanel);
 	/*	if (engPanelBG == NULL)
 	{

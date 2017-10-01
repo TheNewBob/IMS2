@@ -7,8 +7,8 @@ class IMS_EngineeringPanel :
 	public GUI_Panel
 {
 public:
-	IMS_EngineeringPanel(float maxWidthEm, float minWidthEm, float maxHeightEm, float minHeightEm,
-						 int viewPortWidthPx, int viewPortHeightPx, IMS2 *vessel, GUImanager *gui);
+	IMS_EngineeringPanel(float maxWidthEm, float minWidthEm, int viewPortWidthPx, 
+		int viewPortHeightPx, IMS2 *vessel, GUImanager *gui);
 	~IMS_EngineeringPanel();
 
 

@@ -53,6 +53,11 @@ protected:
 	
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 
+	/**
+	 * \brief Redraws the current value.
+	 */
+	void loadValue();
+
 private:
 	/**
 	* \brief Helper function to simplify casting of the state.

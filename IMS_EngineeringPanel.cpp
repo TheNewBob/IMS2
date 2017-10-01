@@ -11,22 +11,34 @@
 #include "GUI_Surface.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
+#include "LayoutManager.h"
+#include "LayoutElement.h"
+#include "GUI_Layout.h"
 
 SURFHANDLE IMS_EngineeringPanel::surfhandle = NULL;
 
-IMS_EngineeringPanel::IMS_EngineeringPanel(float maxWidthEm, float minWidthEm, float maxHeightEm, float minHeightEm,
+const string FILENAME = "engineeringpanel.xml";
+const string MAINDISPLAY = "main_display";
+
+IMS_EngineeringPanel::IMS_EngineeringPanel(float maxWidthEm, float minWidthEm, 
 	int viewPortWidthPx, int viewPortHeightPx, IMS2 *vessel, GUImanager *gui)
-	: GUI_Panel(maxWidthEm, minWidthEm, maxHeightEm, minHeightEm, viewPortWidthPx, viewPortHeightPx, 1)
+	: GUI_Panel(GUI_Layout::EmToPx(maxWidthEm), GUI_Layout::EmToPx(minWidthEm), 0, viewPortWidthPx, viewPortHeightPx, 1)
 {
+	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
+	GUI_Layout *activelayout = layouts->GetLayoutForWidth(width);
+	height = activelayout->GetLayoutHeight();
+	
 	surfhandle = oapiCreateSurfaceEx(width, height, OAPISURFACE_TEXTURE);
 	GUI_Panel::setSurfaceHandle(&surfhandle);
 
-	//create SwingShot panel elements
-	RECT maindisplayrect = _R(width * 0.7, height * 0.4, width * 0.997, height * 0.997);
-	//RECT maindisplayrect = _R(1176, 428, 1676, 1046);
-	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(vessel, _R(0, 0, maindisplayrect.right - maindisplayrect.left, maindisplayrect.bottom - maindisplayrect.top), gui->GetStyle(STYLE_PAGE));
+	//create panel elements
+	LAYOUTDATA layoutdata = activelayout->GetLayoutDataForField(MAINDISPLAY, width);
+	RECT relativerect = _R(0, 0, layoutdata.rect.right - layoutdata.rect.left, layoutdata.rect.bottom - layoutdata.rect.top);   //the rect of maindisplay will be relative to its parent, the surface, not the panel.
+	string styleid = layoutdata.styleId == "" ? STYLE_PAGE : layoutdata.styleId;		//use page as default style if none defined in layout.
+	GUI_MainDisplay *maindisplay = new GUI_MainDisplay(vessel, relativerect, gui->GetStyle(styleid));
+
 	maindisplay_surf = new GUI_Surface(vessel, (int)ENGINEERINGPANEL, gui, maindisplay);
-	gui->RegisterGUISurface(maindisplay_surf, GUI_MAIN_DISPLAY, maindisplayrect);
+	gui->RegisterGUISurface(maindisplay_surf, GUI_MAIN_DISPLAY, layoutdata.rect);
 }
 
 

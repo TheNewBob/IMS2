@@ -18,13 +18,20 @@ GUI_LabelValuePair::~GUI_LabelValuePair()
 
 void GUI_LabelValuePair::SetValue(string _value, bool hilighted)
 {
-	cState()->SetValue(_value);
+	cState()->SetValue(_value, hilighted);
+	loadValue();
+}
+
+void GUI_LabelValuePair::loadValue()
+{
 	//erase the old value on the source surface
 	RECT availablerect = _R(labelwidth, style->MarginTop(), width - style->MarginLeft(), height - style->MarginBottom());
 	GUI_Draw::ColorFill(availablerect, src, style->BackgroundColor());
 	//print the new text
-	valuefont->Print(src, cState()->GetValue(), labelwidth, height / 2, availablerect, hilighted, T_LEFT, V_CENTER);
+	valuefont->Print(src, cState()->GetValue(), labelwidth, height / 2, availablerect, cState()->GetHilighted(), T_LEFT, V_CENTER);
+
 }
+
 
 
 string GUI_LabelValuePair::GetValue()
@@ -67,6 +74,11 @@ void GUI_LabelValuePair::createResources()
 	src = GUI_Draw::createElementBackground(style, width, height);
 	font->Print(src, label, style->MarginLeft(), height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_LEFT, V_CENTER);
+
+	if (cState()->GetValue() != "")
+	{
+		loadValue();
+	}
 }
 
 

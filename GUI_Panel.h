@@ -21,7 +21,7 @@ public:
 	 * \param viewPortHeight Height of the viewport, in pixel.
 	 * \param panelId The orbiter panel id of the panel.
 	 */
-	GUI_Panel(float maxWidthEm, float minWidthEm, float maxHeightEm, float minHeightEm, 
+	GUI_Panel(float maxWidthEm, float minWidthEm, float heightEm, 
 		int viewPortWidthPx, int viewPortHeightPx, int panelId);
 	virtual ~GUI_Panel();
 

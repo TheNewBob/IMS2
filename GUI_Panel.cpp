@@ -8,17 +8,12 @@
 GUI_ElementStyle *GUI_Panel::style = NULL;
 
 
-GUI_Panel::GUI_Panel(float maxWidthEm, float minWidthEm, float maxHeightEm, float minHeightEm, 
+GUI_Panel::GUI_Panel(float maxWidthPx, float minWidthPx, float heightPx, 
 	int viewPortWidthPx, int viewPortHeightPx, int panelId) : id(panelId)
 {
 	// calculate the panels rect in pixel
-	int maxWidth = GUI_Layout::EmToPx(maxWidthEm);
-	int minWidth = GUI_Layout::EmToPx(minWidthEm);
-	int maxHeight = GUI_Layout::EmToPx(maxHeightEm);
-	int minHeight = GUI_Layout::EmToPx(minHeightEm);
-
-	width = max(min(maxWidth, viewPortWidthPx), minWidth);
-	height = max(min(maxHeight, viewPortHeightPx), minHeight);
+	width = max(min(maxWidthPx, viewPortWidthPx), minWidthPx);
+	height = heightPx;
 }
 
 
