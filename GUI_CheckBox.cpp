@@ -6,7 +6,7 @@ GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *
 	: GUI_BaseElement(_rect, _id, _style), text(_text)
 {
 	swapState(new GUI_CheckBoxState(this));
-	createResources();
+	GUI_Looks::GetResource(this);
 	ToggleChecked();
 }
 
@@ -75,13 +75,18 @@ void GUI_CheckBox::SetChecked(bool _checked)
 	s->SetChecked(_checked);
 }
 
-void GUI_CheckBox::createResources()
+bool GUI_CheckBox::IsResourceCompatibleWith(GUI_BaseElement *element)
 {
-	if (src != NULL)
+	if (GUI_BaseElement::IsResourceCompatibleWith(element))
 	{
-		oapiDestroySurface(src);
+		if (text == ((GUI_CheckBox*)element)->text) return true;
 	}
+	return false;
+}
 
+GUI_ElementResource *GUI_CheckBox::createResources()
+{
+	assert(src == NULL && "Release old resource before creating it again!");
 	//the actual box of the checkbox will size itself to the font height
 	int fontheight = font->GetfHeight();
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width + fontheight * 2, height);
@@ -99,7 +104,7 @@ void GUI_CheckBox::createResources()
 		false, T_LEFT, V_CENTER);
 
 	//assign new surface as source
-	src = tgt;
+	return new GUI_ElementResource(tgt);
 
 }
 

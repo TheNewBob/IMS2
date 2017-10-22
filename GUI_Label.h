@@ -4,7 +4,7 @@ class GUI_LabelState;
 /**
  * A label is a simple text on a single line without visible borders and without event handling
  *
- * A labels text is unchangable during its lifetime.
+ * A labels text is unchangable during its lifetime. 
  * \note The labels text will be horizontally and vertically centered in its rect.
  */
 class GUI_Label :
@@ -33,10 +33,12 @@ public:
 	 */
 	void ChangeText(string text);
 
+	virtual bool IsResourceCompatibleWith(GUI_BaseElement *element);
+
 private:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 
 	/**
 	* \brief Helper function to simplify casting of the state.

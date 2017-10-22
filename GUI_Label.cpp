@@ -7,7 +7,7 @@ GUI_Label::GUI_Label(string _text, RECT _rect, int _id, GUI_ElementStyle *_style
 {
 	swapState(new GUI_LabelState(this));
 	cState()->SetText(_text);
-	createResources();
+	src = GUI_Looks::GetResource(this);
 }
 
 
@@ -29,22 +29,33 @@ void GUI_Label::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawable
 	}
 }
 
-void GUI_Label::createResources()
+GUI_ElementResource *GUI_Label::createResources()
 {
 	//destroy an existing surface before allocating it anew
-	if (src != NULL)
-	{
-		oapiDestroySurface(src);
-	}
-	src = GUI_Draw::createElementBackground(style, width, height);
-	font->Print(src, cState()->GetText(), width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
+	assert(src == NULL && "Release old resource before creating it again!");
+	
+	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
+	font->Print(tgt, cState()->GetText(), width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_CENTER, V_CENTER);
+
+	return new GUI_ElementResource(tgt);
+}
+
+bool GUI_Label::IsResourceCompatibleWith(GUI_BaseElement *element)
+{
+	if (GUI_BaseElement::IsResourceCompatibleWith(element))
+	{
+		if (cState()->GetText() == ((GUI_Label*)element)->cState()->GetText()) return true;
+	}
+	return false;
 }
 
 
 void GUI_Label::ChangeText(string text)
 {
 	cState()->SetText(text);
+	GUI_Looks::ReleaseResource(this);
+	src = NULL;
 	createResources();
 }
 

@@ -22,7 +22,8 @@ GUI_ListBox::GUI_ListBox(RECT _mRect, int _id, GUI_ElementStyle *_style, bool _s
 	auto s = cState();
 	s->SetSelectBox(_selectBox);
 	s->SetnoSelect(_noSelect);
-	createResources();
+	createScrollbar();
+	src = GUI_Looks::GetResource(this);
 }
 
 GUI_ListBox::~GUI_ListBox(void)
@@ -174,17 +175,12 @@ bool GUI_ListBox::IsHighlight(UINT index)
 	return false;
 }
 
-void GUI_ListBox::createResources()
+void GUI_ListBox::createScrollbar()
 {
-	if (src != NULL)
-	{
-		oapiDestroySurface(src);
-	}
-
 	//create the scrollbar
 	scrlBarWidth = GUI_Layout::EmToPx(1.5);
 	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
-	
+
 	if (scrollbar == NULL)
 	{
 		scrollbar = new GUI_ScrollBar(_R(width - scrlBarWidth, 0, width, height), GUI_SCROLLBAR, scrollbarstyle);
@@ -194,6 +190,11 @@ void GUI_ListBox::createResources()
 	{
 		scrollbar->SetStyle(scrollbarstyle);
 	}
+}
+
+GUI_ElementResource *GUI_ListBox::createResources()
+{
+	assert(src == NULL && "Release old resource before creating it again!");
 
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 	Sketchpad *skp = oapiGetSketchpad(tgt);
@@ -204,9 +205,10 @@ void GUI_ListBox::createResources()
 	//oapiBlt(tgt, scrollbar->GetSurface(), width - scrlBarWidth, 0, 0, 0, scrlBarWidth, height);
 	RECT tgtrect = _R(width - scrlBarWidth, 0, width, height);
 	RECT srcrect = _R(0, 0, scrlBarWidth, height);
-	oapiBlt(tgt, scrollbar->GetSurface(), &tgtrect, &srcrect, SURF_PREDEF_CK);
+	SURFHANDLE test = scrollbar->GetSurface();
+	oapiBlt(tgt, test, &tgtrect, &srcrect, SURF_PREDEF_CK);
 
-	src = tgt;
+	return new GUI_ElementResource(tgt);
 }
 
 

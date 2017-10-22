@@ -11,7 +11,8 @@
 GUI_ScrollablePage::GUI_ScrollablePage(RECT mRect, int _id, GUI_ElementStyle *_style)
 	: GUI_Page(mRect, _id, _style, false)
 {
-	createResources();
+	createScrollbar();
+	src = GUI_Looks::GetResource(this);
 }
 
 
@@ -83,17 +84,9 @@ void GUI_ScrollablePage::DrawChildren(SURFHANDLE _tgt, RECT &drawablerect, int x
 
 }
 
-
-
-
-void GUI_ScrollablePage::createResources()
+void GUI_ScrollablePage::createScrollbar()
 {
-	if (src != NULL)
-	{
-		oapiDestroySurface(src);
-	}
-
-	//create the scrollbar
+		//create the scrollbar
 	int scrlbarwidth = GUI_Layout::EmToPx(1.5);
 	GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
 
@@ -114,6 +107,12 @@ void GUI_ScrollablePage::createResources()
 	//that doesn't actually scroll with the page, it also should not afect the range.
 	GUI_BaseElement::AddChild(scrollbar);
 
+}
+
+
+GUI_ElementResource *GUI_ScrollablePage::createResources()
+{
+	assert(src == NULL && "Release old resource before creating it again!");
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 
 	Sketchpad *skp = oapiGetSketchpad(tgt);
@@ -122,12 +121,12 @@ void GUI_ScrollablePage::createResources()
 
 	//copy scrollbar to this surface
 //	oapiBlt(tgt, scrollbar->GetSurface(), width - scrlbarwidth, 0, 0, 0, scrlbarwidth, height);
+	int scrlbarwidth = scrollbar->GetWidth();
 	RECT tgtrect = _R(width - scrlbarwidth, 0, width, height);
 	RECT srcrect = _R(0, 0, scrlbarwidth, height);
 	oapiBlt(tgt, scrollbar->GetSurface(), &tgtrect, &srcrect, SURF_PREDEF_CK);
 
-	src = tgt;
-
+	return new GUI_ElementResource(tgt);
 }
 
 

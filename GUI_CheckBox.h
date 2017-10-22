@@ -37,6 +37,8 @@ public:
 	 */
 	virtual void SetChecked(bool _checked);
 
+	virtual bool IsResourceCompatibleWith(GUI_BaseElement *element);
+
 
 protected:
 	virtual void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
@@ -45,7 +47,7 @@ protected:
 	/**
 	 * \brief Draws the checkbox to its source surface
 	 */
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 
 	string text;				//!< Stores the text of the checkbox
 //	bool checked;				//!< Stores the state of the Checkbox

@@ -69,7 +69,7 @@ private:
 	/**
 	 * \brief Draws the page to its source surface, if it was created with a drawable background
 	 */
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 	
 };
 

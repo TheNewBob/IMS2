@@ -434,9 +434,6 @@
     <ClCompile Include="GUI_BaseElement.cpp">
       <Filter>GUI\GUI elements\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_BaseElementResource.cpp">
-      <Filter>GUI\GUI elements\Base</Filter>
-    </ClCompile>
     <ClCompile Include="GUI_CheckBox.cpp">
       <Filter>GUI\GUI elements\Checkbox</Filter>
     </ClCompile>
@@ -907,9 +904,6 @@
     <ClInclude Include="GUI_BaseElementState.h">
       <Filter>GUI\GUI elements\Base</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_BaseElementResource.h">
-      <Filter>GUI\GUI elements\Base</Filter>
-    </ClInclude>
     <ClInclude Include="GUI_BaseElement.h">
       <Filter>GUI\GUI elements\Base</Filter>
     </ClInclude>
@@ -993,6 +987,9 @@
     </ClInclude>
     <ClInclude Include="IMS_EngineeringPanel.h">
       <Filter>GUI\IMS2 Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ElementResource.h">
+      <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

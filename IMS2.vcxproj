@@ -165,7 +165,6 @@
     <ClCompile Include="GUIplugin.cpp" />
     <ClCompile Include="GUIpopup.cpp" />
     <ClCompile Include="GUI_BaseElement.cpp" />
-    <ClCompile Include="GUI_BaseElementResource.cpp" />
     <ClCompile Include="GUI_CheckBox.cpp" />
     <ClCompile Include="GUI_Draw.cpp" />
     <ClCompile Include="GUI_DynamicButton.cpp" />
@@ -284,6 +283,7 @@
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="FiringSolutionCalculator.h" />
     <ClInclude Include="FiringSolutionThruster.h" />
+    <ClInclude Include="GUI_ElementResource.h" />
     <ClInclude Include="GUI_Looks.h" />
     <ClInclude Include="GuiXmlLoader.h" />
     <ClInclude Include="FSThrusterCollection.h" />
@@ -295,7 +295,6 @@
     <ClInclude Include="GUIplugin.h" />
     <ClInclude Include="GUIpopup.h" />
     <ClInclude Include="GUI_BaseElement.h" />
-    <ClInclude Include="GUI_BaseElementResource.h" />
     <ClInclude Include="GUI_BaseElementState.h" />
     <ClInclude Include="GUI_CheckBox.h" />
     <ClInclude Include="GUI_CheckBoxState.h" />

@@ -29,7 +29,7 @@ struct BLITDATA
 #pragma once
 class GUIplugin;
 class GUI_BaseElementState;
-class GUI_BaseElementResource;
+class GUI_ElementResource;
 
 /**
  * \brief Base class of GUI elements. All GUI elements must derive from this class.
@@ -38,7 +38,7 @@ class GUI_BaseElement
 {
 	friend class GUIentity;
 	friend class GUI_BaseElementState;
-	friend class GUI_BaseElementResource;
+	friend class GUI_Looks;
 
 public:
 	/**
@@ -194,6 +194,11 @@ public:
 	 */
 	void SetStyleSetForPlugins(string styleset);
 
+	/**
+	 * @return True if this element can share resources with the passed element. Override when you need more specific comparisons.
+	 */
+	virtual bool IsResourceCompatibleWith(GUI_BaseElement *element);
+
 
 protected:
 	GUI_ELEMENT_TYPE type;				//!< The type of this element
@@ -202,6 +207,7 @@ protected:
 	int height;							//!< The height of the element
 	int id;								//!< The locally unique identifier of the element
 	SURFHANDLE src = NULL;				//!< Source surface to draw the element on. When the element is drawn on the panel, it will be blitted from this surface
+//	GUI_ElementResource *resource;		//!< The graphical resources used to draw this element.
 	bool noBlitting = false;			//!< Some elements might not have to blit themselves because they are static part of the background. This is not the same as !visible, as the element still processes events and still draws children, it just doesn't draw itself.
 	vector<GUI_BaseElement*> children;	//!< List containing all direct children of this element
 	vector<GUIplugin*> plugins;			//!< List containing all GUIplugins currently pluged into this element
@@ -317,7 +323,7 @@ protected:
 	/**
 	* \brief Triggers the element to create or re-create its bitmap resources.
 	*/
-	virtual void createResources() = 0;
+	virtual GUI_ElementResource *createResources() = 0;
 
 
 	/**

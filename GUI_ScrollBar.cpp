@@ -5,8 +5,8 @@
 GUI_ScrollBar::GUI_ScrollBar(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_BaseElement(_rect, _id, _style)
 {
-	style = _style;
-	createResources();
+	src = GUI_Looks::GetResource(this);
+//	src = new GUI_ElementStyle("test");
 }
 
 
@@ -29,12 +29,9 @@ void GUI_ScrollBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 }
 
 
-void GUI_ScrollBar::createResources()
+GUI_ElementResource *GUI_ScrollBar::createResources()
 {
-	if (src != NULL)
-	{
-		oapiDestroySurface(src);
-	}
+	assert(src == NULL && "Release old resource before creating it again!");
 
 	//allocate own surface and fill with background color
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
@@ -100,7 +97,7 @@ void GUI_ScrollBar::createResources()
 
 	oapiReleaseSketchpad(skp);
 
-	src = tgt;
+	return new GUI_ElementResource(tgt);
 }
 
 

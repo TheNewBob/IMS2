@@ -86,7 +86,7 @@ protected:
 	 * \brief Draws the ListBox and its scrollbar to its source surface
 	 * \param scrollbarstyle The style in which the scrollbar should be drawn
 	 */
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 
 	int nLines;												//!< Stores the number of lines The listbox can display without scrolling
 	int selected;											//!< Stores the primary selected element (in a multi-select box, the last item to be selected).
@@ -100,7 +100,7 @@ protected:
 	
 	vector<UINT> hilights;									//!< List of indices of all selected items in a multi-select box
 	GUI_TEXT_POS listJustification;							//!< Stores the justification of the list text
-
+	void createScrollbar();
 private:
 	GUI_ListBoxState *cState();
 };

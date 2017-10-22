@@ -4,7 +4,7 @@
 class GUI_LabelValuePairState;
 /* \brief A fixed label that displays a dynamic value behind it.
  * for example: color: red
- * The label (color:) cannot be changed after creation,
+ * The label (color:) cannot be changed during the lifetime of the element,
  * while the value is printed dynamically and can be changed at any time
  */
 class GUI_LabelValuePair :
@@ -35,6 +35,8 @@ public:
 	*/
 	string GetValue();
 
+	bool IsResourceCompatibleWith(GUI_BaseElement *element);
+
 protected:
 //	string value;							//!< Stores the elements value text
 	string label;							//!< Stores the elements label text
@@ -44,7 +46,7 @@ protected:
 	/**
 	 * \brief Draws the element to its source surface
 	 */
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 	
 	/**
 	 * Reprints the value text onto the source surface
@@ -56,7 +58,7 @@ protected:
 	/**
 	 * \brief Redraws the current value.
 	 */
-	void loadValue();
+//	void loadValue();
 
 private:
 	/**

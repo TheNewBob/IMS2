@@ -19,7 +19,7 @@
  * should be obtained by the factory functions in GUIentity
  */
 
-
+class GUI_ElementResource;
 
 /**
  * \brief Singleton that manages fonts and styles.
@@ -58,15 +58,39 @@ public:
 
 	static vector<string> GetAvailableStyleSets();
 
+	/**
+ 	 * Gets a graphical resource for the passed element. If a compatible resource already exists,
+	 *	will return it, otherwise will create a new one.
+	 */
+	static SURFHANDLE GetResource(GUI_BaseElement *element);
+	
+	/**
+	 * Releases the resource for this element.
+	 * The resource will be destroyed only if there are no other elements using it.
+	 * \asserts that the passed element actually references a resource.
+	 */ 
+	static void ReleaseResource(GUI_BaseElement *element);
+
+
 private:
 	GUI_Looks();
 	~GUI_Looks();
 
-	static GUI_Looks *instance;						//!< Stores the instance of the fonts and styles manager
+	static GUI_Looks *instance;										//!< Stores the instance of the fonts and styles manager
+
+	static map<int, map<int, vector<GUI_ElementResource*>>> resources;	//!< Stores resources maped to width and height for quicker search.
 
 	static map<string, StyleSet*> stylesets;						//!< Stores the available StyleSets
-	static string defaultStyle;						//!< Defines the default style
+	static string defaultStyle;										//!< Defines the default style
 
+	
+	/**
+	 * \returns A resource compatible with the passed element, or NULL if no such resource exists.
+	 * \param removeIfElementIsOnlyReference Removes the resource from the map if the passed element is the only one referencing it.
+	 * \note It is entirely possible that the returned resource is already referenced by the element.
+	 */
+	static GUI_ElementResource *findResourceForElement(GUI_BaseElement *element, bool removeIfElementIsOnlyReference = false);	
+	
 	/**
 	 * \brief Creates a font and adds it to a styleset
 	 * \param height The desired font height (size) in pixel

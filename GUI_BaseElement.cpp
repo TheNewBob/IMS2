@@ -2,9 +2,10 @@
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "GUIplugin.h"
+#include <typeinfo>
 
 class GUI_BaseElementState;
-class GUI_BaseElementResource;
+
 
 GUI_BaseElement::GUI_BaseElement(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: rect(_rect), width(rect.right - rect.left), height(rect.bottom - rect.top),
@@ -24,7 +25,7 @@ GUI_BaseElement::~GUI_BaseElement()
 	//some elements like pages don't actually allocate a source surface
 	if (src != NULL)
 	{
-		oapiDestroySurface(src);
+		GUI_Looks::ReleaseResource(this);
 	}
 	//delete all plugins of this element
 	for (UINT i = 0; i < plugins.size(); ++i)
@@ -113,7 +114,7 @@ void GUI_BaseElement::SetStyle(GUI_ElementStyle *style)
 	{
 		if (src != NULL)
 		{
-			oapiDestroySurface(src);
+			GUI_Looks::ReleaseResource(this);
 			src = NULL;
 		}
 		
@@ -259,6 +260,18 @@ void GUI_BaseElement::CancelStateSharingWith(GUI_BaseElement *who)
 {
 	state->CancelSharingWith(this);
 	revokeState();
+}
+
+bool GUI_BaseElement::IsResourceCompatibleWith(GUI_BaseElement *element)
+{
+	if (style == element->style &&
+		width == element->width &&
+		height == element->height &&
+		typeid(this) == typeid(element))
+	{
+		return true;
+	}
+	return false;
 }
 
 

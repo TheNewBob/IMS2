@@ -8,7 +8,7 @@ GUI_Page::GUI_Page(RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackg
 {
 	if (drawbackground)
 	{
-		createResources();
+		src = GUI_Looks::GetResource(this);
 	}
 }
 
@@ -86,12 +86,9 @@ void GUI_Page::reSize()
 }
 
 
-void GUI_Page::createResources()
+GUI_ElementResource *GUI_Page::createResources()
 {
-	if (src != NULL)
-	{
-		oapiDestroySurface(src);
-	}
+	assert(src == NULL && "Release old resource before creating it again!");
 
 	if (drawBackground)
 	{
@@ -101,8 +98,9 @@ void GUI_Page::createResources()
 		Sketchpad *skp = oapiGetSketchpad(tgt);
 		GUI_Draw::DrawRectangle(_R(0, 0, width, height), skp, style);
 		oapiReleaseSketchpad(skp);
-		src = tgt;
+		return new GUI_ElementResource(tgt);
 	}
+	return NULL;
 }
 
 LAYOUTDATA GUI_Page::getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts)

@@ -56,7 +56,7 @@ protected:
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
 	bool ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y);
 
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 
 /*	double fillstatus = 1.0;									//!< How much the bar is filled: >= 0 <= 1
 	double maxcapacity = 100;									//!< the maximum amount of whatever the statusbar represents.
@@ -73,22 +73,20 @@ protected:
 	void createStatusString(string &str);
 	
 	/**
-	 * \brief prepares the source surface with the text to be blitted on the filled part of the status bar
+	 * \brief prepares the the text to be blitted on the filled part of the status bar on the statussrf
 	 * \param str Reference to the string to be printed
-	 * \note Writes directly to the dedicated area in the source surface. In other words, calling this will
-	 *	overwrite anything there previously.
 	 * \see prepareEmptyStatusString()
 	 */
 	void prepareFullStatusString(string &str);
 
 	/**
-	* \brief prepares the source surface with the text to be blitted on the empty part of the status bar
+	* \brief prepares the text to be blitted on the empty part of the status bar on the statussrf
 	* \param str Reference to the string to be printed
-	* \note Writes directly to the dedicated area in the source surface. In other words, calling this will
-	*	overwrite anything there previously.
 	* \see prepareEmptyStatusString()
 	*/
 	void prepareEmptyStatusString(string &str);
+
+	SURFHANDLE statussrf = NULL;		//!< A surface containing this bars status string
 
 private:
 	/**

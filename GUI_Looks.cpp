@@ -1,7 +1,10 @@
 #include "GUI_Common.h"
-#include "GUI_Looks.h"
+
+
+// #include "GUI_Looks.h"
 
 map<string, StyleSet*> GUI_Looks::stylesets;
+map<int, map<int, vector<GUI_ElementResource*>>> GUI_Looks::resources;
 string GUI_Looks::defaultStyle = "default";
 
 
@@ -103,6 +106,64 @@ GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, st
 	return newstyle;
 }
 
+
+SURFHANDLE GUI_Looks::GetResource(GUI_BaseElement *element)
+{
+	GUI_ElementResource *result = findResourceForElement(element);
+
+	if (result == NULL)
+	{
+		// no resource for this element exists, create one
+		result = element->createResources();
+		resources[element->GetWidth()][element->GetHeight()].push_back(result);
+	}
+
+	result->references.push_back(element);
+	return result->GetSurface();
+}
+
+void GUI_Looks::ReleaseResource(GUI_BaseElement *element)
+{
+	GUI_ElementResource *resource = findResourceForElement(element, true);
+	assert(resource != NULL && 
+		find(resource->references.begin(), resource->references.end(), element) != resource->references.end() && 
+		"elment attempts releasing resource without ever referencing one!");
+	resource->removeReference(element);
+	if (resource->NumReferences() == 0)
+	{
+		delete resource;
+	}
+}
+
+GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element, bool removeIfElementIsOnlyReference)
+{
+	GUI_ElementResource *result = NULL;
+
+	auto heightmapit = resources.find(element->GetWidth());
+	if (heightmapit != resources.end())
+	{
+		auto heightmap = heightmapit->second;
+		auto resourcelistit = heightmap.find(element->GetHeight());
+		if (resourcelistit != heightmap.end())
+		{
+			auto resourcelist = resourcelistit->second;
+			for (UINT i = 0; i < resourcelist.size(); ++i)
+			{
+				if (resourcelist[i]->IsCompatibleWith(element))
+				{
+					result = resourcelist[i];
+					if (removeIfElementIsOnlyReference &&
+						result->NumReferences() == 1 &&
+						result->references[0] == element)
+					{
+						resourcelist.erase(resourcelist.begin() + i);
+					}
+				}
+			}
+		}
+	}
+	return result;
+}
 
 void GUI_Looks::createFonts()
 {

@@ -6,7 +6,7 @@ GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect,
 	: GUI_BaseElement(_rect, _id, _style), label(_label), valuefont(_valuefont)
 {
 	swapState(new GUI_LabelValuePairState(this));
-	createResources();
+	src = GUI_Looks::GetResource(this);
 	SetValue(_value);
 }
 
@@ -19,18 +19,18 @@ GUI_LabelValuePair::~GUI_LabelValuePair()
 void GUI_LabelValuePair::SetValue(string _value, bool hilighted)
 {
 	cState()->SetValue(_value, hilighted);
-	loadValue();
+//	loadValue();
 }
 
-void GUI_LabelValuePair::loadValue()
+/*void GUI_LabelValuePair::loadValue()
 {
 	//erase the old value on the source surface
 	RECT availablerect = _R(labelwidth, style->MarginTop(), width - style->MarginLeft(), height - style->MarginBottom());
-	GUI_Draw::ColorFill(availablerect, src, style->BackgroundColor());
+	GUI_Draw::ColorFill(availablerect, resource->GetSurface(), style->BackgroundColor());
 	//print the new text
 	valuefont->Print(src, cState()->GetValue(), labelwidth, height / 2, availablerect, cState()->GetHilighted(), T_LEFT, V_CENTER);
 
-}
+}*/
 
 
 
@@ -50,15 +50,22 @@ void GUI_LabelValuePair::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT 
 	if (blitdata.width > 0 && blitdata.height > 0)
 	{
 		oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
+		valuefont->Print(_tgt, cState()->GetValue(), blitdata.tgtrect.left + labelwidth, blitdata.tgtrect.top + height / 2, rect, cState()->GetHilighted(), T_LEFT, V_CENTER);
 	}
 }
 
-void GUI_LabelValuePair::createResources()
+bool GUI_LabelValuePair::IsResourceCompatibleWith(GUI_BaseElement *element)
 {
-	if (src != NULL)
+	if (GUI_BaseElement::IsResourceCompatibleWith(element))
 	{
-		oapiDestroySurface(src);
+		if (label == ((GUI_LabelValuePair*)element)->label) return true;
 	}
+	return false;
+}
+
+GUI_ElementResource *GUI_LabelValuePair::createResources()
+{
+	assert(src == NULL && "Release old resource before creating it again!");
 
 	if (style->GetChildStyle() == NULL)
 	{
@@ -71,14 +78,11 @@ void GUI_LabelValuePair::createResources()
 
 
 	labelwidth = font->GetTextWidth(string(label + " ")) + style->MarginLeft();
-	src = GUI_Draw::createElementBackground(style, width, height);
+	SURFHANDLE src = GUI_Draw::createElementBackground(style, width, height);
 	font->Print(src, label, style->MarginLeft(), height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_LEFT, V_CENTER);
 
-	if (cState()->GetValue() != "")
-	{
-		loadValue();
-	}
+	return new GUI_ElementResource(src);
 }
 
 

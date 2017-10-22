@@ -42,8 +42,11 @@ protected:
 	virtual void AddChild(GUI_BaseElement *child);
 	virtual int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 
-	virtual void createResources();
-
+	virtual GUI_ElementResource *createResources();
+	/**
+	 * Creates the elements scrollbar
+	 */
+	void createScrollbar();
 	
 };
 

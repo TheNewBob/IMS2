@@ -21,6 +21,8 @@ public:
 	GUI_DynamicButton(string _text, RECT _rect, int _id, GUI_ElementStyle *_style);
 	~GUI_DynamicButton();
 
+	virtual bool IsResourceCompatibleWith(GUI_BaseElement *element);
+
 private:
 	
 	void DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawablerect);
@@ -29,7 +31,7 @@ private:
 	/**
 	 * \brief Draws the button to its source surface
 	 */
-	virtual void createResources();
+	virtual GUI_ElementResource *createResources();
 
 	/**
 	* \brief Helper function to simplify casting of the state.

@@ -6,7 +6,7 @@ GUI_StatusBar::GUI_StatusBar(RECT _rect, int _id, GUI_ElementStyle *_style)
 	: GUI_BaseElement(_rect, _id, _style)
 {
 	swapState(new GUI_StatusBarState(this));
-	createResources();
+	src = GUI_Looks::GetResource(this);
 }
 
 
@@ -46,16 +46,16 @@ void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 		if (s->GetFillStatus() == 1.0)
 		{
 			//the status bar is completely filled, just blit the whole filled bar
-			blitdata.srcrect.top = height * 2;
-			blitdata.srcrect.bottom = height * 3;
-			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
+			blitdata.srcrect.top = 0;
+			blitdata.srcrect.bottom = height;
+			oapiBlt(_tgt, statussrf, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 		}
 		else if (s->GetFillStatus() == 0.0)
 		{
 			//the status bar is completely empty, just blit the whole empty bar
-			blitdata.srcrect.top = height * 3;
-			blitdata.srcrect.bottom = height * 4;
-			oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
+			blitdata.srcrect.top = height;
+			blitdata.srcrect.bottom = height * 2;
+			oapiBlt(_tgt, statussrf, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
 		}
 		else
 		{
@@ -66,25 +66,25 @@ void GUI_StatusBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 
 			//calculate the source and target rects for the full part of the status bar and blit it.
 			RECT fullsrcrect = _R(blitdata.srcrect.left,
-				height * 2,
+				0,
 				blitdata.srcrect.right - splitfromright,
-				height * 3);
+				height);
 
 			RECT fulltgtrect = blitdata.tgtrect;
 			fulltgtrect.right -= splitfromright;
 			
-			oapiBlt(_tgt, src, &fulltgtrect, &fullsrcrect, SURF_PREDEF_CK);
+			oapiBlt(_tgt, statussrf, &fulltgtrect, &fullsrcrect, SURF_PREDEF_CK);
 
 			//calculate the source and target rects for the empty part of the status bar and blit it.
 			RECT emptysrcrect = _R(blitdata.srcrect.left + splitfromleft,
-				height * 3,
+				height,
 				blitdata.srcrect.right,
-				height * 4);
+				height * 2);
 
 			RECT emptytgtrect = blitdata.tgtrect;
 			emptytgtrect.left += splitfromleft;
 
-			oapiBlt(_tgt, src, &emptytgtrect, &emptysrcrect, SURF_PREDEF_CK);
+			oapiBlt(_tgt, statussrf, &emptytgtrect, &emptysrcrect, SURF_PREDEF_CK);
 		}
 	}
 }
@@ -94,19 +94,20 @@ bool GUI_StatusBar::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 	return false;
 }
 
-void GUI_StatusBar::createResources()
+GUI_ElementResource *GUI_StatusBar::createResources()
 {
+	assert(src == NULL && "Release old resource before creating it again!");
 	assert(height > font->GetfHeight() && "StatusBar must be taller than its font!");
 
-	if (src != NULL)
+	if (statussrf != NULL)
 	{
-		oapiDestroySurface(src);
+		oapiDestroySurface(statussrf);
 	}
-
 	//allocate own surface and fill with background color
 	//two complete representations of the bar are needed: one filled, one empty.
-	//And we need an area on which to draw the text being shown in the bar
-	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height * 4);
+	//And we need asurface on which to draw the text being shown in the bar
+	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height * 2);
+	statussrf = GUI_Draw::createElementBackground(style, width, height * 2);
 	Sketchpad *skp = oapiGetSketchpad(tgt);
 
 	//draw the filled image of the status bar
@@ -117,7 +118,7 @@ void GUI_StatusBar::createResources()
 	oapiReleaseSketchpad(skp);
 
 	//assign new surface as source
-	src = tgt;
+	return new GUI_ElementResource(tgt);
 }
 
 
@@ -196,16 +197,16 @@ void GUI_StatusBar::createStatusString(string &str)
 
 void GUI_StatusBar::prepareFullStatusString(string &str)
 {
-	oapiBlt(src, src, 0, height * 2, 0, 0, width, height);
-	font->Print(src, str, width / 2, (int)(height * 2.5), _R(style->CornerRadius(), height * 2, width - style->CornerRadius(), height * 3),
+	oapiBlt(statussrf, src, 0, 0, 0, 0, width, height);
+	font->Print(statussrf, str, width / 2, (int)(height / 2), _R(style->CornerRadius(), 0, width - style->CornerRadius(), height),
 		true, T_CENTER, V_CENTER);
 }
 
 
 void GUI_StatusBar::prepareEmptyStatusString(string &str)
 {
-	oapiBlt(src, src, 0, height * 3, 0, height, width, height);
-	font->Print(src, str, width / 2, (int)(height * 3.5), _R(style->CornerRadius(), height * 3, width - style->CornerRadius(), height * 4),
+	oapiBlt(statussrf, src, 0, height * 2, 0, height, width, height);
+	font->Print(statussrf, str, width / 2, (int)(height * 1.5), _R(style->CornerRadius(), height, width - style->CornerRadius(), height * 2),
 		false, T_CENTER, V_CENTER);
 }
 
