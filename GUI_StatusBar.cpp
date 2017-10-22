@@ -12,6 +12,10 @@ GUI_StatusBar::GUI_StatusBar(RECT _rect, int _id, GUI_ElementStyle *_style)
 
 GUI_StatusBar::~GUI_StatusBar()
 {
+	if (statussrf != NULL)
+	{
+		oapiDestroySurface(statussrf);
+	}
 }
 
 
@@ -99,15 +103,14 @@ GUI_ElementResource *GUI_StatusBar::createResources()
 	assert(src == NULL && "Release old resource before creating it again!");
 	assert(height > font->GetfHeight() && "StatusBar must be taller than its font!");
 
-	if (statussrf != NULL)
+/*	if (statussrf != NULL)
 	{
 		oapiDestroySurface(statussrf);
-	}
+	}*/
 	//allocate own surface and fill with background color
 	//two complete representations of the bar are needed: one filled, one empty.
 	//And we need asurface on which to draw the text being shown in the bar
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height * 2);
-	statussrf = GUI_Draw::createElementBackground(style, width, height * 2);
 	Sketchpad *skp = oapiGetSketchpad(tgt);
 
 	//draw the filled image of the status bar
@@ -197,6 +200,10 @@ void GUI_StatusBar::createStatusString(string &str)
 
 void GUI_StatusBar::prepareFullStatusString(string &str)
 {
+	if (statussrf == NULL)
+	{
+		statussrf = GUI_Draw::createElementBackground(style, width, height * 2);
+	}
 	oapiBlt(statussrf, src, 0, 0, 0, 0, width, height);
 	font->Print(statussrf, str, width / 2, (int)(height / 2), _R(style->CornerRadius(), 0, width - style->CornerRadius(), height),
 		true, T_CENTER, V_CENTER);
@@ -205,6 +212,10 @@ void GUI_StatusBar::prepareFullStatusString(string &str)
 
 void GUI_StatusBar::prepareEmptyStatusString(string &str)
 {
+	if (statussrf == NULL)
+	{
+		statussrf = GUI_Draw::createElementBackground(style, width, height * 2);
+	}
 	oapiBlt(statussrf, src, 0, height * 2, 0, height, width, height);
 	font->Print(statussrf, str, width / 2, (int)(height * 1.5), _R(style->CornerRadius(), height, width - style->CornerRadius(), height * 2),
 		false, T_CENTER, V_CENTER);

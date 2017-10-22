@@ -31,7 +31,6 @@ void GUI_Label::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawable
 
 GUI_ElementResource *GUI_Label::createResources()
 {
-	//destroy an existing surface before allocating it anew
 	assert(src == NULL && "Release old resource before creating it again!");
 	
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
@@ -53,10 +52,10 @@ bool GUI_Label::IsResourceCompatibleWith(GUI_BaseElement *element)
 
 void GUI_Label::ChangeText(string text)
 {
-	cState()->SetText(text);
 	GUI_Looks::ReleaseResource(this);
 	src = NULL;
-	createResources();
+	cState()->SetText(text);
+	src = GUI_Looks::GetResource(this);
 }
 
 
