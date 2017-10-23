@@ -118,16 +118,14 @@ SURFHANDLE GUI_Looks::GetResource(GUI_BaseElement *element)
 		resources[element->GetWidth()][element->GetHeight()].push_back(result);
 	}
 
-	result->references.push_back(element);
+	result->addReference(element);
 	return result->GetSurface();
 }
 
 void GUI_Looks::ReleaseResource(GUI_BaseElement *element)
 {
 	GUI_ElementResource *resource = findResourceForElement(element, true);
-	assert(resource != NULL && 
-		find(resource->references.begin(), resource->references.end(), element) != resource->references.end() && 
-		"elment attempts releasing resource without ever referencing one!");
+	assert(resource != NULL && "Element tries to release resource, but no resource was found!");
 	resource->removeReference(element);
 	if (resource->NumReferences() == 0)
 	{
@@ -153,11 +151,13 @@ GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element,
 				{
 					result = resourcelist[i];
 					if (removeIfElementIsOnlyReference &&
+						result != NULL &&
 						result->NumReferences() == 1 &&
 						result->references[0] == element)
 					{
 						resourcelist.erase(resourcelist.begin() + i);
 					}
+					break;
 				}
 			}
 		}

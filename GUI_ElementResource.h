@@ -36,14 +36,17 @@ private:
 	SURFHANDLE surface = NULL;
 	vector<GUI_BaseElement*> references;
 
-	/**
-	 * \brief Removes a reference to the resource.
-	 */
+	void addReference(GUI_BaseElement *element)
+	{
+		assert(find(references.begin(), references.end(), element) == references.end() && "Attempting to register resource twice!");
+		references.push_back(element);
+	}
+
 	void removeReference(GUI_BaseElement *element)
 	{
-		auto i = find(references.begin(), references.end(), element);
-		assert(i != references.end() && "attempting to remove reference that was never registered!");
-		references.erase(i);
-	};
+		auto reference = find(references.begin(), references.end(), element);
+		assert(reference != references.end() && "Attempting to remove reference that was never registered!");
+		references.erase(reference);
+	}
 };
 

@@ -6,6 +6,16 @@ GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect,
 	: GUI_BaseElement(_rect, _id, _style), label(_label), valuefont(_valuefont)
 {
 	swapState(new GUI_LabelValuePairState(this));
+
+	if (style->GetChildStyle() == NULL)
+	{
+		valuefont = style->GetFont();
+	}
+	else
+	{
+		valuefont = style->GetChildStyle()->GetFont();
+	}
+
 	src = GUI_Looks::GetResource(this);
 	SetValue(_value);
 }
@@ -66,16 +76,6 @@ bool GUI_LabelValuePair::IsResourceCompatibleWith(GUI_BaseElement *element)
 GUI_ElementResource *GUI_LabelValuePair::createResources()
 {
 	assert(src == NULL && "Release old resource before creating it again!");
-
-	if (style->GetChildStyle() == NULL)
-	{
-		valuefont = style->GetFont();
-	}
-	else
-	{
-		valuefont = style->GetChildStyle()->GetFont();
-	}
-
 
 	labelwidth = font->GetTextWidth(string(label + " ")) + style->MarginLeft();
 	SURFHANDLE src = GUI_Draw::createElementBackground(style, width, height);
