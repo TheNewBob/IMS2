@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 #include "Helpers.h"
+#include <typeinfo>
 
 class GUI_Surface;
 class GUI_font;

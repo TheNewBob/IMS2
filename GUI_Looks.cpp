@@ -137,16 +137,17 @@ GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element,
 {
 	GUI_ElementResource *result = NULL;
 
-	auto heightmapit = resources.find(element->GetWidth());
-	if (heightmapit != resources.end())
+	map<int, map<int, vector<GUI_ElementResource*>>>::iterator widthmapit = resources.find(element->GetWidth());
+	if (widthmapit != resources.end())
 	{
-		auto heightmap = heightmapit->second;
-		auto resourcelistit = heightmap.find(element->GetHeight());
-		if (resourcelistit != heightmap.end())
+		map<int, vector<GUI_ElementResource*>> &heightmap = widthmapit->second;
+		map<int, vector<GUI_ElementResource*>>::iterator heightmapit = heightmap.find(element->GetHeight());
+		if (heightmapit != heightmap.end())
 		{
-			auto resourcelist = resourcelistit->second;
+			vector<GUI_ElementResource*> &resourcelist = heightmapit->second;
 			for (UINT i = 0; i < resourcelist.size(); ++i)
 			{
+				assert(resourcelist[i] != NULL && "Something went horribly wrong!");
 				if (resourcelist[i]->IsCompatibleWith(element))
 				{
 					result = resourcelist[i];
@@ -160,6 +161,7 @@ GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element,
 					break;
 				}
 			}
+
 		}
 	}
 	return result;

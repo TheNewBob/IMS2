@@ -68,7 +68,11 @@ bool GUI_LabelValuePair::IsResourceCompatibleWith(GUI_BaseElement *element)
 {
 	if (GUI_BaseElement::IsResourceCompatibleWith(element))
 	{
-		if (label == ((GUI_LabelValuePair*)element)->label) return true;
+		if (label == ((GUI_LabelValuePair*)element)->label &&
+			style->GetChildStyle() == element->GetStyle()->GetChildStyle())
+		{
+			return true;
+		}
 	}
 	return false;
 }
