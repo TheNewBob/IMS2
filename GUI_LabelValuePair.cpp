@@ -29,6 +29,7 @@ GUI_LabelValuePair::~GUI_LabelValuePair()
 void GUI_LabelValuePair::SetValue(string _value, bool hilighted)
 {
 	cState()->SetValue(_value, hilighted);
+	updatenextframe = true;
 //	loadValue();
 }
 
@@ -60,7 +61,7 @@ void GUI_LabelValuePair::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT 
 	if (blitdata.width > 0 && blitdata.height > 0)
 	{
 		oapiBlt(_tgt, src, &blitdata.tgtrect, &blitdata.srcrect, SURF_PREDEF_CK);
-		valuefont->Print(_tgt, cState()->GetValue(), blitdata.tgtrect.left + labelwidth, blitdata.tgtrect.top + height / 2, rect, cState()->GetHilighted(), T_LEFT, V_CENTER);
+		valuefont->Print(_tgt, cState()->GetValue(), blitdata.tgtrect.left + labelwidth, blitdata.tgtrect.top + height / 2, blitdata.tgtrect, cState()->GetHilighted(), T_LEFT, V_CENTER);
 	}
 }
 
