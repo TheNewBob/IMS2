@@ -44,7 +44,7 @@ bool GUI_Label::IsResourceCompatibleWith(GUI_BaseElement *element)
 {
 	if (GUI_BaseElement::IsResourceCompatibleWith(element))
 	{
-		if (cState()->GetText() == ((GUI_Label*)element)->cState()->GetText()) return true;
+		if (this == element || cState()->GetText() == ((GUI_Label*)element)->cState()->GetText()) return true;
 	}
 	return false;
 }

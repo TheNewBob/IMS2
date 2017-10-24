@@ -45,7 +45,7 @@ bool GUI_DynamicButton::IsResourceCompatibleWith(GUI_BaseElement *element)
 {
 	if (GUI_BaseElement::IsResourceCompatibleWith(element))
 	{
-		if (cState()->GetText() == ((GUI_DynamicButton*)element)->cState()->GetText()) return true;
+		if (this == element || cState()->GetText() == ((GUI_DynamicButton*)element)->cState()->GetText()) return true;
 	}
 	return false;
 }

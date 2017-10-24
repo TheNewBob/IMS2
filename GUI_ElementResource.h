@@ -29,6 +29,15 @@ public:
 	};
 
 	/**
+	 * \return True if this resource is already referenced by the passed element.
+	 */
+	bool IsReferencedByElement(GUI_BaseElement *element)
+	{
+		auto i = find(references.begin(), references.end(), element);
+		return i != references.end();
+	}
+
+	/**
 	 * Retrieves the surfhandle
 	 */
 	SURFHANDLE GetSurface() { return surface; };

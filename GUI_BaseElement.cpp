@@ -264,10 +264,11 @@ void GUI_BaseElement::CancelStateSharingWith(GUI_BaseElement *who)
 
 bool GUI_BaseElement::IsResourceCompatibleWith(GUI_BaseElement *element)
 {
-	if (style == element->style &&
+	if (this == element ||
+		(style == element->style &&
 		width == element->width &&
 		height == element->height &&
-		typeid(this) == typeid(element))
+		typeid(this) == typeid(element)))
 	{
 		return true;
 	}

@@ -133,7 +133,7 @@ void GUI_Looks::ReleaseResource(GUI_BaseElement *element)
 	}
 }
 
-GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element, bool removeIfElementIsOnlyReference)
+GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element, bool findResourceReferencedByElement)
 {
 	GUI_ElementResource *result = NULL;
 
@@ -148,20 +148,33 @@ GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element,
 			for (UINT i = 0; i < resourcelist.size(); ++i)
 			{
 				assert(resourcelist[i] != NULL && "Something went horribly wrong!");
-				if (resourcelist[i]->IsCompatibleWith(element))
+				
+				if (findResourceReferencedByElement) 
 				{
-					result = resourcelist[i];
-					if (removeIfElementIsOnlyReference &&
-						result != NULL &&
-						result->NumReferences() == 1 &&
-						result->references[0] == element)
+					if (resourcelist[i] != NULL &&
+						resourcelist[i]->IsReferencedByElement(element))
 					{
-						resourcelist.erase(resourcelist.begin() + i);
+						// return the resource if it is referenced by the passed element
+						result = resourcelist[i];
+						// since this option is only used if the intent is to remove a reference,
+						// remove the resource if the element is the only reference to it.
+						if (result->NumReferences() == 1)
+						{
+							resourcelist.erase(resourcelist.begin() + i);
+						}
+						break;
 					}
-					break;
+				}
+				else 
+				{
+					if (resourcelist[i]->IsCompatibleWith(element))
+					{
+						// return the resource if it is compatible with the passed element
+						result = resourcelist[i];
+						break;
+					}
 				}
 			}
-
 		}
 	}
 	return result;
