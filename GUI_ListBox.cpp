@@ -175,6 +175,17 @@ bool GUI_ListBox::IsHighlight(UINT index)
 	return false;
 }
 
+
+void GUI_ListBox::SetStyle(GUI_ElementStyle *style)
+{
+	if (style != this->style)
+	{
+		GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
+		scrollbar->SetStyle(scrollbarstyle);
+	}
+	GUI_BaseElement::SetStyle(style);
+}
+
 void GUI_ListBox::createScrollbar()
 {
 	//create the scrollbar

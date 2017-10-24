@@ -78,6 +78,19 @@ bool GUI_LabelValuePair::IsResourceCompatibleWith(GUI_BaseElement *element)
 	return false;
 }
 
+void GUI_LabelValuePair::SetStyle(GUI_ElementStyle *style)
+{
+	if (style->GetChildStyle() == NULL)
+	{
+		valuefont = style->GetFont();
+	}
+	else
+	{
+		valuefont = style->GetChildStyle()->GetFont();
+	}
+	GUI_BaseElement::SetStyle(style);
+}
+
 GUI_ElementResource *GUI_LabelValuePair::createResources()
 {
 	assert(src == NULL && "Release old resource before creating it again!");

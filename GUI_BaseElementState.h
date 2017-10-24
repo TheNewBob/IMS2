@@ -57,7 +57,7 @@ protected:
 	/**
 	 * \brief Propagates a state change to all sharers and the owner.
 	 */
-	 void propagateStateChange()
+	void propagateStateChange()
 	{
 		owner->updatenextframe = true;
 		for (auto i = sharers.begin(); i != sharers.end(); ++i)

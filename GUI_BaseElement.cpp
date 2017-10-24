@@ -120,7 +120,7 @@ void GUI_BaseElement::SetStyle(GUI_ElementStyle *style)
 		
 		this->style = style;
 		font = this->style->GetFont();
-		createResources();
+		src = GUI_Looks::GetResource(this);
 		updatenextframe = true;
 	}
 }

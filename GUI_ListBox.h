@@ -69,6 +69,8 @@ public:
 	 */
 	bool IsHighlight(UINT index);
 
+	virtual void SetStyle(GUI_ElementStyle *style);
+
 
 	/**
 	 * \return The height a GUI_ListBox needs to have to display a certain number of lines in a certain style

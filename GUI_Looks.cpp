@@ -109,17 +109,27 @@ GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, st
 
 SURFHANDLE GUI_Looks::GetResource(GUI_BaseElement *element)
 {
+	// this code is ugly as sin. It's a seriously excessive overuse of NULL as a state validator.
 	GUI_ElementResource *result = findResourceForElement(element);
 
 	if (result == NULL)
 	{
 		// no resource for this element exists, create one
 		result = element->createResources();
-		resources[element->GetWidth()][element->GetHeight()].push_back(result);
+		if (result != NULL)
+		{
+			resources[element->GetWidth()][element->GetHeight()].push_back(result);
+			result->addReference(element);
+			return result->GetSurface();
+		}
 	}
-
-	result->addReference(element);
-	return result->GetSurface();
+	else
+	{
+		result->addReference(element);
+		return result->GetSurface();
+	}
+	
+	return NULL;
 }
 
 void GUI_Looks::ReleaseResource(GUI_BaseElement *element)

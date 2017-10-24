@@ -84,6 +84,16 @@ void GUI_ScrollablePage::DrawChildren(SURFHANDLE _tgt, RECT &drawablerect, int x
 
 }
 
+void GUI_ScrollablePage::SetStyle(GUI_ElementStyle *style)
+{
+	if (style != this->style)
+	{
+		GUI_ElementStyle *scrollbarstyle = style->GetChildStyle() == NULL ? style : style->GetChildStyle();
+		scrollbar->SetStyle(scrollbarstyle);
+	}
+	GUI_BaseElement::SetStyle(style);
+}
+
 void GUI_ScrollablePage::createScrollbar()
 {
 		//create the scrollbar

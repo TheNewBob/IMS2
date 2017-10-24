@@ -37,6 +37,8 @@ public:
 
 	bool IsResourceCompatibleWith(GUI_BaseElement *element);
 
+	virtual void SetStyle(GUI_ElementStyle *style);
+
 protected:
 //	string value;							//!< Stores the elements value text
 	string label;							//!< Stores the elements label text

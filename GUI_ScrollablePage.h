@@ -33,6 +33,7 @@ public:
 	*/
 	void CalculateScrollRange();
 
+	virtual void SetStyle(GUI_ElementStyle *style);
 
 protected:
 	GUI_ScrollBar *scrollbar = NULL;								//!< Stores a pointer to the scrollbar element

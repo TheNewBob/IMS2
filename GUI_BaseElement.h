@@ -185,9 +185,10 @@ public:
 
 	/**
 	 * \brief Sets a new style for this element.
+	 * Elements with private (non-registered) children, like e.g. scrollbars, should override this to change their style as well.
 	 * \note This forces the element to recreate its resources, so use sparingly!
 	 */
-	void SetStyle(GUI_ElementStyle *style);
+	virtual void SetStyle(GUI_ElementStyle *style);
 
 	/**
 	 * Sets the styleset for the plugins of this element.
