@@ -15,7 +15,7 @@ public:
 	/**
 	 * \param _vessel The vessel containing this GUImanager
 	 */
-	GUImanager(VESSEL3 *vessel);
+	GUImanager(VESSEL3 *vessel, string initialstyleset = "default");
 	~GUImanager(void);
 
 	/**

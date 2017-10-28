@@ -7,7 +7,7 @@ GUI_CheckBox::GUI_CheckBox(string _text, RECT _rect, int _id, GUI_ElementStyle *
 {
 	swapState(new GUI_CheckBoxState(this));
 	src = GUI_Looks::GetResource(this);
-	ToggleChecked();
+//	ToggleChecked();
 }
 
 

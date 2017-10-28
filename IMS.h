@@ -202,8 +202,10 @@ private:
 	void DefineMainPanel(PANELHANDLE hPanel);
 	void DefineEngPanel(PANELHANDLE hPanel, DWORD width, DWORD height);
 	void SetPanelScale (PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
-	void InitialiseGUI();				//initialises GUI surfaces so their headers don't have to be included in any other files
+	void InitialiseGUI();				//!< initialises GUI surfaces so their headers don't have to be included in any other files
 	void DestroyGUI();
+	string loadedstyleset = "default";	//!< Merely stores the styleset loaded from scenario file until the GUI is initialised
+	void initialiseStyleset();			//! loads the saved styleset during the first frame
 	//calls the GUI update. Only exists so the whole GUI
 	//doesn't have to be included in IMS.cpp
 	void updateGui();

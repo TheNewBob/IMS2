@@ -18,9 +18,10 @@ unsigned int GUImanager::managerinstances = 0;
 map<GUIplugin*, GUI_BaseElement*> GUImanager::temporaryplugins;
 
 
-GUImanager::GUImanager(VESSEL3 *vessel)
+GUImanager::GUImanager(VESSEL3 *vessel, string initialstyleset)
 	: vessel(vessel)
 {
+	styleset = initialstyleset;
 	curEvent = LBNONE;
 	managerinstances++;
 }

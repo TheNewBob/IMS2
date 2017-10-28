@@ -170,9 +170,6 @@
     <ClCompile Include="IMS_BaseModule_AttachmentPoints.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Instrument.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="GUI_Page.cpp">
       <Filter>GUI\GUI elements</Filter>
     </ClCompile>
@@ -509,9 +506,6 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUI_elements.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Instrument.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Page.h">

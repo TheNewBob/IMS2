@@ -28,7 +28,8 @@ const static string MODES_LIST = "modes_list";
 
 
 GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thruster *thruster, GUIplugin *gui)
-	: GUI_ModuleFunction_Base(getHeight(thruster->GetData()->getNumberOfModes()), gui, gui->GetStyle(STYLE_BUTTON)), basethruster(thruster)
+	: GUI_ModuleFunction_Base(getHeight(thruster->GetData()->getNumberOfModes()), gui, gui->GetStyle(IMS_ModuleFunction_Base::GUI_MODULE_STYLE)), 
+	basethruster(thruster)
 {
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
 

@@ -30,7 +30,8 @@ const static string SET_TGT_BTN = "set_tgt_btn";
 const static string TGT_DESCRIPTION = "tgt_description";
 
 GUI_ModuleFunction_Comm::GUI_ModuleFunction_Comm(IMS_ModuleFunction_Comm *_function, GUIplugin *gui, bool hasdeployment, bool hasscanning, bool hastracking)
-	: GUI_ModuleFunction_Base(getHeight(hasdeployment, hasscanning, hastracking, predictWidth(gui, INT_MAX)), gui, gui->GetStyle(STYLE_BUTTON)), function(_function)
+	: GUI_ModuleFunction_Base(getHeight(hasdeployment, hasscanning, hastracking, predictWidth(gui, INT_MAX)), gui, gui->GetStyle(IMS_ModuleFunction_Base::GUI_MODULE_STYLE)), 
+	function(_function)
 {
 	//compose a list of fields we don't need for this instance, because the functionality is not supported.
 	vector<string> ignore_fields;

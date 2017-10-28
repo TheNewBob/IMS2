@@ -200,4 +200,7 @@ void IMS2::updateGui()
 	GUI->Update();
 }
 
-
+void IMS2::initialiseStyleset()
+{
+	// GUI->SetStyleset(loadedstyleset);
+}

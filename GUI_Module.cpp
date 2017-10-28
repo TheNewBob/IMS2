@@ -15,7 +15,7 @@
 
 
 GUI_Module::GUI_Module(GUImanager *vesselgui, IMS_Module *_module)
-	: GUI_ScrollablePage(setRect(vesselgui), GUI_MODULE_PAGE, _module->GetGui()->GetStyle()), module(_module)
+	: GUI_ScrollablePage(setRect(vesselgui), GUI_MODULE_PAGE, _module->GetGui()->GetStyle(STYLE_PAGE)), module(_module)
 {
 	//register the module gui as root element of the plugin
 	module->GetGui()->RegisterGuiElement(this, -1);

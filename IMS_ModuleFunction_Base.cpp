@@ -8,6 +8,7 @@
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_Module.h"
 
+const string IMS_ModuleFunction_Base::GUI_MODULE_STYLE = "module_control";		//!< identifier of the style the pages of the module controls are using.
 
 IMS_ModuleFunction_Base::IMS_ModuleFunction_Base(IMS_ModuleFunctionData_Base *_data, IMS_Module *_module, FUNCTIONTYPE _type)
 	: data(_data), module(_module), type(_type)

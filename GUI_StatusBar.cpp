@@ -216,7 +216,7 @@ void GUI_StatusBar::prepareEmptyStatusString(string &str)
 	{
 		statussrf = GUI_Draw::createElementBackground(style, width, height * 2);
 	}
-	oapiBlt(statussrf, src, 0, height * 2, 0, height, width, height);
+	oapiBlt(statussrf, src, 0, height, 0, height, width, height);
 	font->Print(statussrf, str, width / 2, (int)(height * 1.5), _R(style->CornerRadius(), height, width - style->CornerRadius(), height * 2),
 		false, T_CENTER, V_CENTER);
 }

@@ -236,7 +236,6 @@
     <ClCompile Include="IMS_RootPage.cpp" />
     <ClCompile Include="IMS_State.cpp" />
     <ClCompile Include="IMS_TouchdownPointManager.cpp" />
-    <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="LayoutElement.cpp" />
     <ClCompile Include="LayoutField.cpp" />
@@ -418,7 +417,6 @@
     <ClInclude Include="IMS_ModuleFunction_Factory.h" />
     <ClInclude Include="IMS_Orbiter_ModuleData.h" />
     <ClInclude Include="IMS_ModuleFunction_Pressurised.h" />
-    <ClInclude Include="Instrument.h" />
     <ClInclude Include="LiftoffEvent.h" />
     <ClInclude Include="Moduletypes.h" />
     <ClInclude Include="Helpers.h" />

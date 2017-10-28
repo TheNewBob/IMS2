@@ -18,6 +18,8 @@ class GUI_ModuleFunction_Base;
 class IMS_ModuleFunction_Base : public EventHandler
 {
 public:
+	const static string GUI_MODULE_STYLE;		//!< identifier of the style the pages of the module controls are using.
+
 	/** 
 	 * \brief Constructor.
 	 * @param _data the IMS_ModuleFunctionData object containing the static config data for this module function

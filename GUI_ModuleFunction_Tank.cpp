@@ -31,7 +31,7 @@ const static string VALVE_CHKBX = "valve_chkbx";
 const static string CHANGE_PROPTYPE_BTN = "change_proptype_btn";
 
 GUI_ModuleFunction_Tank::GUI_ModuleFunction_Tank(IMS_ModuleFunction_Tank *tank, GUIplugin *gui)
-	: GUI_ModuleFunction_Base(100, gui, gui->GetStyle(STYLE_DEFAULT)), tank(tank)
+	: GUI_ModuleFunction_Base(100, gui, gui->GetStyle(IMS_ModuleFunction_Base::GUI_MODULE_STYLE)), tank(tank)
 {
 	
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);

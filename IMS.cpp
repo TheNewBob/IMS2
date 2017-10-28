@@ -448,6 +448,10 @@ bool IMS2::ProcessEvent(Event_Base *e)
 	{
 		HandleDockEvent();
 	}
+	else if (*e == SIMULATIONSTARTEDEVENT)
+	{
+		initialiseStyleset();
+	}
 
 	return false;
 }

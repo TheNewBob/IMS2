@@ -1,8 +1,7 @@
 #pragma once
 
 
-
-
+class GUI_BaseElement;
 class GUI_Page;
 class GUI_Label;
 class GUI_ListBox;

@@ -11,6 +11,7 @@ class GUI_ModuleFunction_Base :
 	public GUI_Page
 {
 public:
+	
 	/**
 	 * \brief creates and registers a new modulefuncion gui.
 	 * @param _height The height of the module function GUI-element

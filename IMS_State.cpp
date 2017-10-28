@@ -1,4 +1,7 @@
 #include "Common.h"
+#include "GUI_Common.h"
+#include "GUIentity.h"
+#include "GUImanager.h"
 #include "IMS_Orbiter_ModuleData.h"
 #include "SimpleShape.h"
 #include "IMS_General_ModuleData.h"
@@ -8,7 +11,6 @@
 #include "IMS.h"
 #include "IMS_Module.h"
 #include "IMS_ModuleDataManager.h"
-
 
 SPLIT_VESSEL_DATA IMS2::SplitVesselData;
 
@@ -115,6 +117,7 @@ void IMS2::clbkSaveState(FILEHANDLE scn)
 	//write the current CoG offset, since we'll have to set it before the vessel will be fully initialised on load
 	VECTOR3 cogpos = GetCoGmanager()->GetCoG();
 	oapiWriteScenario_vec(scn, "COG", cogpos);
+	oapiWriteScenario_string(scn, "UI_STYLESET", (char *)GUI->GetStyleSet().c_str());
 	//write the default orbiter data
 	VESSEL3::clbkSaveState(scn);
 }
@@ -158,6 +161,11 @@ void IMS2::clbkLoadStateEx(FILEHANDLE scn, void *status)
 		{
 			//We don't need thrust levels either. It's really not much use in any case.
 			//unntil the day it was making me trouble I didn't even realise thruster levels got saved.
+		}
+		else if (s.compare(0, 11, "UI_STYLESET") == 0)
+		{
+			// Load the configured styleset
+			loadedstyleset = (s.substr(12));
 		}
 		else
 		{
