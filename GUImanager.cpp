@@ -366,7 +366,11 @@ void GUImanager::SetStyleset(string styleset)
 	{
 		//somebody just changed the styleset!
 		GUIentity::SetStyleset(styleset);
-		panels[curPanelId]->redrawPanel(this, GetStyle("default"));
+		auto panelit = panels.find(curPanelId);
+		if (panelit != panels.end())
+		{
+			panels[curPanelId]->redrawPanel(this, GetStyle("default"));
+		}
 	}
 }
 
