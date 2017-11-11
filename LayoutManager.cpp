@@ -6,11 +6,12 @@
 #include "tinyxml2.h"
 #include "LayoutManager.h"
 #include "GUI_Looks.h"
+#include "GuiXmlLoader.h"
 
 namespace XML = tinyxml2;
 
 map<string, LAYOUTCOLLECTION*> LayoutManager::layoutcollections;
-string LayoutManager::defaultpath = "config/IMS2/GUI/layouts/default";
+
 string LayoutManager::layoutpath = "";
 
 LayoutManager::LayoutManager()
@@ -25,27 +26,28 @@ LayoutManager::~LayoutManager()
 
 LAYOUTCOLLECTION *LayoutManager::GetLayout(string filename)
 {
+	string projectpath = GuiXmlLoader::GetProjectFolder() + "layouts/";
 	auto layoutit = layoutcollections.find(filename);
 	LAYOUTCOLLECTION *layouts = NULL;
 	if (layoutit == layoutcollections.end())
 	{
 		XML::XMLDocument *doc;
-		//layout is not cashed, try to load from file.
+		//layout is not cached, try to load from file.
 		if (layoutpath == "")
 		{
 			//no custom layout given, load from default
-			doc = loadXmlFile(defaultpath + "/" + filename);
+			doc = loadXmlFile(projectpath + "default/" + filename);
 		}
 		else
 		{
 			//there's a layout path given, try loading from there, revert to default if not found.
 			try
 			{
-				doc = loadXmlFile(layoutpath + "/" + filename);
+				doc = loadXmlFile(projectpath + layoutpath + "/" + filename);
 			}
 			catch (runtime_error)
 			{
-				doc = loadXmlFile(defaultpath + "/" + filename);
+				doc = loadXmlFile(projectpath + "default/" + filename);
 			}
 		}
 		

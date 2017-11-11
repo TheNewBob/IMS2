@@ -27,7 +27,7 @@ GUI_font *GUI_Looks::MakeFont(int height, string face, bool proportional, string
 
 GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 {
-	assert(stylesets.find(styleset) != stylesets.end());	//the styleset has not been created!
+	assert(stylesets.find(styleset) != stylesets.end() && "the styleset has not been created!");	
 	return stylesets[styleset]->GetStyle(styleId);
 }
 
@@ -35,7 +35,7 @@ GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 
 GUI_font *GUI_Looks::GetFont(string fontId, string styleset)
 {
-	assert(stylesets.find(styleset) != stylesets.end());	//the styleset has not been created!
+	assert(stylesets.find(styleset) != stylesets.end() && "the styleset has not been created!");	
 	assert(fontId != "" && "Cannot pass an empty font id!");
 	return stylesets[styleset]->GetFont(fontId);
 }
@@ -79,7 +79,6 @@ GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, st
 	if (i == stylesets.end())
 	{
 		createStyleSet(styleset);
-		Helpers::writeToLog("style created for non-existing styleset \"" + styleset + "\". Creating styleset implicitly", L_WARNING);
 	}
 	
 	if (inherit_from != "")
@@ -271,7 +270,6 @@ void GUI_Looks::createStyles()
 
 void GUI_Looks::createStyleSet(string name)
 {
-	//since this will one day depend on modder input, we'll handle it with a log message, not an assert
 	if (stylesets.find(name) == stylesets.end())
 	{
 		stylesets[name] = new StyleSet();

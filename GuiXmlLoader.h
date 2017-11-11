@@ -6,10 +6,13 @@ public:
 	GuiXmlLoader();
 	~GuiXmlLoader();
 
-	static void LoadStyleSets(string stylesets_root);
-	static void LoadStyleSet(string stylesets_root, string folder);
-
+	static void LoadStyleSets();
+	static string GetProjectFolder();
+	static void SetProjectFolder(string projectfolder);
 private:
+	static void loadStyleSet(string stylesets_root, string folder);
+	static string rootfolder;
+	static string projectfolder;
 	static tinyxml2::XMLDocument *loadXmlFile(string styleset);
 	static void loadFonts(tinyxml2::XMLDocument *file, string styleset);
 	static void loadFont(tinyxml2::XMLElement *xmlfont, string styleset);

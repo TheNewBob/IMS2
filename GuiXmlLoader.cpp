@@ -7,7 +7,8 @@
 #include <Windows.h>
 
 namespace XML = tinyxml2;
-
+string GuiXmlLoader::rootfolder = "Config/swingshot/";
+string GuiXmlLoader::projectfolder = "";
 GuiXmlLoader::GuiXmlLoader()
 {
 }
@@ -17,9 +18,22 @@ GuiXmlLoader::~GuiXmlLoader()
 {
 }
 
-
-void GuiXmlLoader::LoadStyleSets(string stylesets_root)
+string GuiXmlLoader::GetProjectFolder()
 {
+	return rootfolder + projectfolder + "/";
+}
+
+void GuiXmlLoader::SetProjectFolder(string projectfolder)
+{
+	assert(GuiXmlLoader::projectfolder == "" && "swingshot project folder can only be set once!");
+	GuiXmlLoader::projectfolder = projectfolder;
+}
+
+
+void GuiXmlLoader::LoadStyleSets()
+{
+	assert(projectfolder != "" && "swingshot project folder has not been set!");
+	string stylesets_root = rootfolder + projectfolder + "/stylesets";
 	WIN32_FIND_DATA	searchresult;
 	HANDLE hfind = NULL;
 
@@ -41,7 +55,7 @@ void GuiXmlLoader::LoadStyleSets(string stylesets_root)
 			if (stylesetname != "." && stylesetname != "..")
 			{
 				Helpers::writeToLog(string("Loading styleset " + stylesetname), L_DEBUG);
-				LoadStyleSet(stylesets_root, stylesetname);
+				loadStyleSet(stylesets_root, stylesetname);
 			}
 		}
 	} while (FindNextFile(hfind, &searchresult));
@@ -49,7 +63,7 @@ void GuiXmlLoader::LoadStyleSets(string stylesets_root)
 	GUI_Looks::GetFont("default");
 }
 
-void GuiXmlLoader::LoadStyleSet(string stylesets_root, string styleset)
+void GuiXmlLoader::loadStyleSet(string stylesets_root, string styleset)
 {
 	string fontspath = stylesets_root + "/" + styleset + "/fonts.xml";
 	string stylespath = stylesets_root + "/" + styleset + "/styles.xml";

@@ -35,7 +35,8 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 #else 
 	Helpers::SetLogLevel(L_WARNING);
 #endif
-	GuiXmlLoader::LoadStyleSets("Config/IMS2/GUI/Skins");
+	GuiXmlLoader::SetProjectFolder("IMS2");
+	GuiXmlLoader::LoadStyleSets();
 }
 
 // --------------------------------------------------------------
