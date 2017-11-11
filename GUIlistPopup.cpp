@@ -10,8 +10,8 @@
 #include "GUIlistPopup.h"
 
 
-GUIlistPopup::GUIlistPopup(string title, vector<string> items, GUI_BaseElement *parent, RECT rect, bool(*callback)(int, void*), void *usrdata, string styleid)
-	: GUIpopup(parent, rect, styleid)
+GUIlistPopup::GUIlistPopup(string title, vector<string> items, GUI_BaseElement *parent, RECT rect, bool(*callback)(int, void*), void *usrdata, string styleid, string styleset)
+	: GUIpopup(parent, rect, styleid, styleset)
 {
 	CreateLabel(title, _R(10, 10, width - 10, 35), POPUP);
 	

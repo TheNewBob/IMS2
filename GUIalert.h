@@ -27,7 +27,7 @@ public:
 	 * \param rect parent-relative rectangle of the Alert.
 	 * \param styleid Identifier for the style in which to render the alert
 	 */
-	GUIalert(string text, GUI_BaseElement *parent, RECT rect, string styleid);
+	GUIalert(string text, GUI_BaseElement *parent, RECT rect, string styleid, string styleset);
 	~GUIalert();
 
 	/**

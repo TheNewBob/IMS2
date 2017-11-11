@@ -10,8 +10,8 @@
 #include "GUIalert.h"
 
 
-GUIalert::GUIalert(string text, GUI_BaseElement *parent, RECT rect, string styleid)
-	: GUIpopup(parent, rect, styleid)
+GUIalert::GUIalert(string text, GUI_BaseElement *parent, RECT rect, string styleid, string styleset)
+	: GUIpopup(parent, rect, styleid, styleset)
 {
 	//create the text
 	GUI_ElementStyle *style = GUI_Looks::GetStyle(styleid);

@@ -165,7 +165,7 @@ void IMS2::clbkLoadStateEx(FILEHANDLE scn, void *status)
 		else if (s.compare(0, 11, "UI_STYLESET") == 0)
 		{
 			// Load the configured styleset
-			loadedstyleset = (s.substr(12));
+			GUI->SetStyleset(s.substr(12));
 		}
 		else
 		{

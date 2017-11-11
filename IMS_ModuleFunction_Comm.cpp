@@ -382,23 +382,27 @@ bool IMS_ModuleFunction_Comm::ProcessEvent(Event_Base *e)
 			//we'll have to know what direction the animation was supposed to move
 			if (anim->GetSpeed() < 0 && curstate == COMMSTATE_RETRACTING)
 			{
-				GUImanager::Alert(data->GetName() + ": unable to retract at the moment!", module->GetGui()->GetFirstVisibleChild());
+				GUImanager::Alert(data->GetName() + ": unable to retract at the moment!", module->GetGui()->GetFirstVisibleChild(),
+					_R(0, 0, 0, 0), STYLE_ERROR, module->GetGui()->GetStyleSet());
 				state.SetTargetState(COMMSTATE_DEPLOYED);
 			}
 			else if (anim->GetSpeed() > 0 && curstate == COMMSTATE_DEPLOYING)
 			{
-				GUImanager::Alert(data->GetName() + ": unable to deploy at the moment!", module->GetGui()->GetFirstVisibleChild());
+				GUImanager::Alert(data->GetName() + ": unable to deploy at the moment!", module->GetGui()->GetFirstVisibleChild(),
+					_R(0, 0, 0, 0), STYLE_ERROR, module->GetGui()->GetStyleSet());
 				state.SetTargetState(COMMSTATE_RETRACTED);
 			}
 		}
 		else if (id == data->searchanimname && curstate == COMMSTATE_SEARCHING)
 		{
-			GUImanager::Alert(data->GetName() + ": unable to scan at the moment!", module->GetGui()->GetFirstVisibleChild());
+			GUImanager::Alert(data->GetName() + ": unable to scan at the moment!", module->GetGui()->GetFirstVisibleChild(),
+				_R(0, 0, 0, 0), STYLE_ERROR, module->GetGui()->GetStyleSet());
 			state.SetTargetState(COMMSTATE_DEPLOYED);
 		}
 		else if (id == data->trackinganimname && curstate == COMMSTATE_ALIGNING)
 		{
-			GUImanager::Alert(data->GetName() + ": unable to start tracking at the moment!", module->GetGui()->GetFirstVisibleChild());
+			GUImanager::Alert(data->GetName() + ": unable to start tracking at the moment!", module->GetGui()->GetFirstVisibleChild(),
+				_R(0, 0, 0, 0), STYLE_ERROR, module->GetGui()->GetStyleSet());
 			state.SetTargetState(COMMSTATE_DEPLOYED);
 		}
 		state.AdvanceStateSecure();

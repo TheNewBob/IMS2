@@ -249,7 +249,9 @@ void IMS_Module::AddModuleToVessel(IMS2 *_vessel, bool rotatemesh, bool addMesh)
 	//if the module has gui functionality in its functions, plug it into the modules control page
 	if (guiplugin != NULL)
 	{
-		vessel->GetGUI()->GetElementById(MD_MODULES_CTRLPG)->AddPlugin(guiplugin);
+		GUImanager *gui = vessel->GetGUI();
+		guiplugin->SetStyleset(gui->GetStyleSet());
+		gui->GetElementById(MD_MODULES_CTRLPG)->AddPlugin(guiplugin);
 	}
 }
 

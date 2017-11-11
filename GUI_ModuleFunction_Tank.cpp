@@ -139,7 +139,8 @@ int GUI_ModuleFunction_Tank::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int
 				propnames[i] = proplist[i]->name;
 			}
 			
-			GUImanager::ListDialog("choose propellant", propnames, tank->GetModule()->GetGui()->GetFirstVisibleChild(), &PropellantTypeSelected, (void*)tank);
+			GUImanager::ListDialog("choose propellant", propnames, tank->GetModule()->GetGui()->GetFirstVisibleChild(), &PropellantTypeSelected, (void*)tank,
+				_R(0, 0, 0, 0), tank->GetModule()->GetGui()->GetStyleSet());
 		}
 		else if (cheatbutton != NULL && eventId == cheatbutton->GetId())
 		{

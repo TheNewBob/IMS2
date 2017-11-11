@@ -268,7 +268,7 @@ void GUImanager::registerPreStep()
 
 
 
-void GUImanager::Alert(string text, GUI_BaseElement *parent, RECT rect, string styleid)
+void GUImanager::Alert(string text, GUI_BaseElement *parent, RECT rect, string styleid, string styleset)
 {
 	if (rect.left == 0 && rect.top == 0 &&
 		rect.right == 0 && rect.bottom == 0)
@@ -284,13 +284,13 @@ void GUImanager::Alert(string text, GUI_BaseElement *parent, RECT rect, string s
 		rect.top = parentheight / 2 - height / 2;
 		rect.bottom = rect.top + height;
 	}
-	GUIalert *alert = new GUIalert(text, parent, rect, styleid);
+	GUIalert *alert = new GUIalert(text, parent, rect, styleid, styleset);
 	parent->AddPlugin(alert);
 	temporaryplugins.insert(make_pair(alert, parent));
 }
 
 
-void GUImanager::ListDialog(string title, vector<string> &items, GUI_BaseElement *parent, bool(*callback)(int, void*), void *usrdata, RECT rect)
+void GUImanager::ListDialog(string title, vector<string> &items, GUI_BaseElement *parent, bool(*callback)(int, void*), void *usrdata, RECT rect, string styleset)
 {
 	if (rect.left == 0 && rect.top == 0 &&
 		rect.right == 0 && rect.bottom == 0)
@@ -313,7 +313,7 @@ void GUImanager::ListDialog(string title, vector<string> &items, GUI_BaseElement
 		rect.bottom = rect.top + height;
 	}
 	
-	GUIlistPopup *popup = new GUIlistPopup(title, items, parent, rect, callback, usrdata);
+	GUIlistPopup *popup = new GUIlistPopup(title, items, parent, rect, callback, usrdata, STYLE_DEFAULT, styleset);
 	parent->AddPlugin(popup);
 	temporaryplugins.insert(make_pair(popup, parent));
 }

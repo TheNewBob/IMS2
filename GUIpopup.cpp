@@ -11,12 +11,13 @@
 #include "GUIpopup.h"
 
 
-GUIpopup::GUIpopup(GUI_BaseElement *parent, RECT rect, string styleid)
+GUIpopup::GUIpopup(GUI_BaseElement *parent, RECT rect, string styleid, string styleset)
 {
 	//calculate width and height of the popup
 	width = rect.right - rect.left;
 	height = rect.bottom - rect.top;
 	//create the page that displays the popup
+	this->styleset = styleset;
 	GUI_Page *popup = CreatePage(rect, -1, POPUP, styleid, true);
 
 	isvisible = true;
