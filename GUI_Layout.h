@@ -6,6 +6,8 @@ class LayoutRow;
 
 class GUI_Layout : public LayoutElement
 {
+	friend class GuiXmlLoader;
+
 public:
 	GUI_Layout();
 	~GUI_Layout();

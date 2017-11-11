@@ -27,8 +27,38 @@ void GuiXmlLoader::SetProjectFolder(string projectfolder)
 {
 	assert(GuiXmlLoader::projectfolder == "" && "swingshot project folder can only be set once!");
 	GuiXmlLoader::projectfolder = projectfolder;
+
+	// attempt to load swingshot config from the root folder
+	try 
+	{
+		loadDefaultConfig();
+	}
+	catch (exception e)
+	{
+		Helpers::writeToLog(string("No valid swingshot config found, creating a new one."), L_WARNING);
+		createDefaultConfig();
+	}
+
 }
 
+void GuiXmlLoader::createDefaultConfig()
+{
+	XML::XMLDocument config;
+	XML::XMLElement *pxperem = config.NewElement("pixel_per_em");
+	pxperem->SetText("16");
+	XML::XMLElement *rootfldr = config.NewElement("projects_root");
+	rootfldr->SetText(rootfolder.data());
+	config.InsertFirstChild(pxperem);
+	config.InsertEndChild(rootfldr);
+	config.SaveFile(string(rootfolder + "config.xml").data());
+}
+
+void GuiXmlLoader::loadDefaultConfig()
+{
+	XML::XMLDocument *config = loadXmlFile(rootfolder + "config.xml");
+	GUI_Layout::pixel_per_em = Helpers::stringToInt(config->FirstChildElement("pixel_per_em")->GetText());
+	rootfolder = config->FirstChildElement("projects_root")->GetText();
+}
 
 void GuiXmlLoader::LoadStyleSets()
 {

@@ -20,6 +20,7 @@ private:
 	static void loadStyle(tinyxml2::XMLElement *xmlstyle, string styleset);
 	static void loadStyleAttribute(tinyxml2::XMLElement *xmlattribute, GUI_ElementStyle *style, string styleset);
 	static RECT_DOUBLE GuiXmlLoader::readRect(tinyxml2::XMLElement *element);
-
+	static void createDefaultConfig();
+	static void loadDefaultConfig();
 };
 
