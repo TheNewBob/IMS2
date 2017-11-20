@@ -134,6 +134,17 @@ bool GUI_MainDisplay::ProcessEvent(Event_Base *e)
 	{
 		modulescontrol->UpdateModulesList();
 	}
+	else if (*e == DOCKEVENT)
+	{
+		if (e->GetEventPipe() != WAITING_PIPE)
+		{
+			addEventToWaitingQueue(new IMS_DockEvent);
+		}
+		else
+		{
+			construct->UpdateDockedVesselsList(vessel->GetDockedVesselsList());
+		}
+	}
 
 	return false;
 }

@@ -166,9 +166,7 @@ void IMS2::clbkPreStep(double simt, double simdt, double mjd)
 }
 
 
-// ==============================================================
-// Post step processings
-// ==============================================================
+
 void IMS2::preStateUpdate()
 {
 	//process the event waiting queue

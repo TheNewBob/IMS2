@@ -288,7 +288,7 @@ protected:
 	 * Called every frame. Overload to implement "animations"
 	 * \return True if the element needs a redraw, false otherwise. In baseclass, always false.
 	 */
-	virtual bool updateMe() { return false; };
+	virtual bool updateMe();
 
 	/**
 	 * \brief checks if any of the children need a redraw

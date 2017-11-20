@@ -153,11 +153,11 @@ void GUI_font::Print(SURFHANDLE tgt, std::string &text, int _x, int _y, RECT &el
 		srcrect.right = srcrect.left + charwidth - 1;
 		tgtrect.right = tgtrect.left + charwidth - 1;
 
-		if (tgtrect.left < elementPos.left || tgtrect.right > elementPos.right)
+/*		if (tgtrect.left < elementPos.left || tgtrect.right > elementPos.right)
 		{
 			//making sure function doesn't print beyond elements boundaries
 			break;
-		}
+		}*/
 		oapiBlt(tgt, src, &tgtrect, &srcrect, SURF_PREDEF_CK);
 	}
 }

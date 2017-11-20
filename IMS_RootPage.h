@@ -10,5 +10,7 @@ class IMS_RootPage :
 public:
 	IMS_RootPage(IMS2 *vessel, int id, RECT mRect, GUI_ElementStyle *style);
 	~IMS_RootPage();
+
+	virtual bool Update();
 };
 

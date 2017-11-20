@@ -92,6 +92,7 @@ public:
 	void GetStack(vector<VESSEL*> &stackList, OBJHANDLE callingVessel = NULL);
 	void GetModules(vector<IMS_Module*> &OUT_modules);
 	IMS_Module *GetCoreModule(){ return modules[0]; };
+	vector<DOCKEDVESSEL*> &GetDockedVesselsList();
 
 	//manager getters
 	IMS_PropulsionManager *GetPropulsionManager();

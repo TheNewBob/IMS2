@@ -43,7 +43,7 @@ protected:
 //	string value;							//!< Stores the elements value text
 	string label;							//!< Stores the elements label text
 	GUI_font *valuefont;					//!< Stores the font in which the value is printed
-	int labelwidth;							//!< Distance from the element rects left to the left edge of the value 
+	int labelwidth = -1;					//!< Distance from the element rects left to the left edge of the value 
 	
 	/**
 	 * \brief Draws the element to its source surface

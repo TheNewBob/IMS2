@@ -84,7 +84,10 @@ UINT IMS2::GetDockIndex(DOCKHANDLE dockH, VESSEL *vessel)
 }
 
 
-
+vector<DOCKEDVESSEL*> &IMS2::GetDockedVesselsList()
+{
+	return dockedVesselsList;
+}
 
 VESSELTYPE IMS2::GetVesselType(VESSEL *_vessel)
 //returns the type of the vessel

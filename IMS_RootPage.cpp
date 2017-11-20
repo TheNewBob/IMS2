@@ -20,3 +20,11 @@ IMS_RootPage::IMS_RootPage(IMS2 *vessel, int id, RECT mRect, GUI_ElementStyle *s
 IMS_RootPage::~IMS_RootPage()
 {
 }
+
+
+bool IMS_RootPage::Update()
+{
+	processWaitingQueue();
+	sendEvents();
+	return GUI_BaseElement::Update();
+}

@@ -190,6 +190,16 @@ bool GUI_BaseElement::Update()
 	return needsupdate;
 }
 
+bool GUI_BaseElement::updateMe()
+{
+	if (updatenextframe)
+	{
+		updatenextframe = false;
+		return true;
+	}
+	return false;
+}
+
 
 bool GUI_BaseElement::updateChildren()
 {

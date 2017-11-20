@@ -15,7 +15,8 @@ GUI_LabelValuePair::GUI_LabelValuePair(string _label, string _value, RECT _rect,
 	{
 		valuefont = style->GetChildStyle()->GetFont();
 	}
-
+	
+	labelwidth = font->GetTextWidth(string(label + " ")) + style->MarginLeft();
 	src = GUI_Looks::GetResource(this);
 	SetValue(_value);
 }
@@ -29,7 +30,7 @@ GUI_LabelValuePair::~GUI_LabelValuePair()
 void GUI_LabelValuePair::SetValue(string _value, bool hilighted)
 {
 	cState()->SetValue(_value, hilighted);
-	updatenextframe = true;
+//	updatenextframe = true;
 //	loadValue();
 }
 
@@ -95,7 +96,6 @@ GUI_ElementResource *GUI_LabelValuePair::createResources()
 {
 	assert(src == NULL && "Release old resource before creating it again!");
 
-	labelwidth = font->GetTextWidth(string(label + " ")) + style->MarginLeft();
 	SURFHANDLE src = GUI_Draw::createElementBackground(style, width, height);
 	font->Print(src, label, style->MarginLeft(), height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),
 		false, T_LEFT, V_CENTER);
