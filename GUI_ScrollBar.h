@@ -24,7 +24,7 @@ public:
 	 * \brief Sets the scrollrange of the scrollbar
 	 * \param range Scrollrange in pixel.
 	 */
-	void SetScrollRange(int range) { scrollrange = range; };
+	void SetScrollRange(int range) { scrollrange = max(0, range); };
 	
 	/**
 	 * \brief Sets the scroll speed of the scrollbar
