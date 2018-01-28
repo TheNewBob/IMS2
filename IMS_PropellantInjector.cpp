@@ -206,8 +206,6 @@ void IMS_PropellantInjector::checkValidity()
 			enableInjector();
 		}
 	}
-
-
 }
 
 
@@ -442,4 +440,9 @@ vector<THRUSTER_HANDLE> IMS_PropellantInjector::getRunningThrusters()
 		}
 	}
 	return runningthrusters;
+}
+
+void IMS_PropellantInjector::FillInjectorDummy()
+{
+	v->SetPropellantMass(injector, injectormass);
 }

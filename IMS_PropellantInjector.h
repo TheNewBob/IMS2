@@ -120,6 +120,11 @@ public:
 	 */
 	double GetMaximumConsumablePropellantMass();
 
+	/**
+	 * \brief Fills up the dummy propellant resources at simulation start, because Orbiter will have reset them before clbkPostCreation.
+	 */
+	void FillInjectorDummy();
+
 private:
 	map<int, vector<IMS_Storable*>> tanks;					//!< contains all currently connected tanks 
 	map<int, double> ratio;							//!< maps ratioes to their respective propellant types 

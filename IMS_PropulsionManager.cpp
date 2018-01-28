@@ -357,6 +357,13 @@ bool IMS_PropulsionManager::ProcessEvent(Event_Base *e)
 			}
 		}
 	}
+	else if (*e == SIMULATIONSTARTEDEVENT)
+	{
+		for (UINT i = 0; i < injectors.size(); ++i)
+		{
+			injectors[i]->FillInjectorDummy();
+		}
+	}
 	return false;
 }
 
