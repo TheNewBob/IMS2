@@ -168,7 +168,7 @@ void GuiXmlLoader::loadStyle(tinyxml2::XMLElement *xmlstyle, string styleset)
 			if (attribute->Name() != "id") loadStyleAttribute(attribute, style, styleset);
 		}
 		catch (runtime_error e) {
-			string msg = "Error in style " + currentid + ": " + e.what();
+			string msg = "Error in style " + currentid + ": " + string(e.what());
 			Helpers::writeToLog(msg, L_ERROR);
 		}
 		attribute = attribute->NextSiblingElement();
@@ -218,7 +218,7 @@ void GuiXmlLoader::loadStyleAttribute(tinyxml2::XMLElement *xmlattribute, GUI_El
 			}
 		}
 		catch (invalid_argument e) {
-			string msg = "Error while parsing tag " + attr + ": " + e.what();
+			string msg = "Error while parsing tag " + attr + ": " + string(e.what());
 			throw runtime_error(msg);
 		}
 	}
@@ -396,7 +396,7 @@ RECT_DOUBLE GuiXmlLoader::readRect(tinyxml2::XMLElement *element)
 		catch (exception e)
 		{
 			string rectname = element->Name();
-			string msg = "An error has occured while reading the rect \"" + rectname + "\": " + e.what();
+			string msg = "An error has occured while reading the rect \"" + rectname + "\": " + string(e.what());
 			throw runtime_error(msg.data());
 		}
 	}

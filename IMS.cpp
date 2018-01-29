@@ -16,6 +16,8 @@
 #include "LayoutElement.h"
 #include "GUI_Layout.h"
 #include "GuiXmlLoader.h"
+#include <Windows.h>
+#include <exception>
 //#include "vld.h"
 
 
@@ -36,7 +38,14 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 	Helpers::SetLogLevel(L_WARNING);
 #endif
 	GuiXmlLoader::SetProjectFolder("IMS2");
-	GuiXmlLoader::LoadStyleSets();
+	try {
+		GuiXmlLoader::LoadStyleSets();
+	} catch (exception e) {
+		string msg = "Fatal error while loading stylesets: " + string(e.what());
+		Helpers::writeToLog(msg, L_ERROR);
+		throw runtime_error("fatal error, see orbiter.log");
+	}
+
 }
 
 // --------------------------------------------------------------
