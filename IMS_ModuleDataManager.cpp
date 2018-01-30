@@ -86,7 +86,7 @@ CONSUMABLEDATA *IMS_ModuleDataManager::GetConsumableData(int id)
 	//GetConsumableData(string) is always called before this if the 
 	//program flow is correct. Either it didn't get called first,
 	//or it didn't find the file, or the file was empty (i.e. corrupted)
-	assert(consumabledata.size() > 0);
+	Helpers::assertThat([]() { return consumabledata.size() > 0; }, "No consumable data defined. Possible missing or corrupt file");
 
 	return &consumabledata[id];
 }

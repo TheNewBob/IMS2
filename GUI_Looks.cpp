@@ -27,7 +27,7 @@ GUI_font *GUI_Looks::MakeFont(int height, string face, bool proportional, string
 
 GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 {
-	assert(stylesets.find(styleset) != stylesets.end() && "the styleset has not been created!");	
+	Helpers::assertThat([styleset]() { return stylesets.find(styleset) != stylesets.end(); }, "the styleset has not been created!");
 	return stylesets[styleset]->GetStyle(styleId);
 }
 
@@ -35,8 +35,8 @@ GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 
 GUI_font *GUI_Looks::GetFont(string fontId, string styleset)
 {
-	assert(stylesets.find(styleset) != stylesets.end() && "the styleset has not been created!");	
-	assert(fontId != "" && "Cannot pass an empty font id!");
+	Helpers::assertThat([styleset]() { return stylesets.find(styleset) != stylesets.end(); }, "the styleset has not been created!");
+	Helpers::assertThat([fontId]() { return fontId != ""; }, "Cannot pass an empty font id!");
 	return stylesets[styleset]->GetFont(fontId);
 }
 
@@ -134,7 +134,7 @@ SURFHANDLE GUI_Looks::GetResource(GUI_BaseElement *element)
 void GUI_Looks::ReleaseResource(GUI_BaseElement *element)
 {
 	GUI_ElementResource *resource = findResourceForElement(element, true);
-	assert(resource != NULL && "Element tries to release resource, but no resource was found!");
+	Helpers::assertThat([resource]() { return resource != NULL; }, "Element tries to release resource, but no resource was found!");
 	resource->removeReference(element);
 	if (resource->NumReferences() == 0)
 	{
@@ -156,7 +156,7 @@ GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element,
 			vector<GUI_ElementResource*> &resourcelist = heightmapit->second;
 			for (UINT i = 0; i < resourcelist.size(); ++i)
 			{
-				assert(resourcelist[i] != NULL && "Something went horribly wrong!");
+				Helpers::assertThat([resourcelist, i]() { return resourcelist[i] != NULL; }, "Something went horribly wrong!");
 				
 				if (findResourceReferencedByElement) 
 				{

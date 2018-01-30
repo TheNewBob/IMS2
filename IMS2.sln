@@ -7,12 +7,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMS2", "IMS2.vcxproj", "{00
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		2016_Debug|Win32 = 2016_Debug|Win32
 		Debug D3D9|Win32 = Debug D3D9|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 		Test|Win32 = Test|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{004BB469-DCF5-49FB-94C2-852C3D3CDE1E}.2016_Debug|Win32.ActiveCfg = 2016_Debug|Win32
+		{004BB469-DCF5-49FB-94C2-852C3D3CDE1E}.2016_Debug|Win32.Build.0 = 2016_Debug|Win32
 		{004BB469-DCF5-49FB-94C2-852C3D3CDE1E}.Debug D3D9|Win32.ActiveCfg = Debug D3D9|Win32
 		{004BB469-DCF5-49FB-94C2-852C3D3CDE1E}.Debug D3D9|Win32.Build.0 = Debug D3D9|Win32
 		{004BB469-DCF5-49FB-94C2-852C3D3CDE1E}.Debug|Win32.ActiveCfg = Debug|Win32

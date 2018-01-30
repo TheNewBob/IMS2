@@ -86,7 +86,7 @@ bool GUI_CheckBox::IsResourceCompatibleWith(GUI_BaseElement *element)
 
 GUI_ElementResource *GUI_CheckBox::createResources()
 {
-	assert(src == NULL && "Release old resource before creating it again!");
+	Helpers::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
 	//the actual box of the checkbox will size itself to the font height
 	int fontheight = font->GetfHeight();
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width + fontheight * 2, height);

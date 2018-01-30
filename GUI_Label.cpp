@@ -31,7 +31,7 @@ void GUI_Label::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &drawable
 
 GUI_ElementResource *GUI_Label::createResources()
 {
-	assert(src == NULL && "Release old resource before creating it again!");
+	Helpers::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
 	
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 	font->Print(tgt, cState()->GetText(), width / 2, height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),

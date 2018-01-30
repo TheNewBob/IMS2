@@ -23,8 +23,7 @@ IMS_Storable::IMS_Storable(double volume, CONSUMABLEDATA *contents, IMS_Location
 		initial_mass = capacity;
 	}
 
-	//somebody's trying to initialise with more mass than the storable can carry
-	assert(initial_mass <= capacity);
+	Helpers::assertThat([this, initial_mass]() { return initial_mass <= capacity; }, "trying to initialise with more mass than the storable can carry");
 
 	mass = initial_mass;
 }

@@ -166,7 +166,7 @@ void FiringSolutionThruster::setRotationGroups()
 
 double FiringSolutionThruster::GetScore(THGROUP_TYPE group)
 {
-	assert(groupsuitability.size() > 0);
+	Helpers::assertThat([this]() { return groupsuitability.size() > 0; }, "Thruster was found unsuitable for any thruster group!");
 	auto grp = groupsuitability.find(group);
 	if (grp == groupsuitability.end())
 	{

@@ -49,7 +49,7 @@ IMS_EngineeringPanel::~IMS_EngineeringPanel()
 DWORD IMS_EngineeringPanel::registerPanelElements(GUImanager *gui, PANELHANDLE panelHandle, VESSEL3 *vessel)
 {
 	IMS2 *imsvessel = dynamic_cast<IMS2*>(vessel);
-	assert(imsvessel != NULL && "IMS_EngineeringPanel requires an IMS2 vessel!");
+	Helpers::assertThat([imsvessel]() { return imsvessel != NULL; }, "IMS_EngineeringPanel requires an IMS2 vessel!");
 
 	oapiSetPanelNeighbours(-1, -1, 0, -1); // register areas for panel 0 here 
 	vessel->SetCameraDefaultDirection(_V(0, 0, 1)); // forward

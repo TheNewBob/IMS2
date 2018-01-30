@@ -97,7 +97,7 @@ void IMS_Animation_Base::RemoveAnimationFromVessel()
 	for (UINT i = animationcomponents.size(); i > 0; --i)
 	{
 		bool result = vessel->DelAnimationComponent(orbiterid, animationcomponents[i - 1]);
-		assert(result);
+		Helpers::assertThat([result]() { return result; }, "Failed to remove animation from vessel!");
 	}
 	animationcomponents.clear();
 	bool result = vessel->DelAnimation(orbiterid);

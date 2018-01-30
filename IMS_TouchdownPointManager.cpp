@@ -104,7 +104,7 @@ void IMS_TouchdownPointManager::RemoveHullShape(SimpleShape *shape)
 	//remove the shape from the manager, but do not yet recreate the touchdown points.
 	//otherwise there's a good chance we'll recreate them several times per frame.
 	auto it = find(shapes.begin(), shapes.end(), shape);
-	assert(it != shapes.end() && "Attempting to remove a hullshape that was never added!");
+	Helpers::assertThat([it, this]() { return it != shapes.end(); }, "Attempting to remove a hullshape that was never added!");
 
 	shapes.erase(it);
 	//add an event to the waiting queue to trigger recreation of touchdown points in poststep

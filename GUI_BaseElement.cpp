@@ -253,7 +253,7 @@ void GUI_BaseElement::AddPlugin(GUIplugin *plugin)
 
 void GUI_BaseElement::RemovePlugin(GUIplugin *plugin)
 {
-	assert(find(plugins.begin(), plugins.end(), plugin) != plugins.end());
+	Helpers::assertThat([plugin, this]() { return find(plugins.begin(), plugins.end(), plugin) != plugins.end(); }, "GUI_BaseElement: Attempting to remove plugin that does not exist!");
 	vector<GUIplugin*>::iterator i = find(plugins.begin(), plugins.end(), plugin);
 	plugins.erase(i);
 }
@@ -315,7 +315,7 @@ void GUI_BaseElement::setState(GUI_BaseElementState *state)
 
 void GUI_BaseElement::swapState(GUI_BaseElementState *newstate)
 {
-	assert(newstate->sharers.size() == 0 && "A state that is already shared cannot replace another state!");
+	Helpers::assertThat([newstate]() { return newstate->sharers.size() == 0; }, "A state that is already shared cannot replace another state!");
 	newstate->owner = this;
 
 	// if this element doesn't have a state yet, we don't need to worry about sharers.

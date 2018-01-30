@@ -22,7 +22,7 @@ void IMS_Module::CreatePhysicalAttachmentPoints()
 	//if yes, merely reset the existing ones instead of creating them from scratch
 	if (attachmentPoints.size() != 0)
 	{
-		assert(attachmentPoints.size() == ap.size());		//if only some of the points exist, something went terribly wrong
+		Helpers::assertThat([this, ap]() { return attachmentPoints.size() == ap.size(); }, "number of attachment points incosistent between IMS and Orbiter!");
 		//reset the existing attachment points to the modules current alignement rather than creating them from scratch
 		resetAttachmentPoints();
 	}

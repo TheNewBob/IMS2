@@ -26,7 +26,7 @@ void IMS_PropulsionManager::AddTank(IMS_Storable *tank)
 	//make sure the tank isn't on that list already
 	if (typelist != tanks.end())
 	{
-		assert(find(typelist->second.begin(), typelist->second.end(), tank) == typelist->second.end());
+		Helpers::assertThat([typelist, tank]() { return find(typelist->second.begin(), typelist->second.end(), tank) == typelist->second.end(); }, "A tank was added twice to PropulsionManager!");
 	}
 
 	tanks[tank->GetConsumableId()].push_back(tank);
@@ -41,7 +41,7 @@ void IMS_PropulsionManager::RemoveTank(IMS_Storable *tank)
 	//make sure the tank is on that list 
 	vector<IMS_Storable*>::iterator ti = find(typelist->second.begin(), typelist->second.end(), tank);
 	//Somebody's trying to remove a tank that's never been added!
-	assert(ti != typelist->second.end());
+	Helpers::assertThat([ti, typelist]() { return ti != typelist->second.end(); }, "Attempting to remove tank from PropulsionManager that has never been added!");
 
 	removeTankFromInjectors(tank);
 	//remove the tank from the manager
@@ -63,7 +63,7 @@ void IMS_PropulsionManager::OpenTank(IMS_Storable *tank)
 		map<int, vector<IMS_Storable*>>::iterator typelist = tanks.find(tank->GetConsumableId());
 		//find the tank on the list
 		vector<IMS_Storable*>::iterator it = find(typelist->second.begin(), typelist->second.end(), tank);
-		assert(it != typelist->second.end());
+		Helpers::assertThat([it, typelist]() { return it != typelist->second.end(); }, "Attempting to open tank without registering it!");
 	#endif
 
 	//check if the tank is already opened
@@ -83,7 +83,7 @@ void IMS_PropulsionManager::CloseTank(IMS_Storable *tank)
 		map<int, vector<IMS_Storable*>>::iterator typelist = tanks.find(tank->GetConsumableId());
 		//find the tank on the list
 		vector<IMS_Storable*>::iterator it = find(typelist->second.begin(), typelist->second.end(), tank);
-		assert(it != typelist->second.end());
+		Helpers::assertThat([it, typelist]() { return it != typelist->second.end(); }, "Attempting to close a tank without registering it!");
 	#endif
 
 
@@ -231,7 +231,7 @@ void IMS_PropulsionManager::AddThrusterToGroup(THRUSTER_HANDLE thruster, THGROUP
 	else
 	{
 		//there's already thrusters in this list, let's just make sure that our thruster isn't already in there
-		assert(find(groupit->second.begin(), groupit->second.end(), thruster) == groupit->second.end() && "Thruster is already in group!");
+		Helpers::assertThat([groupit, thruster]() { return find(groupit->second.begin(), groupit->second.end(), thruster) == groupit->second.end(); }, "Thruster is already in group!");
 		//now add the thruster to the list
 		groupit->second.push_back(thruster);
 	}
@@ -245,9 +245,9 @@ void IMS_PropulsionManager::RemoveThrusterFromGroup(THRUSTER_HANDLE thruster, TH
 {
 	//look for the thruster in the designated group
 	map<THGROUP_TYPE, vector<THRUSTER_HANDLE>>::iterator groupit = thgroups.find(group);
-	assert(groupit != thgroups.end() && "Trying to remove a thruster from a group that was never created!");
+	Helpers::assertThat([groupit, this]() { return groupit != thgroups.end(); }, "Trying to remove a thruster from a group that was never created!");
 	vector<THRUSTER_HANDLE>::iterator listit = find(groupit->second.begin(), groupit->second.end(), thruster);
-	assert(listit != groupit->second.end() && "Trying to remove a thruster from a group it was never added to!");
+	Helpers::assertThat([listit, groupit]() { return listit != groupit->second.end(); }, "Trying to remove a thruster from a group it was never added to!");
 
 	//remove the thruster from the list, and update the group
 	groupit->second.erase(listit);
@@ -261,7 +261,7 @@ void IMS_PropulsionManager::updateThrusterGroup(THGROUP_TYPE group)
 	vessel->DelThrusterGroup(group);
 	//find our thruster list for this group and make sure it actually exist in the manager
 	map<THGROUP_TYPE, vector<THRUSTER_HANDLE>>::iterator groupit = thgroups.find(group);
-	assert(groupit != thgroups.end() && "Trying to update a thruster group without thrusters!");
+	Helpers::assertThat([groupit, this]() { return groupit != thgroups.end(); }, "Trying to update a thruster group without thrusters!");
 
 	//recreate the thruster group, if it actually has any thrusters
 	if (groupit->second.size() > 0)
@@ -310,7 +310,7 @@ void IMS_PropulsionManager::AddExhausts(THRUSTER_HANDLE thruster, vector<THRUSTE
 
 void IMS_PropulsionManager::RemoveExhausts(THRUSTER_HANDLE thruster)
 {
-	assert(liveexhausts.find(thruster) != liveexhausts.end() && "Trying to remove exhausts that weren't added!");
+	Helpers::assertThat([this, thruster]() { return liveexhausts.find(thruster) != liveexhausts.end(); }, "Trying to remove exhausts that weren't added!");
 	
 	vector<UINT> &exhaustids = liveexhausts[thruster];
 	for (UINT i = 0; i < exhaustids.size(); ++i)

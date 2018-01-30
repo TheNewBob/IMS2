@@ -32,7 +32,7 @@ void IMS_Movable::Move(IMS_Location *from, IMS_Location *to)
 {
 	if (!fixedpos)
 	{
-		assert(from != to);				//somebody's passed the same module for to and from
+		Helpers::assertThat([from, to]() { return from != to; }, "passed the same module for to and from");
 		from->RemoveMovable(this);
 		to->AddMovable(this);
 	}

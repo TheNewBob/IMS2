@@ -45,7 +45,6 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 		Helpers::writeToLog(msg, L_ERROR);
 		throw runtime_error("fatal error, see orbiter.log");
 	}
-
 }
 
 // --------------------------------------------------------------

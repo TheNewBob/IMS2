@@ -86,7 +86,7 @@ bool GUIplugin::AddChildToParent(GUI_BaseElement *child, int parentId)
 	}
 	else
 	{
-		assert(elements.find(parentId) != elements.end()); //you're trying to add a child to a non-existant parent!
+		Helpers::assertThat([this, parentId]() { return elements.find(parentId) != elements.end(); }, "you're trying to add a child to a non-existant parent!");
 		elements[parentId]->AddChild(child);
 	}
 	return true;

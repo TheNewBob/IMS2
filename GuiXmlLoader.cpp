@@ -25,7 +25,7 @@ string GuiXmlLoader::GetProjectFolder()
 
 void GuiXmlLoader::SetProjectFolder(string projectfolder)
 {
-	assert(GuiXmlLoader::projectfolder == "" && "swingshot project folder can only be set once!");
+	Helpers::assertThat([]() { return GuiXmlLoader::projectfolder == ""; }, "swingshot project folder can only be set once!");
 	GuiXmlLoader::projectfolder = projectfolder;
 
 	// attempt to load swingshot config from the root folder
@@ -62,7 +62,7 @@ void GuiXmlLoader::loadDefaultConfig()
 
 void GuiXmlLoader::LoadStyleSets()
 {
-	assert(projectfolder != "" && "swingshot project folder has not been set!");
+	Helpers::assertThat([]() { return projectfolder != ""; }, "swingshot project folder has not been set!");
 	string stylesets_root = rootfolder + projectfolder + "/stylesets";
 	WIN32_FIND_DATA	searchresult;
 	HANDLE hfind = NULL;

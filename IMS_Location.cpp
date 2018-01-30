@@ -16,7 +16,7 @@ IMS_Location::~IMS_Location()
 
 void IMS_Location::AddMovable(IMS_Movable *movable)
 {
-	assert(find(movables.begin(), movables.end(), movable) == movables.end());		//somebody's trying to add a movable that is already in the module!
+	Helpers::assertThat([movable, this]() { return find(movables.begin(), movables.end(), movable) == movables.end(); }, "trying to add a movable that is already in the module!");		
 	//tell the movable to connect its event handler
 	movable->addTo(this);
 	//add it to the list
@@ -26,7 +26,7 @@ void IMS_Location::AddMovable(IMS_Movable *movable)
 void IMS_Location::RemoveMovable(IMS_Movable *movable)
 {
 	vector<IMS_Movable*>::iterator i = find(movables.begin(), movables.end(), movable);
-	assert(i != movables.end());		//somebody's trying to remove a movable that isn't here!
+	Helpers::assertThat([i, this]() { return i != movables.end(); }, "trying to remove a movable that isn't here!");
 	//tell the movable to disconnect its event handler
 	movable->removeFrom(this);
 	//remove it from the list

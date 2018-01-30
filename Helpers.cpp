@@ -3,6 +3,7 @@
 const string Helpers::whitespace = " \t";
 LOGLEVEL Helpers::loglevel;
 
+
 void Helpers::Tokenize(const string& str, vector<string>& tokens, const string& delimiters)
 {
     // Skip delimiters at beginning.

@@ -44,11 +44,11 @@ void GUIentity::RegisterGuiElement(GUI_BaseElement *_element, int _parentId)
 	//if the same uid tries to register twice, something has gone horribly wrong,
 	//either by a developer passing an already used uid or an incorrect uid being 
 	//returned from GetDynamicUID() if the passed id was -1
-	assert(elements.find(_element->GetId()) == elements.end() && "Passed an already used UID for GUI element!");
+	Helpers::assertThat([this,_element]() { return elements.find(_element->GetId()) == elements.end(); }, "Passed an already used UID for GUI element!");
 
 	elements[_element->GetId()] = _element;
 	bool childadded = AddChildToParent(_element, _parentId);
-	assert(childadded);
+	Helpers::assertThat([childadded]() { return childadded; }, "GUIentity: Failed to add child for unknown reason!");
 }
 
 
@@ -185,7 +185,7 @@ GUI_BaseElement *GUIentity::GetElementById(int _id)
 
 	//you are looking for an id that doesn't exist. Either you're looking for it too early
 	//and it gets registered later in the program flow, or you've forgotten to register it.
-	assert(i != elements.end());
+	Helpers::assertThat([this, i]() { return i != elements.end(); }, "GUIentity: Looking for nonexisting UID!");
 	return i->second;
 }
 

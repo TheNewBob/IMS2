@@ -93,7 +93,7 @@ public:
 	static const string whitespace;																//!< contains space and tab for space removal operations
 	static void stringToLower(string &str);
 	
-	/*parses and returns a VECTOR3 from an already tokenised line
+	/* \brief parses and returns a VECTOR3 from an already tokenised line
 	 * line: a vector of strings where the first item is the parameter name, 
 	 * followed by x y and z values for the vector
 	 */
@@ -104,6 +104,19 @@ public:
 	 * \param input A double you want to make sure isn't NaN
 	 */
 	static double fixDoubleNaN(double input);
+	
+	template<typename Func>
+	static void assertThat(Func assertion, string message)
+	{
+		if (loglevel == L_DEBUG)
+		{
+			if (!assertion())
+			{
+				writeToLog(string("Assertion failed: " + message), L_ERROR);
+				throw runtime_error("Assertion failed, see log!");
+			}
+		}
+	}
 
 
 private:

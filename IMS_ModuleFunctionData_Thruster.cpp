@@ -20,13 +20,13 @@ IMS_ModuleFunctionData_Thruster::~IMS_ModuleFunctionData_Thruster()
 
 THRUSTERMODE *IMS_ModuleFunctionData_Thruster::GetThrusterMode(int mode)
 {
-	assert((UINT)mode < thrustermodes.size() && "Trying to retrieve non-existing thrustermode!");
+	Helpers::assertThat([this, mode]() { return (UINT)mode < thrustermodes.size(); }, "Trying to retrieve non-existing thrustermode!");
 	return &thrustermodes[mode];
 }
 
 THRUSTEREXHAUST *IMS_ModuleFunctionData_Thruster::GetThrusterExhaust(int idx)
 {
-	assert((UINT)idx < exhausts.size() && "Trying to retrieve non-existing exhaust!");
+	Helpers::assertThat([this, idx]() { return (UINT)idx < exhausts.size(); }, "Trying to retrieve non-existing exhaust!");
 	return &exhausts[idx];
 }
 

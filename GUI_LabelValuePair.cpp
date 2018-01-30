@@ -94,7 +94,7 @@ void GUI_LabelValuePair::SetStyle(GUI_ElementStyle *style)
 
 GUI_ElementResource *GUI_LabelValuePair::createResources()
 {
-	assert(src == NULL && "Release old resource before creating it again!");
+	Helpers::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
 
 	SURFHANDLE src = GUI_Draw::createElementBackground(style, width, height);
 	font->Print(src, label, style->MarginLeft(), height / 2, _R(style->MarginLeft(), style->MarginTop(), width - style->MarginRight(), width - style->MarginBottom()),

@@ -134,13 +134,11 @@ public:
 	*/
 	void PreStep(double simdt);
 
-
-
 private:
 	map<int, vector<IMS_Storable*>> tanks;
 	vector<IMS_PropellantInjector*> injectors;							//!< list of currently present injectors
-	map<THGROUP_TYPE, vector<THRUSTER_HANDLE>> thgroups;				//!< Contains the list of thrusters for each group
 	map<THRUSTER_HANDLE, vector<UINT>> liveexhausts;			//!< Maps exhaust definitions to a thruster handle
+	map<THGROUP_TYPE, vector<THRUSTER_HANDLE>> thgroups;				//!< Contains the list of thrusters for each group
 
 	bool ProcessEvent(Event_Base *e);
 

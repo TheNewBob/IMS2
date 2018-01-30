@@ -43,7 +43,7 @@ FSThrusterCollection::~FSThrusterCollection()
 
 vector<FiringSolutionThruster*> FSThrusterCollection::GetGroupUnion(vector<THGROUP_TYPE> &groups, THGROUP_TYPE governing_group)
 {
-	assert(groups.size() > 0 && "Passed an empty groups list to calculate intersection!");
+	Helpers::assertThat([groups]() { return groups.size() > 0; }, "Passed an empty groups list to calculate intersection!");
 
 	vector<FiringSolutionThruster*> result;
 	//We only need to check the thrusters in the governing group

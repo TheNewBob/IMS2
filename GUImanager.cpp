@@ -85,7 +85,7 @@ void GUImanager::RegisterSurfaceWithOrbiter(GUI_Surface *surf, PANELHANDLE hpane
 
 void GUImanager::RegisterGUIPanel(GUI_Panel *panel)
 {
-	assert(panels.find(panel->id) == panels.end() && "Panel registered twice!");
+	Helpers::assertThat([this, panel]() { return panels.find(panel->id) == panels.end(); }, "Panel registered twice!");
 	panels[panel->id] = panel;
 }
 
@@ -332,7 +332,7 @@ void GUImanager::ClearPopup(GUIpopup *popup)
 		//should not be possible, but never trust a user!
 		//This is here purely that we would notice if somebody actually succeeded, because then
 		//I'd have to make this function somewhat smarter.
-		assert(popuptoclear == NULL);
+		Helpers::assertThat([]() { return popuptoclear == NULL; }, "Two popups prompted in same frame! Congratulations, you achieved what should have been impossible.");
 		popuptoclear = popup;
 	}
 	else
@@ -342,7 +342,7 @@ void GUImanager::ClearPopup(GUIpopup *popup)
 		{
 			//remove the popup from its parent element
 			map<GUIplugin*, GUI_BaseElement*>::iterator i = temporaryplugins.find(popuptoclear);
-			assert(i != temporaryplugins.end() &&
+			Helpers::assertThat([i]() { return i != temporaryplugins.end(); },
 				"somebody's trying to delete a popup that was never properly registered. DO NOT instantiate popups directly!");
 			i->second->RemovePlugin(popuptoclear);
 			temporaryplugins.erase(i);

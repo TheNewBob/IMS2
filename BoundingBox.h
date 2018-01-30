@@ -116,9 +116,9 @@ private:
 		top = right_top_front.y;
 		front = right_top_front.z;
 
-		assert(left <= right && "Left side of bounding box must be smaller than right side!");
-		assert(bottom <= top && "Bottom side of bounding box must be smaller than top side!");
-		assert(rear <= front && "Rear side of bounding box must be smaller than Front side!");
+		Helpers::assertThat([this]() { return left <= right; }, "Left side of bounding box must be smaller than right side!");
+		Helpers::assertThat([this]() { return bottom <= top; }, "Bottom side of bounding box must be smaller than top side!");
+		Helpers::assertThat([this]() { return rear <= front; }, "Rear side of bounding box must be smaller than Front side!");
 
 		//check if the box is 2-dimensional
 		if (Calc::IsEqual(left, right) ||

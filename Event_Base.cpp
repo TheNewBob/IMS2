@@ -15,7 +15,7 @@ Event_Base::~Event_Base()
 
 bool Event_Base::sendMe()
 {
-	assert(delay != UINT_MAX && "Are you SURE this delay is correct? Because me thinks that it went below zero without being sent!");
+	Helpers::assertThat([this]() { return delay != UINT_MAX; }, "Are you SURE this delay is correct? Because me thinks that it went below zero without being sent!");
 	delay -= 1;
 	if (delay == 0)
 	{

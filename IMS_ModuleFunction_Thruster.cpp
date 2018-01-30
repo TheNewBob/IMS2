@@ -122,7 +122,7 @@ GUI_ModuleFunction_Base *IMS_ModuleFunction_Thruster::GetGui()
 
 void IMS_ModuleFunction_Thruster::SetThrusterMode(int modeidx)
 {
-	assert(modeidx < data->getNumberOfModes() && "Thrustermode index out of bounds!");
+	Helpers::assertThat([modeidx, this]() { return modeidx < data->getNumberOfModes(); }, "Thrustermode index out of bounds!");
 	
 	//only switch if something the mode is not the same as it is currently
 	if (modeidx != currentthrustermode)
@@ -139,8 +139,8 @@ void IMS_ModuleFunction_Thruster::SetThrusterMode(int modeidx)
 void IMS_ModuleFunction_Thruster::SetThrusterGroup(int thrustergroup)
 {
 	//input validation, since not all thrustergroups are valid for normal thrusters
-	assert((thrustergroup >= -1 && thrustergroup <= (int)THGROUP_HOVER) ||
-		thrustergroup == THGROUP_USER && "Not assigning to a valid thrustergroup!");
+	Helpers::assertThat([thrustergroup]() { return (thrustergroup >= -1 && thrustergroup <= (int)THGROUP_HOVER) ||
+		thrustergroup == THGROUP_USER; }, "Not assigning to a valid thrustergroup!");
 	
 	//check if the thrustergroup changes
 	if (thrustergroup != this->thrustergroup)
