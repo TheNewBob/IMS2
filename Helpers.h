@@ -2,14 +2,6 @@
 
 using namespace std;
 
-enum LOGLEVEL
-{
-	L_DEBUG,
-	L_MESSAGE,
-	L_WARNING,
-	L_ERROR
-};
-
 //wrapper for orbiter FILEHANDLE to ensure compatibility with StackEditor
 struct IMSFILE
 {
@@ -35,17 +27,9 @@ public:
 	static void resetFile(IMSFILE file);
 	
 	/**
-	 * \brief Writes a string to the log
-	 * \param priority The priority of the message. The message will only be loged if its priority is higher or equal to the minimum priority set with Helpers::SetLogLevel()
-	 * \see SetLogLevel()
-	 */
-	static void writeToLog(std::string &logMsg, LOGLEVEL priority, bool clear = false);
-
-	/**
 	 * \brief sets the minimum priority that a logmessage needs to have to get loged
 	 * \param minimumpriority Only messages equal or higher than the priority will be loged
 	 */
-	static void SetLogLevel(LOGLEVEL minimumpriority);
 	static UINT GetNewUID();
 
 	//functions written by Meson800 for stackeditor
@@ -104,22 +88,5 @@ public:
 	 * \param input A double you want to make sure isn't NaN
 	 */
 	static double fixDoubleNaN(double input);
-	
-	template<typename Func>
-	static void assertThat(Func assertion, string message)
-	{
-		if (loglevel == L_DEBUG)
-		{
-			if (!assertion())
-			{
-				writeToLog(string("Assertion failed: " + message), L_ERROR);
-				throw runtime_error("Assertion failed, see log!");
-			}
-		}
-	}
-
-
-private:
-	static LOGLEVEL loglevel;
 	
 };

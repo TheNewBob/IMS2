@@ -34,7 +34,7 @@ public:
 	 */
 	~SimpleTreeNode()
 	{
-		Helpers::assertThat([this]() { return parent == NULL; },
+		Olog::assertThat([this]() { return parent == NULL; },
 			"Delete a SimpleTree at the root, otherwise you create a memory leak!");
 
 		for (UINT i = 0; i < children.size(); ++i)

@@ -20,13 +20,13 @@ IMS_ModuleFunctionData_Thruster::~IMS_ModuleFunctionData_Thruster()
 
 THRUSTERMODE *IMS_ModuleFunctionData_Thruster::GetThrusterMode(int mode)
 {
-	Helpers::assertThat([this, mode]() { return (UINT)mode < thrustermodes.size(); }, "Trying to retrieve non-existing thrustermode!");
+	Olog::assertThat([this, mode]() { return (UINT)mode < thrustermodes.size(); }, "Trying to retrieve non-existing thrustermode!");
 	return &thrustermodes[mode];
 }
 
 THRUSTEREXHAUST *IMS_ModuleFunctionData_Thruster::GetThrusterExhaust(int idx)
 {
-	Helpers::assertThat([this, idx]() { return (UINT)idx < exhausts.size(); }, "Trying to retrieve non-existing exhaust!");
+	Olog::assertThat([this, idx]() { return (UINT)idx < exhausts.size(); }, "Trying to retrieve non-existing exhaust!");
 	return &exhausts[idx];
 }
 
@@ -231,18 +231,18 @@ bool IMS_ModuleFunctionData_Thruster::validateData(string configfile)
 	}
 	catch (invalid_argument e)
 	{
-		Helpers::writeToLog(e.what() + configfile, L_ERROR);
+		Olog::error("%s%s", e.what(), configfile.data());
 	}
 	
 	if (thrustermodes.size() == 0)
 	{
-		Helpers::writeToLog(string("No THRUSTERMODE defined for Thruster module function in " + configfile), L_ERROR);
+		Olog::error("No THRUSTERMODE defined for Thruster module function in %s", configfile.data());
 		isvalid = false;
 	}
 
 	if (exhausts.size() == 0)
 	{
-		Helpers::writeToLog(string("No Exhausts defined for Thruster module function in " + configfile), L_ERROR);
+		Olog::error("No Exhausts defined for Thruster module function in %s", configfile.data());
 		isvalid = false;
 	}
 
@@ -252,7 +252,7 @@ bool IMS_ModuleFunctionData_Thruster::validateData(string configfile)
 		thrustdirection.y == -1 &&
 		thrustdirection.z == -1)
 	{
-		Helpers::writeToLog("No valid dir parameter for Thruster module function in " + configfile, L_ERROR);
+		Olog::error("No valid dir parameter for Thruster module function in %s", configfile);
 		isvalid = false;
 	}
 	return isvalid;

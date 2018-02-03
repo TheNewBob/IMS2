@@ -11,6 +11,7 @@
 #include <map>
 #include "Helpers.h"
 #include <typeinfo>
+#include "Olog.h"
 
 class GUI_Surface;
 class GUI_font;

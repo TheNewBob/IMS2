@@ -29,7 +29,7 @@ IMS_RcsManager::~IMS_RcsManager()
 
 void IMS_RcsManager::AddThruster(THRUSTER_HANDLE thruster)
 {
-	Helpers::assertThat([this, thruster]() { return find(rcsthrusters.begin(), rcsthrusters.end(), thruster) == rcsthrusters.end(); },
+	Olog::assertThat([this, thruster]() { return find(rcsthrusters.begin(), rcsthrusters.end(), thruster) == rcsthrusters.end(); },
 		"Attempting to add thruster twice to RcsManager!");
 	//if the dummy thrusters don't exist yet, create them now
 	if (!dummiesexist && intelligentrcs)
@@ -46,7 +46,7 @@ void IMS_RcsManager::AddThruster(THRUSTER_HANDLE thruster)
 
 void IMS_RcsManager::AddThrusterPair(THRUSTER_HANDLE thruster1, THRUSTER_HANDLE thruster2)
 {
-	Helpers::assertThat([this, thruster1, thruster2]() { return find(rcsthrusters.begin(), rcsthrusters.end(), thruster1) == rcsthrusters.end() &&
+	Olog::assertThat([this, thruster1, thruster2]() { return find(rcsthrusters.begin(), rcsthrusters.end(), thruster1) == rcsthrusters.end() &&
 		find(rcsthrusters.begin(), rcsthrusters.end(), thruster2) == rcsthrusters.end(); },
 		"Attempting to add thruster twice to RcsManager!");
 
@@ -66,7 +66,7 @@ void IMS_RcsManager::AddThrusterPair(THRUSTER_HANDLE thruster1, THRUSTER_HANDLE 
 
 void IMS_RcsManager::RemoveThruster(THRUSTER_HANDLE thruster)
 {
-	Helpers::assertThat([this, thruster]() { return find(rcsthrusters.begin(), rcsthrusters.end(), thruster) != rcsthrusters.end(); },
+	Olog::assertThat([this, thruster]() { return find(rcsthrusters.begin(), rcsthrusters.end(), thruster) != rcsthrusters.end(); },
 		"Attempting to remove thruster from RcsManager that was never added!");
 	//if there is a calculation running, abort it. The thread will crash if a thruster is deleted
 	//from the vessel while it's running. 

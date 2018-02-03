@@ -18,6 +18,7 @@
 #include "GuiXmlLoader.h"
 #include <Windows.h>
 #include <exception>
+#include "Olog.h"
 //#include "vld.h"
 
 
@@ -27,22 +28,20 @@ SURFHANDLE IMS2::engPanelBG = NULL;
 
 DLLCLBK void InitModule (HINSTANCE hModule)
 {
-	//loading panel backgrounds and textures
-/*	IMS2::pilotPanelBG = oapiLoadTexture ("IMS2\\IMSMainPanel.dds");
-	IMS2::engPanelBG = oapiLoadTexture ("IMS2\\IMSEngPanel.dds");*/
-//	IMS2::panelTextures = oapiLoadTexture ("IMS\\IMSPanelTextures.dds");
 
+	Olog::assertlevel = OLOG_DEBUG;
+	Olog::projectName = "IMS2";
+	
 #ifdef _DEBUG
-	Helpers::SetLogLevel(L_DEBUG);
+	Olog::loglevel = OLOG_DEBUG;
 #else 
-	Helpers::SetLogLevel(L_WARNING);
+	Olog::loglevel = OLOG_DEBUG;
 #endif
 	GuiXmlLoader::SetProjectFolder("IMS2");
 	try {
 		GuiXmlLoader::LoadStyleSets();
 	} catch (exception e) {
-		string msg = "Fatal error while loading stylesets: " + string(e.what());
-		Helpers::writeToLog(msg, L_ERROR);
+		Olog::error("Fatal error while loading stylesets: %s", e.what());
 		throw runtime_error("fatal error, see orbiter.log");
 	}
 }

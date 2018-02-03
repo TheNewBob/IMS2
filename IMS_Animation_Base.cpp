@@ -23,7 +23,7 @@ void IMS_Animation_Base::InitStateFromScenario(vector<string> &line)
 	if (line.size() != 3)
 	{
 		//invalid line. No need to terminate anything, the animation will just be reset to origin
-		Helpers::writeToLog(string("Invalid state for animation in scenario!"), L_WARNING);
+		Olog::warn("Invalid state for animation in scenario!");
 	}
 	else
 	{
@@ -42,7 +42,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 
 	//create animation on vessel and remember the orbiter ID 
 	orbiterid = vessel->CreateAnim(0.0);
-	Helpers::writeToLog(string("created animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
+	Olog::debug("created animation %s %i", data->id.data(), orbiterid);
 
 	//create the animation on the vessel. We need to store the handles for parent-child relations
 	//and for proper deletion later on.
@@ -57,7 +57,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 			//sanity check in case the writer of the config file screwed up and declared a wrong order
 			if (parentidx >= (int)animationcomponents.size())
 			{
-				Helpers::writeToLog(string("parent-child animations must be declared in order!"), L_ERROR);
+				Olog::error("parent-child animations must be declared in order!");
 				return;
 			}
 			parent = animationcomponents[parentidx];
@@ -88,7 +88,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 
 void IMS_Animation_Base::RemoveAnimationFromVessel()
 {
-	Helpers::writeToLog(string("Deleting animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
+	Olog::debug("Deleting animation %s %i", data->id.data(), orbiterid);
 
 	DisableAnimation();
 	//delete the animationcomponents in reverse order.
@@ -97,7 +97,7 @@ void IMS_Animation_Base::RemoveAnimationFromVessel()
 	for (UINT i = animationcomponents.size(); i > 0; --i)
 	{
 		bool result = vessel->DelAnimationComponent(orbiterid, animationcomponents[i - 1]);
-		Helpers::assertThat([result]() { return result; }, "Failed to remove animation from vessel!");
+		Olog::assertThat([result]() { return result; }, "Failed to remove animation from vessel!");
 	}
 	animationcomponents.clear();
 	bool result = vessel->DelAnimation(orbiterid);

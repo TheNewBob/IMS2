@@ -25,7 +25,7 @@ string GuiXmlLoader::GetProjectFolder()
 
 void GuiXmlLoader::SetProjectFolder(string projectfolder)
 {
-	Helpers::assertThat([]() { return GuiXmlLoader::projectfolder == ""; }, "swingshot project folder can only be set once!");
+	Olog::assertThat([]() { return GuiXmlLoader::projectfolder == ""; }, "swingshot project folder can only be set once!");
 	GuiXmlLoader::projectfolder = projectfolder;
 
 	// attempt to load swingshot config from the root folder
@@ -35,7 +35,7 @@ void GuiXmlLoader::SetProjectFolder(string projectfolder)
 	}
 	catch (exception e)
 	{
-		Helpers::writeToLog(string("No valid swingshot config found, creating a new one."), L_WARNING);
+		Olog::warn("No valid swingshot config found, creating a new one.");
 		createDefaultConfig();
 	}
 
@@ -62,7 +62,7 @@ void GuiXmlLoader::loadDefaultConfig()
 
 void GuiXmlLoader::LoadStyleSets()
 {
-	Helpers::assertThat([]() { return projectfolder != ""; }, "swingshot project folder has not been set!");
+	Olog::assertThat([]() { return projectfolder != ""; }, "swingshot project folder has not been set!");
 	string stylesets_root = rootfolder + projectfolder + "/stylesets";
 	WIN32_FIND_DATA	searchresult;
 	HANDLE hfind = NULL;
@@ -73,8 +73,7 @@ void GuiXmlLoader::LoadStyleSets()
 	hfind = FindFirstFile(searchstr.data(), &searchresult);
 	if (hfind == INVALID_HANDLE_VALUE)
 	{
-		Helpers::writeToLog(string("No stylesets found in " + stylesets_root + ", installation possibly corrupted!"), L_ERROR);
-		throw runtime_error("No stylesets found!");
+		throw runtime_error("No stylesets found in " + stylesets_root + ", installation possibly corrupted!");
 	}
 
 	do
@@ -84,7 +83,7 @@ void GuiXmlLoader::LoadStyleSets()
 			string stylesetname = searchresult.cFileName;
 			if (stylesetname != "." && stylesetname != "..")
 			{
-				Helpers::writeToLog(string("Loading styleset " + stylesetname), L_DEBUG);
+				Olog::debug("Loading styleset %s", stylesetname.data());
 				loadStyleSet(stylesets_root, stylesetname);
 			}
 		}
@@ -114,9 +113,7 @@ XML::XMLDocument *GuiXmlLoader::loadXmlFile(string filename)
 	doc->LoadFile(filename.data());
 	if (doc->ErrorID() != XML::XMLError::XML_SUCCESS)
 	{
-
-		string msg = filename + ": " + doc->ErrorName();
-		Helpers::writeToLog(msg, L_ERROR);
+		Olog::error("%s: %s", filename.data(), doc->ErrorName());
 		throw runtime_error("Error while loading styles, see log.");
 	}
 	return doc;
@@ -168,8 +165,7 @@ void GuiXmlLoader::loadStyle(tinyxml2::XMLElement *xmlstyle, string styleset)
 			if (attribute->Name() != "id") loadStyleAttribute(attribute, style, styleset);
 		}
 		catch (runtime_error e) {
-			string msg = "Error in style " + currentid + ": " + string(e.what());
-			Helpers::writeToLog(msg, L_ERROR);
+			Olog::error("Error in style %s: %s", currentid.data(), e.what());
 		}
 		attribute = attribute->NextSiblingElement();
 	}
@@ -265,7 +261,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	if (font_face == NULL)
 	{
 		face = "arial";
-		Helpers::writeToLog(string("Font " + id + " has no <face>, using arial"), L_WARNING);
+		Olog::warn("Font %s has no <face>, using arial", id.data());
 	}
 	else
 	{
@@ -275,7 +271,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	if (font_size == NULL)
 	{
 		size = GUI_Layout::EmToPx(1);
-		Helpers::writeToLog(string("Font " + id + " has no <size>, using 1em"), L_WARNING);
+		Olog::warn("Font %s  has no <size>, using 1em", id.data());
 	}
 	else
 	{
@@ -285,7 +281,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	if (font_color == NULL)
 	{
 		color = GUI_Looks::StringToColor("255,255,255");
-		Helpers::writeToLog(string("Font " + id + " has no <color>, using white"), L_WARNING);
+		Olog::warn("Font %s has no <color>, using white", id.data());
 	}
 	else
 	{
@@ -296,7 +292,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	if (font_key == NULL)
 	{
 		key = GUI_Looks::StringToColor("0,0,0");
-		Helpers::writeToLog(string("Font " + id + " has no <key-color>, using black"), L_WARNING);
+		Olog::warn("Font %s has no <key-color>, using black", id.data());
 	}
 	else
 	{
@@ -322,7 +318,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 	{
 		if (font_hilight == NULL)
 		{
-			Helpers::writeToLog(string("Font " + id + " has <hilight-background>, but no <hilight-color>. Attribute will have no effect!"), L_WARNING);
+			Olog::warn("Font %s has <hilight-background>, but no <hilight-color>. Attribute will have no effect!", id.data());
 		}
 		else {
 			hilight = GUI_Looks::StringToColor(font_hilight->GetText());
@@ -351,7 +347,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 		}
 		else
 		{
-			Helpers::writeToLog(string("Font " + id + ": Unknown <emphasis>: " + emph + ", using normal"), L_WARNING);
+			Olog::warn("Font %s : Unknown <emphasis>: %s, using normal", id.data(), emph.data());
 			emphasis = FONT_NORMAL;
 		}
 	}

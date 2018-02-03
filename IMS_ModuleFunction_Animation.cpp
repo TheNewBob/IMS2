@@ -105,7 +105,7 @@ bool IMS_ModuleFunction_Animation::ProcessEvent(Event_Base *e)
 		map<string, IMS_Animation_Base*>::iterator anim = animations.find(animevent->GetAnimationId());
 		if (anim == animations.end())
 		{
-			Helpers::writeToLog(string("call to nonexisting animation: " + animevent->GetAnimationId()), L_WARNING);
+			Olog::warn("call to nonexisting animation: %s", animevent->GetAnimationId().data());
 		}
 		else
 		{
@@ -128,7 +128,7 @@ bool IMS_ModuleFunction_Animation::ProcessEvent(Event_Base *e)
 		map<string, IMS_Animation_Base*>::iterator anim = animations.find(animevent->GetAnimationId());
 		if (anim == animations.end())
 		{
-			Helpers::writeToLog(string("call to nonexisting animation: " + animevent->GetAnimationId()), L_WARNING);
+			Olog::warn("call to nonexisting animation: %s", animevent->GetAnimationId().data());
 		}
 		else
 		{
@@ -227,7 +227,7 @@ bool IMS_ModuleFunction_Animation::canStart(IMS_Animation_Base *anim, double spe
 		map<string, IMS_Animation_Base*>::iterator dep = animations.find(deps[i].dependencyid);
 		if (dep == animations.end())
 		{
-			Helpers::writeToLog(string("dependency to nonexisting animation: " + deps[i].dependencyid), L_WARNING);
+			Olog::warn("dependency to nonexisting animation: %s", deps[i].dependencyid.data());
 		}
 		else
 		{

@@ -16,6 +16,7 @@
 #include "Moduletypes.h"
 #include "Exceptions.h"
 #include "assert.h"
+#include "Olog.h"
 
 
 //forward declarations

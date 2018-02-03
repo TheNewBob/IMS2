@@ -59,7 +59,7 @@ bool IMS_General_ModuleData::LoadFromFile(string configfile, IMSFILE cfg)
 	//check if the module has at least one valid function definition
 	if (functiondata.size() == 0)
 	{
-		Helpers::writeToLog(configfile + ": No valid module function defined!", L_WARNING);
+		Olog::warn("%s: No valid module function defined!", configfile.data());
 		return false;
 	}
 	return true;

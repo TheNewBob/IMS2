@@ -83,8 +83,7 @@ public:
 				}
 				catch (runtime_error e)
 				{
-					//add the config file to the error message
-					Helpers::writeToLog(string(e.what()) + " in " + configfile, L_ERROR);
+					Olog::error("%s in %s", e.what(), configfile.data());
 				}
 
 			}

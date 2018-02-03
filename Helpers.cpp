@@ -1,8 +1,6 @@
 #include "Common.h"
 
 const string Helpers::whitespace = " \t";
-LOGLEVEL Helpers::loglevel;
-
 
 void Helpers::Tokenize(const string& str, vector<string>& tokens, const string& delimiters)
 {
@@ -183,37 +181,6 @@ string Helpers::intToString(int number)
 	std::ostringstream strs;
 	strs << number;
 	return strs.str();
-}
-
-void Helpers::writeToLog(std::string &logMsg, LOGLEVEL priority, bool clear)
-//writes a log message. clear doesn't do anything but was kept for stackeditor compatibility
-{
-	if (priority >= loglevel)
-	{
-		string logstring = "IMS2:[";
-		switch (priority)
-		{
-		case L_ERROR:
-			logstring += "!!ERROR!!] ";
-			break;
-		case L_WARNING:
-			logstring += "!WARNING!] ";
-			break;
-		case L_MESSAGE:
-			logstring += "MESSAGE] ";
-			break;
-		case L_DEBUG:
-			logstring += "DEBUG] ";
-			break;
-		}
-		logstring += logMsg;
-		oapiWriteLog((char*)logstring.c_str());
-	}
-}
-
-void Helpers::SetLogLevel(LOGLEVEL minimumpriority)
-{
-	loglevel = minimumpriority;
 }
 
 UINT Helpers::GetNewUID()

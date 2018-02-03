@@ -15,7 +15,7 @@ SimplePathNode::~SimplePathNode()
 
 void SimplePathNode::ConnectTo(SimplePathNode *_leads_to)
 {
-	Helpers::assertThat([this, _leads_to]() { return find(leads_to.begin(), leads_to.end(), _leads_to) == leads_to.end(); },
+	Olog::assertThat([this, _leads_to]() { return find(leads_to.begin(), leads_to.end(), _leads_to) == leads_to.end(); },
 		"You're trying to connect a state node to one it's already connected to!");
 
 	leads_to.push_back(_leads_to);

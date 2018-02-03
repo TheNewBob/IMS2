@@ -19,7 +19,7 @@ GUI_Surface::~GUI_Surface()
 
 void GUI_Surface::PostInit()
 {
-	Helpers::assertThat([this]() { return isInitialised; }, "GUI_Surface was not initialised before PostInit!!");
+	Olog::assertThat([this]() { return isInitialised; }, "GUI_Surface was not initialised before PostInit!!");
 	gui->RegisterGuiRootPage(page);
 	// let the page create its children
 	page->PostConstruction(gui);
@@ -45,7 +45,7 @@ bool GUI_Surface::ProcessMouse2D (GUI_MOUSE_EVENT _event, int mx, int my)
 
 bool GUI_Surface::Update()
 {
-	Helpers::assertThat([this]() { return isInitialised; }, "GUI_Surface was not initialised before sim start!");
+	Olog::assertThat([this]() { return isInitialised; }, "GUI_Surface was not initialised before sim start!");
 	if (page->Update())
 	{
 		gui->RedrawGUISurface(id);

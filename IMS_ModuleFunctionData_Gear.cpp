@@ -84,7 +84,7 @@ bool IMS_ModuleFunctionData_Gear::validateData(string configfile)
 	
 	if (touchdownpoint.x == NAN || touchdownpoint.y == NAN || touchdownpoint.z == NAN)
 	{
-		Helpers::writeToLog("Modulefunction GEAR  MUST have tdpos defined in " + configfile, L_ERROR);
+		Olog::error("Modulefunction GEAR MUST have tdpos defined in %s", configfile.data());
 		validationok = false;
 	}
 	return validationok;

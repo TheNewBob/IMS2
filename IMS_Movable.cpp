@@ -32,7 +32,7 @@ void IMS_Movable::Move(IMS_Location *from, IMS_Location *to)
 {
 	if (!fixedpos)
 	{
-		Helpers::assertThat([from, to]() { return from != to; }, "passed the same module for to and from");
+		Olog::assertThat([from, to]() { return from != to; }, "passed the same module for to and from");
 		from->RemoveMovable(this);
 		to->AddMovable(this);
 	}

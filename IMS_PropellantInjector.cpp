@@ -14,7 +14,7 @@
 IMS_PropellantInjector::IMS_PropellantInjector(vector<int> &propellant_ids, vector<float> &ratio, double efficiency, VESSEL* vessel) : v(vessel)
 {
 	//both vectors must contain an equal amount of elements!
-	Helpers::assertThat([propellant_ids, ratio]() { return propellant_ids.size() == ratio.size(); }, "Ratio array does not fit propellant type array!");
+	Olog::assertThat([propellant_ids, ratio]() { return propellant_ids.size() == ratio.size(); }, "Ratio array does not fit propellant type array!");
 
 	//calculate the sum of ratios in order to calculate the ratios as fractions of 1 further down.
 	float ratio_sum = 0;
@@ -236,7 +236,7 @@ bool IMS_PropellantInjector::CompareMixture(vector<int> &propellant_ids, vector<
 void IMS_PropellantInjector::ConnectThruster(THRUSTER_HANDLE thruster, double maxmassflow)
 {
 	//Somebody's trying to connect the same thruster twice
-	Helpers::assertThat([this, thruster]() { return thrusters.find(thruster) == thrusters.end(); }, "Attempting to connect same thruster twice");
+	Olog::assertThat([this, thruster]() { return thrusters.find(thruster) == thrusters.end(); }, "Attempting to connect same thruster twice");
 
 	thrusters.insert(make_pair(thruster, true));
 	//connect the propellant resource
@@ -280,7 +280,7 @@ bool IMS_PropellantInjector::EnableThruster(THRUSTER_HANDLE thruster)
 
 bool IMS_PropellantInjector::DisableThruster(THRUSTER_HANDLE thruster)
 {
-	Helpers::writeToLog(string("thruster disabled!"), L_DEBUG);
+	Olog::debug("thruster disabled!");
 	map<THRUSTER_HANDLE, bool>::iterator i = thrusters.find(thruster);
 
 	if (i != thrusters.end() && i->second == true)

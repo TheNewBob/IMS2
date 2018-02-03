@@ -40,7 +40,7 @@ bool IMS_ModuleFunctionData_Animation::LoadFromFile(string configfile, IMSFILE c
 				}
 				catch (runtime_error e)
 				{
-					Helpers::writeToLog((string)e.what() + " in " + configfile, L_ERROR);
+					Olog::error("%s in %s", e.what(), configfile);
 					return false;
 				}
 			}

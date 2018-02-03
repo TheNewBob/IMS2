@@ -88,7 +88,7 @@ void GUI_Page::reSize()
 
 GUI_ElementResource *GUI_Page::createResources()
 {
-	Helpers::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
+	Olog::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
 
 	if (drawBackground)
 	{

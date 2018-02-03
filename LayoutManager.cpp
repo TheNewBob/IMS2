@@ -57,8 +57,7 @@ LAYOUTCOLLECTION *LayoutManager::GetLayout(string filename)
 		}
 		catch (exception e)
 		{
-			string msg = "Error while loading Layout " + filename + ": " + e.what();
-			Helpers::writeToLog(msg, L_ERROR);
+			Olog::error("Error while loading Layout %s: %s", filename.data(), e.what());
 			throw runtime_error("Error while loading layouts!");
 		}
 
@@ -108,9 +107,7 @@ XML::XMLDocument *LayoutManager::loadXmlFile(string filename)
 	doc->LoadFile(filename.data());
 	if (doc->ErrorID() != XML::XMLError::XML_SUCCESS)
 	{
-
-		string msg = filename + ": " + doc->ErrorName();
-		Helpers::writeToLog(msg, L_ERROR);
+		Olog::error("%s; %s", filename.data(), doc->ErrorName());
 		throw runtime_error("Error while loading layouts, see log.");
 	}
 
@@ -220,7 +217,7 @@ LayoutField LayoutManager::loadFieldFromXml(tinyxml2::XMLElement *field)
 				newfield.SetElementStyle(fieldstyle->GetText());
 			}
 			catch (invalid_argument e) {
-				Helpers::writeToLog(string("No such style: " + string(fieldstyle->GetText()) + ", using default style for element!"), L_WARNING);
+				Olog::warn("No such style: %s, using default style for element!", fieldstyle->GetText());
 			}
 			
 		}

@@ -64,7 +64,7 @@ void GUI_RadioButton::CreateGroup(vector<GUI_RadioButton*> buttonsingroup)
 {
 	for (UINT i = 0; i < buttonsingroup.size(); ++i)
 	{
-		Helpers::assertThat([buttonsingroup]() { return buttonsingroup[i]->groupedbuttons.size() == 0; }, "radio button is already assigned to group!");
+		Olog::assertThat([buttonsingroup, i]() { return buttonsingroup[i]->groupedbuttons.size() == 0; }, "radio button is already assigned to group!");
 		for (UINT j = 0; j < buttonsingroup.size(); ++j)
 		{
 			//obviously we don't want to add a button to itself as a grouped button

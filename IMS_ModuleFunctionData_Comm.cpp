@@ -40,7 +40,7 @@ bool IMS_ModuleFunctionData_Comm::validateData(string configfile)
 	//there must be at least one set of controls defined, otherwise the whole modulefunction makes no sense!
 	if (deployanimname == "" && searchanimname == "" && trackinganimname == "")
 	{
-		Helpers::writeToLog(string(configfile + ": must have at least one set of controls!"), L_ERROR);
+		Olog::error("%s: must have at least one set of controls!", configfile.data());
 		return false;
 	}
 	return true;

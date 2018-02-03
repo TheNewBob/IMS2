@@ -44,7 +44,7 @@ bool IMS_ModuleFunctionData_Rcs::validateData(string configfile)
 
 	if (thrustermodes.size() > 1)
 	{
-		Helpers::writeToLog(string("More than one thruster mode defined in " + configfile + ". RCS cannot use more than one mode!"), L_WARNING);
+		Olog::warn("More than one thruster mode defined in %s. RCS cannot use more than one mode!", configfile.data());
 	}
 
 	//if the thruster is mirrored, create mirrored exhausts

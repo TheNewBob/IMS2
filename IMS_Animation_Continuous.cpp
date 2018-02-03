@@ -99,7 +99,7 @@ void IMS_Animation_Continuous::InitStateFromScenario(vector<string> &line)
 	else
 	{
 		//invalid line. No need to terminate anything, the animation will just be reset to origin
-		Helpers::writeToLog(string("Invalid state for animation in scenario!"), L_WARNING);
+		Olog::warn("Invalid state for animation in scenario!");
 	}
 }
 

@@ -27,7 +27,7 @@ GUI_font *GUI_Looks::MakeFont(int height, string face, bool proportional, string
 
 GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 {
-	Helpers::assertThat([styleset]() { return stylesets.find(styleset) != stylesets.end(); }, "the styleset has not been created!");
+	Olog::assertThat([styleset]() { return stylesets.find(styleset) != stylesets.end(); }, "the styleset has not been created!");
 	return stylesets[styleset]->GetStyle(styleId);
 }
 
@@ -35,8 +35,8 @@ GUI_ElementStyle *GUI_Looks::GetStyle(string styleId, string styleset)
 
 GUI_font *GUI_Looks::GetFont(string fontId, string styleset)
 {
-	Helpers::assertThat([styleset]() { return stylesets.find(styleset) != stylesets.end(); }, "the styleset has not been created!");
-	Helpers::assertThat([fontId]() { return fontId != ""; }, "Cannot pass an empty font id!");
+	Olog::assertThat([styleset]() { return stylesets.find(styleset) != stylesets.end(); }, "the styleset has not been created!");
+	Olog::assertThat([fontId]() { return fontId != ""; }, "Cannot pass an empty font id!");
 	return stylesets[styleset]->GetFont(fontId);
 }
 
@@ -134,7 +134,7 @@ SURFHANDLE GUI_Looks::GetResource(GUI_BaseElement *element)
 void GUI_Looks::ReleaseResource(GUI_BaseElement *element)
 {
 	GUI_ElementResource *resource = findResourceForElement(element, true);
-	Helpers::assertThat([resource]() { return resource != NULL; }, "Element tries to release resource, but no resource was found!");
+	Olog::assertThat([resource]() { return resource != NULL; }, "Element tries to release resource, but no resource was found!");
 	resource->removeReference(element);
 	if (resource->NumReferences() == 0)
 	{
@@ -156,7 +156,7 @@ GUI_ElementResource *GUI_Looks::findResourceForElement(GUI_BaseElement *element,
 			vector<GUI_ElementResource*> &resourcelist = heightmapit->second;
 			for (UINT i = 0; i < resourcelist.size(); ++i)
 			{
-				Helpers::assertThat([resourcelist, i]() { return resourcelist[i] != NULL; }, "Something went horribly wrong!");
+				Olog::assertThat([resourcelist, i]() { return resourcelist[i] != NULL; }, "Something went horribly wrong!");
 				
 				if (findResourceReferencedByElement) 
 				{
@@ -276,7 +276,7 @@ void GUI_Looks::createStyleSet(string name)
 	}
 	else
 	{
-		Helpers::writeToLog("Multiple styles named " + name, L_WARNING);
+		Olog::warn("Multiple styles named %s", name);
 	}
 }
 

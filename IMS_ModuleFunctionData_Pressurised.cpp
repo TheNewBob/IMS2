@@ -45,7 +45,7 @@ bool IMS_ModuleFunctionData_Pressurised::validateData(string configfile)
 	bool validationok = true;
 	if (volume == -1)
 	{
-		Helpers::writeToLog("pressurised module MUST have volume declared in " + configfile, L_ERROR);
+		Olog::error("pressurised module MUST have volume declared in %s", configfile.data());
 		validationok = false;
 	}
 	return validationok;

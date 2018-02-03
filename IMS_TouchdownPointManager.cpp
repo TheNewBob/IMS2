@@ -104,7 +104,7 @@ void IMS_TouchdownPointManager::RemoveHullShape(SimpleShape *shape)
 	//remove the shape from the manager, but do not yet recreate the touchdown points.
 	//otherwise there's a good chance we'll recreate them several times per frame.
 	auto it = find(shapes.begin(), shapes.end(), shape);
-	Helpers::assertThat([it, this]() { return it != shapes.end(); }, "Attempting to remove a hullshape that was never added!");
+	Olog::assertThat([it, this]() { return it != shapes.end(); }, "Attempting to remove a hullshape that was never added!");
 
 	shapes.erase(it);
 	//add an event to the waiting queue to trigger recreation of touchdown points in poststep
@@ -117,7 +117,7 @@ UINT IMS_TouchdownPointManager::AddLandingTdPoint(VECTOR3 &pos, VECTOR3 &dir, do
 	if (landingpoint_id == UINT_MAX)
 	{
 		//I HOPE this is will always remain a joke!
-		Helpers::writeToLog(string("Congratiulations! Over the course of constructing your vessel, you have added landing gear 4,294,967,296 times. In one single session. YOU.HAVE.GOT.TO.BE.KIDDING!"), L_ERROR);
+		Olog::error("Congratiulations! Over the course of constructing your vessel, you have added landing gear 4,294,967,296 times. In one single session. YOU.HAVE.GOT.TO.BE.KIDDING!");
 		throw runtime_error("No effing way...");
 	}
 

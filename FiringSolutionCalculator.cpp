@@ -46,7 +46,7 @@ FiringSolutionCalculator::FiringSolutionCalculator(IMS2 *vessel, vector<THRUSTER
 	: vessel(vessel), thrusterhandles(rcsthrusters)
 {
 	//start the calculation in a new thread
-	Helpers::writeToLog(string("Starting Rcs calculation"), L_DEBUG);
+	Olog::trace("Starting Rcs calculation");
 	calculationthread = new thread(&FiringSolutionCalculator::calculateFiringSolutions, this);
 }
 

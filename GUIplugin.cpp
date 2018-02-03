@@ -86,7 +86,7 @@ bool GUIplugin::AddChildToParent(GUI_BaseElement *child, int parentId)
 	}
 	else
 	{
-		Helpers::assertThat([this, parentId]() { return elements.find(parentId) != elements.end(); }, "you're trying to add a child to a non-existant parent!");
+		Olog::assertThat([this, parentId]() { return elements.find(parentId) != elements.end(); }, "you're trying to add a child to a non-existant parent!");
 		elements[parentId]->AddChild(child);
 	}
 	return true;

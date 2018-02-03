@@ -122,7 +122,7 @@ void GUI_ScrollablePage::createScrollbar()
 
 GUI_ElementResource *GUI_ScrollablePage::createResources()
 {
-	Helpers::assertThat([this]() { return src == NULL; }, "GUI_ScrollablePage: Release old resource before creating it again!");
+	Olog::assertThat([this]() { return src == NULL; }, "GUI_ScrollablePage: Release old resource before creating it again!");
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);
 
 	Sketchpad *skp = oapiGetSketchpad(tgt);

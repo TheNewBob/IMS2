@@ -142,7 +142,7 @@ LAYOUTDATA GUI_Layout::GetLayoutDataForField(string field_id, int rowwidth, vect
 					catch (invalid_argument)
 					{
 						//no biggie, this is to be expected.
-						Helpers::writeToLog(string("field " + field_id + " not found in nested layout."), L_DEBUG);
+						Olog::trace("field %s not found in nested layout", field_id.data());
 					}
 				}
 			}

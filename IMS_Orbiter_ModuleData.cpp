@@ -107,7 +107,7 @@ void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 			catch (invalid_argument e)
 			{
 				//the shape definition in the config file is invalid!
-				Helpers::writeToLog(string(e.what()), L_WARNING);
+				Olog::warn((char *)e.what());
 			}
 		}
 		//read IMS attachment points
@@ -142,7 +142,7 @@ void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 			}
 			else
 			{
-				Helpers::writeToLog(_configFileName + ": invalid IMS attachmentpoint definition", L_ERROR);
+				Olog::error("%s: invalid IMS attachmentpoint definition", _configFileName.data());
 				return;
 			}
 		}
@@ -151,7 +151,7 @@ void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 	if (_attachmentPoints.size() == 0)
 	//there were no attachment points declared
 	{
-		Helpers::writeToLog(_configFileName + ": no IMS attachmentpoints declared", L_ERROR);
+		Olog::error("%s: no IMS attachmentpoints declared", _configFileName.data());
 		return;
 	}
 
@@ -177,7 +177,7 @@ HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 			//check if the line is valid for any kind of shape
 			if (tokens.size() < 4 || tokens.size() > 5)
 			{
-				Helpers::writeToLog(string("No shape type takes less than two parameters, or more than three!"), L_ERROR);
+				Olog::error("No shape type takes less than two parameters, or more than three!");
 				throw(invalid_argument("Failed to read shape block, unable to construct hullshape for module"));
 			}
 
@@ -222,7 +222,7 @@ HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 			else
 			{
 				//the shape type does not match any defined types
-				Helpers::writeToLog(string(tokens[1] + "is not a valid shape type!"), L_ERROR);
+				Olog::error("%s is not a valid shape type!", tokens[1].data());
 				throw(invalid_argument("Failed to read shape block, unable to construct hullshape for module"));
 			}
 		}
@@ -230,7 +230,7 @@ HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 		{
 			if (tokens.size() != 4)
 			{
-				Helpers::writeToLog(string("Shape offset must have format \"offset = x y z\"!"), L_ERROR);
+				Olog::error("Shape offset must have format \"offset = x y z\"!");
 				throw(invalid_argument("Failed to read shape block, unable to construct hullshape for module"));
 			}
 			try
@@ -248,7 +248,7 @@ HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 		{
 			if (tokens.size() != 4)
 			{
-				Helpers::writeToLog(string("Shape offset must have format \"scale = x y z\"!"), L_ERROR);
+				Olog::error("Shape scale must have format \"scale = x y z\"!");
 				throw(invalid_argument("Failed to read shape block, unable to construct hullshape for module"));
 			}
 			try
@@ -266,7 +266,7 @@ HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 		{
 			if (tokens.size() != 7)
 			{
-				Helpers::writeToLog(string("Shape offset must have format \"orientation = x y z x y z\" (dir rot)!"), L_ERROR);
+				Olog::error("Shape offset must have format \"orientation = x y z x y z\" (dir rot)!");
 				throw(invalid_argument("Failed to read shape block, unable to construct hullshape for module"));
 			}
 			try

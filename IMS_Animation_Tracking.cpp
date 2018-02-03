@@ -48,7 +48,7 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 		secondaryaxis = mul(moduleorientation, data->components[1].axis);
 	}
 
-	Helpers::writeToLog(string("created tracking animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
+	Olog::debug("created tracking animation %s %i", data->id.data(), orbiterid);
 
 	//if there's a secondary animation, create its component too
 	if (secondaryorbiterid != -1)
@@ -85,7 +85,7 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 
 void IMS_Animation_Tracking::RemoveAnimationFromVessel()
 {
-	Helpers::writeToLog(string("Deleting animation " + data->id + " " + Helpers::intToString(orbiterid)), L_DEBUG);
+	Olog::debug("Deleting animation %s %i", data->id.data(), orbiterid);
 
 	DisableAnimation();
 	//delete the animationcomponents in reverse order.
@@ -99,11 +99,9 @@ void IMS_Animation_Tracking::RemoveAnimationFromVessel()
 
 	//delete the secondary animation
 	bool result = vessel->DelAnimation(secondaryorbiterid);
-//	assert(result);
 	secondaryorbiterid = -1;
 	
 	result = vessel->DelAnimation(orbiterid);
-//	assert(result);
 	orbiterid = -1;
 	
 	enabled = false;
@@ -263,7 +261,7 @@ AnimationEvent_Base *IMS_Animation_Tracking::StartAnimation(StartAnimationEvent 
 	stopanimation = false;
 	if (e == NULL)
 	{
-		Helpers::writeToLog(string("tracking animation hooked to ordinary animation trigger!"), L_ERROR);
+		Olog::error("tracking animation hooked to ordinary animation trigger!");
 	}
 	else if (speed == 0.0 || e->GetTrackingTarget() != target)		//ignore the event if we're already tracking the same target
 	{
@@ -294,7 +292,7 @@ void IMS_Animation_Tracking::ModifyAnimation(ModifyAnimationEvent *modifyevent)
 	ModifyTrackingAnimationEvent *e = dynamic_cast<ModifyTrackingAnimationEvent*>(modifyevent);
 	if (e == NULL)
 	{
-		Helpers::writeToLog(string("tracking animation hooked to ordinary animation trigger!"), L_ERROR);
+		Olog::error("tracking animation hooked to ordinary animation trigger!");
 	}
 	else
 	{
@@ -523,7 +521,7 @@ void IMS_Animation_Tracking::InitStateFromScenario(vector<string> &line)
 	if (line.size() < 5 || line.size() > 6)
 	{
 		//invalid line. No need to terminate anything, the animation will just be reset to origin
-		Helpers::writeToLog(string("Invalid state for tracking animation in scenario!"), L_ERROR);
+		Olog::error("Invalid state for tracking animation in scenario!");
 	}
 	else
 	{
@@ -540,7 +538,7 @@ void IMS_Animation_Tracking::InitStateFromScenario(vector<string> &line)
 			//if the target is invalid, note it in the log and crash!
 			if (target == NULL)
 			{
-				Helpers::writeToLog(string("Invalid target for tracking animation in scenario! crashing to desktop gracefully"), L_ERROR);
+				Olog::error("Invalid target for tracking animation in scenario! crashing to desktop gracefully");
 				//do not handle this exception!
 				throw runtime_error("ERROR: Invalid target for tracking animation in scenario! crashing to desktop gracefully");
 				

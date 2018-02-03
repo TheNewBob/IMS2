@@ -11,7 +11,7 @@ public:
 	GUI_ElementResource(SURFHANDLE surface) : surface(surface) {};
 	
 	~GUI_ElementResource() { 
-		Helpers::assertThat([this]() { return references.size() == 0; }, "Destroying resource that is still referenced!");
+		Olog::assertThat([this]() { return references.size() == 0; }, "Destroying resource that is still referenced!");
 		oapiDestroySurface(surface); 
 	};
 
@@ -47,14 +47,14 @@ private:
 
 	void addReference(GUI_BaseElement *element)
 	{
-		Helpers::assertThat([this, element]() { return find(references.begin(), references.end(), element) == references.end(); }, "Attempting to register resource twice!");
+		Olog::assertThat([this, element]() { return find(references.begin(), references.end(), element) == references.end(); }, "Attempting to register resource twice!");
 		references.push_back(element);
 	}
 
 	void removeReference(GUI_BaseElement *element)
 	{
 		auto reference = find(references.begin(), references.end(), element);
-		Helpers::assertThat([this, reference]() { return reference != references.end(); }, "Attempting to remove reference that was never registered!");
+		Olog::assertThat([this, reference]() { return reference != references.end(); }, "Attempting to remove reference that was never registered!");
 		references.erase(reference);
 	}
 };

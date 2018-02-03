@@ -30,7 +30,7 @@ void StyleSet::AddStyle(GUI_ElementStyle *style, string styleid)
 	}
 	else
 	{
-		Helpers::writeToLog(string("multiple style definition!"), L_WARNING);
+		Olog::warn("duplicate style definition!");
 	}
 }
 
@@ -43,7 +43,7 @@ void StyleSet::AddFont(GUI_font *font, string fontid)
 	}
 	else
 	{
-		Helpers::writeToLog(string("multiple font definition!"), L_WARNING);
+		Olog::warn("duplicate font definition!");
 	}
 
 }

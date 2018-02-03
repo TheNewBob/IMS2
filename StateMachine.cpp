@@ -26,10 +26,10 @@ StateMachine::~StateMachine()
 
 void StateMachine::AddState(int id, string description, bool is_stable)
 {
-	assert(states.find(id) == states.end() &&
+	Olog::assertThat([this, id]() { return states.find(id) == states.end(); },
 		"You're trying to add the same state twice!");
 
-	assert(path.size() == 0 &&
+	Olog::assertThat([this]() { return path.size() == 0; },
 		"A current state has already been set for this state machine!");
 
 	StateNode *node = new StateNode(id, is_stable, description);
@@ -39,10 +39,10 @@ void StateMachine::AddState(int id, string description, bool is_stable)
 
 void StateMachine::SetInitialState(int id)
 {
-	assert(path.size() == 0 &&
+	Olog::assertThat([this]() { return path.size() == 0; },
 		"you can set the initial state only once!");
 
-	assert(states.find(id) != states.end() &&
+	Olog::assertThat([this, id]() { return states.find(id) != states.end(); },
 		"you are trying to set a non-existing state as initial state!");
 	
 	path.push_front(states[id]);
@@ -51,8 +51,8 @@ void StateMachine::SetInitialState(int id)
 
 void StateMachine::ConnectStateTo(int source_state_id, int target_state_id)
 {
-	assert(states.find(source_state_id) != states.end() &&
-		states.find(target_state_id) != states.end() &&
+	Olog::assertThat([this, source_state_id, target_state_id]() { return states.find(source_state_id) != states.end() &&
+		states.find(target_state_id) != states.end(); },
 		"one or both of the states you're trying to connect does not exist!");
 
 	states[source_state_id]->ConnectTo(states[target_state_id]);
@@ -61,7 +61,7 @@ void StateMachine::ConnectStateTo(int source_state_id, int target_state_id)
 
 string StateMachine::GetStateDescription()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state!");
 
 	return path.front()->GetDescription();
@@ -69,7 +69,7 @@ string StateMachine::GetStateDescription()
 
 int StateMachine::GetState()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state!");
 
 	return path.front()->GetId();
@@ -77,7 +77,7 @@ int StateMachine::GetState()
 
 int StateMachine::GetStateAndAdvance()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state!");
 
 	int currentstate = path.front()->GetId();
@@ -87,14 +87,14 @@ int StateMachine::GetStateAndAdvance()
 
 int StateMachine::GetTargetState()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state");
 	return path.back()->GetId();
 }
 
 bool StateMachine::IsStable()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not have current state (forgot to set initial state?");
 
 	return path.front()->IsStable();
@@ -105,7 +105,7 @@ bool StateMachine::IsStable()
 
 int StateMachine::AdvanceState()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state!");
 
 	if (path.size() > 1)
@@ -120,7 +120,7 @@ int StateMachine::AdvanceState()
 
 int StateMachine::AdvanceStateSecure()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state!");
 
 	//intermediate states are considered save to skip if they lead to another intermedite state,
@@ -138,17 +138,17 @@ int StateMachine::AdvanceStateSecure()
 
 void StateMachine::SetTargetState(int target_id)
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"State Machine does not know initial state!");
 
-	assert(states.find(target_id) != states.end() &&
+	Olog::assertThat([this, target_id]() { return states.find(target_id) != states.end(); },
 		"You're trying to target a state that doesn't exist!");
 
 	StateNode *targetstate = states[target_id];
 	
 	stack<int> pathids;					//used to store the path found by the algorithm
 	bool pathfindingsuccess = PathFinding::BreadthFirst(path.front(), targetstate, pathids);
-	assert(pathfindingsuccess);
+	Olog::assertThat([pathfindingsuccess]() { return pathfindingsuccess; }, "Could not calculate path between states!");
 
 	//now recreate the path from the ids returned in pathids
 	path.clear();
@@ -162,7 +162,7 @@ void StateMachine::SetTargetState(int target_id)
 
 bool StateMachine::StateChanged()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"No initial state defined!");
 	if (statechanged)
 	{
@@ -174,7 +174,7 @@ bool StateMachine::StateChanged()
 
 bool StateMachine::StateReached()
 {
-	assert(path.size() > 0 &&
+	Olog::assertThat([this]() { return path.size() > 0; },
 		"No initial state defined!");
 
 	if (path.size() == 1)

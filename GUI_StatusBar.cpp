@@ -100,8 +100,8 @@ bool GUI_StatusBar::ProcessMe(GUI_MOUSE_EVENT _event, int _x, int _y)
 
 GUI_ElementResource *GUI_StatusBar::createResources()
 {
-	Helpers::assertThat([this]() { return src == NULL; }, "GUI_StatusBar: Release old resource before creating it again!");
-	Helpers::assertThat([this]() { return height > font->GetfHeight(); }, "GUI_StatusBar: StatusBar must be taller than its font!");
+	Olog::assertThat([this]() { return src == NULL; }, "GUI_StatusBar: Release old resource before creating it again!");
+	Olog::assertThat([this]() { return height > font->GetfHeight(); }, "GUI_StatusBar: StatusBar must be taller than its font!");
 
 /*	if (statussrf != NULL)
 	{
@@ -136,7 +136,7 @@ bool GUI_StatusBar::updateMe()
 
 void GUI_StatusBar::SetFillStatusByFraction(double fraction)
 {
-	Helpers::assertThat([fraction]() { return fraction >= 0.0 && fraction <= 1.0; }, "Passed an invalid fraction!");
+	Olog::assertThat([fraction]() { return fraction >= 0.0 && fraction <= 1.0; }, "Passed an invalid fraction!");
 	cState()->SetFillStatus(fraction);
 }
 
@@ -144,7 +144,7 @@ void GUI_StatusBar::SetFillStatusByFraction(double fraction)
 void GUI_StatusBar::SetFillStatusByAmount(double amount)
 {
 	auto s = cState();
-	Helpers::assertThat([amount, s]() { return amount >= 0.0 && amount <= s->GetMaxCapacity(); }, "Passed an invalid amount (< 0 or > capacity)!");
+	Olog::assertThat([amount, s]() { return amount >= 0.0 && amount <= s->GetMaxCapacity(); }, "Passed an invalid amount (< 0 or > capacity)!");
 	s->SetFillStatus(amount / s->GetMaxCapacity());
 }
 

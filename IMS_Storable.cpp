@@ -23,7 +23,7 @@ IMS_Storable::IMS_Storable(double volume, CONSUMABLEDATA *contents, IMS_Location
 		initial_mass = capacity;
 	}
 
-	Helpers::assertThat([this, initial_mass]() { return initial_mass <= capacity; }, "trying to initialise with more mass than the storable can carry");
+	Olog::assertThat([this, initial_mass]() { return initial_mass <= capacity; }, "trying to initialise with more mass than the storable can carry");
 
 	mass = initial_mass;
 }
@@ -35,8 +35,7 @@ IMS_Storable::IMS_Storable(string serialized_storable, IMS_Location *location)
 	Helpers::Tokenize(serialized_storable, tokens, " :");
 	if (tokens.size() != 8)
 	{
-		Helpers::writeToLog(string("Invalid serialization string for storable in scenario: " + serialized_storable
-			+ ", aborting simulation!"), L_ERROR);
+		Olog::error("Invalid serialization string for storable in scenario: %s, aborting simulation!", serialized_storable.data());
 		throw invalid_argument("IMS failed to load from scenario, see log for details");
 	}
 	
@@ -68,7 +67,7 @@ double IMS_Storable::AddContent(double amount_kg, int consumable_id)
 	//verify consumable type
 	if (consumable_id != consumable->id)
 	{
-		Helpers::writeToLog(string("Attempt to add incompatible consumable to storable!"), L_WARNING);
+		Olog::warn("Attempt to add incompatible consumable to storable!");
 		return 0.0;
 	}
 
@@ -101,7 +100,7 @@ double IMS_Storable::RemoveContent(double amount_kg, int consumable_id)
 	//verify consumable type
 	if (consumable_id != consumable->id)
 	{
-		Helpers::writeToLog(string("Attempt to remove incompatible consumable from storable!"), L_WARNING);
+		Olog::warn("Attempt to remove incompatible consumable from storable!");
 		return 0.0;
 	}
 

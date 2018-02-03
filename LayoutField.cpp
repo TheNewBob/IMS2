@@ -46,7 +46,7 @@ void LayoutField::SetElementStyle(string style)
 
 void LayoutField::SetNestedLayout(GUI_Layout *layout)
 {
-	Helpers::assertThat([this]() { return nestedlayout == NULL; }, "You're not allowed to overwrite a nested layout!");
+	Olog::assertThat([this]() { return nestedlayout == NULL; }, "You're not allowed to overwrite a nested layout!");
 
 	nestedlayout = layout;
 }

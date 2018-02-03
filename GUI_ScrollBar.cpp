@@ -31,7 +31,7 @@ void GUI_ScrollBar::DrawMe(SURFHANDLE _tgt, int xoffset, int yoffset, RECT &draw
 
 GUI_ElementResource *GUI_ScrollBar::createResources()
 {
-	Helpers::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
+	Olog::assertThat([this]() { return src == NULL; }, "Release old resource before creating it again!");
 
 	//allocate own surface and fill with background color
 	SURFHANDLE tgt = GUI_Draw::createElementBackground(style, width, height);

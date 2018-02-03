@@ -86,7 +86,7 @@ CONSUMABLEDATA *IMS_ModuleDataManager::GetConsumableData(int id)
 	//GetConsumableData(string) is always called before this if the 
 	//program flow is correct. Either it didn't get called first,
 	//or it didn't find the file, or the file was empty (i.e. corrupted)
-	Helpers::assertThat([]() { return consumabledata.size() > 0; }, "No consumable data defined. Possible missing or corrupt file");
+	Olog::assertThat([]() { return consumabledata.size() > 0; }, "No consumable data defined. Possible missing or corrupt file");
 
 	return &consumabledata[id];
 }
@@ -149,18 +149,18 @@ void IMS_ModuleDataManager::loadConsumableData()
 					bool valid = true;
 					if (consumabledata.back().name == "")
 					{
-						Helpers::writeToLog(string("consumable has no name in Config/IMS2/consumables.cfg"), L_ERROR);
+						Olog::error("consumable has no name in Config/IMS2/consumables.cfg");
 						valid = false;
 					}
 					if (consumabledata.back().density == -1)
 					{
 						if (!valid)					//the gojuice doesn't even have a name
 						{
-							Helpers::writeToLog(string("consumable has no density in Config/IMS2/consumables.cfg"), L_ERROR);
+							Olog::error("consumable has no density in Config/IMS2/consumables.cfg");
 						}
 						else
 						{
-							Helpers::writeToLog(string("consumable has no density in " + consumabledata.back().name + " in Config/IMS2/consumables.cfg"), L_ERROR);
+							Olog::error("consumable has no density in %s  in Config/IMS2/consumables.cfg", consumabledata.back().name.data());
 						}
 					}
 
@@ -198,18 +198,18 @@ void IMS_ModuleDataManager::loadConsumableData()
 						{
 							if (consumabledata.back().name != "")
 							{
-								Helpers::writeToLog(string("unknown consumable type: " + tokens[1] + " in " +
-									consumabledata.back().name + " in Config/IMS2/consumables.cfg"), L_WARNING);
+								Olog::warn("unknown consumable type: %s in %s in Config/IMS2/consumables.cfg",
+									tokens[1].data(), consumabledata.back().name.data());
 							}
 							else
 							{
-								Helpers::writeToLog(string("unknown consumable type: " + tokens[1] + " in Config/IMS2/consumables.cfg"), L_WARNING);
+								Olog::warn("unknown consumable type: %s  in Config/IMS2/consumables.cfg", tokens[1].data());
 							}
 						}
 					}
 					else
 					{
-						Helpers::writeToLog(string("Unknown parameter \"" + tokens[0] + "\" in Config/IMS2/consumables.cfg"), L_WARNING);
+						Olog::warn("Unknown parameter '%s\' in Config/IMS2/consumables.cfg", tokens[0].data());
 					}
 				}
 			}
@@ -219,6 +219,6 @@ void IMS_ModuleDataManager::loadConsumableData()
 	}
 	else
 	{
-		Helpers::writeToLog(string("Could not find file Config/IMS2/consumables.cfg!"), L_WARNING);
+		Olog::warn("Could not find file Config/IMS2/consumables.cfg!");
 	}
 }

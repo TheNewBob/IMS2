@@ -38,7 +38,7 @@ EventHandler::~EventHandler()
 void EventHandler::ConnectToMyEventGenerator(EventSink *sink, EVENTPIPE pipe)
 {
 	map<EVENTPIPE, EventGenerator*>::iterator i = eventgenerators.find(pipe);
-	Helpers::assertThat([i, this]() { return i != eventgenerators.end(); }, "The generator forming the start of the event pipe is not located in this instance!");
+	Olog::assertThat([i, this]() { return i != eventgenerators.end(); }, "The generator forming the start of the event pipe is not located in this instance!");
 
 	i->second->RegisterEventSink(sink);
 }
@@ -50,7 +50,7 @@ void EventHandler::ConnectToMyEventGenerator(EventSink *sink, EVENTPIPE pipe)
 void EventHandler::ConnectToMyEventSink(EventSink *sink, EVENTPIPE pipe)
 {
 	map<EVENTPIPE, EventSink*>::iterator i = eventsinks.find(pipe);
-	Helpers::assertThat([i, this]() { return i != eventsinks.end(); }, "A sink being a part of this event pipe must be located in this instance!");
+	Olog::assertThat([i, this]() { return i != eventsinks.end(); }, "A sink being a part of this event pipe must be located in this instance!");
 
 	i->second->RegisterEventSink(sink);
 }
@@ -64,7 +64,7 @@ void EventHandler::ConnectToMyEventSink(EventSink *sink, EVENTPIPE pipe)
 void EventHandler::ConnectMySinkToYourNode(EventNode *node, EVENTPIPE pipe)
 {
 	map<EVENTPIPE, EventSink*>::iterator i = eventsinks.find(pipe);
-	Helpers::assertThat([i, this]() { return i != eventsinks.end(); }, "A sink that is part of the event pipe must be located in this instance!");
+	Olog::assertThat([i, this]() { return i != eventsinks.end(); }, "A sink that is part of the event pipe must be located in this instance!");
 
 	node->RegisterEventSink(i->second);
 }
@@ -78,8 +78,8 @@ void EventHandler::ConnectMySinkToYourNode(EventNode *node, EVENTPIPE pipe)
  */
 EventGenerator *EventHandler::createEventGenerator(EVENTPIPE pipe)
 {
-	Helpers::assertThat([this, pipe]() { return eventgenerators.find(pipe) == eventgenerators.end(); }, "You're trying to create two generators belonging to the same pipe!");
-	Helpers::assertThat([pipe]() { return pipe != WAITING_PIPE; }, "WAITING_PIPE is a reserved pipe and has its own generator!");
+	Olog::assertThat([this, pipe]() { return eventgenerators.find(pipe) == eventgenerators.end(); }, "You're trying to create two generators belonging to the same pipe!");
+	Olog::assertThat([pipe]() { return pipe != WAITING_PIPE; }, "WAITING_PIPE is a reserved pipe and has its own generator!");
 	EventGenerator *newgenerator = new EventGenerator(this, pipe);
 	eventgenerators.insert(make_pair(pipe, newgenerator));
 	return newgenerator;
@@ -90,7 +90,7 @@ EventGenerator *EventHandler::createEventGenerator(EVENTPIPE pipe)
  */
 EventSink *EventHandler::createEventSink(EVENTPIPE pipe)
 {
-	Helpers::assertThat([this, pipe]() { return eventsinks.find(pipe) == eventsinks.end(); }, "You're trying to create two sinks belonging to the same pipe!");
+	Olog::assertThat([this, pipe]() { return eventsinks.find(pipe) == eventsinks.end(); }, "You're trying to create two sinks belonging to the same pipe!");
 	EventSink *neweventsink = new EventSink(this);
 	eventsinks.insert(make_pair(pipe, neweventsink));
 	return neweventsink;
@@ -131,7 +131,7 @@ EventGenerator *EventHandler::getEventGenerator(EVENTPIPE pipe)
  */
 void EventHandler::addEvent(Event_Base *_event, EVENTPIPE _pipe)
 {
-	Helpers::assertThat([this]() { return eventgenerators.size() > 0; }, "Adding event to cue with no generators!");
+	Olog::assertThat([this]() { return eventgenerators.size() > 0; }, "Adding event to cue with no generators!");
 	//if the default pipe is not configured, the default pipe defaults to the first pipe in the map (that sentence has way too many defaults in it!!)
 	if (_pipe == DEFAULT_PIPE && defaultpipe == DEFAULT_PIPE)
 	{
@@ -154,7 +154,7 @@ void EventHandler::addEvent(Event_Base *_event, EVENTPIPE _pipe)
 	if (_pipe != DEFAULT_PIPE)
 	{
 		map<EVENTPIPE, EventGenerator*>::iterator i = eventgenerators.find(_pipe);
-		Helpers::assertThat([i, this]() { return i != eventgenerators.end(); }, "No event generator defined for pipe!");
+		Olog::assertThat([i, this]() { return i != eventgenerators.end(); }, "No event generator defined for pipe!");
 		i->second->GenerateEvent(_event);
 	}
 }
@@ -162,7 +162,7 @@ void EventHandler::addEvent(Event_Base *_event, EVENTPIPE _pipe)
 
 void EventHandler::relayEvent(Event_Base *_event, EVENTPIPE _pipe)
 {
-	Helpers::assertThat([this, _pipe]() { return eventgenerators.find(_pipe) != eventgenerators.end(); }, "you're trying to relay to an event pipe that has no generator in this eventhandler!");
+	Olog::assertThat([this, _pipe]() { return eventgenerators.find(_pipe) != eventgenerators.end(); }, "you're trying to relay to an event pipe that has no generator in this eventhandler!");
 
 	eventgenerators.find(_pipe)->second->RelayEvent(_event);
 }

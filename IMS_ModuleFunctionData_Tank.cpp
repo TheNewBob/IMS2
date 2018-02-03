@@ -66,7 +66,7 @@ bool IMS_ModuleFunctionData_Tank::validateData(string configfile)
 		}
 		else
 		{
-			Helpers::writeToLog(string("No valid consumable declared as propellant in " + configfile + "!"), L_ERROR);
+			Olog::error("No valid consumable declared as propellant in %s!", configfile.data());
 		}
 	}
 	//if either of the above conditions doesn't check out, the tank is unusable

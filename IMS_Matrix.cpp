@@ -137,7 +137,6 @@ const IMS_Matrix<T> IMS_Matrix<T>::makePositive() const
     //loop at least numRows times
     for (unsigned int i = 0; i < numRows(); ++i)
     {
-        Helpers::writeToLog(result.toString(), L_DEBUG);
         //find the most negative coefficent on the right
         T mostNegativeValue = 0;
         unsigned int mostNegativeRow = 0;
@@ -292,7 +291,6 @@ const IMS_Matrix<T> IMS_Matrix<T>::gaussianEliminate() const
                 continue;
             result.replacementRowOp(replaceRow, row, -1 * result(replaceRow, row) / result(row, row));
         }
-        Helpers::writeToLog(result.toString(), L_DEBUG);
     }
 
     //and now backward substitute
@@ -310,7 +308,6 @@ const IMS_Matrix<T> IMS_Matrix<T>::gaussianEliminate() const
         {
             result.replacementRowOp(replaceRow, row, result(replaceRow, row));
         }
-        Helpers::writeToLog(result.toString(), L_DEBUG);
     }
     return result;
 }

@@ -135,13 +135,13 @@ int GUI_ModuleFunction_Thruster::ProcessChildren(GUI_MOUSE_EVENT _event, int _x,
 
 void GUI_ModuleFunction_Thruster::SetThGroupRadioBtn(int setbtn)
 {
-	Helpers::assertThat([setbtn]() { return setbtn >= 0 && setbtn <= 4; }, "selected radio button must be >= 0, <= 4");
+	Olog::assertThat([setbtn]() { return setbtn >= 0 && setbtn <= 4; }, "selected radio button must be >= 0, <= 4");
 	groupbuttons[setbtn]->SetChecked();
 }
 
 void GUI_ModuleFunction_Thruster::SetThModeSelection(int setmode)
 {
-	Helpers::assertThat([setmode]() { return setmode >= 0 && setmode < modesbox->NumEntries(); }, "The set mode is hiogher than the number of modes available!");
+	Olog::assertThat([setmode, this]() { return setmode >= 0 && setmode < modesbox->NumEntries(); }, "The set thruster mode is hiogher than the number of modes available!");
 	modesbox->SetSelected(setmode);
 }
 

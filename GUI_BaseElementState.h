@@ -32,7 +32,7 @@ public:
 	 */
 	void ShareWith(GUI_BaseElement *sharer)
 	{
-		Helpers::assertThat([this, sharer]() { return find(sharers.begin(), sharers.end(), sharer) == sharers.end(); }, "GUI element attempting to register same sharer twice!");
+		Olog::assertThat([this, sharer]() { return find(sharers.begin(), sharers.end(), sharer) == sharers.end(); }, "GUI element attempting to register same sharer twice!");
 		sharers.push_back(sharer);
 		sharer->setState(this);
 	}
@@ -45,7 +45,7 @@ public:
 	void CancelSharingWith(GUI_BaseElement *sharer)
 	{
 		auto sharer_it = find(sharers.begin(), sharers.end(), sharer);
-		Helpers::assertThat([sharer_it, this]() { return sharer_it != sharers.end(); }, "GUI element attempting to cancel sharing state without actually sharing it!");
+		Olog::assertThat([sharer_it, this]() { return sharer_it != sharers.end(); }, "GUI element attempting to cancel sharing state without actually sharing it!");
 		sharers.erase(sharer_it);
 	}
 
