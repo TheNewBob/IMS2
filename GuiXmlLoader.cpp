@@ -135,6 +135,7 @@ void GuiXmlLoader::loadStyles(tinyxml2::XMLDocument *file, string styleset)
 		loadStyle(currentstyle, styleset);
 		currentstyle = currentstyle->NextSiblingElement("style");
 	}
+	Olog::trace("finished loading styles for styleset %s", styleset.data());
 }
 
 void GuiXmlLoader::loadStyle(tinyxml2::XMLElement *xmlstyle, string styleset)
@@ -146,6 +147,7 @@ void GuiXmlLoader::loadStyle(tinyxml2::XMLElement *xmlstyle, string styleset)
 		throw runtime_error("Style has no id!");
 	}
 	string currentid = attribute->GetText();
+	Olog::trace("Loading styleset %s", currentid.data());
 
 	// next, check if the style inherits another style
 	attribute = xmlstyle->FirstChildElement("inherit");
@@ -175,6 +177,7 @@ void GuiXmlLoader::loadStyle(tinyxml2::XMLElement *xmlstyle, string styleset)
 void GuiXmlLoader::loadStyleAttribute(tinyxml2::XMLElement *xmlattribute, GUI_ElementStyle *style, string styleset)
 {
 	string attr = xmlattribute->Name();
+	Olog::trace("Reading attribute %s for style %s from file", attr.data(), style->GetId().data());
 	STYLE_PROPERTIES prop = unknown;
 
 	//fonts, insets and childstyle require special assignment, the rest can be set by simple text properties.
@@ -223,6 +226,7 @@ void GuiXmlLoader::loadStyleAttribute(tinyxml2::XMLElement *xmlattribute, GUI_El
 
 void GuiXmlLoader::loadFonts(tinyxml2::XMLDocument *file, string styleset)
 {
+	Olog::trace("Loading fonts for styleset %s", styleset.data());
 	XML::XMLElement *currentfont = file->FirstChildElement("font");
 
 	if (currentfont == NULL)
@@ -230,12 +234,13 @@ void GuiXmlLoader::loadFonts(tinyxml2::XMLDocument *file, string styleset)
 		throw new runtime_error("XML Styleset has no fonts!");
 	}
 
-	//iterate over all styles in the file
+	//iterate over all fonts in the file
 	while (currentfont != NULL)
 	{
 		loadFont(currentfont, styleset);
 		currentfont = currentfont->NextSiblingElement("font");
 	}
+	Olog::trace("Finished loading fonts for styleset %s", styleset.data());
 }
 
 void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
@@ -256,6 +261,7 @@ void GuiXmlLoader::loadFont(XML::XMLElement *xmlfont, string styleset)
 
 	if (font_id == NULL) throw runtime_error("Font has no <id>!");
 	id = font_id->GetText();
+	Olog::trace("loading font %s for styleset %s", id.data(), styleset.data());
 
 	//lots of boring validation and defaulting
 	if (font_face == NULL)

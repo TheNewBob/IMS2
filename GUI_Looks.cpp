@@ -11,15 +11,18 @@ string GUI_Looks::defaultStyle = "default";
 GUI_font *GUI_Looks::MakeFont(int height, string face, bool proportional, string id, GUI_COLOR color, GUI_COLOR bgcolor,
 	GUI_COLOR hilightcolor, GUI_COLOR hilightbg, FontStyle style, string styleset)
 {
+	Olog::trace("Creating font %s for styleset %s", id.data(), styleset.data());
 	GUI_font *newFont = new GUI_font(height, face, proportional, id, color, bgcolor, hilightcolor, hilightbg, style);
 
 	//check if the style actually exists, create if not
 	if (stylesets.find(styleset) == stylesets.end())
 	{
+		Olog::trace("Creating styleset %s implicitly", styleset.data());
 		createStyleSet(styleset);
 	}
 	
 	stylesets[styleset]->AddFont(newFont, id);
+	Olog::trace("font %s created for styleset %s", id.data(), styleset.data());
 	return newFont;
 }
 
@@ -70,14 +73,15 @@ vector<string> GUI_Looks::GetAvailableStyleSets()
 
 GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, string styleset)
 {
+	Olog::trace("instantiating style %s, inheriting %s, in styleset %s", styleId.data(), inherit_from.data(), styleset.data());
 	GUI_ElementStyle *parentstyle = NULL;
 	GUI_ElementStyle *newstyle;
 	//check if the styleset exists
 	map<string, StyleSet*>::iterator i = stylesets.find(styleset);
 	
-	//the styleset doesn't exist. Create it, but throw a warning
 	if (i == stylesets.end())
 	{
+		Olog::trace("Creating styleset %s implicitly", styleset.data());
 		createStyleSet(styleset);
 	}
 	
@@ -102,6 +106,7 @@ GUI_ElementStyle *GUI_Looks::CreateStyle(string styleId, string inherit_from, st
 	}
 
 	stylesets[styleset]->AddStyle(newstyle, styleId);
+	Olog::trace("Style %s created", styleId.data());
 	return newstyle;
 }
 

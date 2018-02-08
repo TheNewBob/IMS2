@@ -28,15 +28,14 @@ SURFHANDLE IMS2::engPanelBG = NULL;
 
 DLLCLBK void InitModule (HINSTANCE hModule)
 {
-
+	Olog::loglevel = OLOG_TRACE;
 	Olog::assertlevel = OLOG_DEBUG;
 	Olog::projectName = "IMS2";
 	
-#ifdef _DEBUG
-	Olog::loglevel = OLOG_DEBUG;
+/*#ifdef _DEBUG
 #else 
 	Olog::loglevel = OLOG_DEBUG;
-#endif
+#endif*/
 	GuiXmlLoader::SetProjectFolder("IMS2");
 	try {
 		GuiXmlLoader::LoadStyleSets();
@@ -51,8 +50,6 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 // --------------------------------------------------------------
 DLLCLBK void ExitModule (HINSTANCE hModule)
 {
-	//oapiDestroySurface(IMS2::pilotPanelBG);
-	//oapiDestroySurface(IMS2::engPanelBG);
 	
 }
 
