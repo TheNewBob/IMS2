@@ -63,7 +63,7 @@ void GUI_font::createFont(Font *font)
 	//if the font has a highlighted version, we need twice the size, because we have to print it twice
 	if (hasHighlightFont) height += fheight;
 	
-	SURFHANDLE tgt = oapiCreateSurfaceEx(width, height, OAPISURFACE_SKETCHPAD);
+	SURFHANDLE tgt = oapiCreateSurfaceEx(width, height, OAPISURFACE_SKETCHPAD && OAPISURFACE_RENDERTARGET && OAPISURFACE_NOMIPMAPS && OAPISURFACE_UNCOMPRESS);
 	
 	//fill the font key color
 	DWORD surfkeycolor = oapiGetColour(keycolor.r, keycolor.g, keycolor.b);

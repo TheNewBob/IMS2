@@ -16,7 +16,7 @@ GUI_Draw::~GUI_Draw()
 SURFHANDLE GUI_Draw::createElementBackground(GUI_ElementStyle *style, int width, int height)
 {
 	Olog::trace("Allocating new UI-element surface, %ix%i", width, height);
-	SURFHANDLE srf = oapiCreateSurfaceEx(width, height, OAPISURFACE_SKETCHPAD);
+	SURFHANDLE srf = oapiCreateSurfaceEx(width, height, OAPISURFACE_SKETCHPAD && OAPISURFACE_RENDERTARGET && OAPISURFACE_NOMIPMAPS && OAPISURFACE_UNCOMPRESS);
 	
 	//Reminder: DWORD color formatting for oapiColourFill is NOT the same as for Sketchpad operations.
 	//don't use getDWORDColor here, and don't use oapiGetColor when working with Sketchpad!
