@@ -147,6 +147,9 @@
     <Filter Include="GUI\IMS2 Menus\MainDisplay menus">
       <UniqueIdentifier>{c61c4bfc-e183-401e-9894-3e5e65274057}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Model">
+      <UniqueIdentifier>{2ce3a4d2-7734-42c6-ab10-4e186846ee5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -493,6 +496,12 @@
     </ClCompile>
     <ClCompile Include="IMS_EngineeringPanel.cpp">
       <Filter>GUI\IMS2 Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Component_Base.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Component_Model_Base.cpp">
+      <Filter>Components\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -984,6 +993,12 @@
     </ClInclude>
     <ClInclude Include="GUI_ElementResource.h">
       <Filter>GUI\GUI Looks</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Component_Base.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Component_Model_Base.h">
+      <Filter>Components\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

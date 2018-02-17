@@ -200,6 +200,8 @@
     <ClCompile Include="IMS_AutoPilotOperation_Killrot.cpp" />
     <ClCompile Include="IMS_Autopilot_Killrot.cpp" />
     <ClCompile Include="IMS_CoGmanager.cpp" />
+    <ClCompile Include="IMS_Component_Base.cpp" />
+    <ClCompile Include="IMS_Component_Model_Base.cpp" />
     <ClCompile Include="IMS_EngineeringPanel.cpp" />
     <ClCompile Include="IMS_Location.cpp" />
     <ClCompile Include="IMS_Manager_Base.cpp" />
@@ -335,6 +337,8 @@
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
     <ClInclude Include="IMS_Autopilot_Base.h" />
     <ClInclude Include="IMS_Autopilot_Killrot.h" />
+    <ClInclude Include="IMS_Component_Base.h" />
+    <ClInclude Include="IMS_Component_Model_Base.h" />
     <ClInclude Include="IMS_EngineeringPanel.h" />
     <ClInclude Include="IMS_ModuleFunctionData_Gear.h" />
     <ClInclude Include="IMS_ModuleFunction_Gear.h" />
