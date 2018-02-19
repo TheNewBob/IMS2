@@ -4,6 +4,7 @@
 #include "IMS.h"
 #include "IMS_Module.h"
 #include "IMS_Component_Model_Base.h"
+#include "IMS_Component_Model_Base.h"
 #include "IMS_Component_Base.h"
 
 
@@ -31,17 +32,7 @@ IMS_Component_Base::IMS_Component_Base(IMS_Component_Model_Base *data, IMS_Modul
 
 IMS_Component_Base::~IMS_Component_Base()
 {
-}
-
-
-void IMS_Component_Base::LoadState(FILEHANDLE scn)
-{
-	char *line;
-	//read line by line
-	while (oapiReadScenario_nextline(scn, line) && _strnicmp(line, "END_COMPONENT", 13))
-	{
-		processScenarioLine(string(line));
-	}
+	//disconnect
 }
 
 void IMS_Component_Base::PreStateUpdate()

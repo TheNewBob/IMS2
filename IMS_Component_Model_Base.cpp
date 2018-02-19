@@ -40,11 +40,6 @@ bool IMS_Component_Model_Base::LoadFromFile(string configfile, IMSFILE cfg)
 	return true;
 }
 
-double IMS_Component_Model_Base::GetVolume()
-{
-	return volume;
-}
-
 bool IMS_Component_Model_Base::processConfigLine(vector<string> &tokens)
 {
 	if (tokens[0].compare("name") == 0)
@@ -65,6 +60,31 @@ bool IMS_Component_Model_Base::processConfigLine(vector<string> &tokens)
 		volume = Helpers::stringToDouble(tokens[1]);
 		return true;
 	}
+	else if (tokens[0].compare("emptymass") == 0)
+	{
+		emptymass = Helpers::stringToDouble(tokens[1]);
+	}
 
 	return false;
+}
+
+bool IMS_Component_Model_Base::Validate(string configname)
+{
+	bool valid = true;
+	if (name.compare("") == 0)
+	{
+		Olog::warn("No name defined in component %s", configname.data());
+		valid = false;
+	}
+	if (emptymass < 0) 
+	{
+		Olog::warn("No valid EmptyMass parameter in component %s", configname.data());
+		valid = false;
+	}
+	if (volume < 0)
+	{
+		Olog::warn("No valid volume defined in component %s", configname.data());
+		valid = false;
+	}
+	return valid;
 }

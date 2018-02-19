@@ -56,7 +56,7 @@ class EventHandler
 
 public:
 	EventHandler();
-	~EventHandler();
+	virtual ~EventHandler();
 
 	/**
 	 * \brief connects an EventSink to the EventGenerator of this in the appropriate pipe.

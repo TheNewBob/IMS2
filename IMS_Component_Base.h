@@ -3,7 +3,7 @@ class IMS_Component_Base : public EventHandler
 {
 public:
 	IMS_Component_Base(IMS_Component_Model_Base *data, IMS_Module *module);
-	~IMS_Component_Base();
+	virtual ~IMS_Component_Base();
 
 	/**
 	* \brief called on SimStart, after LoadState() but before AddComponentToVessel()
@@ -11,24 +11,25 @@ public:
 	* @see processScenarioLine()
 	* @see AddFunctionToVessel()
 	*/
-	virtual void PostLoad() = 0;
+	virtual void PostLoad() {};
 
 	/**
-	* \brief overload to save component specific stuff to scenario.
+	* \brief overload to serialise component state.
 	* @param scn the FILEHANDLE to the opened scenario file
 	* \note The BEGIN_COMPONENT and END_COMPONENT tags are
 	*	written by the containing module function, so you really just have to write the data.
 	*/
-	virtual void SaveState(FILEHANDLE scn) = 0;
+	virtual string Serialize() = 0;
 
 	/**
-	* \brief Sends every scenario line concerning this component to processScenarioLine().
+	* \brief Restores component state from serialised string.
+	* The serialized string must not contain whitespace!
 	* @param scn the FILEHANDLE to the opened scenario file
 	* \note Overload processScenarioLine() to implement loading from scenario!
 	* @see processScenarioLine()
 	* \returns
 	*/
-	void LoadState(FILEHANDLE scn);
+	virtual void Deserialize(string data) = 0;
 
 	/**
 	* \brief Everything that needs to be done when the component is removed from a vessel should be implemented in an overload of this function.

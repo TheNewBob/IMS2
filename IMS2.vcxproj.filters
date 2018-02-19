@@ -147,8 +147,11 @@
     <Filter Include="GUI\IMS2 Menus\MainDisplay menus">
       <UniqueIdentifier>{c61c4bfc-e183-401e-9894-3e5e65274057}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Model">
-      <UniqueIdentifier>{2ce3a4d2-7734-42c6-ab10-4e186846ee5d}</UniqueIdentifier>
+    <Filter Include="Components\Base">
+      <UniqueIdentifier>{8d6575ed-a4a2-4404-8ccf-8d4a7bfb966e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Lighting">
+      <UniqueIdentifier>{ff5b64cb-e9d3-4f7d-89ca-085ed04ad515}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -497,11 +500,17 @@
     <ClCompile Include="IMS_EngineeringPanel.cpp">
       <Filter>GUI\IMS2 Menus</Filter>
     </ClCompile>
+    <ClCompile Include="IMS_Component_Model_Lighting.cpp">
+      <Filter>Components\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_Component_Lighting.cpp">
+      <Filter>Components\Lighting</Filter>
+    </ClCompile>
     <ClCompile Include="IMS_Component_Base.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Base</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Component_Model_Base.cpp">
-      <Filter>Components\Model</Filter>
+      <Filter>Components\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -994,11 +1003,17 @@
     <ClInclude Include="GUI_ElementResource.h">
       <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
+    <ClInclude Include="IMS_Component_Model_Lighting.h">
+      <Filter>Components\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Component_Lighting.h">
+      <Filter>Components\Lighting</Filter>
+    </ClInclude>
     <ClInclude Include="IMS_Component_Base.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Base</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Component_Model_Base.h">
-      <Filter>Components\Model</Filter>
+      <Filter>Components\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
