@@ -17,6 +17,8 @@ enum CONSUMABLESTATE
 	SOLID
 };
 
+class IMS_Component_Model_Base;
+
 /**
 * \brief struct used to store static properties of propellant types
 */
@@ -74,14 +76,26 @@ public:
 	*/
 	static vector<CONSUMABLEDATA*> GetCompatibleConsumables(int reference_id);
 
+	/**
+	 * \return The component model for a component of the passed type
+	 */
+	static IMS_Component_Model_Base *GetComponentModel(string type);
+
+
 
 private:
 	/**
 	 * \brief Loads the propellantdata from config/IMS2/propellanttypes.cfg
 	 */
-	static void loadConsumableData();							
+	static void loadConsumableData();
+
+	/**
+	* \brief Loads all component files in Config/IMS2/components and subfolders.
+	*/
+	static void loadComponentData(string path);
 
 	static vector<CONSUMABLEDATA> consumabledata;				//!< stores all propellant data objects
 	static map<string, STATICMODULEDATA> _staticModuleData;
+	static map<string, IMS_Component_Model_Base*> components;	//!< stores all component models
 };
 

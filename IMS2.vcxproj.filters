@@ -1015,5 +1015,8 @@
     <ClInclude Include="IMS_Component_Model_Base.h">
       <Filter>Components\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

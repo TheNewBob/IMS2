@@ -275,6 +275,7 @@
     <ClInclude Include="Calc.h" />
     <ClInclude Include="CoGHasChangedEvent.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Components.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="EventNode.h" />

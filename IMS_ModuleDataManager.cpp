@@ -2,10 +2,12 @@
 #include "IMS_Orbiter_ModuleData.h"
 #include "IMS_General_ModuleData.h"
 #include "IMS_ModuleFunctionData_Base.h"
+#include "Components.h"
 #include "IMS_ModuleDataManager.h"
 
 std::map<string, STATICMODULEDATA> IMS_ModuleDataManager::_staticModuleData;
 std::vector<CONSUMABLEDATA> IMS_ModuleDataManager::consumabledata;
+std::map<string, IMS_Component_Model_Base*> IMS_ModuleDataManager::components;
 
 
 IMS_ModuleDataManager::IMS_ModuleDataManager()
@@ -104,6 +106,22 @@ vector<CONSUMABLEDATA*> IMS_ModuleDataManager::GetCompatibleConsumables(int refe
 		}
 	}
 	return compatiblelist;
+}
+
+IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string type)
+{
+	if (components.size() == 0)
+	{
+		Olog::debug("Loading component models");
+		loadComponentData("config/IMS2/components/");
+	}
+
+	auto model = components[type];
+	if (model == NULL)
+	{
+		Olog::error("Attempting to load component model of type %s, but no such component model exists!", type.data());
+	}
+	return model;
 }
 
 void IMS_ModuleDataManager::loadConsumableData()
@@ -221,4 +239,45 @@ void IMS_ModuleDataManager::loadConsumableData()
 	{
 		Olog::warn("Could not find file Config/IMS2/consumables.cfg!");
 	}
+}
+
+void IMS_ModuleDataManager::loadComponentData(string path)
+{
+	Olog::trace("Loading components from %s", path.data());
+	// walk through subfolders and load the stylesets there.
+	string searchstr = path + "*.*";
+	
+	WIN32_FIND_DATA	searchresult;
+	HANDLE hfind = NULL;
+
+	hfind = FindFirstFile(searchstr.data(), &searchresult);
+	if (hfind == INVALID_HANDLE_VALUE)
+	{
+		Olog::warn("No files or subfolders found in %s", path.data());
+	}
+	else do
+	{
+		if (searchresult.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			string subfolder = searchresult.cFileName;
+			if (subfolder != "." && subfolder != "..")
+			{
+				loadComponentData(path + subfolder + "/");
+			}
+		}
+		else 
+		{
+			string filename = searchresult.cFileName;
+			transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
+			if (filename.compare(filename.length() - 4, filename.length(), ".cmp") == 0)
+			{
+				Olog::trace("Loading component file %s%s", path.data(), filename.data());
+			}
+			else
+			{
+				Olog::warn("File %s%s is not a component file!", path.data(), filename.data());
+			}
+		}
+	} while (FindNextFile(hfind, &searchresult));
+	FindClose(hfind);
 }
