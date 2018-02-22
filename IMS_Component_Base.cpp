@@ -32,10 +32,36 @@ IMS_Component_Base::IMS_Component_Base(IMS_Component_Model_Base *data, IMS_Modul
 
 IMS_Component_Base::~IMS_Component_Base()
 {
-	//disconnect
+	//TODO: disconnect event handlers? Not actually sure.
 }
 
 void IMS_Component_Base::PreStateUpdate()
 {
 	processWaitingQueue();
 }
+
+string IMS_Component_Base::Serialize()
+{
+	auto keysAndValues = getDynamicData();
+	string strData = data->GetType() + "{";
+	for (auto i = keysAndValues.begin(); i != keysAndValues.end(); ++i)
+	{
+		strData += (i->first + ":" + i->second + ";");
+	}
+	return strData + "}";
+}
+
+void IMS_Component_Base::Deserialize(string data)
+{
+	vector<string> items;
+	Helpers::Tokenize(data, items, ";");
+	map<string, string> keysAndValues;
+	for (auto i = items.begin(); i != items.end(); ++i)
+	{
+		vector<string> keyValue;
+		Helpers::Tokenize((*i), keyValue, ":");
+		keysAndValues[keyValue[0]] = keyValue[1];
+	}
+	setDynamicData(keysAndValues);
+}
+

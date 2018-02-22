@@ -12,6 +12,6 @@ public:
 	virtual double GetMass();
 	virtual void PreStep(double simdt, IMS2 *vessel);
 
-
+	virtual bool ProcessEvent(Event_Base *e);
 };
 

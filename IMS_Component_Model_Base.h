@@ -2,7 +2,7 @@
 class IMS_Component_Model_Base
 {
 public:
-	IMS_Component_Model_Base();
+	IMS_Component_Model_Base(string type);
 	~IMS_Component_Model_Base();
 
 	virtual bool LoadFromFile(string configfile, IMSFILE cfg);
@@ -10,11 +10,13 @@ public:
 
 	double GetVolume() { return volume; };
 	double GetEmptyMass() { return emptymass; };
+	string GetType() { return type; };
 
 protected:
 	double volume = -1; 
 	double emptymass = -1;
 	string name = "";
+	string type = "";
 	
 	bool processConfigLine(vector<string> &tokens);
 	

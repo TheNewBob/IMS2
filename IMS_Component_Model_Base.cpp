@@ -2,7 +2,7 @@
 #include "IMS_Component_Model_Base.h"
 
 
-IMS_Component_Model_Base::IMS_Component_Model_Base()
+IMS_Component_Model_Base::IMS_Component_Model_Base(string type) : type(type)
 {
 }
 

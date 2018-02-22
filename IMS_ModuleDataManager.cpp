@@ -120,6 +120,7 @@ IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string type)
 	if (model == NULL)
 	{
 		Olog::error("Attempting to load component model of type %s, but no such component model exists!", type.data());
+		throw runtime_error("fatal error while loading component");
 	}
 	return model;
 }

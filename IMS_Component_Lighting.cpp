@@ -38,3 +38,8 @@ void IMS_Component_Lighting::PreStep(double simdt, IMS2 *vessel)
 {
 
 }
+
+bool IMS_Component_Lighting::ProcessEvent(Event_Base *e)
+{
+	return false;
+}

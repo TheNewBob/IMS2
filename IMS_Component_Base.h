@@ -14,22 +14,15 @@ public:
 	virtual void PostLoad() {};
 
 	/**
-	* \brief overload to serialise component state.
-	* @param scn the FILEHANDLE to the opened scenario file
-	* \note The BEGIN_COMPONENT and END_COMPONENT tags are
-	*	written by the containing module function, so you really just have to write the data.
+	* \return A string serialization of the dynamic data of the component.
 	*/
-	virtual string Serialize() = 0;
+	string Serialize();
 
 	/**
-	* \brief Restores component state from serialised string.
-	* The serialized string must not contain whitespace!
-	* @param scn the FILEHANDLE to the opened scenario file
-	* \note Overload processScenarioLine() to implement loading from scenario!
-	* @see processScenarioLine()
-	* \returns
+	* \brief Restores component state from serialized string.
+	* \param data A string in the following format: <key>:<value>;<key>:<value>;...
 	*/
-	virtual void Deserialize(string data) = 0;
+	void Deserialize(string data);
 
 	/**
 	* \brief Everything that needs to be done when the component is removed from a vessel should be implemented in an overload of this function.
@@ -86,10 +79,15 @@ protected:
 	IMS_Component_Model_Base *data;
 
 	/**
-	* \brief receives all scenario lines concerning this component, one after the other.
-	* @param line A string object containing the line read from the scenario
-	* use this function to implement state initialisation when your component is loaded from scenario
-	*/
-	virtual bool processScenarioLine(string line) = 0;
+	 * \brief override to return the keys and values of your components dynamic data for storing in scenario files.
+	 */
+	virtual map<string, string> &getDynamicData() = 0;
+
+	/**
+	 * \brief override to initialise dynamic data from scenarios.
+	 * \param keysAndValues The keys and associated values that were loaded from the scenario.
+	 */
+	virtual void setDynamicData(map<string, string> &keysAndValues) = 0;
+
 };
 

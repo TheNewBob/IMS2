@@ -4,6 +4,7 @@
 
 
 IMS_Component_Model_Lighting::IMS_Component_Model_Lighting()
+	: IMS_Component_Model_Base("")
 {
 }
 

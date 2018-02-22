@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Calc.cpp" />
+    <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventNode.cpp" />
@@ -275,6 +276,8 @@
     <ClInclude Include="Calc.h" />
     <ClInclude Include="CoGHasChangedEvent.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="ComponentFactory.h" />
+    <ClInclude Include="ComponentIdentifiers.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
