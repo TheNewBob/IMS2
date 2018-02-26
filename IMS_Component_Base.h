@@ -1,8 +1,8 @@
 #pragma once
-class IMS_Component_Base : public EventHandler
+class IMS_Component_Base : public IMS_Movable
 {
 public:
-	IMS_Component_Base(IMS_Component_Model_Base *data, IMS_Module *module);
+	IMS_Component_Base(IMS_Component_Model_Base *data, IMS_Location *location);
 	virtual ~IMS_Component_Base();
 
 	/**
@@ -25,21 +25,6 @@ public:
 	void Deserialize(string data);
 
 	/**
-	* \brief Everything that needs to be done when the component is removed from a vessel should be implemented in an overload of this function.
-	* @param vessel The vessel the module is to be added to
-	* \note This function gets called every time the module is added to a new vessel, which happens on startup
-	*	(whether loaded from scenario or not), at integration and at splitting.
-	*/
-//	virtual void AddFunctionToVessel(IMS2 *vessel) = 0;
-
-	/**
-	* \brief Everything that needs to be done when the module is removed from a vessel should be implemented in an overload of this function.
-	* @param vessel The vessel the module is being removed from
-	* \note This function only gets called on splitting, one frame before AddFunctionToVessel() is called to add it to the new vessel
-	*/
-//	virtual void RemoveFunctionFromVessel(IMS2 *vessel) = 0;
-
-	/**
 	* \brief Returns the current component mass
 	*/
 	virtual double GetMass() = 0;
@@ -48,24 +33,6 @@ public:
 	 * \return The volume the component takes up, in cubic meters.
 	 */
 	double GetVolume();
-
-	/**
-	* \brief gets called at every clbkPreStep of the containing vessel.
-	* @param simdt elapsed time since the last frame
-	* @param vessel the vessel this module function belongs to
-	*/
-	virtual void PreStep(double simdt, IMS2 *vessel) = 0;
-
-	/**
-	* \brief is called at the end of every clbkPreStep on the vessel.
-	* This essentially serves the purpose to process the loopback pipe
-	* of the eventhandler. It is executed after everybody has done its thing
-	* and sent all its messages, and is used to finalise the vessel state
-	* before Orbiter applies the current timestep. It should NOT be overriden by inheriting classes.
-	* If you push events to the waiting queue, this is the time they will fire,
-	* and you get to finalise your states by reacting to them.
-	*/
-	void PreStateUpdate();
 
 	/**
 	* \brief returns the GUI of this module function, or NULL if this module function doesn't have a user interface.
@@ -81,7 +48,7 @@ protected:
 	/**
 	 * \brief override to return the keys and values of your components dynamic data for storing in scenario files.
 	 */
-	virtual map<string, string> &getDynamicData() = 0;
+	virtual void getDynamicData(map<string, string> &keysAndValues) = 0;
 
 	/**
 	 * \brief override to initialise dynamic data from scenarios.

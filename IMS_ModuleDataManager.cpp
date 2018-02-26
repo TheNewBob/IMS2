@@ -4,6 +4,7 @@
 #include "IMS_ModuleFunctionData_Base.h"
 #include "Components.h"
 #include "IMS_ModuleDataManager.h"
+#include "ComponentFactory.h"
 
 std::map<string, STATICMODULEDATA> IMS_ModuleDataManager::_staticModuleData;
 std::vector<CONSUMABLEDATA> IMS_ModuleDataManager::consumabledata;
@@ -272,7 +273,48 @@ void IMS_ModuleDataManager::loadComponentData(string path)
 			transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
 			if (filename.compare(filename.length() - 4, filename.length(), ".cmp") == 0)
 			{
-				Olog::trace("Loading component file %s%s", path.data(), filename.data());
+				string fullpath = path + filename;
+				Olog::trace("Loading component file %s", fullpath.data());
+				auto cmp = IMSFILE(oapiOpenFile(fullpath.data(), FILE_IN));
+				char typechars[128];
+				bool typeDefined = oapiReadItem_string(cmp.file, "Type", typechars);
+				string type = typechars;
+				transform(type.begin(), type.end(), type.begin(), ::tolower);
+				if (typeDefined)
+				{
+					auto model = ComponentFactory::CreateModel(type);
+					if (model != NULL)
+					{
+						model->LoadFromFile(fullpath.data(), cmp);
+						string componentName = model->GetName();
+						transform(componentName.begin(), componentName.end(), componentName.begin(), ::tolower);
+						auto i = components.find(componentName);
+						if (i == components.end())
+						{
+							if (model->Validate(fullpath))
+							{
+								components[componentName] = model;
+							}
+							else
+							{
+								Olog::warn("%s contains errors, component not loaded", fullpath.data());
+							}
+						}
+						else
+						{
+							Olog::warn("Duplicate component name: %s, not loading file %s", model->GetName().data(), fullpath.data());
+							delete model;
+						}
+					}
+					else
+					{
+						Olog::warn("Unknown type '%s' in component %s, not loading file", type.data(), fullpath.data());
+					}
+				}
+				else
+				{
+					Olog::warn("Error while instantiating component from file %s", fullpath.data());
+				}
 			}
 			else
 			{

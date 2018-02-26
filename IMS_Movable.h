@@ -2,6 +2,8 @@
 class IMS_ModuleFunction_Pressurised;
 class IMS_Location;
 
+// TODO Serialisation interface should be moved here, but it will break backwards compatibility. Do it when you have to break it anyways!
+
 /**
  * \brief Abstract base class for objects capable of moving around between modules, such as storables and crew
  */
@@ -18,8 +20,20 @@ public:
 	virtual ~IMS_Movable();
 
 	virtual double GetMass() { return mass; };
-	virtual void PreStep(IMS_Location *location) = 0;
+	virtual void PreStep(IMS_Location *location, double simdt) = 0;
 	void Move(IMS_Location *from, IMS_Location *to);
+
+	/**
+	* \brief is called at the end of every clbkPreStep on the vessel.
+	* This essentially serves the purpose to process the loopback pipe
+	* of the eventhandler. It is executed after everybody has done its thing
+	* and sent all its messages, and is used to finalise the vessel state
+	* before Orbiter applies the current timestep. It should NOT be overriden by inheriting classes.
+	* If you push events to the waiting queue, this is the time they will fire,
+	* and you get to finalise your states by reacting to them.
+	*/
+	void PreStateUpdate();
+
 
 protected:
 	bool fixedpos = false;

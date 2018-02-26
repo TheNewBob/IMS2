@@ -17,7 +17,7 @@ SPLIT_VESSEL_DATA IMS2::SplitVesselData;
 void IMS2::clbkSetClassCaps (FILEHANDLE cfg) 
 {
 	// TODO: Remove debug code
-	IMS_ModuleDataManager::GetComponentModel("ssml");
+	IMS_ModuleDataManager::GetComponentModel("sslm");
 
 	Olog::setLogLevelFromFile(cfg);
 	//create the vessel from file with a new module

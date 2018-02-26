@@ -21,7 +21,7 @@ public:
 
 	~IMS_Storable();
 	
-	virtual void PreStep(IMS_Location *location);
+	virtual void PreStep(IMS_Location *location, double simdt);
 
 	/**
 	 * \brief Adds an ammount of a certain consumable to the storable

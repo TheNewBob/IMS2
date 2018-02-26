@@ -42,7 +42,7 @@ public:
 	 * \note This method must be called every frame by someone (preferably the implementing class), 
 	 *	but never more than once!
 	 */
-	void InvokeMovablePreStep();
+	void InvokeMovablePreStep(double simdt);
 
 
 protected:

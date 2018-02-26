@@ -54,3 +54,8 @@ void IMS_Movable::addTo(IMS_Location *location)
 	//connect my eventsink for module internal events to the module
 	location->GetModule()->ConnectToMyEventSink(getEventSink(INSIDE_MODULE_PIPE), INSIDE_MODULE_PIPE);
 }
+
+void IMS_Movable::PreStateUpdate()
+{
+	processWaitingQueue();
+}

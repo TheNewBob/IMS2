@@ -26,7 +26,7 @@ bool IMS_Component_Model_Base::LoadFromFile(string configfile, IMSFILE cfg)
 		{
 			if (!processConfigLine(tokens))
 			{
-				Olog::warn("Unknown parameter in component config %s: %s", configfile, tokens[0]);
+				Olog::warn("Unknown parameter in component config %s: %s", configfile.data(), tokens[0].data());
 			}
 		}
 		catch (runtime_error e)
@@ -63,6 +63,7 @@ bool IMS_Component_Model_Base::processConfigLine(vector<string> &tokens)
 	else if (tokens[0].compare("emptymass") == 0)
 	{
 		emptymass = Helpers::stringToDouble(tokens[1]);
+		return true;
 	}
 
 	return false;

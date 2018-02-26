@@ -34,11 +34,11 @@ void IMS_Location::RemoveMovable(IMS_Movable *movable)
 }
 
 
-void IMS_Location::InvokeMovablePreStep()
+void IMS_Location::InvokeMovablePreStep(double simdt)
 {
 	for (UINT i = 0; i < movables.size(); ++i)
 	{
-		movables[i]->PreStep(this);
+		movables[i]->PreStep(this, simdt);
 	}
 }
 

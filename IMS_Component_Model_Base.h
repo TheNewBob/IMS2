@@ -11,6 +11,7 @@ public:
 	double GetVolume() { return volume; };
 	double GetEmptyMass() { return emptymass; };
 	string GetType() { return type; };
+	string GetName() { return name; };
 
 protected:
 	double volume = -1; 

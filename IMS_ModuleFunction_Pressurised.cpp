@@ -39,7 +39,7 @@ bool IMS_ModuleFunction_Pressurised::ProcessEvent(Event_Base *e)
 void IMS_ModuleFunction_Pressurised::PreStep(double simdt, IMS2 *vessel)
 {
 	//todo: movables!
-	InvokeMovablePreStep();
+	InvokeMovablePreStep(simdt);
 	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
 }
 

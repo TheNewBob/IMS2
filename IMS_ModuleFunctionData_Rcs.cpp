@@ -1,7 +1,6 @@
 #include "Common.h"
 #include "IMS_Orbiter_ModuleData.h"
 #include "IMS_General_ModuleData.h"
-#include "IMS_ModuleDataManager.h"
 #include "IMS_ModuleFunctionData_Base.h"
 #include "IMS_ModuleFunctionData_Thruster.h"
 #include "IMS_ModuleFunctionData_Rcs.h"

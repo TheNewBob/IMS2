@@ -2,6 +2,9 @@
 #pragma once
 #include <map>
 
+class IMS_General_ModuleData;
+class IMS_Orbiter_ModuleData;
+
 //struct containing all static moduledata
 struct STATICMODULEDATA
 {

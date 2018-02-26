@@ -128,7 +128,7 @@ double IMS_Storable::RemoveContent(double amount_kg, int consumable_id)
 }
 
 
-void IMS_Storable::PreStep(IMS_Location *location)
+void IMS_Storable::PreStep(IMS_Location *location, double simdt)
 {
 	sendEvents();
 }
