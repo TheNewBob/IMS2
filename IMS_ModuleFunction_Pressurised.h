@@ -13,7 +13,7 @@ public:
 	/**
 	 * \brief constructor to be used by subclasses
 	 */
-	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type);
+	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> locationContexts);
 
 
 	virtual ~IMS_ModuleFunction_Pressurised();

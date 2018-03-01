@@ -3,8 +3,16 @@
 #include "IMS_Movable.h"
 #include "IMS_Location.h"
 
+const LOCATION_CONTEXT IMS_Location::CONTEXT_PRESSURISED = LOCATION_CONTEXT(0, "pressurised");
+const LOCATION_CONTEXT IMS_Location::CONTEXT_VACUUM = LOCATION_CONTEXT(1, "vacuum");
+const LOCATION_CONTEXT IMS_Location::CONTEXT_NONTRAVERSABLE = LOCATION_CONTEXT(2, "not traversable");
 
-IMS_Location::IMS_Location()
+const map<int, LOCATION_CONTEXT> IMS_Location::CONTEXTMAP = {
+	{ 0, IMS_Location::CONTEXT_PRESSURISED },
+	{ 1, IMS_Location::CONTEXT_VACUUM },
+	{ 2, IMS_Location::CONTEXT_NONTRAVERSABLE } };
+
+IMS_Location::IMS_Location(vector<LOCATION_CONTEXT> contexts)
 {
 }
 
@@ -50,4 +58,45 @@ double IMS_Location::GetMovableMass()
 		totalmass += movables[i]->GetMass();
 	}
 	return totalmass;
+}
+
+
+bool IMS_Location::HasLocationContext(int contextId)
+{
+	for (UINT i = 0; i < contexts.size(); ++i)
+	{
+		if (contexts[i].id == contextId) return true;
+	}
+	return false;
+}
+
+bool IMS_Location::HasAnyOfLocationContexts(vector<int> &contextIds)
+{
+	for (UINT i = 0; i < contexts.size(); ++i)
+	{
+		if (find(contextIds.begin(), contextIds.end(), contexts[i].id) != contextIds.end()) return true;
+	}
+	return false;
+}
+
+void IMS_Location::AddLocationContext(int contextId)
+{
+	Olog::assertThat([&]() { return !HasLocationContext(contextId); },
+		"Adding context to location that it already has!");
+	contexts.push_back(CONTEXTMAP.find(contextId)->second);
+}
+
+void IMS_Location::RemoveLocationContext(int contextId)
+{
+	bool contextFound = false;
+	for (UINT i = 0; i < contexts.size(); ++i)
+	{
+		if (contexts[i].id == contextId)
+		{
+			contexts.erase(contexts.begin() + i);
+			contextFound = true;
+			break;
+		}
+	}
+	Olog::assertThat([&]() { return !contextFound;  }, "Removing non-existing context from location!");
 }

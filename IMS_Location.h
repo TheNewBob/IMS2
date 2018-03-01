@@ -1,5 +1,18 @@
 #pragma once
 
+/**
+ * \brief The context of a location defines what movables can enter the location
+ * A location can have multiple contexts.
+ */
+struct LOCATION_CONTEXT
+{
+public:
+	LOCATION_CONTEXT(int id, string description)
+		: id(id), description(description) {}
+	const int id;
+	const string description;
+};
+
 class IMS_Movable;
 /**
  * \brief Abstract class that provides an interface for handling movables
@@ -13,8 +26,13 @@ class IMS_Movable;
 class IMS_Location
 {
 public:
-	IMS_Location();
+	IMS_Location(vector<LOCATION_CONTEXT> contexts);
 	~IMS_Location();
+
+	// Location contexts 
+	static const LOCATION_CONTEXT CONTEXT_PRESSURISED;		//!< Location has a pressurised environment suitable for human inhabitation.
+	static const LOCATION_CONTEXT CONTEXT_VACUUM;			//!< Location is exposed to hard vacuum.
+	static const LOCATION_CONTEXT CONTEXT_NONTRAVERSABLE;	//!< Location cannot be traversed, neither by humans or machines (e.g. because it's full of liquid hydrogen...).
 
 
 	/**
@@ -44,8 +62,32 @@ public:
 	 */
 	void InvokeMovablePreStep(double simdt);
 
+	/**
+	 * \return True if the location has the requested context.
+	 */
+	bool HasLocationContext(int contextId);
+
+	/**
+	 * \return True if the location has any of the required contexts
+	 */
+	bool HasAnyOfLocationContexts(vector<int> &contextIds);
+
+	/**
+	 * \brief Adds another context to the location
+	 */
+	void AddLocationContext(int contextId);
+
+	/**
+	 * \brief Removes a context from the location
+	 */
+	void RemoveLocationContext(int contextId);
+
 
 protected:
 	vector<IMS_Movable*> movables;			//!< contains all movables currently at this location
+	vector<LOCATION_CONTEXT> contexts;
+
+private:
+	static const map<int, LOCATION_CONTEXT> CONTEXTMAP;
 };
 

@@ -22,7 +22,7 @@
 
 
 IMS_ModuleFunction_Tank::IMS_ModuleFunction_Tank(IMS_ModuleFunctionData_Tank *_data, IMS_Module *_module)
-	: IMS_ModuleFunction_Pressurised(_data, _module, MTYPE_TANK), data(_data)
+	: IMS_ModuleFunction_Pressurised(_data, _module, MTYPE_TANK, { IMS_Location::CONTEXT_NONTRAVERSABLE }), data(_data)
 {
 	menu = new GUI_ModuleFunction_Tank(this, module->GetGui());
 }
