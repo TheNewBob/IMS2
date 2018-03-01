@@ -18,6 +18,7 @@ protected:
 	double emptymass = -1;
 	string name = "";
 	string type = "";
+	string description = "";
 	
 	bool processConfigLine(vector<string> &tokens);
 	

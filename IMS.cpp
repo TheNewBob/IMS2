@@ -19,6 +19,8 @@
 #include <Windows.h>
 #include <exception>
 #include "Olog.h"
+#include "IMS_ModuleDataManager.h"
+
 //#include "vld.h"
 
 
@@ -50,7 +52,7 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 // --------------------------------------------------------------
 DLLCLBK void ExitModule (HINSTANCE hModule)
 {
-	
+	IMS_ModuleDataManager::Cleanup();
 }
 
 // --------------------------------------------------------------

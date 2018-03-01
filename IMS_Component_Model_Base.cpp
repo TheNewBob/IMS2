@@ -24,7 +24,25 @@ bool IMS_Component_Model_Base::LoadFromFile(string configfile, IMSFILE cfg)
 		transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), ::tolower);
 		try 
 		{
-			if (!processConfigLine(tokens))
+			if (tokens[0] == "begin_description")
+			{
+				string line;
+				bool stopReading = false;
+				while (! stopReading && Helpers::readLine(cfg, line))
+				{
+					string lowerCaseLine = line;
+					transform(lowerCaseLine.begin(), lowerCaseLine.end(), lowerCaseLine.begin(), ::tolower);
+					if (lowerCaseLine != "end_description")
+					{
+						description += string(line + "\n");
+					}
+					else
+					{
+						stopReading = true;
+					}
+				}
+			}
+			else if (!processConfigLine(tokens))
 			{
 				Olog::warn("Unknown parameter in component config %s: %s", configfile.data(), tokens[0].data());
 			}

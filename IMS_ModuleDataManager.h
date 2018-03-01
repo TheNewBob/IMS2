@@ -82,7 +82,12 @@ public:
 	/**
 	 * \return The component model for a component of the passed type
 	 */
-	static IMS_Component_Model_Base *GetComponentModel(string type);
+	static IMS_Component_Model_Base *GetComponentModel(string name);
+
+	/**
+	 * \brief frees memory allocated by the manager. Only call from ExitModule!
+	 */
+	static void Cleanup();
 
 
 

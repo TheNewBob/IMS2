@@ -38,7 +38,7 @@ public:
 	double GetMovableMass();
 
 	/**
-	 * \brief invokes PostStep() on all movables currently in this location
+	 * \brief invokes PreStep() on all movables currently in this location
 	 * \note This method must be called every frame by someone (preferably the implementing class), 
 	 *	but never more than once!
 	 */

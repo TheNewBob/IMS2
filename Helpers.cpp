@@ -40,6 +40,20 @@ void Helpers::resetFile(IMSFILE file)
 	oapiReadItem_string(file.file, "Module", l);
 }
 
+bool Helpers::readLine(IMSFILE file, string &OUT_Line)
+{
+	char *l;
+	if (oapiReadScenario_nextline(file.file, l))
+	{
+		OUT_Line = l;
+		OUT_Line = OUT_Line.substr(
+			OUT_Line.find_first_not_of(" \t"),
+			OUT_Line.find_last_not_of(" \t\n") + 1);
+		return true;
+	}
+	return false;
+}
+
 bool Helpers::readLine(IMSFILE file, std::vector<std::string>& tokens, const std::string &delimiters)
 {
 	char *l;

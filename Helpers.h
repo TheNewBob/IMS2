@@ -32,6 +32,11 @@ public:
 	 */
 	static UINT GetNewUID();
 
+	/**
+	 * \return The next line in the file as a string without leading or trailing whitespace, as well as without linebreak
+	 */
+	static bool readLine(IMSFILE file, string &OUT_Line);
+
 	//functions written by Meson800 for stackeditor
 	static bool readLine(IMSFILE file, std::vector<std::string>& tokens, const std::string &delimiters);
 	

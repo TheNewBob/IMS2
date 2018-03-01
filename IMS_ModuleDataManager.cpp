@@ -109,7 +109,7 @@ vector<CONSUMABLEDATA*> IMS_ModuleDataManager::GetCompatibleConsumables(int refe
 	return compatiblelist;
 }
 
-IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string type)
+IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string name)
 {
 	if (components.size() == 0)
 	{
@@ -117,10 +117,10 @@ IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string type)
 		loadComponentData("config/IMS2/components/");
 	}
 
-	auto model = components[type];
+	auto model = components[name];
 	if (model == NULL)
 	{
-		Olog::error("Attempting to load component model of type %s, but no such component model exists!", type.data());
+		Olog::error("Attempting to load component model of type %s, but no such component model exists!", name.data());
 		throw runtime_error("fatal error while loading component");
 	}
 	return model;
@@ -297,23 +297,23 @@ void IMS_ModuleDataManager::loadComponentData(string path)
 							}
 							else
 							{
-								Olog::warn("%s contains errors, component not loaded", fullpath.data());
+								Olog::error("%s contains errors, component not loaded", fullpath.data());
 							}
 						}
 						else
 						{
-							Olog::warn("Duplicate component name: %s, not loading file %s", model->GetName().data(), fullpath.data());
+							Olog::error("Duplicate component name: %s, not loading file %s", model->GetName().data(), fullpath.data());
 							delete model;
 						}
 					}
 					else
 					{
-						Olog::warn("Unknown type '%s' in component %s, not loading file", type.data(), fullpath.data());
+						Olog::error("Unknown type '%s' in component %s, not loading file", type.data(), fullpath.data());
 					}
 				}
 				else
 				{
-					Olog::warn("Error while instantiating component from file %s", fullpath.data());
+					Olog::error("Error while instantiating component from file %s", fullpath.data());
 				}
 			}
 			else
@@ -323,4 +323,14 @@ void IMS_ModuleDataManager::loadComponentData(string path)
 		}
 	} while (FindNextFile(hfind, &searchresult));
 	FindClose(hfind);
+}
+
+
+void IMS_ModuleDataManager::Cleanup()
+{
+	for (auto i = components.begin(); i != components.end(); ++i)
+	{
+		delete i->second;
+	}
+	components.clear();
 }
