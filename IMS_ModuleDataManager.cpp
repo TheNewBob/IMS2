@@ -5,6 +5,7 @@
 #include "Components.h"
 #include "IMS_ModuleDataManager.h"
 #include "ComponentFactory.h"
+#include <algorithm>
 
 std::map<string, STATICMODULEDATA> IMS_ModuleDataManager::_staticModuleData;
 std::vector<CONSUMABLEDATA> IMS_ModuleDataManager::consumabledata;
@@ -125,6 +126,23 @@ IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string name)
 	}
 	return model;
 }
+
+vector<IMS_Component_Model_Base*> IMS_ModuleDataManager::GetAllComponentModels()
+{
+	if (components.size() == 0)
+	{
+		Olog::debug("loading component models");
+		loadComponentData("config/IMS2/components/");
+	}
+
+	vector<IMS_Component_Model_Base*> result;
+	for (auto it = components.begin(); it != components.end(); ++it)
+	{
+		result.push_back(it->second);
+	}
+	return result;
+}
+
 
 void IMS_ModuleDataManager::loadConsumableData()
 {

@@ -13,6 +13,7 @@ const map<int, LOCATION_CONTEXT> IMS_Location::CONTEXTMAP = {
 	{ 2, IMS_Location::CONTEXT_NONTRAVERSABLE } };
 
 IMS_Location::IMS_Location(vector<LOCATION_CONTEXT> contexts)
+	: contexts(contexts)
 {
 }
 

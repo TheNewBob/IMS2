@@ -85,6 +85,12 @@ public:
 	static IMS_Component_Model_Base *GetComponentModel(string name);
 
 	/**
+	 * \return All loaded components.
+	 * \Note this has to unwrap a map into a vector, so use sparingly if you value performance.
+	 */
+	static vector<IMS_Component_Model_Base*> GetAllComponentModels();
+
+	/**
 	 * \brief frees memory allocated by the manager. Only call from ExitModule!
 	 */
 	static void Cleanup();

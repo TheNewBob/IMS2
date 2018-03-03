@@ -39,26 +39,26 @@ GUI_ModuleFunction_Comm::GUI_ModuleFunction_Comm(IMS_ModuleFunction_Comm *_funct
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
 
 	//create the required controls
-	gui->CreateLabel(getLayoutDataForElement(NAME_LABEL, l), function->GetData()->GetName(), id);
+	gui->CreateLabel(GetLayoutDataForElement(NAME_LABEL, l), function->GetData()->GetName(), id);
 
 	//the statedescription will always be there
-	statedescription = gui->CreateLabelValuePair(getLayoutDataForElement(STATUS, l), "Status:", "", id, -1);
+	statedescription = gui->CreateLabelValuePair(GetLayoutDataForElement(STATUS, l), "Status:", "", id, -1);
 
 	if (hasdeployment)
 	{
-		deploybox = gui->CreateCheckBox(getLayoutDataForElement(DEPLOY_CHKBX, l, ignore_fields), "deploy", id);
+		deploybox = gui->CreateCheckBox(GetLayoutDataForElement(DEPLOY_CHKBX, l, ignore_fields), "deploy", id);
 	}
 
 	if (hasscanning)
 	{
-		searchbox = gui->CreateCheckBox(getLayoutDataForElement(SCAN_CHKBX, l, ignore_fields), "scan", id);
+		searchbox = gui->CreateCheckBox(GetLayoutDataForElement(SCAN_CHKBX, l, ignore_fields), "scan", id);
 	}
 
 	if (hastracking)
 	{
-		trackbox = gui->CreateCheckBox(getLayoutDataForElement(TRACK_CHKBX, l, ignore_fields), "track", id);
-		settargetbtn = gui->CreateDynamicButton(getLayoutDataForElement(SET_TGT_BTN, l), "set target", id);
-		targetdescription = gui->CreateLabelValuePair(getLayoutDataForElement(TGT_DESCRIPTION, l, ignore_fields), "Target:", "None", id, -1);
+		trackbox = gui->CreateCheckBox(GetLayoutDataForElement(TRACK_CHKBX, l, ignore_fields), "track", id);
+		settargetbtn = gui->CreateDynamicButton(GetLayoutDataForElement(SET_TGT_BTN, l), "set target", id);
+		targetdescription = gui->CreateLabelValuePair(GetLayoutDataForElement(TGT_DESCRIPTION, l, ignore_fields), "Target:", "None", id, -1);
 	}
 }
 

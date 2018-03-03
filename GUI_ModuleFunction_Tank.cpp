@@ -36,16 +36,16 @@ GUI_ModuleFunction_Tank::GUI_ModuleFunction_Tank(IMS_ModuleFunction_Tank *tank, 
 	
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
 
-	proplabel = gui->CreateLabel(getLayoutDataForElement(PROPELLANT_LABEL, l), "placeholder", id);
-	status = gui->CreateStatusBar(getLayoutDataForElement(PROPELLANT_STATUS, l), id);
-	valve = gui->CreateCheckBox(getLayoutDataForElement(VALVE_CHKBX, l), "valve open", id);
+	proplabel = gui->CreateLabel(GetLayoutDataForElement(PROPELLANT_LABEL, l), "placeholder", id);
+	status = gui->CreateStatusBar(GetLayoutDataForElement(PROPELLANT_STATUS, l), id);
+	valve = gui->CreateCheckBox(GetLayoutDataForElement(VALVE_CHKBX, l), "valve open", id);
 	valve->SetChecked(true);
-	proptypebtn = gui->CreateDynamicButton(getLayoutDataForElement(CHANGE_PROPTYPE_BTN, l), "designate propellant", id);
+	proptypebtn = gui->CreateDynamicButton(GetLayoutDataForElement(CHANGE_PROPTYPE_BTN, l), "designate propellant", id);
 	proptypebtn->SetVisible(false);
 
 //create cheatbutton in debug builds. Made permanent for now.	
 //#ifdef _DEBUG
-	cheatbutton = gui->CreateDynamicButton(getLayoutDataForElement(CHEAT_BTN, l), "fill", id);
+	cheatbutton = gui->CreateDynamicButton(GetLayoutDataForElement(CHEAT_BTN, l), "fill", id);
 //#endif
 }
 

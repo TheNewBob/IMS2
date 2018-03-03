@@ -38,19 +38,19 @@ GUI_MainDeconstruct::GUI_MainDeconstruct(RECT mRect, GUI_ElementStyle *_style, I
 	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
 
 	//docked vessels operations
-	gui->CreateLabel(getLayoutDataForElement(MODULES_IN_VESSEL_LABEL, layouts), "modules in vessel", MD_DECONSTRUCTION_MNU);
-	modules_list = gui->CreateListBox(getLayoutDataForElement(MODULES_IN_VESSEL_LIST, layouts), MD_DECONSTRUCTION_MNU, MD_DM_MODULES_LIST);
+	gui->CreateLabel(GetLayoutDataForElement(MODULES_IN_VESSEL_LABEL, layouts), "modules in vessel", MD_DECONSTRUCTION_MNU);
+	modules_list = gui->CreateListBox(GetLayoutDataForElement(MODULES_IN_VESSEL_LIST, layouts), MD_DECONSTRUCTION_MNU, MD_DM_MODULES_LIST);
 
 
-	gui->CreateDynamicButton(getLayoutDataForElement(SORT_X_BTN, layouts), "sort by X", MD_DECONSTRUCTION_MNU, MD_DM_SORTX_BTN);
-	gui->CreateDynamicButton(getLayoutDataForElement(SORT_Y_BTN, layouts), "sort by Y", MD_DECONSTRUCTION_MNU, MD_DM_SORTY_BTN);
-	gui->CreateDynamicButton(getLayoutDataForElement(SORT_Z_BTN, layouts), "sort by Z", MD_DECONSTRUCTION_MNU, MD_DM_SORTZ_BTN);
-	symmetry_box = gui->CreateCheckBox(getLayoutDataForElement(SYMMETRY_CHKBX, layouts), "symmetrical", MD_DECONSTRUCTION_MNU, MD_DM_SYMMETRY_CHKBX);
+	gui->CreateDynamicButton(GetLayoutDataForElement(SORT_X_BTN, layouts), "sort by X", MD_DECONSTRUCTION_MNU, MD_DM_SORTX_BTN);
+	gui->CreateDynamicButton(GetLayoutDataForElement(SORT_Y_BTN, layouts), "sort by Y", MD_DECONSTRUCTION_MNU, MD_DM_SORTY_BTN);
+	gui->CreateDynamicButton(GetLayoutDataForElement(SORT_Z_BTN, layouts), "sort by Z", MD_DECONSTRUCTION_MNU, MD_DM_SORTZ_BTN);
+	symmetry_box = gui->CreateCheckBox(GetLayoutDataForElement(SYMMETRY_CHKBX, layouts), "symmetrical", MD_DECONSTRUCTION_MNU, MD_DM_SYMMETRY_CHKBX);
 
 	//stacked vessels operations
-	gui->CreateLabel(getLayoutDataForElement(SELECTED_MODULES_LABEL, layouts), "selected modules", MD_DECONSTRUCTION_MNU);
-	selected_modules_list = gui->CreateListBox(getLayoutDataForElement(SELECTED_MODULES_LIST, layouts), MD_DECONSTRUCTION_MNU, MD_DM_SELECTED_MODULES_LIST);
-	gui->CreateDynamicButton(getLayoutDataForElement(DISASSEMBLE_BTN, layouts), "disassemble", MD_DECONSTRUCTION_MNU, MD_DM_DECONSTRUCT_BTN);
+	gui->CreateLabel(GetLayoutDataForElement(SELECTED_MODULES_LABEL, layouts), "selected modules", MD_DECONSTRUCTION_MNU);
+	selected_modules_list = gui->CreateListBox(GetLayoutDataForElement(SELECTED_MODULES_LIST, layouts), MD_DECONSTRUCTION_MNU, MD_DM_SELECTED_MODULES_LIST);
+	gui->CreateDynamicButton(GetLayoutDataForElement(DISASSEMBLE_BTN, layouts), "disassemble", MD_DECONSTRUCTION_MNU, MD_DM_DECONSTRUCT_BTN);
 
 //	gui->CreateDynamicButton("set staging", _R(int(width * 0.6) + 10, 350, int(width * 0.6) + 130, 375), MD_DECONSTRUCTION_MNU, MD_DM_STAGING_BTN);
 

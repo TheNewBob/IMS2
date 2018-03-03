@@ -153,6 +153,9 @@
     <Filter Include="Components\Lighting">
       <UniqueIdentifier>{ff5b64cb-e9d3-4f7d-89ca-085ed04ad515}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\IMS2 Menus\Popups">
+      <UniqueIdentifier>{7a9553e2-f167-4dbb-a592-4762dd23c465}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -514,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="ComponentFactory.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ComponentSelector.cpp">
+      <Filter>GUI\IMS2 Menus\Popups</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1026,6 +1032,9 @@
     </ClInclude>
     <ClInclude Include="ComponentIdentifiers.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ComponentSelector.h">
+      <Filter>GUI\IMS2 Menus\Popups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

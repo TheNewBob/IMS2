@@ -103,14 +103,14 @@ GUI_ElementResource *GUI_Page::createResources()
 	return NULL;
 }
 
-LAYOUTDATA GUI_Page::getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts)
+LAYOUTDATA GUI_Page::GetLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts)
 {
 	vector<string> ignore_none;
-	return getLayoutDataForElement(elementid, layouts, ignore_none);
+	return GetLayoutDataForElement(elementid, layouts, ignore_none);
 }
 
 
-LAYOUTDATA GUI_Page::getLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields)
+LAYOUTDATA GUI_Page::GetLayoutDataForElement(string elementid, LAYOUTCOLLECTION *layouts, vector<string> &ignore_fields)
 {
 	//check how much space we have to draw on and which layout we have to use for that.
 	GUI_Layout *usedlayout = layouts->GetLayoutForWidth(width);

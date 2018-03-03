@@ -8,6 +8,7 @@ class GUI_MainDisplay;
 
 class IMS_Orbiter_ModuleData; 
 class IMS_General_ModuleData;
+class IMS_Component_Model_Base;
 class EventGenerator;
 class EventSink;
 class Event_Base;
@@ -93,6 +94,12 @@ public:
 	void GetModules(vector<IMS_Module*> &OUT_modules);
 	IMS_Module *GetCoreModule(){ return modules[0]; };
 	vector<DOCKEDVESSEL*> &GetDockedVesselsList();
+
+	/**
+	 * \return all components that can currently be added to the vessel.
+	 * \todo Currently a stub that returns all compnents. Change when implementing a cargo and inventory system.
+	 */
+	vector<IMS_Component_Model_Base*> &GetAddableComponents();
 
 	//manager getters
 	IMS_PropulsionManager *GetPropulsionManager();

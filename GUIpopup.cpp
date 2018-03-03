@@ -18,7 +18,7 @@ GUIpopup::GUIpopup(GUI_BaseElement *parent, RECT rect, string styleid, string st
 	height = rect.bottom - rect.top;
 	//create the page that displays the popup
 	this->styleset = styleset;
-	GUI_Page *popup = CreatePage(rect, -1, POPUP, styleid, true);
+	page = CreatePage(rect, -1, POPUP, styleid, true);
 
 	isvisible = true;
 	isfixed = true;

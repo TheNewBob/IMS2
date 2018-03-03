@@ -1,16 +1,23 @@
 #pragma once
 
+class IMS_Module;
+
 /**
  * \brief The context of a location defines what movables can enter the location
  * A location can have multiple contexts.
  */
 struct LOCATION_CONTEXT
 {
+	friend class IMS_Location;
 public:
 	LOCATION_CONTEXT(int id, string description)
-		: id(id), description(description) {}
-	const int id;
-	const string description;
+		: id(id), description(description) {};
+
+	int GetId() { return id; };
+	string GetDescription() { return description; };
+private:
+	int id;
+	string description;
 };
 
 class IMS_Movable;

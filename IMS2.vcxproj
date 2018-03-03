@@ -201,6 +201,7 @@
     <ClCompile Include="IMS_AutoPilotOperation_Killrot.cpp" />
     <ClCompile Include="IMS_Autopilot_Killrot.cpp" />
     <ClCompile Include="IMS_CoGmanager.cpp" />
+    <ClCompile Include="IMS_ComponentSelector.cpp" />
     <ClCompile Include="IMS_Component_Base.cpp" />
     <ClCompile Include="IMS_Component_Lighting.cpp" />
     <ClCompile Include="IMS_Component_Model_Base.cpp" />
@@ -343,6 +344,7 @@
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />
     <ClInclude Include="IMS_Autopilot_Base.h" />
     <ClInclude Include="IMS_Autopilot_Killrot.h" />
+    <ClInclude Include="IMS_ComponentSelector.h" />
     <ClInclude Include="IMS_Component_Base.h" />
     <ClInclude Include="IMS_Component_Lighting.h" />
     <ClInclude Include="IMS_Component_Model_Base.h" />

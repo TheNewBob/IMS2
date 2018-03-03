@@ -71,9 +71,8 @@ bool GUIlistPopup::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 				//close the popup regardless of what the callback returned
 				close();
 			}
+			return true;
 		}
-		//something has processed an event, and even if we don't care about it here, we still need a redraw
-		return true;
 	}
 
 	return false;

@@ -39,6 +39,9 @@ struct LAYOUTDATA
 {
 	RECT rect;
 	string styleId;
+
+	int GetHeight() { return rect.bottom - rect.top; };
+	int GetWIdth() { return rect.right - rect.left; };
 };
 
 

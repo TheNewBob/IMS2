@@ -7,6 +7,8 @@
 #include "IMS_TouchdownPointManager.h"
 #include "IMS.h"
 #include "IMS_Module.h"
+#include "IMS_Component_Model_Base.h"
+#include "IMS_ModuleDataManager.h"
 
 //this file contains functions for getting and setting orbiter related attributes of the vessel.
 
@@ -202,4 +204,9 @@ IMS_RcsManager *IMS2::GetRcsManager()
 IMS_TouchdownPointManager *IMS2::GetTdPointManager()
 {
 	return (IMS_TouchdownPointManager*)managers[TDPOINT_MANAGER];
+}
+
+vector<IMS_Component_Model_Base*> &IMS2::GetAddableComponents()
+{
+	return IMS_ModuleDataManager::GetAllComponentModels();
 }

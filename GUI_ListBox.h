@@ -37,7 +37,7 @@ public:
 	 * \return The text of the first selected element in the list. "" if no element is selected.
 	 */
 	std::string GetSelectedText();
-	
+
 	/**
 	 * \brief Deletes all items in the list.
 	 */

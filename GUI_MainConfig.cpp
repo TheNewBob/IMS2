@@ -33,14 +33,14 @@ GUI_MainConfig::GUI_MainConfig(RECT mRect, GUI_ElementStyle *_style, IMS2 *_vess
 
 	LAYOUTCOLLECTION *layouts = LayoutManager::GetLayout(FILENAME);
 
-	rcs_assist = gui->CreateCheckBox(getLayoutDataForElement(RCS_ASSIST_CHKBX, layouts), "RCS Assist", id, MD_CONFIG_RCSASSISTCHKBX);
+	rcs_assist = gui->CreateCheckBox(GetLayoutDataForElement(RCS_ASSIST_CHKBX, layouts), "RCS Assist", id, MD_CONFIG_RCSASSISTCHKBX);
 	rcs_assist->SetChecked(true);
 
-	scened_assist = gui->CreateCheckBox(getLayoutDataForElement(SCENED_ASSIST_CHKBX, layouts), "ScenEd placement assist", id, MD_CONFIG_SCENEDCHKBX);
+	scened_assist = gui->CreateCheckBox(GetLayoutDataForElement(SCENED_ASSIST_CHKBX, layouts), "ScenEd placement assist", id, MD_CONFIG_SCENEDCHKBX);
 	scened_assist->SetChecked(false);
 
-	gui->CreateLabel(getLayoutDataForElement(STYLESETS_LBL, layouts), "Select Skin", id, -1);
-	stylesets = gui->CreateListBox(getLayoutDataForElement(STYLESETS_LISTBX, layouts), id, MD_CONFIG_STYLESETSLISTBX);
+	gui->CreateLabel(GetLayoutDataForElement(STYLESETS_LBL, layouts), "Select Skin", id, -1);
+	stylesets = gui->CreateListBox(GetLayoutDataForElement(STYLESETS_LISTBX, layouts), id, MD_CONFIG_STYLESETSLISTBX);
 	
 	//populate the listbox with the available styles
 	vector<string> availablestylesets = GUI_Looks::GetAvailableStyleSets();

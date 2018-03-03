@@ -34,28 +34,28 @@ GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thru
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(FILENAME);
 
 	//Add the name label
-	gui->CreateLabel(getLayoutDataForElement(THRUSTER_NAME_LABEL, l), basethruster->GetData()->GetName(), id);
+	gui->CreateLabel(GetLayoutDataForElement(THRUSTER_NAME_LABEL, l), basethruster->GetData()->GetName(), id);
 
 	//create label and radio buttons for thruster group assignement
-	gui->CreateLabel(getLayoutDataForElement(GROUPS_LABEL, l), "Group", id);
-	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_1_CHKBX, l), "1", id));
-	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_2_CHKBX, l), "2", id));
-	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_3_CHKBX, l), "3", id));
-	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_4_CHKBX, l), "4", id));
-	groupbuttons.push_back(gui->CreateRadioButton(getLayoutDataForElement(GROUP_NONE_CHKBX, l), "none", id));
+	gui->CreateLabel(GetLayoutDataForElement(GROUPS_LABEL, l), "Group", id);
+	groupbuttons.push_back(gui->CreateRadioButton(GetLayoutDataForElement(GROUP_1_CHKBX, l), "1", id));
+	groupbuttons.push_back(gui->CreateRadioButton(GetLayoutDataForElement(GROUP_2_CHKBX, l), "2", id));
+	groupbuttons.push_back(gui->CreateRadioButton(GetLayoutDataForElement(GROUP_3_CHKBX, l), "3", id));
+	groupbuttons.push_back(gui->CreateRadioButton(GetLayoutDataForElement(GROUP_4_CHKBX, l), "4", id));
+	groupbuttons.push_back(gui->CreateRadioButton(GetLayoutDataForElement(GROUP_NONE_CHKBX, l), "none", id));
 	GUI_RadioButton::CreateGroup(groupbuttons);
 	//default checked is always 4th button, "no group"
 	groupbuttons[4]->SetChecked();
 
 	// the field for the thrustermode will need a bit of dynamic adjustment. We'll take the layout size as maximum.
-	LAYOUTDATA modesdata = getLayoutDataForElement(MODES_LIST, l);
+	LAYOUTDATA modesdata = GetLayoutDataForElement(MODES_LIST, l);
 
 	//if there is more than one thrustermode, create a selection for them
 	int nummodes = thruster->GetData()->getNumberOfModes();
 	if (nummodes > 1)
 	{
 		//only create a select box if there is more than one mode
-		gui->CreateLabel(getLayoutDataForElement(MODES_LABEL, l), "Mode", id);
+		gui->CreateLabel(GetLayoutDataForElement(MODES_LABEL, l), "Mode", id);
 		//the layout size is the maximum size of the list, but if there's fewer modes, make it smaller.
 		int fontheight = style->GetFont()->GetfHeight();
 		modesdata.rect.bottom = min(modesdata.rect.bottom, modesdata.rect.top + (nummodes + 1) * fontheight);	//one line is for top and bottom padding
@@ -73,7 +73,7 @@ GUI_ModuleFunction_Thruster::GUI_ModuleFunction_Thruster(IMS_ModuleFunction_Thru
 	{
 		//if there's only one mode, just print the thrusters properties.
 		THRUSTERMODE *mode = thruster->GetData()->GetThrusterMode(0);
-		gui->CreateLabel(getLayoutDataForElement(MODES_LABEL, l), "Properties", id);
+		gui->CreateLabel(GetLayoutDataForElement(MODES_LABEL, l), "Properties", id);
 		int fontheight = style->GetFont()->GetfHeight();
 		modesdata.rect.bottom = modesdata.rect.top + fontheight;
 		//split the width of the modesrect into two.

@@ -18,6 +18,7 @@ protected:
 	static const int POPUP = 1;					//!< identifier for the page on which the popups controlls will be drawn
 	int width;
 	int height;
+	GUI_Page *page;
 
 	GUIpopup(GUI_BaseElement *parent, RECT rect, string styleid, string styleset);
 	virtual ~GUIpopup();
