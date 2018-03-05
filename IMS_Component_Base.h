@@ -1,4 +1,7 @@
 #pragma once
+
+class IMS_Component_Model_Base;
+
 class IMS_Component_Base : public IMS_Movable
 {
 public:
@@ -33,6 +36,7 @@ public:
 	 * \return The volume the component takes up, in cubic meters.
 	 */
 	double GetVolume();
+		
 
 	/**
 	* \brief returns the GUI of this module function, or NULL if this module function doesn't have a user interface.

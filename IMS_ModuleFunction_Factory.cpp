@@ -20,6 +20,7 @@
 #include "IMS_ModuleFunctionData_Gear.h"
 
 #include "IMS_ModuleFunction_Base.h"
+#include "IMS_ModuleFunction_Location.h"
 #include "IMS_ModuleFunction_Pressurised.h"
 #include "IMS_ModuleFunction_Animation.h"
 #include "IMS_ModuleFunction_Comm.h"

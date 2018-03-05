@@ -9,6 +9,7 @@
 #include "IMS_ModuleDataManager.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "IMS_Location.h"
+#include "IMS_ModuleFunction_Location.h"
 #include "IMS_ModuleFunction_Pressurised.h"
 #include "IMS_Movable.h"
 #include "IMS_Storable.h"

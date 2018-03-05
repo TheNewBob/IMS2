@@ -5,7 +5,7 @@
 class IMS2;
 
 
-class IMS_ModuleFunction_Pressurised : public IMS_ModuleFunction_Base, public IMS_Location
+class IMS_ModuleFunction_Pressurised : public IMS_ModuleFunction_Location
 {
 public:
 	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module);
@@ -29,7 +29,6 @@ public:
 
 
 protected:
-	double volume;										//!< The available volume inside the pressurised space, in m^3
 	virtual bool ProcessEvent(Event_Base *e);			
 
 

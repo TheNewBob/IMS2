@@ -18,6 +18,7 @@
 #include "GUI_ModuleFunction_Base.h"
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_Location.h"
+#include "IMS_ModuleFunction_Location.h"
 #include "IMS_ModuleFunction_Pressurised.h"
 #include "IMS_ModuleFunction_Tank.h"
 #include "GUI_ModuleFunction_Tank.h"

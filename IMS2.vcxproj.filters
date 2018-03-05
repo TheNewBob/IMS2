@@ -156,6 +156,9 @@
     <Filter Include="GUI\IMS2 Menus\Popups">
       <UniqueIdentifier>{7a9553e2-f167-4dbb-a592-4762dd23c465}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\IMS2 Menus\Reusable">
+      <UniqueIdentifier>{0f41de2b-ebc8-4199-b36b-3b1d5889b944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMS.cpp">
@@ -262,9 +265,6 @@
     </ClCompile>
     <ClCompile Include="GUI_MainModules.cpp">
       <Filter>GUI\IMS2 Menus\MainDisplay menus</Filter>
-    </ClCompile>
-    <ClCompile Include="IMS_ModuleFunction_Animation.cpp">
-      <Filter>Modules\Module functionalities\Animations</Filter>
     </ClCompile>
     <ClCompile Include="IMS_ModuleFunction_Base.cpp">
       <Filter>Modules\Module functionalities\Base</Filter>
@@ -520,6 +520,12 @@
     </ClCompile>
     <ClCompile Include="IMS_ComponentSelector.cpp">
       <Filter>GUI\IMS2 Menus\Popups</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Animation.cpp">
+      <Filter>Modules\Module functionalities\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunction_Location.cpp">
+      <Filter>Modules\Module functionalities\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1035,6 +1041,9 @@
     </ClInclude>
     <ClInclude Include="IMS_ComponentSelector.h">
       <Filter>GUI\IMS2 Menus\Popups</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunction_Location.h">
+      <Filter>Modules\Module functionalities\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

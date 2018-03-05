@@ -10,7 +10,7 @@
 
 
 IMS_Component_Base::IMS_Component_Base(IMS_Component_Model_Base *data, IMS_Location *location) 
-	: IMS_Movable(location), data(data)
+	: IMS_Movable(location, true), data(data)
 {
 }
 
@@ -45,3 +45,7 @@ void IMS_Component_Base::Deserialize(string data)
 	setDynamicData(keysAndValues);
 }
 
+double IMS_Component_Base::GetVolume()
+{ 
+	return data->GetVolume(); 
+}
