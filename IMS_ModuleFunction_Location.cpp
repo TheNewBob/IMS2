@@ -2,6 +2,7 @@
 #include "Events.h"
 #include "Moduletypes.h"
 #include "IMS_ModuleFunctionData_Base.h"
+#include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_Location.h"
 #include "IMS_ModuleFunction_Location.h"
@@ -10,8 +11,8 @@
 #include "ComponentFactory.h"
 
 
-IMS_ModuleFunction_Location::IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Base *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume)
-	: IMS_ModuleFunction_Base(_data, _module, _type), IMS_Location(contexts), maxVolume(maxVolume)
+IMS_ModuleFunction_Location::IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Location *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume)
+	: IMS_ModuleFunction_Base(_data, _module, _type), IMS_Location(contexts), maxVolume(maxVolume), data(_data)
 {
 }
 
@@ -49,4 +50,14 @@ double IMS_ModuleFunction_Location::calculateAvailableVolume()
 	return availableVolume;
 }
 
+IMS_ModuleFunctionData_Location *IMS_ModuleFunction_Location::GetData()
+{
+	return data;
+}
 
+void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel)
+{
+	//todo: movables!
+	InvokeMovablePreStep(simdt);
+	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
+}

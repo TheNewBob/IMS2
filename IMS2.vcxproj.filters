@@ -527,6 +527,12 @@
     <ClCompile Include="IMS_ModuleFunction_Location.cpp">
       <Filter>Modules\Module functionalities\Base</Filter>
     </ClCompile>
+    <ClCompile Include="IMS_Component_UI.cpp">
+      <Filter>GUI\IMS2 Menus\Reusable</Filter>
+    </ClCompile>
+    <ClCompile Include="IMS_ModuleFunctionData_Location.cpp">
+      <Filter>ModuleData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -1044,6 +1050,12 @@
     </ClInclude>
     <ClInclude Include="IMS_ModuleFunction_Location.h">
       <Filter>Modules\Module functionalities\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_Component_UI.h">
+      <Filter>GUI\IMS2 Menus\Reusable</Filter>
+    </ClInclude>
+    <ClInclude Include="IMS_ModuleFunctionData_Location.h">
+      <Filter>ModuleData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

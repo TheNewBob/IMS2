@@ -10,7 +10,7 @@ class IMS_ModuleFunction_Location :
 	public IMS_ModuleFunction_Base, public IMS_Location
 {
 public:
-	IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Base *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume);
+	IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Location *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume);
 	virtual ~IMS_ModuleFunction_Location();
 
 	/**
@@ -34,6 +34,9 @@ public:
 	 */
 	double GetAvailableVolume() { return availableVolume; };
 
+	IMS_ModuleFunctionData_Location *GetData();
+
+	void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel);
 
 protected:
 	vector<IMS_Component_Base*> components;
@@ -42,6 +45,7 @@ private:
 	double maxVolume = -1;
 	double availableVolume = -1;
 	double calculateAvailableVolume();
+	IMS_ModuleFunctionData_Location *data;
 
 };
 

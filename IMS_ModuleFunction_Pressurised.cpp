@@ -4,6 +4,7 @@
 #include "IMS_Orbiter_ModuleData.h"
 #include "IMS_General_ModuleData.h"
 #include "IMS_ModuleFunctionData_Base.h"
+#include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "IMS_Module.h"
 #include "IMS_Location.h"
@@ -14,14 +15,14 @@
 
 
 IMS_ModuleFunction_Pressurised::IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module)
-	: IMS_ModuleFunction_Location(_data, _module, MTYPE_PRESSURISED, { IMS_Location::CONTEXT_PRESSURISED }, _data->getVolume())
+	: IMS_ModuleFunction_Location(_data, _module, MTYPE_PRESSURISED, { IMS_Location::CONTEXT_PRESSURISED }, _data->GetVolume())
 {
 
 }
 
 
 IMS_ModuleFunction_Pressurised::IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> locationContexts)
-	: IMS_ModuleFunction_Location(_data, _module, _type, locationContexts, _data->getVolume())
+	: IMS_ModuleFunction_Location(_data, _module, _type, locationContexts, _data->GetVolume())
 {
 
 }

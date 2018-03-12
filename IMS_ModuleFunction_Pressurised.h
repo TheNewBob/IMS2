@@ -22,8 +22,8 @@ public:
 	virtual void SaveState(FILEHANDLE scn){};
 	virtual void AddFunctionToVessel(IMS2 *vessel) {};
 	virtual void RemoveFunctionFromVessel(IMS2 *vessel) {};
-	virtual void PreStep(double simdt, IMS2 *vessel);
 	virtual bool processScenarioLine(string line){ return false; };
+	// TODO: Return UI
 	virtual double GetMass();
 	virtual IMS_Module *GetModule();
 
