@@ -38,15 +38,6 @@ bool IMS_ModuleFunction_Pressurised::ProcessEvent(Event_Base *e)
 	return false;
 }
 
-void IMS_ModuleFunction_Pressurised::PreStep(double simdt, IMS2 *vessel)
-{
-	//todo: movables!
-	InvokeMovablePreStep(simdt);
-	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
-}
-
-
-
 double IMS_ModuleFunction_Pressurised::GetMass()
 {
 	double currentmass = GetMovableMass();
