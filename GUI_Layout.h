@@ -46,17 +46,18 @@ public:
 	string GetStyleForField(string field_id);
 	
 	/**
-	 * \return The total height of the layout
+	 * \return The total height of the layout, in pixel.
 	 */
 	int GetLayoutHeight();
 
 	/**
-	 * \return The height of the layout, ignoring rows that consist only of ignored fields.
+	 * \return The height of the layout in pixel, ignoring rows that consist only of ignored fields.
 	 */
 	int GetLayoutHeight(vector<string> &ignore);
 
 	static int EmToPx(double em);
 	static int RelToPx(double rel, double rowwidth);
+
 private:
 
 	vector<LayoutRow> rows;			//!< The rows in this layout, from top to bottom.

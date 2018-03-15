@@ -9,7 +9,17 @@ public:
 	LayoutManager();
 	~LayoutManager();
 
+	/**
+	 * \return A collection of all layouts defined in the passed filename.
+	 * \note Most elements will only have two layouts. In the event that an element defines different layouts for different widths,
+	 *	you'll have to figure out yourself which one to use.
+	 */
 	static LAYOUTCOLLECTION *GetLayout(string filename);
+	
+	/**
+	 * \return The height of a layout with the appropriate width in the passed file, or -1 if no layout for this width is defined.
+	 */
+	static int GetLayoutHeight(string filename, int width);
 
 private:
 

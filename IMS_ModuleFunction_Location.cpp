@@ -27,7 +27,7 @@ void IMS_ModuleFunction_Location::CreateComponent(string componentName)
 	auto newComponent = ComponentFactory::CreateNew(componentName, this);
 	AddMovable(newComponent);
 	components.push_back(newComponent);
-	availableVolume = calculateAvailableVolume();
+	calculateComponentProperties();
 }
 
 void IMS_ModuleFunction_Location::RemoveComponent(IMS_Component_Base *component)
@@ -37,17 +37,18 @@ void IMS_ModuleFunction_Location::RemoveComponent(IMS_Component_Base *component)
 	components.erase(it);
 	RemoveMovable((*it));
 	delete (*it);
-	availableVolume = calculateAvailableVolume();
+	calculateComponentProperties();
 }
 
-double IMS_ModuleFunction_Location::calculateAvailableVolume()
+void IMS_ModuleFunction_Location::calculateComponentProperties()
 {
-	double availableVolume = maxVolume;
+	availableVolume = maxVolume;
+	componentMass = 0;
 	for (UINT i = 0; i < components.size(); ++i)
 	{
 		availableVolume -= components[i]->GetVolume();
+		componentMass += components[i]->GetMass();
 	}
-	return availableVolume;
 }
 
 IMS_ModuleFunctionData_Location *IMS_ModuleFunction_Location::GetData()
@@ -60,4 +61,9 @@ void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel)
 	//todo: movables!
 	InvokeMovablePreStep(simdt);
 	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
+}
+
+double IMS_ModuleFunction_Location::GetComponentMass()
+{
+
 }

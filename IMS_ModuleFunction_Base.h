@@ -97,7 +97,7 @@ public:
 
 	/**
 	* \brief returns the GUI of this module function, or NULL if this module function doesn't have a user interface. 
-	* \note Overload this function to return the specific GUI
+	* \note Override this function to return the specific GUI
 	* of your module function, otherwise the core will think
 	* that the module function has no user input.
 	*/

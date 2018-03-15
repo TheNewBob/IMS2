@@ -23,6 +23,13 @@ LayoutManager::~LayoutManager()
 {
 }
 
+int LayoutManager::GetLayoutHeight(string filename, int width)
+{
+	auto *l = GetLayout(filename);
+	auto layout = l->GetLayoutForWidth(width);
+	return layout ? layout->GetLayoutHeight() : -1;
+}
+
 
 LAYOUTCOLLECTION *LayoutManager::GetLayout(string filename)
 {

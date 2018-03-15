@@ -533,6 +533,9 @@
     <ClCompile Include="IMS_ModuleFunctionData_Location.cpp">
       <Filter>ModuleData</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_ModuleFunction_Pressurised.cpp">
+      <Filter>Modules\Module functionalities\Pressurised</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMS.h">
@@ -1056,6 +1059,9 @@
     </ClInclude>
     <ClInclude Include="IMS_ModuleFunctionData_Location.h">
       <Filter>ModuleData</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_ModuleFunction_Pressurised.h">
+      <Filter>Modules\Module functionalities\Pressurised</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

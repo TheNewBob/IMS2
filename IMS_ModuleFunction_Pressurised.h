@@ -7,13 +7,14 @@ class IMS2;
 
 class IMS_ModuleFunction_Pressurised : public IMS_ModuleFunction_Location
 {
+	friend class GUI_ModuleFunction_Pressurised;
 public:
 	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module);
 
 	/**
 	 * \brief constructor to be used by subclasses
 	 */
-	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> locationContexts);
+	IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> locationContexts, bool createGui = false);
 
 
 	virtual ~IMS_ModuleFunction_Pressurised();
@@ -23,7 +24,7 @@ public:
 	virtual void AddFunctionToVessel(IMS2 *vessel) {};
 	virtual void RemoveFunctionFromVessel(IMS2 *vessel) {};
 	virtual bool processScenarioLine(string line){ return false; };
-	// TODO: Return UI
+	virtual GUI_ModuleFunction_Base *GetGui() { return NULL; };
 	virtual double GetMass();
 	virtual IMS_Module *GetModule();
 
@@ -33,5 +34,6 @@ protected:
 
 
 private:
-	IMS_ModuleFunctionData_Pressurised *data;			
+	IMS_ModuleFunctionData_Pressurised *data;
+	//GUI_ModuleFUnction_Pre
 };

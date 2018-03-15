@@ -182,6 +182,7 @@
     <ClCompile Include="GUI_MainModules.cpp" />
     <ClCompile Include="GUI_Module.cpp" />
     <ClCompile Include="GUI_ModuleFunction_Comm.cpp" />
+    <ClCompile Include="GUI_ModuleFunction_Pressurised.cpp" />
     <ClCompile Include="GUI_ModuleFunction_Tank.cpp" />
     <ClCompile Include="GUI_ModuleFunction_Thruster.cpp" />
     <ClCompile Include="GUI_Page.cpp" />
@@ -330,6 +331,7 @@
     <ClInclude Include="GUI_Module.h" />
     <ClInclude Include="GUI_ModuleFunction_Base.h" />
     <ClInclude Include="GUI_ModuleFunction_Comm.h" />
+    <ClInclude Include="GUI_ModuleFunction_Pressurised.h" />
     <ClInclude Include="GUI_ModuleFunction_Tank.h" />
     <ClInclude Include="GUI_ModuleFunction_Thruster.h" />
     <ClInclude Include="GUI_Page.h" />

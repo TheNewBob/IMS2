@@ -2,6 +2,7 @@
 
 class IMS_ComponentModel_Base;
 class IMS_Component_Base;
+class IMS_ModuleFunctionData_Location;
 
 /**
  * \brief Abstract base class for module functions that are also a location.
@@ -34,6 +35,13 @@ public:
 	 */
 	double GetAvailableVolume() { return availableVolume; };
 
+	/**
+	 * \return The (wet) mass of components installed in this module, in kg.
+	 * \note The value obtained by this should only be used for informative or modulefunction internal purposes.
+	 *	The total mass of the module function should always be retrieved using GetMass().		
+	 */
+	double GetComponentMass() { return componentMass; };
+
 	IMS_ModuleFunctionData_Location *GetData();
 
 	void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel);
@@ -44,7 +52,12 @@ protected:
 private:
 	double maxVolume = -1;
 	double availableVolume = -1;
-	double calculateAvailableVolume();
+	double componentMass = -1;
+	
+	/**
+	 * \brief Calculates volume left over and total mass of all components.
+	 */
+	void calculateComponentProperties();
 	IMS_ModuleFunctionData_Location *data;
 
 };

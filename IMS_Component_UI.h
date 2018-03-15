@@ -11,6 +11,6 @@ protected:
 	GUI_LabelValuePair *availableVolume = NULL;
 	GUI_DynamicButton *addComponentBtn = NULL;
 	GUI_DynamicButton *removeComponentBtn = NULL;
-	GUI_ScrollablePage *componentList = NULL;
+	GUI_ListBox *componentList = NULL;
 };
 
