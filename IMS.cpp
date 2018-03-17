@@ -30,7 +30,7 @@ SURFHANDLE IMS2::engPanelBG = NULL;
 
 DLLCLBK void InitModule (HINSTANCE hModule)
 {
-	Olog::loglevel = OLOG_TRACE;
+	Olog::loglevel = OLOG_DEBUG;
 	Olog::assertlevel = OLOG_DEBUG;
 	Olog::projectName = "IMS2";
 	

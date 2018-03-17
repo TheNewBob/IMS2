@@ -19,5 +19,6 @@ public:
 	IMS_ModuleFunctionData_Pressurised();
 	~IMS_ModuleFunctionData_Pressurised();
 
+	bool HasGui() { return true; };
 };
 

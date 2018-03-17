@@ -18,6 +18,7 @@ protected:
 	GUI_DynamicButton *addComponentBtn = NULL;
 	GUI_DynamicButton *removeComponentBtn = NULL;
 
+	//virtual bool updateMe();
 
 };
 

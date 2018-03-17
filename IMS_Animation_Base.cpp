@@ -42,7 +42,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 
 	//create animation on vessel and remember the orbiter ID 
 	orbiterid = vessel->CreateAnim(0.0);
-	Olog::debug("created animation %s %i", data->id.data(), orbiterid);
+	Olog::trace("created animation %s %i", data->id.data(), orbiterid);
 
 	//create the animation on the vessel. We need to store the handles for parent-child relations
 	//and for proper deletion later on.

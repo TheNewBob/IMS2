@@ -13,7 +13,7 @@
 #include "GUIplugin.h"
 #include "LayoutManager.h"
 
-const string LAYOUTNAME = "modulefunctions/components.xml";
+const string LAYOUTNAME = "misc/components.xml";
 const string TITLE = "title";
 const string MAX_VOLUME_LBL = "max_volume_lbl";
 const string AVAILABLE_VOLUME_LBL = "available_volume_lbl";
@@ -23,12 +23,13 @@ const string REMOVE_COMPONENT_BTN = "remove_btn";
 const string COMPONENTS_LBL = "components_lbl";
 const string COMPONENTS_LIST = "components_list";
 
-IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUIplugin *gui, RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground)
+IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUIplugin *gui, RECT mRect, int _id, int parent_id, GUI_ElementStyle *_style, bool drawbackground)
 	: GUI_Page(mRect, _id, _style, drawbackground)
 {
+	gui->RegisterGuiElement(this, parent_id);
+
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);
 
-	gui->CreateLabel(GetLayoutDataForElement(TITLE, l), "Components", _id);
 	maxVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(MAX_VOLUME_LBL, l), "max volume:", 
 		Helpers::doubleToString(modFunction->GetMaxVolume()) + " m3", _id);
 	availableVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(AVAILABLE_VOLUME_LBL, l), "available volume:", 
@@ -41,10 +42,8 @@ IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUI
 	removeComponentBtn->SetVisible(false);
 
 	// create a Listbox listing all components
-
 	gui->CreateLabel(GetLayoutDataForElement(COMPONENTS_LBL, l), "installed components", _id);
 	componentList = gui->CreateListBox(GetLayoutDataForElement(COMPONENTS_LIST, l), _id);
-	
 }
 
 

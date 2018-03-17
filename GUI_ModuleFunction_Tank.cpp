@@ -32,6 +32,7 @@ const static string PROPELLANT_STATUS = "propellant_status";
 const static string VALVE_CHKBX = "valve_chkbx";
 const static string CHANGE_PROPTYPE_BTN = "change_proptype_btn";
 
+// TODO: Make height of element respect layout
 GUI_ModuleFunction_Tank::GUI_ModuleFunction_Tank(IMS_ModuleFunction_Tank *tank, GUIplugin *gui)
 	: GUI_ModuleFunction_Base(100, gui, gui->GetStyle(IMS_ModuleFunction_Base::GUI_MODULE_STYLE)), tank(tank)
 {

@@ -22,17 +22,20 @@ const static string NAME_LBL = "name_lbl";
 const static string COMPONENTS_VIEW = "components_view";
 
 GUI_ModuleFunction_Pressurised::GUI_ModuleFunction_Pressurised(IMS_ModuleFunction_Pressurised *moduleFunction, GUIplugin *gui)
-	:GUI_ModuleFunction_Base(LayoutManager::GetLayoutHeight(LAYOUTNAME, predictWidth(gui, INT_MAX)), gui, gui->GetStyle(IMS_ModuleFunction_Base::GUI_MODULE_STYLE))
+	:GUI_ModuleFunction_Base(LayoutManager::GetLayoutHeight(LAYOUTNAME, predictWidth(gui, INT_MAX)), gui, gui->GetStyle(IMS_ModuleFunction_Base::GUI_MODULE_STYLE)),
+	function(moduleFunction)
 {
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);
-	gui->CreateLabel(GetLayoutDataForElement(NAME_LBL, l), moduleFunction->data->GetName(), id);
+	auto test = gui->CreateLabel(GetLayoutDataForElement(NAME_LBL, l), "Test"/*moduleFunction->data->GetName()*/, id);
 	auto layoutdata = GetLayoutDataForElement(COMPONENTS_VIEW, l);
-	auto componentsView = IMS_Component_UI(
+	auto componentsView = new IMS_Component_UI(
 		moduleFunction, 
 		gui, 
 		layoutdata.rect, 
 		gui->GetDynamicUID(),
-		gui->GetStyle(layoutdata.styleId));
+		id, gui->GetStyle(layoutdata.styleId));
+
+//	updatenextframe = true;
 }
 
 
@@ -44,3 +47,8 @@ int GUI_ModuleFunction_Pressurised::ProcessChildren(GUI_MOUSE_EVENT _event, int 
 {
 	return -1;
 }
+
+/*bool GUI_ModuleFunction_Pressurised::updateMe()
+{
+	return true;
+}*/

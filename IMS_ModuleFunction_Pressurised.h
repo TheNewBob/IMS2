@@ -3,7 +3,7 @@
 
 
 class IMS2;
-
+class GUI_ModuleFunction_Pressurised;
 
 class IMS_ModuleFunction_Pressurised : public IMS_ModuleFunction_Location
 {
@@ -24,7 +24,7 @@ public:
 	virtual void AddFunctionToVessel(IMS2 *vessel) {};
 	virtual void RemoveFunctionFromVessel(IMS2 *vessel) {};
 	virtual bool processScenarioLine(string line){ return false; };
-	virtual GUI_ModuleFunction_Base *GetGui() { return NULL; };
+	virtual GUI_ModuleFunction_Base *GetGui();
 	virtual double GetMass();
 	virtual IMS_Module *GetModule();
 
@@ -35,5 +35,5 @@ protected:
 
 private:
 	IMS_ModuleFunctionData_Pressurised *data;
-	//GUI_ModuleFUnction_Pre
+	GUI_ModuleFunction_Pressurised *menu = NULL;
 };
