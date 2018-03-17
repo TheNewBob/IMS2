@@ -8,6 +8,8 @@ class GUIplugin;
 class IMS_Movable;
 class IMS2;
 
+struct DOCKEDVESSEL;
+
 //the id for the module's GUI page. Since there will only ever be one element 
 //with that ID per plugin, this will not cause conflicts. 
 const int GUI_MODULE_PAGE = INT_MAX;		

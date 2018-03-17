@@ -1,6 +1,8 @@
+#include "Common.h"					// TODO: Common and GUI_Common are not supposed to be included together. Clean up this mess.
 #include "GUI_Common.h"
 #include "Events.h"
 #include "IMS.h"
+#include "IMS_Location.h"
 #include "IMS_Module.h"
 #include "IMS_ModuleFunction_Base.h"
 #include "IMS_ModuleFunction_Location.h"
@@ -21,7 +23,7 @@ const string REMOVE_COMPONENT_BTN = "remove_btn";
 const string COMPONENTS_LBL = "components_lbl";
 const string COMPONENTS_LIST = "components_list";
 
-IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUIplugin *gui, RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground = false)
+IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUIplugin *gui, RECT mRect, int _id, GUI_ElementStyle *_style, bool drawbackground)
 	: GUI_Page(mRect, _id, _style, drawbackground)
 {
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);

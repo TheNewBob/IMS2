@@ -11,6 +11,7 @@
 #include "IMS_Module.h"
 
 #include "IMS_ModuleFunctionData_Base.h"
+#include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "IMS_ModuleFunctionData_Animation.h"
 #include "IMS_ModuleFunctionData_Comm.h"

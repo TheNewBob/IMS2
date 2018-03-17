@@ -3,6 +3,7 @@
 #include "Events.h"
 #include "Moduletypes.h"
 #include "IMS_ModuleFunctionData_Base.h"
+#include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "ModuleFunctionIncludes.h"
 #include "IMS_Location.h"

@@ -13,6 +13,7 @@
 #include "IMS_Storable.h"
 #include "IMS_Module.h"
 #include "IMS_ModuleFunctionData_Base.h"
+#include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "IMS_ModuleFunctionData_Tank.h"
 #include "GUI_ModuleFunction_Base.h"

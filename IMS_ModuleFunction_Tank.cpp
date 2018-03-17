@@ -38,7 +38,7 @@ void IMS_ModuleFunction_Tank::PostLoad()
 	if (tank == NULL)
 	{
 		//if the state wasn't loaded, create the tank at full capacity
-		tank = new IMS_Storable(data->getVolume(), data->getPropellant(), this);
+		tank = new IMS_Storable(data->GetVolume(), data->getPropellant(), this);
 	}
 	menu->Init();
 }
@@ -81,7 +81,7 @@ void IMS_ModuleFunction_Tank::SetPropellantType(int propellant_id)
 	{
 		//create a new tank with the new propellant type
 		CONSUMABLEDATA *newprop = IMS_ModuleDataManager::GetConsumableData(propellant_id);
-		tank = new IMS_Storable(data->getVolume(), newprop, this, 0.0);
+		tank = new IMS_Storable(data->GetVolume(), newprop, this, 0.0);
 		propmanager->AddTank(tank);
 		//update the menu with the new information
 		menu->Init();

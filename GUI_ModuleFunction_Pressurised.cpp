@@ -1,4 +1,5 @@
 #include "GUI_Common.h"
+#include "Common.h"
 #include "GUI_Elements.h"
 #include "GUIentity.h"
 #include "GUImanager.h"
@@ -9,6 +10,7 @@
 #include "IMS_ModuleFunctionData_Base.h"
 #include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
+#include "IMS_ModuleFunction_Location.h"
 #include "IMS_ModuleFunction_Pressurised.h"
 #include "GUI_ModuleFunction_Base.h"
 #include "GUI_ModuleFunction_Pressurised.h"
@@ -36,4 +38,9 @@ GUI_ModuleFunction_Pressurised::GUI_ModuleFunction_Pressurised(IMS_ModuleFunctio
 
 GUI_ModuleFunction_Pressurised::~GUI_ModuleFunction_Pressurised()
 {
+}
+
+int GUI_ModuleFunction_Pressurised::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
+{
+	return -1;
 }

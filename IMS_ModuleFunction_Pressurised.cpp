@@ -21,7 +21,8 @@ IMS_ModuleFunction_Pressurised::IMS_ModuleFunction_Pressurised(IMS_ModuleFunctio
 }
 
 
-IMS_ModuleFunction_Pressurised::IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> locationContexts)
+IMS_ModuleFunction_Pressurised::IMS_ModuleFunction_Pressurised(IMS_ModuleFunctionData_Pressurised *_data, IMS_Module *_module, FUNCTIONTYPE _type, 
+	vector<LOCATION_CONTEXT> locationContexts, bool createGui)
 	: IMS_ModuleFunction_Location(_data, _module, _type, locationContexts, _data->GetVolume())
 {
 

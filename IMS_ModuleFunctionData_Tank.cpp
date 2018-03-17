@@ -3,6 +3,7 @@
 #include "IMS_General_ModuleData.h"
 #include "IMS_ModuleDataManager.h"
 #include "IMS_ModuleFunctionData_Base.h"
+#include "IMS_ModuleFunctionData_Location.h"
 #include "IMS_ModuleFunctionData_Pressurised.h"
 #include "IMS_ModuleFunctionData_Tank.h"
 

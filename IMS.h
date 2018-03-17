@@ -6,6 +6,7 @@ class GUImanager;
 class GUI_Surface;
 class GUI_MainDisplay;
 
+class IMS_Module;
 class IMS_Orbiter_ModuleData; 
 class IMS_General_ModuleData;
 class IMS_Component_Model_Base;

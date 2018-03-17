@@ -62,8 +62,3 @@ void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel)
 	InvokeMovablePreStep(simdt);
 	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
 }
-
-double IMS_ModuleFunction_Location::GetComponentMass()
-{
-
-}
