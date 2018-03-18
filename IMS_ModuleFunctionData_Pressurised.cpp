@@ -7,6 +7,7 @@
 IMS_ModuleFunctionData_Pressurised::IMS_ModuleFunctionData_Pressurised()
 {
 	type = MTYPE_PRESSURISED;
+	if (name == "") name = "Pressurised compartment";
 }
 
 

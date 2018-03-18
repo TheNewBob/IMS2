@@ -4,6 +4,7 @@
 
 class IMS_General_ModuleData;
 class IMS_Orbiter_ModuleData;
+struct LOCATION_CONTEXT;
 
 //struct containing all static moduledata
 struct STATICMODULEDATA
@@ -89,6 +90,12 @@ public:
 	 * \Note this has to unwrap a map into a vector, so use sparingly if you value performance.
 	 */
 	static vector<IMS_Component_Model_Base*> GetAllComponentModels();
+
+	/**
+	 * \return All loaded components that have at least one of the passed contexts.
+	 * \Note Too expensive to use on a frame by frame basis.
+	 */
+	static vector<IMS_Component_Model_Base*> GetComponentModelsForContexts(vector<LOCATION_CONTEXT> &contexts);
 
 	/**
 	 * \brief frees memory allocated by the manager. Only call from ExitModule!

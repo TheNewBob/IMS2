@@ -31,22 +31,36 @@ IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUI
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);
 
 	maxVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(MAX_VOLUME_LBL, l), "max volume:", 
-		Helpers::doubleToString(modFunction->GetMaxVolume()) + " m3", _id);
+		Helpers::doubleToString(modFunction->GetMaxVolume(), 3) + " m3", _id);
 	availableVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(AVAILABLE_VOLUME_LBL, l), "available volume:", 
-		Helpers::doubleToString(modFunction->GetAvailableVolume()) + " m3", _id);
+		Helpers::doubleToString(modFunction->GetAvailableVolume(), 3) + " m3", _id);
 	maxVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(COMPONENT_MASS_LBL, l), "component mass:",
-		Helpers::doubleToString(modFunction->GetComponentMass()) + "kg", _id);
+		Helpers::doubleToString(modFunction->GetComponentMass(), 3) + " kg", _id);
 
 	addComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(ADD_COMPONENT_BTN, l), "add", _id);
 	removeComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(ADD_COMPONENT_BTN, l), "remove", _id);
 	removeComponentBtn->SetVisible(false);
 
 	// create a Listbox listing all components
-	gui->CreateLabel(GetLayoutDataForElement(COMPONENTS_LBL, l), "installed components", _id);
+	gui->CreateLabel(GetLayoutDataForElement(COMPONENTS_LBL, l), "Installed components", _id);
 	componentList = gui->CreateListBox(GetLayoutDataForElement(COMPONENTS_LIST, l), _id);
 }
 
 
 IMS_Component_UI::~IMS_Component_UI()
 {
+}
+
+int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
+{
+	int eventId = GUI_BaseElement::ProcessChildren(_event, _x, _y);
+
+	//no children of this element have been clicked
+	if (eventId == -1) return -1;
+
+	if (eventId == addComponentBtn->GetId())
+	{
+		
+	}
+
 }

@@ -6,11 +6,13 @@
 #include "IMS_ModuleDataManager.h"
 #include "ComponentFactory.h"
 #include <algorithm>
+#include "IMS_Location.h"
 
 std::map<string, STATICMODULEDATA> IMS_ModuleDataManager::_staticModuleData;
 std::vector<CONSUMABLEDATA> IMS_ModuleDataManager::consumabledata;
 std::map<string, IMS_Component_Model_Base*> IMS_ModuleDataManager::components;
 
+const string COMPONENTS_ROOT = COMPONENTS_ROOT;
 
 IMS_ModuleDataManager::IMS_ModuleDataManager()
 {
@@ -115,7 +117,7 @@ IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string name)
 	if (components.size() == 0)
 	{
 		Olog::debug("Loading component models");
-		loadComponentData("config/IMS2/components/");
+		loadComponentData(COMPONENTS_ROOT);
 	}
 
 	auto model = components[name];
@@ -130,15 +132,33 @@ IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string name)
 vector<IMS_Component_Model_Base*> IMS_ModuleDataManager::GetAllComponentModels()
 {
 	if (components.size() == 0)
-	{
-		Olog::debug("loading component models");
-		loadComponentData("config/IMS2/components/");
-	}
-
+		loadComponentData(COMPONENTS_ROOT);
+	
 	vector<IMS_Component_Model_Base*> result;
 	for (auto it = components.begin(); it != components.end(); ++it)
 	{
 		result.push_back(it->second);
+	}
+	return result;
+}
+
+vector<IMS_Component_Model_Base*> IMS_ModuleDataManager::GetComponentModelsForContexts(vector<LOCATION_CONTEXT> &IN_contexts)
+{
+	if (components.size() == 0)
+		loadComponentData(COMPONENTS_ROOT);
+
+	vector<IMS_Component_Model_Base*> result;
+	for (auto i = components.begin(); i != components.end(); ++i)
+	{
+		auto componentContexts = i->second->GetContexts();
+		for (UINT j = 0; j < IN_contexts.size(); ++j)
+		{
+			if (find(componentContexts.begin(), componentContexts.end(), IN_contexts[j]) != componentContexts.end())
+			{
+				result.push_back(i->second);
+				break;
+			}
+		}
 	}
 	return result;
 }

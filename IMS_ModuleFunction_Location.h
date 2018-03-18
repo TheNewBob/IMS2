@@ -52,7 +52,7 @@ protected:
 private:
 	double maxVolume = -1;
 	double availableVolume = -1;
-	double componentMass = -1;
+	double componentMass = 0;
 	
 	/**
 	 * \brief Calculates volume left over and total mass of all components.

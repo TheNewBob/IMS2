@@ -11,6 +11,9 @@ public:
 	IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUIplugin *gui, RECT mRect, int _id, int parent_id, GUI_ElementStyle *_style, bool drawbackground = false);
 	virtual ~IMS_Component_UI();
 
+	int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
+
+
 protected:
 	GUI_LabelValuePair *maxVolume = NULL;
 	GUI_LabelValuePair *availableVolume = NULL;

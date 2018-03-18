@@ -72,9 +72,6 @@
     <Filter Include="Modules\Module functionalities\Thrusters">
       <UniqueIdentifier>{af51d0f0-bc6a-4531-93be-f3adcbab8e0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Movables">
-      <UniqueIdentifier>{65e4312f-0e52-453b-879a-2f49125e2bc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI\Popups">
       <UniqueIdentifier>{d0a7574f-bb33-4f14-b70a-1ca77ecdac30}</UniqueIdentifier>
     </Filter>
@@ -101,9 +98,6 @@
     </Filter>
     <Filter Include="PowerDistribution">
       <UniqueIdentifier>{f9f6f1a1-bc36-4b72-aeb0-aabb6eaaa4c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{b0eb7729-2290-4b43-8c9c-444fc2a6280c}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI\GUI elements\Base">
       <UniqueIdentifier>{63fb1548-bc01-4608-bd8c-fe32a4de94d1}</UniqueIdentifier>
@@ -147,17 +141,23 @@
     <Filter Include="GUI\IMS2 Menus\MainDisplay menus">
       <UniqueIdentifier>{c61c4bfc-e183-401e-9894-3e5e65274057}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Base">
-      <UniqueIdentifier>{8d6575ed-a4a2-4404-8ccf-8d4a7bfb966e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Lighting">
-      <UniqueIdentifier>{ff5b64cb-e9d3-4f7d-89ca-085ed04ad515}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI\IMS2 Menus\Popups">
       <UniqueIdentifier>{7a9553e2-f167-4dbb-a592-4762dd23c465}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI\IMS2 Menus\Reusable">
       <UniqueIdentifier>{0f41de2b-ebc8-4199-b36b-3b1d5889b944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Movables">
+      <UniqueIdentifier>{65e4312f-0e52-453b-879a-2f49125e2bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Movables\Components">
+      <UniqueIdentifier>{b0eb7729-2290-4b43-8c9c-444fc2a6280c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Movables\Components\Base">
+      <UniqueIdentifier>{8d6575ed-a4a2-4404-8ccf-8d4a7bfb966e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Movables\Components\Lighting">
+      <UniqueIdentifier>{ff5b64cb-e9d3-4f7d-89ca-085ed04ad515}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -324,10 +324,10 @@
       <Filter>Core\Managers</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Movable.cpp">
-      <Filter>Core\Movables</Filter>
+      <Filter>Movables</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Storable.cpp">
-      <Filter>Core\Movables</Filter>
+      <Filter>Movables</Filter>
     </ClCompile>
     <ClCompile Include="IMS_ModuleFunctionData_Thruster.cpp">
       <Filter>ModuleData</Filter>
@@ -345,7 +345,7 @@
       <Filter>Modules\Module functionalities\Tank</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Location.cpp">
-      <Filter>Core\Movables</Filter>
+      <Filter>Movables</Filter>
     </ClCompile>
     <ClCompile Include="GUIalert.cpp">
       <Filter>GUI\Popups</Filter>
@@ -504,19 +504,19 @@
       <Filter>GUI\IMS2 Menus</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Component_Model_Lighting.cpp">
-      <Filter>Components\Lighting</Filter>
+      <Filter>Movables\Components\Lighting</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Component_Lighting.cpp">
-      <Filter>Components\Lighting</Filter>
+      <Filter>Movables\Components\Lighting</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Component_Base.cpp">
-      <Filter>Components\Base</Filter>
+      <Filter>Movables\Components\Base</Filter>
     </ClCompile>
     <ClCompile Include="IMS_Component_Model_Base.cpp">
-      <Filter>Components\Base</Filter>
+      <Filter>Movables\Components\Base</Filter>
     </ClCompile>
     <ClCompile Include="ComponentFactory.cpp">
-      <Filter>Components</Filter>
+      <Filter>Movables\Components</Filter>
     </ClCompile>
     <ClCompile Include="IMS_ComponentSelector.cpp">
       <Filter>GUI\IMS2 Menus\Popups</Filter>
@@ -782,10 +782,10 @@
       <Filter>Core\Managers</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Movable.h">
-      <Filter>Core\Movables</Filter>
+      <Filter>Movables</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Storable.h">
-      <Filter>Core\Movables</Filter>
+      <Filter>Movables</Filter>
     </ClInclude>
     <ClInclude Include="MassHasChangedEvent.h">
       <Filter>EventHandling\Events</Filter>
@@ -809,7 +809,7 @@
       <Filter>Modules\Module functionalities\Tank</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Location.h">
-      <Filter>Core\Movables</Filter>
+      <Filter>Movables</Filter>
     </ClInclude>
     <ClInclude Include="GUIalert.h">
       <Filter>GUI\Popups</Filter>
@@ -1028,25 +1028,25 @@
       <Filter>GUI\GUI Looks</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Component_Model_Lighting.h">
-      <Filter>Components\Lighting</Filter>
+      <Filter>Movables\Components\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Component_Lighting.h">
-      <Filter>Components\Lighting</Filter>
+      <Filter>Movables\Components\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Component_Base.h">
-      <Filter>Components\Base</Filter>
+      <Filter>Movables\Components\Base</Filter>
     </ClInclude>
     <ClInclude Include="IMS_Component_Model_Base.h">
-      <Filter>Components\Base</Filter>
+      <Filter>Movables\Components\Base</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
-      <Filter>Components</Filter>
+      <Filter>Movables\Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentFactory.h">
-      <Filter>Components</Filter>
+      <Filter>Movables\Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentIdentifiers.h">
-      <Filter>Components</Filter>
+      <Filter>Movables\Components</Filter>
     </ClInclude>
     <ClInclude Include="IMS_ComponentSelector.h">
       <Filter>GUI\IMS2 Menus\Popups</Filter>

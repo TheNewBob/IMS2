@@ -210,3 +210,4 @@ vector<IMS_Component_Model_Base*> &IMS2::GetAddableComponents()
 {
 	return IMS_ModuleDataManager::GetAllComponentModels();
 }
+

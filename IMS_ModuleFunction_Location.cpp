@@ -12,7 +12,7 @@
 
 
 IMS_ModuleFunction_Location::IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Location *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume)
-	: IMS_ModuleFunction_Base(_data, _module, _type), IMS_Location(contexts), maxVolume(maxVolume), data(_data)
+	: IMS_ModuleFunction_Base(_data, _module, _type), IMS_Location(contexts), maxVolume(maxVolume), availableVolume(maxVolume), data(_data)
 {
 }
 

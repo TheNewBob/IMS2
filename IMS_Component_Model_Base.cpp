@@ -1,5 +1,6 @@
 #include "Common.h"
 #include "IMS_Component_Model_Base.h"
+#include "IMS_Location.h"
 
 
 IMS_Component_Model_Base::IMS_Component_Model_Base(string type) : type(type)
@@ -24,21 +25,38 @@ bool IMS_Component_Model_Base::LoadFromFile(string configfile, IMSFILE cfg)
 		transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), ::tolower);
 		try 
 		{
-			if (tokens[0] == "begin_description")
+			if (tokens[0] == "begin_description" || tokens[0] == "begin_contexts")
 			{
 				string line;
+				bool readingDescription = false;
+				bool readingContexts = false;
+				if (tokens[0] == "begin_description") readingDescription = true;
+				else readingContexts = true;
+
 				bool stopReading = false;
 				while (! stopReading && Helpers::readLine(cfg, line))
 				{
 					string lowerCaseLine = line;
 					transform(lowerCaseLine.begin(), lowerCaseLine.end(), lowerCaseLine.begin(), ::tolower);
-					if (lowerCaseLine != "end_description")
+					if (readingDescription)
 					{
-						description += string(line + "\n");
+						if (lowerCaseLine != "end_description")
+						{
+							description += string(line + "\n");
+						}
+						else
+						{
+							stopReading = true;
+						}
 					}
-					else
+					else if (readingContexts)
 					{
-						stopReading = true;
+						if (lowerCaseLine == "pressurised")
+							contexts.push_back(IMS_Location::CONTEXT_PRESSURISED);
+						else if (lowerCaseLine == "vacuum")
+							contexts.push_back(IMS_Location::CONTEXT_VACUUM);
+						else if (lowerCaseLine == "end_contexts") stopReading = true;
+						else Olog::warn("Unknown context %s in %s", lowerCaseLine.data(), configfile.data());
 					}
 				}
 			}

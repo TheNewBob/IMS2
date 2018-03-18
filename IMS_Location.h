@@ -13,6 +13,7 @@ public:
 	LOCATION_CONTEXT(int id, string description)
 		: id(id), description(description) {};
 
+	bool operator==(LOCATION_CONTEXT other) { return id == other.id; }
 	int GetId() { return id; };
 	string GetDescription() { return description; };
 private:

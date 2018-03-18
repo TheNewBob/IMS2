@@ -26,7 +26,7 @@ GUI_ModuleFunction_Pressurised::GUI_ModuleFunction_Pressurised(IMS_ModuleFunctio
 	function(moduleFunction)
 {
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);
-	auto test = gui->CreateLabel(GetLayoutDataForElement(NAME_LBL, l), "Test"/*moduleFunction->data->GetName()*/, id);
+	auto test = gui->CreateLabel(GetLayoutDataForElement(NAME_LBL, l), moduleFunction->data->GetName(), id);
 	auto layoutdata = GetLayoutDataForElement(COMPONENTS_VIEW, l);
 	auto componentsView = new IMS_Component_UI(
 		moduleFunction, 
