@@ -45,7 +45,7 @@ GUI_ModuleFunction_Pressurised::~GUI_ModuleFunction_Pressurised()
 
 int GUI_ModuleFunction_Pressurised::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 {
-	return -1;
+	return GUI_BaseElement::ProcessChildren(_event, _x, _y);
 }
 
 /*bool GUI_ModuleFunction_Pressurised::updateMe()

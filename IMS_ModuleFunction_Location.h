@@ -1,6 +1,6 @@
 #pragma once
 
-class IMS_ComponentModel_Base;
+class IMS_Component_Model_Base;
 class IMS_Component_Base;
 class IMS_ModuleFunctionData_Location;
 
@@ -41,6 +41,10 @@ public:
 	 *	The total mass of the module function should always be retrieved using GetMass().		
 	 */
 	double GetComponentMass() { return componentMass; };
+
+	IMS_Module *GetModule();
+
+	vector<IMS_Component_Model_Base*> GetAddableComponentModels();
 
 	IMS_ModuleFunctionData_Location *GetData();
 

@@ -12,7 +12,7 @@ std::map<string, STATICMODULEDATA> IMS_ModuleDataManager::_staticModuleData;
 std::vector<CONSUMABLEDATA> IMS_ModuleDataManager::consumabledata;
 std::map<string, IMS_Component_Model_Base*> IMS_ModuleDataManager::components;
 
-const string COMPONENTS_ROOT = COMPONENTS_ROOT;
+const string COMPONENTS_ROOT = "config/IMS2/components/";
 
 IMS_ModuleDataManager::IMS_ModuleDataManager()
 {
@@ -309,7 +309,7 @@ void IMS_ModuleDataManager::loadComponentData(string path)
 		{
 			string filename = searchresult.cFileName;
 			transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
-			if (filename.compare(filename.length() - 4, filename.length(), ".cmp") == 0)
+			if (filename.length() > 4 && filename.compare(filename.length() - 4, filename.length(), ".cmp") == 0)
 			{
 				string fullpath = path + filename;
 				Olog::trace("Loading component file %s", fullpath.data());

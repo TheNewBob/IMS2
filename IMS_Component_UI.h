@@ -20,5 +20,6 @@ protected:
 	GUI_DynamicButton *addComponentBtn = NULL;
 	GUI_DynamicButton *removeComponentBtn = NULL;
 	GUI_ListBox *componentList = NULL;
+	IMS_ModuleFunction_Location *moduleFunction = NULL;
 };
 

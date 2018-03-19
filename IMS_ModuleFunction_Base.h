@@ -106,7 +106,7 @@ public:
 	/**
 	 * \return The module containing this ModuleFunction
 	 */
-	IMS_Module *GetModule() { return module; };
+	virtual IMS_Module *GetModule() { return module; };
 
 protected:
 	

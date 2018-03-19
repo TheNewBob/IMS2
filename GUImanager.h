@@ -129,6 +129,10 @@ public:
 
 	static void ListDialog(string title, vector<string> &items, GUI_BaseElement *parent, bool(*callback)(int, void*), void *usrdata = NULL, RECT rect = _R(0, 0, 0, 0), string styleset = "default");
 
+	/**
+	 * \brief Registers a temporay popup
+	 */
+	static void AddPopup(GUIpopup *popup, GUI_BaseElement *parent);
 
 	/**
 	 * \brief Clear a temporary plugin (Popup-dialogue). 

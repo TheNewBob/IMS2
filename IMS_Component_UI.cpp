@@ -11,7 +11,10 @@
 #include "GUIentity.h"
 #include "GUImanager.h"
 #include "GUIplugin.h"
+#include "GUIpopup.h"
+#include "IMS_ComponentSelector.h"
 #include "LayoutManager.h"
+#include "IMS_Component_Model_Base.h"
 
 const string LAYOUTNAME = "misc/components.xml";
 const string TITLE = "title";
@@ -24,7 +27,7 @@ const string COMPONENTS_LBL = "components_lbl";
 const string COMPONENTS_LIST = "components_list";
 
 IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUIplugin *gui, RECT mRect, int _id, int parent_id, GUI_ElementStyle *_style, bool drawbackground)
-	: GUI_Page(mRect, _id, _style, drawbackground)
+	: GUI_Page(mRect, _id, _style, drawbackground), moduleFunction(modFunction)
 {
 	gui->RegisterGuiElement(this, parent_id);
 
@@ -61,6 +64,26 @@ int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 	if (eventId == addComponentBtn->GetId())
 	{
 		
+		GUImanager::AddPopup(new IMS_ComponentSelector(
+			moduleFunction->GetAddableComponentModels(),
+			(IMS_Location*)moduleFunction,
+			this,
+			this->rect, 
+			moduleFunction->GetModule()->GetGui()->GetStyleSet(),
+			[this](vector<IMS_Component_Model_Base*> models) {
+				for (UINT i = 0; i < models.size(); ++i)
+				{
+					if (moduleFunction->GetAvailableVolume() > models[i]->GetVolume())
+					{
+						moduleFunction->CreateComponent(models[i]->GetName());
+					}
+					else
+					{
+						break;
+					}
+				}
+				return true;
+			}), this);
 	}
 
 }

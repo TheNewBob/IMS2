@@ -319,6 +319,11 @@ void GUImanager::ListDialog(string title, vector<string> &items, GUI_BaseElement
 }
 
 
+void GUImanager::AddPopup(GUIpopup *popup, GUI_BaseElement *parent)
+{
+	parent->AddPlugin(popup);
+	temporaryplugins.insert(make_pair(popup, parent));
+}
 
 void GUImanager::ClearPopup(GUIpopup *popup)
 {

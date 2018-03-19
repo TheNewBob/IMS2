@@ -30,6 +30,8 @@ enum AP_MODE;
 const int FLIGHTPANEL = 0;
 const int ENGINEERINGPANEL = 1;
 
+struct LOCATION_CONTEXT;
+
 
 //data struct used to exchange splitting information between a vessel and its newly created offspring
 struct SPLIT_VESSEL_DATA
@@ -100,7 +102,7 @@ public:
 	 * \return all components that can currently be added to the vessel.
 	 * \todo Currently a stub that returns all compnents. Change when implementing a cargo and inventory system.
 	 */
-	vector<IMS_Component_Model_Base*> &GetAddableComponents();
+	vector<IMS_Component_Model_Base*> &GetAddableComponents(vector<LOCATION_CONTEXT> &contexts);
 
 	//manager getters
 	IMS_PropulsionManager *GetPropulsionManager();

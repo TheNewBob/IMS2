@@ -9,6 +9,9 @@
 #include "IMS_Movable.h"
 #include "IMS_Component_Base.h"
 #include "ComponentFactory.h"
+#include "IMS.h"
+#include "IMS_Module.h"
+
 
 
 IMS_ModuleFunction_Location::IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Location *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume)
@@ -61,4 +64,14 @@ void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel)
 	//todo: movables!
 	InvokeMovablePreStep(simdt);
 	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
+}
+
+vector<IMS_Component_Model_Base*> IMS_ModuleFunction_Location::GetAddableComponentModels()
+{
+	return module->GetVessel()->GetAddableComponents(contexts);
+}
+
+IMS_Module *IMS_ModuleFunction_Location::GetModule()
+{
+	return IMS_ModuleFunction_Base::GetModule();
 }
