@@ -18,7 +18,7 @@ const string CANCELBTN_ID = "cancel_btn";
 
 IMS_ComponentSelector::IMS_ComponentSelector(vector<IMS_Component_Model_Base*> components, IMS_Location *location, GUI_BaseElement *parent,
 	RECT rect, string styleset, std::function<bool(vector<IMS_Component_Model_Base*>)> callback)
-	: GUIpopup(parent, rect, "component_selector", styleset), callback(callback)
+	: GUIpopup(parent, rect, "component_selector", styleset), callback(callback), data(components)
 {
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTFILE);
 	CreateLabel(page->GetLayoutDataForElement(TITLE_ID, l), "Select Components", POPUP);
@@ -31,7 +31,7 @@ IMS_ComponentSelector::IMS_ComponentSelector(vector<IMS_Component_Model_Base*> c
 	int originalListBoxHeight = boxData.GetHeight();
 	int listboxHeight = min((height - boxData.rect.top) - btnHeight, originalListBoxHeight);
 	boxData.rect.bottom = boxData.rect.top + listboxHeight; 
-	list = CreateListBox(boxData, POPUP, true);
+	list = CreateListBox(boxData, POPUP, -1, true);
 	
 	//place the buttons
 	int listHeightDifference = originalListBoxHeight - boxData.GetHeight();

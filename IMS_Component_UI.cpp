@@ -15,6 +15,8 @@
 #include "IMS_ComponentSelector.h"
 #include "LayoutManager.h"
 #include "IMS_Component_Model_Base.h"
+#include "IMS_Movable.h"
+#include "IMS_Component_Base.h"
 
 const string LAYOUTNAME = "misc/components.xml";
 const string TITLE = "title";
@@ -33,12 +35,9 @@ IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUI
 
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);
 
-	maxVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(MAX_VOLUME_LBL, l), "max volume:", 
-		Helpers::doubleToString(modFunction->GetMaxVolume(), 3) + " m3", _id);
-	availableVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(AVAILABLE_VOLUME_LBL, l), "available volume:", 
-		Helpers::doubleToString(modFunction->GetAvailableVolume(), 3) + " m3", _id);
-	maxVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(COMPONENT_MASS_LBL, l), "component mass:",
-		Helpers::doubleToString(modFunction->GetComponentMass(), 3) + " kg", _id);
+	maxVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(MAX_VOLUME_LBL, l), "max volume:", "", _id);
+	availableVolume = gui->CreateLabelValuePair(GetLayoutDataForElement(AVAILABLE_VOLUME_LBL, l), "available volume:", "", _id);
+	componentMass = gui->CreateLabelValuePair(GetLayoutDataForElement(COMPONENT_MASS_LBL, l), "component mass:", "", _id);
 
 	addComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(ADD_COMPONENT_BTN, l), "add", _id);
 	removeComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(ADD_COMPONENT_BTN, l), "remove", _id);
@@ -47,6 +46,8 @@ IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUI
 	// create a Listbox listing all components
 	gui->CreateLabel(GetLayoutDataForElement(COMPONENTS_LBL, l), "Installed components", _id);
 	componentList = gui->CreateListBox(GetLayoutDataForElement(COMPONENTS_LIST, l), _id);
+
+	Refresh();
 }
 
 
@@ -63,12 +64,13 @@ int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 
 	if (eventId == addComponentBtn->GetId())
 	{
-		
+		vector<IMS_Component_Model_Base*> models;
+		moduleFunction->GetAddableComponentModels(models);
 		GUImanager::AddPopup(new IMS_ComponentSelector(
-			moduleFunction->GetAddableComponentModels(),
+			models,
 			(IMS_Location*)moduleFunction,
 			this,
-			this->rect, 
+			_R(0, 0, width, height), 
 			moduleFunction->GetModule()->GetGui()->GetStyleSet(),
 			[this](vector<IMS_Component_Model_Base*> models) {
 				for (UINT i = 0; i < models.size(); ++i)
@@ -76,6 +78,7 @@ int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 					if (moduleFunction->GetAvailableVolume() > models[i]->GetVolume())
 					{
 						moduleFunction->CreateComponent(models[i]->GetName());
+						Refresh();
 					}
 					else
 					{
@@ -85,5 +88,18 @@ int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 				return true;
 			}), this);
 	}
+}
 
+void IMS_Component_UI::Refresh()
+{
+	maxVolume->SetValue(Helpers::doubleToString(moduleFunction->maxVolume, 3) + " m3");
+	availableVolume->SetValue(Helpers::doubleToString(moduleFunction->availableVolume, 3) + " m3");
+	componentMass->SetValue(Helpers::doubleToString(moduleFunction->componentMass, 3) + " kg");
+
+	componentList->clear();
+	for (UINT i = 0; i < moduleFunction->components.size(); ++i)
+	{
+		componentList->AddElement(moduleFunction->components[i]->GetName());
+	}
+	updatenextframe = true;
 }

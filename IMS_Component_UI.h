@@ -13,10 +13,16 @@ public:
 
 	int ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y);
 
+	/**
+	 * \brief Forces the UI element to check the components in its assigned module functions and change its display accordingly. 
+	 */
+	void Refresh();
+
 
 protected:
 	GUI_LabelValuePair *maxVolume = NULL;
 	GUI_LabelValuePair *availableVolume = NULL;
+	GUI_LabelValuePair *componentMass = NULL;
 	GUI_DynamicButton *addComponentBtn = NULL;
 	GUI_DynamicButton *removeComponentBtn = NULL;
 	GUI_ListBox *componentList = NULL;

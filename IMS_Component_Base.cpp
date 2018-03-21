@@ -49,3 +49,8 @@ double IMS_Component_Base::GetVolume()
 { 
 	return data->GetVolume(); 
 }
+
+string IMS_Component_Base::GetName()
+{
+	return data->GetName();
+}

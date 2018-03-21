@@ -28,7 +28,6 @@ IMS_ModuleFunction_Location::~IMS_ModuleFunction_Location()
 void IMS_ModuleFunction_Location::CreateComponent(string componentName)
 {
 	auto newComponent = ComponentFactory::CreateNew(componentName, this);
-	AddMovable(newComponent);
 	components.push_back(newComponent);
 	calculateComponentProperties();
 }
@@ -66,12 +65,17 @@ void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel)
 	IMS_ModuleFunction_Base::PreStep(simdt, vessel);
 }
 
-vector<IMS_Component_Model_Base*> IMS_ModuleFunction_Location::GetAddableComponentModels()
+void IMS_ModuleFunction_Location::GetAddableComponentModels(vector<IMS_Component_Model_Base*> &OUT_componentModels)
 {
-	return module->GetVessel()->GetAddableComponents(contexts);
+	module->GetVessel()->GetAddableComponents(contexts, OUT_componentModels);
 }
 
 IMS_Module *IMS_ModuleFunction_Location::GetModule()
 {
 	return IMS_ModuleFunction_Base::GetModule();
+}
+
+void IMS_ModuleFunction_Location::GetInstalledComponents(vector<IMS_Component_Base*> &OUT_components)
+{
+	OUT_components = components;
 }

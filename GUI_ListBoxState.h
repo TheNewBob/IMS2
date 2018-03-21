@@ -10,7 +10,7 @@ public:
 	virtual bool GetSelectBox() { return selectBox; };
 	virtual void SetSelectBox(bool selectbox)
 	{
-		if (this->selectBox != selectBox)
+		if (this->selectBox != selectbox)
 		{
 			this->selectBox = selectbox;
 			propagateStateChange();

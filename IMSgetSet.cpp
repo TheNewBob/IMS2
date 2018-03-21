@@ -206,9 +206,9 @@ IMS_TouchdownPointManager *IMS2::GetTdPointManager()
 	return (IMS_TouchdownPointManager*)managers[TDPOINT_MANAGER];
 }
 
-vector<IMS_Component_Model_Base*> &IMS2::GetAddableComponents(vector<LOCATION_CONTEXT> &contexts)
+void IMS2::GetAddableComponents(vector<LOCATION_CONTEXT> &contexts, vector<IMS_Component_Model_Base*> &OUT_componentModels)
 {
 	// TODO Stub. One day this should check which components are actually available on the vessel, not just return them all.
-	return IMS_ModuleDataManager::GetComponentModelsForContexts(contexts);
+	OUT_componentModels = IMS_ModuleDataManager::GetComponentModelsForContexts(contexts);
 }
 

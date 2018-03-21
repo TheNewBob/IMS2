@@ -36,7 +36,11 @@ public:
 	 * \return The volume the component takes up, in cubic meters.
 	 */
 	double GetVolume();
-		
+
+	/**
+	 * \return The name of this component
+	 */
+	string GetName();
 
 	/**
 	* \brief returns the GUI of this module function, or NULL if this module function doesn't have a user interface.

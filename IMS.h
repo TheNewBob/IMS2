@@ -102,7 +102,7 @@ public:
 	 * \return all components that can currently be added to the vessel.
 	 * \todo Currently a stub that returns all compnents. Change when implementing a cargo and inventory system.
 	 */
-	vector<IMS_Component_Model_Base*> &GetAddableComponents(vector<LOCATION_CONTEXT> &contexts);
+	void GetAddableComponents(vector<LOCATION_CONTEXT> &contexts, vector<IMS_Component_Model_Base*> &OUT_componentModels);
 
 	//manager getters
 	IMS_PropulsionManager *GetPropulsionManager();

@@ -10,6 +10,7 @@ class IMS_ModuleFunctionData_Location;
 class IMS_ModuleFunction_Location :
 	public IMS_ModuleFunction_Base, public IMS_Location
 {
+	friend class IMS_Component_UI;
 public:
 	IMS_ModuleFunction_Location(IMS_ModuleFunctionData_Location *_data, IMS_Module *_module, FUNCTIONTYPE _type, vector<LOCATION_CONTEXT> contexts, double maxVolume);
 	virtual ~IMS_ModuleFunction_Location();
@@ -42,9 +43,14 @@ public:
 	 */
 	double GetComponentMass() { return componentMass; };
 
+	/**
+	 * \brief Fills the passed reference with all components installed in this module function.
+	 */
+	void GetInstalledComponents(vector<IMS_Component_Base*> &OUT_components);
+
 	IMS_Module *GetModule();
 
-	vector<IMS_Component_Model_Base*> GetAddableComponentModels();
+	void GetAddableComponentModels(vector<IMS_Component_Model_Base*> &OUT_componentModels);
 
 	IMS_ModuleFunctionData_Location *GetData();
 

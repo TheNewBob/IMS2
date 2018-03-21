@@ -119,7 +119,7 @@ IMS_Component_Model_Base *IMS_ModuleDataManager::GetComponentModel(string name)
 		Olog::debug("Loading component models");
 		loadComponentData(COMPONENTS_ROOT);
 	}
-
+	transform(name.begin(), name.end(), name.begin(), tolower);
 	auto model = components[name];
 	if (model == NULL)
 	{
