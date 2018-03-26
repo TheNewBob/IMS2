@@ -64,29 +64,49 @@ int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 
 	if (eventId == addComponentBtn->GetId())
 	{
+		// get components that can at this time be added to the vessel
 		vector<IMS_Component_Model_Base*> models;
 		moduleFunction->GetAddableComponentModels(models);
-		GUImanager::AddPopup(new IMS_ComponentSelector(
-			models,
-			(IMS_Location*)moduleFunction,
-			this,
-			_R(0, 0, width, height), 
-			moduleFunction->GetModule()->GetGui()->GetStyleSet(),
-			[this](vector<IMS_Component_Model_Base*> models) {
+		//filter out components that are too large
+		double maxVolume = moduleFunction->GetAvailableVolume();
+		for (UINT i = models.size(); i > 0; --i)
+		{
+			if (models[i - 1]->GetVolume() > maxVolume)
+			{
+				models.erase(models.begin() + (i - 1));
+			}
+		}
+
+		if (models.size() > 0)
+		{
+			// if there are addable components, show the selector list
+			GUImanager::AddPopup(new IMS_ComponentSelector(
+				models,
+				(IMS_Location*)moduleFunction,
+				this,
+				_R(0, 0, width, height),
+				moduleFunction->GetModule()->GetGui()->GetStyleSet(),
+				[this](vector<IMS_Component_Model_Base*> models) {
 				for (UINT i = 0; i < models.size(); ++i)
 				{
 					if (moduleFunction->GetAvailableVolume() > models[i]->GetVolume())
 					{
 						moduleFunction->CreateComponent(models[i]->GetName());
-						Refresh();
 					}
 					else
 					{
+						GUImanager::Alert("Not enough volume!", this);
 						break;
 					}
 				}
+				if (models.size() > 0) Refresh();
 				return true;
 			}), this);
+		}
+		else
+		{
+			GUImanager::Alert("Not enough volume!", this);
+		}
 	}
 	else if (eventId == componentList->GetId())
 	{
