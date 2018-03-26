@@ -23,7 +23,7 @@ string IMS_Component_Base::Serialize()
 {
 	map<string, string> keysAndValues;
 	getDynamicData(keysAndValues);
-	string strData = data->GetType() + "{";
+	string strData = data->GetName() + "{";
 	for (auto i = keysAndValues.begin(); i != keysAndValues.end(); ++i)
 	{
 		strData += (i->first + ":" + i->second + ";");

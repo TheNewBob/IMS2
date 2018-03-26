@@ -7,7 +7,6 @@ public:
 	IMS_Component_Lighting(IMS_Component_Model_Lighting *data, IMS_Location *location);
 	~IMS_Component_Lighting();
 
-	virtual string Serialize();
 	virtual void Deserialize(string data);
 	virtual double GetMass();
 	virtual void PreStep(IMS_Location *location, double simdt);

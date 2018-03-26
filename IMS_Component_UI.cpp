@@ -40,7 +40,7 @@ IMS_Component_UI::IMS_Component_UI(IMS_ModuleFunction_Location *modFunction, GUI
 	componentMass = gui->CreateLabelValuePair(GetLayoutDataForElement(COMPONENT_MASS_LBL, l), "component mass:", "", _id);
 
 	addComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(ADD_COMPONENT_BTN, l), "add", _id);
-	removeComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(ADD_COMPONENT_BTN, l), "remove", _id);
+	removeComponentBtn = gui->CreateDynamicButton(GetLayoutDataForElement(REMOVE_COMPONENT_BTN, l), "remove", _id);
 	removeComponentBtn->SetVisible(false);
 
 	// create a Listbox listing all components
@@ -88,7 +88,24 @@ int IMS_Component_UI::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 				return true;
 			}), this);
 	}
+	else if (eventId == componentList->GetId())
+	{
+		if (componentList->GetSelected() == -1)
+			removeComponentBtn->SetVisible(false);
+		else removeComponentBtn->SetVisible(true);
+	}
+	else if (eventId == removeComponentBtn->GetId())
+	{
+		moduleFunction->RemoveComponent(
+			moduleFunction->components[componentList->GetSelected()]);
+			Refresh();
+			if (componentList->GetSelected() == -1)
+				removeComponentBtn->SetVisible(false);
+	}
+
+	return eventId;
 }
+
 
 void IMS_Component_UI::Refresh()
 {

@@ -20,10 +20,8 @@ public:
 	virtual ~IMS_ModuleFunction_Pressurised();
 
 	virtual void PostLoad(){};
-	virtual void SaveState(FILEHANDLE scn){};
 	virtual void AddFunctionToVessel(IMS2 *vessel) {};
 	virtual void RemoveFunctionFromVessel(IMS2 *vessel) {};
-	virtual bool processScenarioLine(string line){ return false; };
 	virtual GUI_ModuleFunction_Base *GetGui();
 	virtual double GetMass();
 	virtual IMS_Module *GetModule();

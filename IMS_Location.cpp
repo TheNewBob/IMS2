@@ -40,6 +40,7 @@ void IMS_Location::RemoveMovable(IMS_Movable *movable)
 	movable->removeFrom(this);
 	//remove it from the list
 	movables.erase(i);
+	
 }
 
 

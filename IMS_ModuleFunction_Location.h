@@ -19,7 +19,7 @@ public:
 	 * \brief Adds a fixed component to this modulefunction.
 	 * Components can be disassembled again, but cannot be easily moved between locations.
 	 */
-	void CreateComponent(string componentName);
+	IMS_Component_Base *CreateComponent(string componentName);
 	
 	/**
 	 * \brief Removes a fixed component from this module
@@ -55,6 +55,8 @@ public:
 	IMS_ModuleFunctionData_Location *GetData();
 
 	void IMS_ModuleFunction_Location::PreStep(double simdt, IMS2 *vessel);
+	virtual void SaveState(FILEHANDLE scn);
+	virtual bool processScenarioLine(string line);
 
 protected:
 	vector<IMS_Component_Base*> components;

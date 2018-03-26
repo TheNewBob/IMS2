@@ -28,7 +28,7 @@ GUI_ModuleFunction_Pressurised::GUI_ModuleFunction_Pressurised(IMS_ModuleFunctio
 	LAYOUTCOLLECTION *l = LayoutManager::GetLayout(LAYOUTNAME);
 	auto test = gui->CreateLabel(GetLayoutDataForElement(NAME_LBL, l), moduleFunction->data->GetName(), id);
 	auto layoutdata = GetLayoutDataForElement(COMPONENTS_VIEW, l);
-	auto componentsView = new IMS_Component_UI(
+	componentsView = new IMS_Component_UI(
 		moduleFunction, 
 		gui, 
 		layoutdata.rect, 
@@ -46,6 +46,11 @@ GUI_ModuleFunction_Pressurised::~GUI_ModuleFunction_Pressurised()
 int GUI_ModuleFunction_Pressurised::ProcessChildren(GUI_MOUSE_EVENT _event, int _x, int _y)
 {
 	return GUI_BaseElement::ProcessChildren(_event, _x, _y);
+}
+
+void GUI_ModuleFunction_Pressurised::RefreshComponents()
+{
+	componentsView->Refresh();
 }
 
 /*bool GUI_ModuleFunction_Pressurised::updateMe()

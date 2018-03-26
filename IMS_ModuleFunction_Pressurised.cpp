@@ -46,6 +46,8 @@ IMS_ModuleFunction_Pressurised::~IMS_ModuleFunction_Pressurised()
 
 bool IMS_ModuleFunction_Pressurised::ProcessEvent(Event_Base *e)
 {
+	if (*e == SIMULATIONSTARTEDEVENT) menu->RefreshComponents();
+	
 	return false;
 }
 

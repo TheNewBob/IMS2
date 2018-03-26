@@ -21,10 +21,6 @@ IMS_Component_Lighting::~IMS_Component_Lighting()
 {
 }
 
-string IMS_Component_Lighting::Serialize()
-{
-	return "lighting";
-}
 
 void IMS_Component_Lighting::Deserialize(string data)
 {
