@@ -2,6 +2,45 @@
 #include "SimpleShape.h"
 #include "IMS_Orbiter_ModuleData.h"
 #include "Rotations.h"
+#include "Oparse.h"
+
+using namespace Oparse;
+
+OpMixedList *IMSATTACHMENTPOINT::GetMapping()
+{
+	return _MixedList(OpValues() = {
+			_Vector3(pos),
+			_Vector3(rot),
+			_Vector3(dir),
+			_String(id)
+		}, ",");
+}
+
+Oparse::OpModelDef HULLSHAPEDATA::GetModelDef()
+{
+	return OpModelDef() = {
+		{ "shape",{ _MixedList(OpValues() = {
+			_String(shape), _Vector3(shapeparams) }, ","),{} } },
+		{ "offset",{ _Vector3(pos),{} } },
+		{ "scale",{ _Vector3(scale),{} } },
+		{ "orientation",{ _MixedList(OpValues() = {
+			_Vector3(dir), _Vector3(rot) }),{} } }
+	};
+}
+
+OpModelDef IMS_Orbiter_ModuleData::GetModelDef()
+{
+	return OpModelDef() = {
+		{ "Meshname",{ _String(_meshName),{ _REQUIRED() } } },
+		{ "Size",{ _Float(_size),{} } },
+		{ "Inertia",{ _Vector3(pmi),{} } },
+		{ "IMS_ATTACHMENT",{ _Block<IMSATTACHMENTPOINT>(_attachmentPoints),{} } },
+		{ "SHAPE", { _Model<HULLSHAPEDATA>(*shapeData), {} } }
+	};
+}
+
+
+
 
 
 IMS_Orbiter_ModuleData::IMS_Orbiter_ModuleData()
@@ -23,12 +62,21 @@ bool IMS_Orbiter_ModuleData::hadErrors()
 	return !_valid;
 }
 
+void IMS_Orbiter_ModuleData::PostParse()
+{
+	if (shapeData->shape != "")
+	{
+		createHullShape(shapeData);
+	}
+	delete shapeData;
+}
+
 string IMS_Orbiter_ModuleData::getMeshName()
 {
 	return _meshName;
 }
 
-int IMS_Orbiter_ModuleData::getSize()
+float IMS_Orbiter_ModuleData::getSize()
 {
 	return _size;
 }
@@ -57,7 +105,7 @@ vector <IMSATTACHMENTPOINT> &IMS_Orbiter_ModuleData::getAttachmentPoints()
 }
 
 
-void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
+/*void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 //read the module config file
 {
 	_configFileName = configfilename;
@@ -157,10 +205,10 @@ void IMS_Orbiter_ModuleData::LoadFromFile(string configfilename, IMSFILE file)
 
 	//the config has correctly loaded. We're not checking for a declared mesh, Orbiter already does that
 	_valid = true;
-}
+}*/
 
 
-HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
+/*HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 {
 	HULLSHAPEDATA retdata;
 	vector<string> tokens;
@@ -297,31 +345,32 @@ HULLSHAPEDATA IMS_Orbiter_ModuleData::readShape(IMSFILE file)
 	}
 
 	throw(invalid_argument("END_SHAPE not defined!"));
-}
+}*/
 
 
-void IMS_Orbiter_ModuleData::createHullShape(HULLSHAPEDATA shapedata)
+void IMS_Orbiter_ModuleData::createHullShape(HULLSHAPEDATA *shapedata)
 {
 	//create the basic shape depending on what shape is asked for
-	if (shapedata.shape == "cylinder")
+	if (shapedata->shape == "cylinder")
 	{
 		hullshape = new SimpleShape(SimpleShape::Cylinder(
-			shapedata.shapeparams.x, shapedata.shapeparams.y, (UINT)shapedata.shapeparams.z));
+			shapedata->shapeparams.x, shapedata->shapeparams.y, (UINT)shapedata->shapeparams.z));
 	}
-	else if (shapedata.shape == "box")
+	else if (shapedata->shape == "box")
 	{
 		hullshape = new SimpleShape(SimpleShape::Box(
-			shapedata.shapeparams.x, shapedata.shapeparams.y, shapedata.shapeparams.z));
+			shapedata->shapeparams.x, shapedata->shapeparams.y, shapedata->shapeparams.z));
 	}
-	else if (shapedata.shape == "sphere")
+	else if (shapedata->shape == "sphere")
 	{
 		hullshape = new SimpleShape(SimpleShape::Sphere(
-			shapedata.shapeparams.x, (UINT)shapedata.shapeparams.z));
+			shapedata->shapeparams.x, (UINT)shapedata->shapeparams.z));
 	}
 
 	//transform the shape into the final shape demanded by the config
-	MATRIX3 shaperotation = Rotations::GetRotationMatrixFromOrientation(shapedata.dir, shapedata.rot);
+	MATRIX3 shaperotation = Rotations::GetRotationMatrixFromOrientation(shapedata->dir, shapedata->rot);
 	hullshape->Rotate(shaperotation);
-	hullshape->Scale(shapedata.scale);
-	hullshape->Translate(shapedata.pos);
+	hullshape->Scale(shapedata->scale);
+	hullshape->Translate(shapedata->pos);
 }
+

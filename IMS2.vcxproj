@@ -63,17 +63,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>./../../Modules/IMS2\</OutDir>
     <IntDir>./DEBUG\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Oparse\include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;..\Oparse\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug D3D9|Win32'">
     <OutDir>./../../Modules/IMS2\</OutDir>
     <IntDir>./DEBUG\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Oparse\include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;..\Oparse\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>./../../Modules/IMS2\</OutDir>
     <IntDir>./RELEASE\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Oparse\include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;..\Oparse\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'">
     <OutDir>$(SolutionDir)\Test\lib</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Oparse\include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;..\Oparse\lib</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,7 +95,7 @@
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>orbiter.lib;orbitersdk.lib;Olog_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>orbiter.lib;orbitersdk.lib;Olog_debug.lib;%(AdditionalDependencies); Oparse_debug.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)IMS2.dll</OutputFile>
       <AdditionalLibraryDirectories>.\..\lib;..\Olog\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT;MSVCRT;msvcirt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -345,6 +353,7 @@
     <ClInclude Include="GUI_Surface.h" />
     <ClInclude Include="AnimationEvent_Base.h" />
     <ClInclude Include="GUI_Surface_Base.h" />
+    <ClInclude Include="IMSATTACHEMNTPOINT.h" />
     <ClInclude Include="HullShapeRemovedEvent.h" />
     <ClInclude Include="IMS_AutopilotOperation_Base.h" />
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h" />

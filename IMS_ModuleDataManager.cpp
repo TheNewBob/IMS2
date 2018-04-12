@@ -7,6 +7,9 @@
 #include "ComponentFactory.h"
 #include <algorithm>
 #include "IMS_Location.h"
+#include "Oparse.h"
+
+using namespace Oparse;
 
 std::map<string, STATICMODULEDATA> IMS_ModuleDataManager::_staticModuleData;
 std::vector<CONSUMABLEDATA> IMS_ModuleDataManager::consumabledata;
@@ -46,7 +49,15 @@ STATICMODULEDATA IMS_ModuleDataManager::GetStaticModuleData(string configfile, I
 		data.orbiterData = new IMS_Orbiter_ModuleData;
 
 		//load the data from the config file and put them in the map
-		data.orbiterData->LoadFromFile(configfile, cfg);
+		auto result = ParseFile(cfg.file, data.orbiterData->GetModelDef(), configfile);
+		if (result.HasErrors())
+		{
+			Olog::error((char*)result.GetFormattedErrorsForFile().data());
+			throw runtime_error("Aborting due to critical parsing errors, see log!");
+		}
+		data.orbiterData->PostParse();
+
+		//data.orbiterData->LoadFromFile(configfile, cfg);
 		data.moduleData->LoadFromFile(configfile, cfg);
 
 		_staticModuleData[configfile].moduleData = data.moduleData;

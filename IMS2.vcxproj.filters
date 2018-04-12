@@ -1063,5 +1063,8 @@
     <ClInclude Include="GUI_ModuleFunction_Pressurised.h">
       <Filter>Modules\Module functionalities\Pressurised</Filter>
     </ClInclude>
+    <ClInclude Include="IMSATTACHEMNTPOINT.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,14 +17,15 @@
 #include "Exceptions.h"
 #include "assert.h"
 #include "Olog.h"
-
+#include "OpForwardDeclare.h"
 
 //forward declarations
 class IMS2;
 class IMS_Module;
 class IMS_PressurisedModule;
 struct DOCKEDVESSEL;
-//struct IMSATTACHMENTPOINT;
+
+#include "IMSATTACHEMNTPOINT.h"
 
 using namespace std;
 
@@ -46,8 +47,9 @@ typedef enum
 	IMS_VESSEL
 }	VESSELTYPE;
 
+struct IMSATTACHMENTPOINT;
 //struct for storing properties of an attachment point
-struct IMSATTACHMENTPOINT
+/*struct IMSATTACHMENTPOINT
 {
 	VECTOR3 pos;
 	VECTOR3 rot;
@@ -59,7 +61,7 @@ struct IMSATTACHMENTPOINT
 	IMSATTACHMENTPOINT *connectsTo;
 	DOCKEDVESSEL *dockedVessel;
 	IMS_Module *isMemberOf;
-};
+};*/
 
 
 //struct for simplifying managing docked vessels
