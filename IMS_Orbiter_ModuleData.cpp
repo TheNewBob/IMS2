@@ -9,10 +9,10 @@ using namespace Oparse;
 OpMixedList *IMSATTACHMENTPOINT::GetMapping()
 {
 	return _MixedList(OpValues() = {
-			_Vector3(pos),
-			_Vector3(rot),
-			_Vector3(dir),
-			_String(id)
+			{ _Param(pos), {} },
+			{ _Param(rot), {} },
+			{ _Param(dir), {} },
+			{ _Param(id), { _LENGTH(1, 256) } },
 		}, ",");
 }
 
@@ -20,20 +20,21 @@ Oparse::OpModelDef HULLSHAPEDATA::GetModelDef()
 {
 	return OpModelDef() = {
 		{ "shape",{ _MixedList(OpValues() = {
-			_String(shape), _Vector3(shapeparams) }, ","),{} } },
-		{ "offset",{ _Vector3(pos),{} } },
-		{ "scale",{ _Vector3(scale),{} } },
+			{ _Param(shape), { _ISANYOF(vector<string>() = { "cylinder", "box", "sphere" } ) } },
+			{ _Param(shapeparams), {} } }, ","),{} } },
+		{ "offset",{ _Param(pos),{} } },
+		{ "scale",{ _Param(scale),{} } },
 		{ "orientation",{ _MixedList(OpValues() = {
-			_Vector3(dir), _Vector3(rot) }),{} } }
+			{ _Param(dir), {} }, { _Param(rot), {} } }), {} } }
 	};
 }
 
 OpModelDef IMS_Orbiter_ModuleData::GetModelDef()
 {
 	return OpModelDef() = {
-		{ "Meshname",{ _String(_meshName),{ _REQUIRED() } } },
-		{ "Size",{ _Float(_size),{} } },
-		{ "Inertia",{ _Vector3(pmi),{} } },
+		{ "Meshname",{ _Param(_meshName),{ _REQUIRED() } } },
+		{ "Size",{ _Param(_size),{} } },
+		{ "Inertia",{ _Param(pmi),{} } },
 		{ "IMS_ATTACHMENT",{ _Block<IMSATTACHMENTPOINT>(_attachmentPoints),{} } },
 		{ "SHAPE", { _Model<HULLSHAPEDATA>(*shapeData), {} } }
 	};

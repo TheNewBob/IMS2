@@ -108,6 +108,7 @@ struct HULLSHAPEDATA
  */
 class IMS_Orbiter_ModuleData
 {
+	friend class IMS_ModuleDataManager;
 public:
 	IMS_Orbiter_ModuleData();
 	~IMS_Orbiter_ModuleData();

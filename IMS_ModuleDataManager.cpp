@@ -55,6 +55,7 @@ STATICMODULEDATA IMS_ModuleDataManager::GetStaticModuleData(string configfile, I
 			Olog::error((char*)result.GetFormattedErrorsForFile().data());
 			throw runtime_error("Aborting due to critical parsing errors, see log!");
 		}
+		data.orbiterData->_configFileName = configfile;
 		data.orbiterData->PostParse();
 
 		//data.orbiterData->LoadFromFile(configfile, cfg);
