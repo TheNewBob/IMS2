@@ -2,13 +2,14 @@
 
 struct ANIMCOMPONENTDATA
 {
-	vector<UINT> groups;
+	vector<int> groups;
 	string type = "";
 	VECTOR3 reference;
 	VECTOR3 axis;
 	float range;
 	int parent;
-	double duration[2];
+	vector<double> duration;
+	Oparse::OpModelDef GetModelDef();
 };
 
 /**
@@ -23,6 +24,7 @@ struct ANIMATIONDEPENDENCY
 	int direction;					//for which direction of THIS animation the dependency applies (<-1 reverse, 1 normal)
 	string dependencyid;			//the identifier of the animation this animation depends on
 	double dependencystate;			//the state of the other animation this animation depends on
+	Oparse::OpMixedList *GetMapping();
 };
 
 /**
@@ -35,6 +37,8 @@ struct ANIMATIONDATA
 	string type = "";
 	vector<ANIMCOMPONENTDATA> components;
 	vector<ANIMATIONDEPENDENCY> dependencies;
+
+	Oparse::OpModelDef GetModelDef();
 };
 
 /**
@@ -85,8 +89,7 @@ struct ANIMATIONDATA
  * Animation components work practically the same to how they work in orbiter or in SC3.
  * As such, it is highly recommended to read up on animations in the orbiter API guide (not the code, but the concepts).
  * \code
- * BEGIN_COMP [<int idx>]						//idx is the index of this component in the animation, starting at 0 for the first component.
- *												//Note that this index is not actually required or even read by the parser, but noting it makes the file a LOT more readable. Trust me on this, you won't regret it!
+ * BEGIN_COMP ;[<int idx>]						//Note that the index is A COMMENT! It's not actually required, but noting it makes the file a LOT more readable. Trust me on this, you won't regret it!
  *	Groups = <array<int> indices>				//The mesh groups involved in this part of the animation. an arbitrary number of space-delimited mesh-group indices can be defined.
  *	Type = <Rotate|Translate|Scale>				//Whether this part of the animation rotates, translates or scales the referenced mesh groups.
  *	[Origin] = <float x> <float y> <float z>	//Required for rotation and scale, but not for translation. For rotations, this defines the center of rotation. For scale, it defines the origin from which to scale.
