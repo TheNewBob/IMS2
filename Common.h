@@ -73,6 +73,7 @@ struct DOCKEDVESSEL
 	VESSELTYPE type;
 };
 
+
 /**
 * \brief A thruster mode describes all propperties needed by a thruster.
 *
@@ -80,6 +81,8 @@ struct DOCKEDVESSEL
 */
 struct THRUSTERMODE
 {
+	Oparse::OpModelDef GetModelDef();
+
 	string Name = "";
 	double Thrust = -1;
 	double Isp = -1;
@@ -103,6 +106,9 @@ struct THRUSTEREXHAUST
 		pos = copy.pos;
 		dir = copy.dir;
 	};
+
+	Oparse::OpModelDef GetModelDef();
+
 	double length = -1;
 	double width = -1;
 	VECTOR3 pos = _V(0, 0, 0);

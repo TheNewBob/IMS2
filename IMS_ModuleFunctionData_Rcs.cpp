@@ -5,6 +5,25 @@
 #include "IMS_ModuleFunctionData_Thruster.h"
 #include "IMS_ModuleFunctionData_Rcs.h"
 #include "IMS_ModuleDataManager.h"
+#include "Oparse.h"
+
+using namespace Oparse;
+
+Oparse::OpModelDef IMS_ModuleFunctionData_Rcs::GetModelDef()
+{
+	return MergeModelDefs(
+		IMS_ModuleFunctionData_Thruster::GetModelDef(),
+		OpModelDef() = { { "mirror", { _Param(mirrored), {} } } }
+	);
+}
+
+void IMS_ModuleFunctionData_Rcs::PostParse()
+{
+	if (mirrored)
+	{
+		mirrorExhausts();
+	}
+}
 
 
 IMS_ModuleFunctionData_Rcs::IMS_ModuleFunctionData_Rcs()

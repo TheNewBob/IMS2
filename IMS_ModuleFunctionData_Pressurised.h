@@ -20,5 +20,7 @@ public:
 	~IMS_ModuleFunctionData_Pressurised();
 
 	bool HasGui() { return true; };
+
+	Oparse::OpModelDef GetModelDef();
 };
 

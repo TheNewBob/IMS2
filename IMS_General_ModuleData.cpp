@@ -5,7 +5,19 @@
 #include "EventHandler.h"
 #include "IMS_Module.h"
 #include "IMS_ModuleFunction_Factory.h"
+#include "Oparse.h"
 
+using namespace Oparse;
+
+Oparse::OpModelDef IMS_General_ModuleData::GetModelDef()
+{
+	return MergeModelDefs(
+		IMS_ModuleFunction_Factory::GetModuleFunctionDataFactories(functiondata),
+		Oparse::OpModelDef() = {
+			{ "mass", { _Param(_mass), { _REQUIRED() } } },
+			{ "name", { _Param(_name), {} } }
+		});
+}
 
 
 IMS_General_ModuleData::IMS_General_ModuleData()

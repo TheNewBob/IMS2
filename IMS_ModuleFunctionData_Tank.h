@@ -34,6 +34,8 @@ public:
 	 * \return A pointer to the consumable type this tank contains
 	 */
 	CONSUMABLEDATA *getPropellant() { return propellant; };
+
+	Oparse::OpModelDef GetModelDef();
 	
 protected:
 	bool processConfigLine(vector<string> &tokens);

@@ -7,8 +7,8 @@ struct ANIMCOMPONENTDATA
 	VECTOR3 reference;
 	VECTOR3 axis;
 	float range;
-	int parent;
-	vector<double> duration;
+	int parent = -1;
+	vector<double> duration = { 0,1 };
 	Oparse::OpModelDef GetModelDef();
 };
 
@@ -117,6 +117,8 @@ public:
 	/* overloading the loader function, because this modulefunction needs direct file access
 	*/
 	bool LoadFromFile(string configfile, IMSFILE cfg);
+
+	Oparse::OpModelDef GetModelDef();
 
 private:
 

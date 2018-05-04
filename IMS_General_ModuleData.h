@@ -22,6 +22,8 @@ public:
 	IMS_General_ModuleData();
 	virtual ~IMS_General_ModuleData();
 
+	Oparse::OpModelDef GetModelDef();
+
 	/**
 	 * \brief Loads the data from an Orbiter cfg
 	 * \param configfile The name of the configfile
@@ -39,6 +41,11 @@ public:
 	 * \return The name given to this module in the config file
 	 */
 	string getName();
+
+	/**
+	 * Override to take actions that need to be completed after parsing.
+	 */
+	virtual void PostParse() {};
 
 	/**
 	 * \return A reference to a list containing the static data of all contained ModuleFunctions

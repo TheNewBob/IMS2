@@ -31,6 +31,10 @@
 #include "IMS_ModuleFunction_Gear.h"
 #include "IMS_ModuleFunction_Factory.h"
 
+#include "Oparse.h"
+
+using namespace Oparse;
+
 
 
 IMS_ModuleFunction_Factory::IMS_ModuleFunction_Factory()
@@ -164,6 +168,19 @@ FUNCTIONTYPE IMS_ModuleFunction_Factory::GetFunctionTypeFromString(string identi
 	if (identifier == MTYPE_RCS_ID) return MTYPE_RCS;
 	if (identifier == MTYPE_GEAR_ID) return MTYPE_GEAR;
 	return MTYPE_NONE;
+}
+
+Oparse::OpModelDef IMS_ModuleFunction_Factory::GetModuleFunctionDataFactories(vector<IMS_ModuleFunctionData_Base*> &receiver)
+{
+	return Oparse::OpModelDef() = {
+		{ "MODULEFUNCTION " + MTYPE_PRESSURISED_ID, { _ModelFactory<IMS_ModuleFunctionData_Pressurised, IMS_ModuleFunctionData_Base>(receiver), {} } },
+		{ "MODULEFUNCTION " + MTYPE_ANIM_ID, { _ModelFactory<IMS_ModuleFunctionData_Animation, IMS_ModuleFunctionData_Base>(receiver),{} } },
+		{ "MODULEFUNCTION " + MTYPE_COMM_ID, { _ModelFactory<IMS_ModuleFunctionData_Comm, IMS_ModuleFunctionData_Base>(receiver),{} } },
+		{ "MODULEFUNCTION " + MTYPE_TANK_ID, { _ModelFactory<IMS_ModuleFunctionData_Tank, IMS_ModuleFunctionData_Base>(receiver),{} } },
+		{ "MODULEFUNCTION " + MTYPE_THRUSTER_ID, { _ModelFactory<IMS_ModuleFunctionData_Thruster, IMS_ModuleFunctionData_Base>(receiver),{} } },
+		{ "MODULEFUNCTION " + MTYPE_RCS_ID, { _ModelFactory<IMS_ModuleFunctionData_Rcs, IMS_ModuleFunctionData_Base>(receiver),{} } },
+		{ "MODULEFUNCTION " + MTYPE_GEAR_ID, { _ModelFactory<IMS_ModuleFunctionData_Gear, IMS_ModuleFunctionData_Base>(receiver),{} } },
+	};
 }
 
 

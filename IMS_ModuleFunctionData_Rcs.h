@@ -9,10 +9,10 @@
  * All parameters used for a thruster are valid, with the limitation that Rcs thrusters will only ever use
  * the first thrustermode defined. There is one additional parameter to common thrusterdefinitions:
  * \code
- * [mirror] = <0 or 1>					//If set to 1, the thruster will be mirrored, i.e. an exact, inverted duplicate (relative to the module) will be created, exhausts and all.
+ * [mirror] = <boolean>					//If set to true, the thruster will be mirrored, i.e. an exact, inverted duplicate (relative to the module) will be created, exhausts and all.
  *										//You should use this whenever you have a pair of Rcs thrusters that point in opposite directions. Not only is it less to write,
  *										//it also greatly improves the performance of the calculation of firing solutions for your vessels rcs.
- *										//default is 0.
+ *										//default is false.
  * \endcode
  * <h4> Config example: </h4>
  * \code
@@ -44,6 +44,10 @@ public:
 
 	virtual bool HasGui() { return false; };
 	bool IsMirrored() { return mirrored; };
+
+	Oparse::OpModelDef GetModelDef();
+
+	virtual void PostParse();
 
 protected:
 	virtual bool processConfigLine(vector<string> &tokens);

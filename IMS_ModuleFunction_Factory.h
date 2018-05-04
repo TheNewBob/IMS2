@@ -75,5 +75,7 @@ public:
 	 * \param identifier The config file string you want to know the corresponding type identifier for
 	 */
 	static FUNCTIONTYPE GetFunctionTypeFromString(string identifier);
+
+	static Oparse::OpModelDef GetModuleFunctionDataFactories(vector<IMS_ModuleFunctionData_Base*> &receiver);
 };
 

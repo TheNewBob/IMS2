@@ -60,6 +60,9 @@ public:
 	IMS_ModuleFunctionData_Thruster();
 	~IMS_ModuleFunctionData_Thruster();
 
+	virtual Oparse::OpModelDef GetModelDef();
+
+
 	/**
 	 * \return A pointer to the thrustermode with the requested index 
 	 * \param mode The index of the requested thrustermode in the thrustermode list

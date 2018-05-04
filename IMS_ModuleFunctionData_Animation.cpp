@@ -11,7 +11,7 @@ OpModelDef ANIMATIONDATA::GetModelDef()
 	return OpModelDef() = {
 		{ "id", { _Param(id), {_REQUIRED()} } },
 		{ "duration", { _Param(duration), {} } },
-		{ "type", { _Param(type), {_REQUIRED(), _ISANYOF(vector<string>() = { "sequence", "continuous", "track" }) } } },
+		{ "type", { _Param(type, true), {_REQUIRED(), _ISANYOF(vector<string>() = { "sequence", "continuous", "track" }) } } },
 		{ "dependency", { _Block<ANIMATIONDEPENDENCY>(dependencies), {} } },
 		{ "comp", { _ModelFactory<ANIMCOMPONENTDATA>(components), { _REQUIRED() } } }
 	};
@@ -21,12 +21,14 @@ OpModelDef ANIMCOMPONENTDATA::GetModelDef()
 {
 	return OpModelDef() = {
 		{ "groups", { _List(groups, " "), { _REQUIRED() } } },
-		{ "type", { _Param(type), { _REQUIRED(), _ISANYOF(vector<string>() = { "rotate", "translate", "scale" }) } } },
+		{ "type", { _Param(type, true), { _REQUIRED(), _ISANYOF(vector<string>() = { "rotate", "translate", "scale" }) } } },
 		{ "origin", { _Param(reference), {} } },
 		{ "translate", { _Param(reference), { _REQUIREDBY("type", "translate")} } },
-		{ "axis", { _Param(axis), { _REQUIREDBY("origin")} } },
+		{ "axis", { _Param(axis), { _REQUIREDBY("type", "rotate") } } },
+		{ "scale", { _Param(axis), { _REQUIREDBY("type", "scale") } } },
 		{ "range", { _Param(range), { _RANGE(-360, 360)} } },
-		{ "duration", { _List(duration, " "), { _LENGTH(2, 2) } } }
+		{ "duration", { _List(duration, " "), { _LENGTH(2, 2) } } },
+		{ "parent", { _Param(parent), {} } }
 	};
 }
 
@@ -36,14 +38,14 @@ OpMixedList * ANIMATIONDEPENDENCY::GetMapping()
 			{ _Param(direction), {} },
 			{ _Param(dependencyid), {} },
 			{ _Param(dependencystate), {} }
-		});
+		}, " ");
 }
 
 
 OpModelDef IMS_ModuleFunctionData_Animation::GetModelDef()
 {
 	return OpModelDef() = {
-		{ "anim", { _ModelFactory<ANIMATIONDATA>(animations), { _LENGTH(1, INT_MAX) } } }
+		{ "anim", { _ModelFactory<ANIMATIONDATA>(animations), { _REQUIRED(), _LENGTH(1, INT_MAX) } } }
 	};
 }
 
@@ -59,7 +61,7 @@ IMS_ModuleFunctionData_Animation::~IMS_ModuleFunctionData_Animation()
 {
 }
 
-
+// TODO: Remove parsing code!
 bool IMS_ModuleFunctionData_Animation::LoadFromFile(string configfile, IMSFILE cfg)
 {
 

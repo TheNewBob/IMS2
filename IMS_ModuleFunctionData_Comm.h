@@ -25,6 +25,8 @@ public:
 
 	bool HasGui() { return true; };
 
+	Oparse::OpModelDef GetModelDef();
+
 private:
 	string trackinganimname = "";
 	string deployanimname = "";

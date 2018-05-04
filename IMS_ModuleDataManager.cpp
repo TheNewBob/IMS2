@@ -37,6 +37,7 @@ STATICMODULEDATA IMS_ModuleDataManager::GetStaticModuleData(string configfile, I
 	//if not loaded yet, load the config file. Technically, they should both be either NULL or valid
 	if (data.moduleData == NULL || data.orbiterData == NULL)
 	{
+		Olog::debug("loading file %s", configfile.data());
 		if (cfg.file == NULL)
 		//open the file if it isn't open already
 		{
@@ -49,17 +50,22 @@ STATICMODULEDATA IMS_ModuleDataManager::GetStaticModuleData(string configfile, I
 		data.orbiterData = new IMS_Orbiter_ModuleData;
 
 		//load the data from the config file and put them in the map
-		auto result = ParseFile(cfg.file, data.orbiterData->GetModelDef(), configfile);
-		if (result.HasErrors())
+		auto result1 = ParseFile(cfg.file, data.orbiterData->GetModelDef(), configfile);
+		data.orbiterData->_configFileName = configfile;
+
+		auto result2 = ParseFile(cfg.file, data.moduleData->GetModelDef(), configfile);
+
+		if (result1.HasErrors() || result2.HasErrors())
 		{
-			Olog::error((char*)result.GetFormattedErrorsForFile().data());
+			if (result1.HasErrors()) Olog::error((char*)result1.GetFormattedErrorsForFile().data());
+			if (result2.HasErrors()) Olog::error((char*)result2.GetFormattedErrorsForFile().data());
 			throw runtime_error("Aborting due to critical parsing errors, see log!");
 		}
-		data.orbiterData->_configFileName = configfile;
-		data.orbiterData->PostParse();
 
+		data.orbiterData->PostParse();
+		data.moduleData->PostParse();
 		//data.orbiterData->LoadFromFile(configfile, cfg);
-		data.moduleData->LoadFromFile(configfile, cfg);
+		//data.moduleData->LoadFromFile(configfile, cfg);
 
 		_staticModuleData[configfile].moduleData = data.moduleData;
 		_staticModuleData[configfile].orbiterData = data.orbiterData;

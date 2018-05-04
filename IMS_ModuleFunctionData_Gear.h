@@ -38,6 +38,8 @@ public:
 
 	bool HasGui() { return false; };
 
+	Oparse::OpModelDef GetModelDef();
+
 private:
 	string deployanimname = "";
 	VECTOR3 touchdownpoint = _V(NAN, NAN, NAN);
