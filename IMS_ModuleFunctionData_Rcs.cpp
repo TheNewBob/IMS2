@@ -19,6 +19,7 @@ Oparse::OpModelDef IMS_ModuleFunctionData_Rcs::GetModelDef()
 
 void IMS_ModuleFunctionData_Rcs::PostParse()
 {
+	IMS_ModuleFunctionData_Thruster::PostParse();
 	if (mirrored)
 	{
 		mirrorExhausts();

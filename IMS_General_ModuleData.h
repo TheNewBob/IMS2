@@ -45,7 +45,7 @@ public:
 	/**
 	 * Override to take actions that need to be completed after parsing.
 	 */
-	virtual void PostParse() {};
+	virtual void PostParse();
 
 	/**
 	 * \return A reference to a list containing the static data of all contained ModuleFunctions

@@ -17,6 +17,11 @@ OpModelDef IMS_ModuleFunctionData_Gear::GetModelDef()
 	};
 }
 
+void IMS_ModuleFunctionData_Gear::PostParse()
+{
+	if (deployanimname != "") candeploy = true;
+}
+
 
 IMS_ModuleFunctionData_Gear::IMS_ModuleFunctionData_Gear()
 {

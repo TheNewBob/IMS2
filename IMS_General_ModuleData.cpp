@@ -87,3 +87,11 @@ string IMS_General_ModuleData::getName()
 {
 	return _name;
 }
+
+void IMS_General_ModuleData::PostParse()
+{
+	for (UINT i = 0; i < functiondata.size(); ++i)
+	{
+		functiondata[i]->PostParse();
+	}
+}

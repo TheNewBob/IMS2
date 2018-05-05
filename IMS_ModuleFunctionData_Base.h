@@ -116,6 +116,11 @@ public:
 	 */
 	string GetName() { return name; };
 
+	/**
+	 * \brief Override if you need to do processing once the parsing is done.
+	 */
+	virtual void PostParse() {};
+
 protected:
 	FUNCTIONTYPE type;								//!< Stores the type of the ModuleFunction
 	string name = "";								//!< Stores the Name of the ModuleFunction

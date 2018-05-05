@@ -89,6 +89,8 @@ public:
 
 	virtual bool HasGui() { return true; };
 
+	virtual void PostParse();
+
 protected:
 	virtual bool processConfigLine(vector<string> &tokens);
 	virtual bool validateData(string configfile);

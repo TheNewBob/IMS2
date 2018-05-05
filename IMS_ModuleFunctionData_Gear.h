@@ -40,6 +40,8 @@ public:
 
 	Oparse::OpModelDef GetModelDef();
 
+	virtual void PostParse();
+
 private:
 	string deployanimname = "";
 	VECTOR3 touchdownpoint = _V(NAN, NAN, NAN);

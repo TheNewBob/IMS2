@@ -84,6 +84,20 @@ THRUSTEREXHAUST *IMS_ModuleFunctionData_Thruster::GetThrusterExhaust(int idx)
 }
 
 
+void IMS_ModuleFunctionData_Thruster::PostParse()
+{
+	for (UINT i = 0; i < exhausts.size(); ++i)
+	{
+		if (exhausts[i].dir.x == 0 &&
+			exhausts[i].dir.y == 0 &&
+			exhausts[i].dir.z == 0)
+		{
+			//no exhaust dir defined, assume opposite of thrust direction
+			exhausts[i].dir = thrustdirection * -1;
+		}
+	}
+}
+
 bool IMS_ModuleFunctionData_Thruster::processConfigLine(vector<string> &tokens)
 {
 	//remembers if we're inside a thrustermode or exhaust definition
