@@ -8,8 +8,5 @@ public:
 	double GetVolume();
 protected:
 	double volume;										//!< usable volume in m^3
-	bool validateData(string configfile);
-	bool processConfigLine(vector<string> &tokens);
-
 };
 

@@ -25,14 +25,6 @@ public:
 	Oparse::OpModelDef GetModelDef();
 
 	/**
-	 * \brief Loads the data from an Orbiter cfg
-	 * \param configfile The name of the configfile
-	 * \param cfg The IMSFILE structure wrapping the cfg file in an appropriate format for the current platform
-	 * \return True if the data was loaded without errors, false otherwise
-	 */
-	virtual bool LoadFromFile(string configfile, IMSFILE cfg);
-
-	/**
 	 * \return The dry mass of the module, without any additional mass from mModuleFunctions, Components or Cargo
 	 */
 	double getMass();

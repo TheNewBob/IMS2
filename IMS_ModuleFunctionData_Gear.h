@@ -49,8 +49,6 @@ private:
 	double tddamping = 1e5;
 	VECTOR3 tddir = _V(0, 0, -1);
 
-	bool processConfigLine(vector<string> &tokens);
-	bool validateData(string configfile);
 	bool candeploy = false;
 };
 

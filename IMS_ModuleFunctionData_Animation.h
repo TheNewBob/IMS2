@@ -114,20 +114,10 @@ public:
 	IMS_ModuleFunctionData_Animation();
 	~IMS_ModuleFunctionData_Animation();
 
-	/* overloading the loader function, because this modulefunction needs direct file access
-	*/
-	bool LoadFromFile(string configfile, IMSFILE cfg);
-
 	Oparse::OpModelDef GetModelDef();
 
 private:
 
-	ANIMATIONDATA loadAnimation(string id, IMSFILE cfg);
-	ANIMCOMPONENTDATA loadAnimComponent(IMSFILE cfg);
 	vector<ANIMATIONDATA> animations;
-
-	bool processConfigLine(vector<string> &tokens){ return false; };
-	bool validateData(string configfile){ return true; };
-
 };
 

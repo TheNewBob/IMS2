@@ -50,9 +50,6 @@ public:
 	virtual void PostParse();
 
 protected:
-	virtual bool processConfigLine(vector<string> &tokens);
-	virtual bool validateData(string configfile);
-
 	bool mirrored = false;				//!< if true, a mirrored thruster will be placed on the same module
 
 	/**

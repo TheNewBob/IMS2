@@ -113,7 +113,6 @@ public:
 	IMS_Orbiter_ModuleData();
 	~IMS_Orbiter_ModuleData();
 	bool hadErrors();
-	//virtual void LoadFromFile(string configfilename, IMSFILE file);
 	virtual void PostParse();
 
 	string getMeshName();
@@ -150,12 +149,6 @@ private:
 	*/
 	void createHullShape(HULLSHAPEDATA *shapedata);
 
-	/**
-	* \brief Reads the next line of a SHAPE block from the config file
-	* \param file The file to read from. It is implied that the last line read from the file was BEGIN_SHAPE.
-	* \return The data describing the shape read from the file.
-	*/
-	//HULLSHAPEDATA readShape(IMSFILE file);
 	HULLSHAPEDATA *shapeData = new HULLSHAPEDATA;
 
 };

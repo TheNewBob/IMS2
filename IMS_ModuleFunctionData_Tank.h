@@ -38,10 +38,6 @@ public:
 	Oparse::OpModelDef GetModelDef();
 	
 protected:
-	bool processConfigLine(vector<string> &tokens);
-	
-	bool validateData(string configfile);
-
 	CONSUMABLEDATA *propellant = NULL;							//!< pointer to the information of the contents of this tank
 	bool convertible = true;								//!< whether the tank can be converted to living space
 };

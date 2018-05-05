@@ -92,36 +92,9 @@ public:
 	virtual void PostParse();
 
 protected:
-	virtual bool processConfigLine(vector<string> &tokens);
-	virtual bool validateData(string configfile);
-
 	vector<THRUSTERMODE> thrustermodes;
 	vector<THRUSTEREXHAUST> exhausts;
 	VECTOR3 thrustdirection = _V(0, 0, 0);
 	VECTOR3 thrusterpos = _V(0, 0, 0);
 
-private:
-	/**
-	* \brief processes a senario line for a thrustermode
-	* \param tokens The scenario line split into single items
-	*/
-	void processMode(vector<string> &tokens);
-
-	/**
-	* \brief processes a senario line for an exhaust definition
-	* \param tokens The scenario line split into single items
-	*/
-	void processExhaust(vector<string> &tokens);
-
-	/**
-	 * \brief validates the thruster modes read from the config file
-	 * \throws invalid_argument if there is a problem with thruster modes
-	 */
-	void validateModes();
-
-	/**
-	* \brief validates the exhausts read from the config file
-	* \throws invalid_argument if there is a problem with exhausts
-	*/
-	void validateExhausts();
 };

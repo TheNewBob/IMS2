@@ -32,8 +32,5 @@ private:
 	string deployanimname = "";
 	string searchanimname = "";
 
-	virtual bool processConfigLine(vector<string> &tokens);
-	virtual bool validateData(string configfile);
-
 };
 

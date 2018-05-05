@@ -38,44 +38,6 @@ IMS_ModuleFunctionData_Rcs::~IMS_ModuleFunctionData_Rcs()
 }
 
 
-bool IMS_ModuleFunctionData_Rcs::processConfigLine(vector<string> &tokens)
-{
-	if (!IMS_ModuleFunctionData_Thruster::processConfigLine(tokens))
-	{ 
-		if (tokens[0] == "mirror")
-		{
-			//this is a mirrored thruster
-			mirrored = (bool)Helpers::stringToInt(tokens[1]);
-			return true;
-		}
-	}
-	else
-	{
-		return true;
-	}
-	return false;
-}
-
-
-bool IMS_ModuleFunctionData_Rcs::validateData(string configfile)
-{
-	bool thrustervalid = IMS_ModuleFunctionData_Thruster::validateData(configfile);
-
-	if (thrustermodes.size() > 1)
-	{
-		Olog::warn("More than one thruster mode defined in %s. RCS cannot use more than one mode!", configfile.data());
-	}
-
-	//if the thruster is mirrored, create mirrored exhausts
-	if (mirrored)
-	{
-		mirrorExhausts();
-	}
-
-	return thrustervalid;
-}
-
-
 void IMS_ModuleFunctionData_Rcs::mirrorExhausts()
 {
 	UINT numexhausts = exhausts.size();
