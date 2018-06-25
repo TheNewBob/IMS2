@@ -13,7 +13,7 @@ using namespace Oparse;
 Oparse::OpModelDef IMS_ModuleFunctionData_Tank::GetModelDef()
 {
 	return Oparse::OpModelDef() = {
-		{ "volume", { _Param(volume), { _REQUIRED() } } },
+		{ "Volume", { _Param(volume), { _REQUIRED() } } },
 		{ "contains", {_Param([&](string value) 
 			{
 				propellant = IMS_ModuleDataManager::GetConsumableData(value);

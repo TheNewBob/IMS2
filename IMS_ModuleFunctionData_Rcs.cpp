@@ -44,9 +44,9 @@ void IMS_ModuleFunctionData_Rcs::mirrorExhausts()
 	for (UINT i = 0; i < numexhausts; ++i)
 	{
 		//copy the exhaust data and mirror it
-		THRUSTEREXHAUST exh(exhausts[i]);
-		exh.pos *= -1;
-		exh.dir *= -1;
+		THRUSTEREXHAUST *exh = new THRUSTEREXHAUST(*exhausts[i]);
+		exh->pos *= -1;
+		exh->dir *= -1;
 		exhausts.push_back(exh);
 	}
 }

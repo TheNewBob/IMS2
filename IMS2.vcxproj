@@ -135,7 +135,7 @@
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>orbiter.lib;orbitersdk.lib;Olog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>orbiter.lib;orbitersdk.lib;Olog.lib;%(AdditionalDependencies);Oparse_Release.lib;</AdditionalDependencies>
       <OutputFile>$(OutDir)IMS2.dll</OutputFile>
       <AdditionalLibraryDirectories>.\..\lib;..\Olog\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -261,17 +261,6 @@
     <ClCompile Include="LayoutManager.cpp" />
     <ClCompile Include="LayoutRow.cpp" />
     <ClCompile Include="PathFinding.cpp" />
-    <ClCompile Include="PowerBus.cpp" />
-    <ClCompile Include="PowerChild.cpp" />
-    <ClCompile Include="PowerCircuit.cpp" />
-    <ClCompile Include="PowerCircuitManager.cpp" />
-    <ClCompile Include="PowerCircuit_Base.cpp" />
-    <ClCompile Include="PowerConsumer.cpp" />
-    <ClCompile Include="PowerConverter.cpp" />
-    <ClCompile Include="PowerParent.cpp" />
-    <ClCompile Include="PowerSource.cpp" />
-    <ClCompile Include="PowerSourceChargable.cpp" />
-    <ClCompile Include="PowerSubCircuit.cpp" />
     <ClCompile Include="Rotations.cpp" />
     <ClCompile Include="SimpleShape.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -377,18 +366,6 @@
     <ClInclude Include="LayoutManager.h" />
     <ClInclude Include="LayoutRow.h" />
     <ClInclude Include="layout_includes.h" />
-    <ClInclude Include="PowerBus.h" />
-    <ClInclude Include="PowerChild.h" />
-    <ClInclude Include="PowerCircuit.h" />
-    <ClInclude Include="PowerCircuitManager.h" />
-    <ClInclude Include="PowerCircuit_Base.h" />
-    <ClInclude Include="PowerConsumer.h" />
-    <ClInclude Include="PowerConverter.h" />
-    <ClInclude Include="PowerParent.h" />
-    <ClInclude Include="PowerSource.h" />
-    <ClInclude Include="PowerSourceChargable.h" />
-    <ClInclude Include="PowerSubCircuit.h" />
-    <ClInclude Include="PowerTypes.h" />
     <ClInclude Include="RcsChangedEvent.h" />
     <ClInclude Include="IMS_Animation_Tracking.h" />
     <ClInclude Include="IMS_Location.h" />

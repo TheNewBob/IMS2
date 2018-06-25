@@ -64,8 +64,6 @@ STATICMODULEDATA IMS_ModuleDataManager::GetStaticModuleData(string configfile, I
 
 		data.orbiterData->PostParse();
 		data.moduleData->PostParse();
-		//data.orbiterData->LoadFromFile(configfile, cfg);
-		//data.moduleData->LoadFromFile(configfile, cfg);
 
 		_staticModuleData[configfile].moduleData = data.moduleData;
 		_staticModuleData[configfile].orbiterData = data.orbiterData;

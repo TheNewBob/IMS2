@@ -20,10 +20,7 @@ IMS_Animation_Tracking::~IMS_Animation_Tracking()
 
 void IMS_Animation_Tracking::initFacing()
 {
-	//take the type name appart and extract the facing
-	vector<string> typetokens;
-	Helpers::Tokenize(data->type, typetokens, " ");
-	facing = _V(atof(typetokens[1].data()), atof(typetokens[2].data()), atof(typetokens[3].data()));
+	facing = data->facing;
 }
 
 // the tracking animation needs quite a bit of a different aproach, because technically, it's two animations, and they behave a bit differently
@@ -33,19 +30,19 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 	initFacing();
 	vessel = _vessel;
 	meshindex = _meshindex;
-	primaryaxis = mul(moduleorientation, data->components[0].axis);
+	primaryaxis = mul(moduleorientation, data->components[0]->axis);
 	
 	//create primary animation on vessel and remember the orbiter ID 
 	orbiterid = vessel->CreateAnim(0.0);
 	//create the component for the primary animation
-	animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[0].duration[0], data->components[0].duration[1],
-		createRotationComponent(&data->components[0], modulelocalpos, moduleorientation)));
+	animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[0]->duration[0], data->components[0]->duration[1],
+		createRotationComponent(data->components[0], modulelocalpos, moduleorientation)));
 
 	//check if there is a secondary animation and create if yes
 	if (data->components.size() > 1)
 	{
 		secondaryorbiterid = vessel->CreateAnim(0.0);
-		secondaryaxis = mul(moduleorientation, data->components[1].axis);
+		secondaryaxis = mul(moduleorientation, data->components[1]->axis);
 	}
 
 	Olog::debug("created tracking animation %s %i", data->id.data(), orbiterid);
@@ -53,8 +50,8 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 	//if there's a secondary animation, create its component too
 	if (secondaryorbiterid != -1)
 	{
-		secondrotation = createRotationComponent(&data->components[1], modulelocalpos, moduleorientation);
-		animationcomponents.push_back(vessel->AddAnimationComponent(secondaryorbiterid, data->components[1].duration[0], data->components[1].duration[1],
+		secondrotation = createRotationComponent(data->components[1], modulelocalpos, moduleorientation);
+		animationcomponents.push_back(vessel->AddAnimationComponent(secondaryorbiterid, data->components[1]->duration[0], data->components[1]->duration[1],
 			secondrotation));
 	}
 	
@@ -68,8 +65,8 @@ void IMS_Animation_Tracking::AddAnimationToVessel(IMS2 *_vessel, int _meshindex,
 		//if the animation is already running, calculate the direction it has to be moving in
 		if (speed != 0)
 		{
-			speed = abs(speed) * determineMovementDirection(primarytargetstate, state, data->components[0].range >= 360);
-			secondaryspeed = abs(secondaryspeed) * determineMovementDirection(secondarytargetstate, secondarystate, data->components[1].range >= 360);
+			speed = abs(speed) * determineMovementDirection(primarytargetstate, state, data->components[0]->range >= 360);
+			secondaryspeed = abs(secondaryspeed) * determineMovementDirection(secondarytargetstate, secondarystate, data->components[1]->range >= 360);
 		}
 	}
 
@@ -127,11 +124,11 @@ AnimationEvent_Base *IMS_Animation_Tracking::PropagateAnimation(double simdt)
 			initmovinganim = false;
 		}
 		if (primarytargetstate <= 1.0 && 
-			propagateState(state, primarytargetstate, speed, simdt, data->components[0].range >= 360))
+			propagateState(state, primarytargetstate, speed, simdt, data->components[0]->range >= 360))
 		{
 			//the first state is aligned, propagate the second one
 			if (secondarytargetstate <= 1.0 &&
-				propagateState(secondarystate, secondarytargetstate, secondaryspeed, simdt, data->components[1].range >= 360))
+				propagateState(secondarystate, secondarytargetstate, secondaryspeed, simdt, data->components[1]->range >= 360))
 			{
 				//the second one is aligned too. Depending on whether the animation is stoping or tracking, this means different things.
 				if (stopanimation)
@@ -184,8 +181,8 @@ AnimationEvent_Base *IMS_Animation_Tracking::PropagateAnimation(double simdt)
 				calculateTargetState();
 				speed = abs(speed);
 				secondaryspeed = abs(secondaryspeed);
-				speed *= determineMovementDirection(primarytargetstate, state, data->components[0].range >= 360);
-				secondaryspeed *= determineMovementDirection(secondarytargetstate, secondarystate, data->components[1].range >= 360);
+				speed *= determineMovementDirection(primarytargetstate, state, data->components[0]->range >= 360);
+				secondaryspeed *= determineMovementDirection(secondarytargetstate, secondarystate, data->components[1]->range >= 360);
 			}
 		}
 
@@ -271,8 +268,8 @@ AnimationEvent_Base *IMS_Animation_Tracking::StartAnimation(StartAnimationEvent 
 		//calculate the state the animation has to reach to point at the target
 		calculateTargetState();
 		//modify the speed to be positive or negative, depending on which direction the animation has to move in
-		speed *= determineMovementDirection(primarytargetstate, state, data->components[0].range >= 360);
-		secondaryspeed *= determineMovementDirection(secondarytargetstate, secondarystate, data->components[1].range >= 360);
+		speed *= determineMovementDirection(primarytargetstate, state, data->components[0]->range >= 360);
+		secondaryspeed *= determineMovementDirection(secondarytargetstate, secondarystate, data->components[1]->range >= 360);
 
 		return new AnimationStartedEvent(data->id, speed);
 	}
@@ -311,8 +308,8 @@ void IMS_Animation_Tracking::ModifyAnimation(ModifyAnimationEvent *modifyevent)
 			//calculate the state the animation has to reach to point at the target
 			calculateTargetState();
 			//modify the speed to be positive or negative, depending on which direction the animation has to move in
-			speed = abs(speed) * determineMovementDirection(primarytargetstate, state, data->components[0].range >= 360);
-			secondaryspeed = abs(secondaryspeed) * determineMovementDirection(secondarytargetstate, secondarystate, data->components[1].range >= 360);
+			speed = abs(speed) * determineMovementDirection(primarytargetstate, state, data->components[0]->range >= 360);
+			secondaryspeed = abs(secondaryspeed) * determineMovementDirection(secondarytargetstate, secondarystate, data->components[1]->range >= 360);
 		}
 	}
 }
@@ -367,10 +364,10 @@ void IMS_Animation_Tracking::calculateTargetState()
 		//NOTE: If the range isn't 360 degrees, this might well result in a target state > 1
 		//this is intended and serves to indicate that the targeted point lies outside
 		//the animations capabilities.
-		double rangeinradians = abs(data->components[0].range * RAD_PER_DEGREE);
+		double rangeinradians = abs(data->components[0]->range * RAD_PER_DEGREE);
 		//it is possible that the range of the animation was defined as a negative value
 		//in that case, we need to calculate the required angle in the other direction
-		if (data->components[0].range < 0)
+		if (data->components[0]->range < 0)
 		{
 			requiredangle = 2 * PI - requiredangle;
 		}
@@ -399,10 +396,10 @@ void IMS_Animation_Tracking::calculateTargetState()
 		}
 
 		requiredangle = secondaryrotangle < 0 ? 2 * PI + secondaryrotangle : secondaryrotangle;
-		rangeinradians = abs(data->components[1].range * RAD_PER_DEGREE);
+		rangeinradians = abs(data->components[1]->range * RAD_PER_DEGREE);
 		//it is possible that the range of the animation was defined as a negative value
 		//in that case, we need to calculate the required angle in the other direction
-		if (data->components[1].range < 0)
+		if (data->components[1]->range < 0)
 		{
 			requiredangle = 2 * PI - requiredangle;
 		}
@@ -460,8 +457,8 @@ void IMS_Animation_Tracking::StopAnimation()
 {
 	stopanimation = true;
 	calculateTargetState();
-	speed = abs(speed) * determineMovementDirection(primarytargetstate, state, data->components[0].range >= 360);
-	secondaryspeed = abs(speed) * determineMovementDirection(secondarytargetstate, secondarystate, data->components[1].range >= 360);
+	speed = abs(speed) * determineMovementDirection(primarytargetstate, state, data->components[0]->range >= 360);
+	secondaryspeed = abs(speed) * determineMovementDirection(secondarytargetstate, secondarystate, data->components[1]->range >= 360);
 }
 
 

@@ -35,7 +35,8 @@ struct ANIMATIONDATA
 	string id = "";
 	double duration;
 	string type = "";
-	vector<ANIMCOMPONENTDATA> components;
+	VECTOR3 facing;
+	vector<ANIMCOMPONENTDATA*> components;
 	vector<ANIMATIONDEPENDENCY> dependencies;
 
 	Oparse::OpModelDef GetModelDef();
@@ -118,6 +119,6 @@ public:
 
 private:
 
-	vector<ANIMATIONDATA> animations;
+	vector<ANIMATIONDATA*> animations;
 };
 

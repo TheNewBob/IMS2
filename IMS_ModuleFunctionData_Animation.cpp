@@ -12,6 +12,7 @@ OpModelDef ANIMATIONDATA::GetModelDef()
 		{ "id", { _Param(id), {_REQUIRED()} } },
 		{ "duration", { _Param(duration), {} } },
 		{ "type", { _Param(type, true), {_REQUIRED(), _ISANYOF(vector<string>() = { "sequence", "continuous", "track" }) } } },
+		{ "facing", { _Param(facing), { _REQUIREDBY("type", "track") } } },
 		{ "dependency", { _Block<ANIMATIONDEPENDENCY>(dependencies), {} } },
 		{ "comp", { _ModelFactory<ANIMCOMPONENTDATA>(components), { _REQUIRED() } } }
 	};

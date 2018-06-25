@@ -13,7 +13,7 @@ OpMixedList *IMSATTACHMENTPOINT::GetMapping()
 			{ _Param(rot), {} },
 			{ _Param(dir), {} },
 			{ _Param(id), { _LENGTH(1, 256) } },
-		}, ",");
+		}, ",\t");
 }
 
 Oparse::OpModelDef HULLSHAPEDATA::GetModelDef()

@@ -96,9 +96,6 @@
     <Filter Include="Autopilots\Operations">
       <UniqueIdentifier>{1844cb9b-6304-46f4-bbfa-f2e0dc702439}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PowerDistribution">
-      <UniqueIdentifier>{f9f6f1a1-bc36-4b72-aeb0-aabb6eaaa4c7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI\GUI elements\Base">
       <UniqueIdentifier>{63fb1548-bc01-4608-bd8c-fe32a4de94d1}</UniqueIdentifier>
     </Filter>
@@ -403,39 +400,6 @@
     </ClCompile>
     <ClCompile Include="IMS_AutoPilotOperation_Killrot.cpp">
       <Filter>Autopilots\Operations</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerSource.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerConsumer.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerBus.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerCircuit.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerChild.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerParent.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerCircuitManager.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerCircuit_Base.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerSubCircuit.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerSourceChargable.cpp">
-      <Filter>PowerDistribution</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerConverter.cpp">
-      <Filter>PowerDistribution</Filter>
     </ClCompile>
     <ClCompile Include="GUI_BaseElement.cpp">
       <Filter>GUI\GUI elements\Base</Filter>
@@ -900,42 +864,6 @@
     </ClInclude>
     <ClInclude Include="IMS_AutopilotOperation_Killrot.h">
       <Filter>Autopilots\Operations</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerSource.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerConsumer.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerBus.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerParent.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerChild.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerTypes.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerCircuitManager.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerCircuit.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerCircuit_Base.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerSubCircuit.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerSourceChargable.h">
-      <Filter>PowerDistribution</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerConverter.h">
-      <Filter>PowerDistribution</Filter>
     </ClInclude>
     <ClInclude Include="GUI_BaseElementState.h">
       <Filter>GUI\GUI elements\Base</Filter>

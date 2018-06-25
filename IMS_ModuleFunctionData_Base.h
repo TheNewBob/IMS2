@@ -35,6 +35,7 @@ public:
 	IMS_ModuleFunctionData_Base() { type = MTYPE_NONE; };
 	virtual ~IMS_ModuleFunctionData_Base() {};
 
+	virtual Oparse::OpModelDef GetModelDef() = 0;
 	/**
 	 * \brief This function serves to check whether a module function has a GUI before creating it.
 	 *

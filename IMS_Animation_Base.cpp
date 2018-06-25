@@ -49,7 +49,7 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 	for (UINT i = 0; i < data->components.size(); ++i)
 	{
 		ANIMATIONCOMPONENT_HANDLE parent = NULL;
-		int parentidx = data->components[i].parent;
+		int parentidx = data->components[i]->parent;
 
 		//check if the component has a parent
 		if (parentidx > -1)
@@ -63,22 +63,22 @@ void IMS_Animation_Base::AddAnimationToVessel(IMS2 *_vessel, int _meshindex, MAT
 			parent = animationcomponents[parentidx];
 		}
 
-		if (data->components[i].type == "rotate")
+		if (data->components[i]->type == "rotate")
 		{
-			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i].duration[0], data->components[i].duration[1],
-				createRotationComponent(&data->components[i], modulelocalpos, moduleorientation),
+			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i]->duration[0], data->components[i]->duration[1],
+				createRotationComponent(data->components[i], modulelocalpos, moduleorientation),
 				parent));
 		}
-		else if (data->components[i].type == "translate")
+		else if (data->components[i]->type == "translate")
 		{
-			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i].duration[0], data->components[i].duration[1],
-				createTranslationComponent(&data->components[i], modulelocalpos, moduleorientation),
+			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i]->duration[0], data->components[i]->duration[1],
+				createTranslationComponent(data->components[i], modulelocalpos, moduleorientation),
 				parent));
 		}
-		else if (data->components[i].type == "scale")
+		else if (data->components[i]->type == "scale")
 		{
-			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i].duration[0], data->components[i].duration[1],
-				createScaleComponent(&data->components[i], modulelocalpos, moduleorientation),
+			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i]->duration[0], data->components[i]->duration[1],
+				createScaleComponent(data->components[i], modulelocalpos, moduleorientation),
 				parent));
 		}
 	}

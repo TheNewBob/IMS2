@@ -22,19 +22,19 @@ IMS_ModuleFunction_Animation::IMS_ModuleFunction_Animation(IMS_ModuleFunctionDat
 	{
 		IMS_Animation_Base *newanim = NULL;
 		//create appropriate animation object
-		if (data->animations[i].type == "sequence")
+		if (data->animations[i]->type == "sequence")
 		{
-			newanim = new IMS_Animation_Sequential(&data->animations[i]);
+			newanim = new IMS_Animation_Sequential(data->animations[i]);
 		}
-		else if (data->animations[i].type == "continuous")
+		else if (data->animations[i]->type == "continuous")
 		{
-			newanim = new IMS_Animation_Continuous(&data->animations[i]);
+			newanim = new IMS_Animation_Continuous(data->animations[i]);
 		}
-		else if (data->animations[i].type.substr(0, 5) == "track")
+		else if (data->animations[i]->type.substr(0, 5) == "track")
 		{
-			newanim = new IMS_Animation_Tracking(&data->animations[i]);
+			newanim = new IMS_Animation_Tracking(data->animations[i]);
 		}
-		animations.insert(make_pair(data->animations[i].id, newanim));
+		animations.insert(make_pair(data->animations[i]->id, newanim));
 	}
 }
 

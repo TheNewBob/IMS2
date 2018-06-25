@@ -92,8 +92,8 @@ public:
 	virtual void PostParse();
 
 protected:
-	vector<THRUSTERMODE> thrustermodes;
-	vector<THRUSTEREXHAUST> exhausts;
+	vector<THRUSTERMODE*> thrustermodes;
+	vector<THRUSTEREXHAUST*> exhausts;
 	VECTOR3 thrustdirection = _V(0, 0, 0);
 	VECTOR3 thrusterpos = _V(0, 0, 0);
 
